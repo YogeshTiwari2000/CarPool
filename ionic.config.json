@@ -1,5 +1,7 @@
 {
-  "name": "Carpool",
-  "integrations": {},
+  "name": "carpool",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

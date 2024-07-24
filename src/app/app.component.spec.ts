@@ -1,19 +1,13 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-
-
   beforeEach(async () => {
-
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterModule.forRoot([])],
+      imports: [AppComponent],
+      providers: [provideRouter([])]
     }).compileComponents();
   });
 
@@ -23,8 +17,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  // TODO(ROU-10799): Fix the flaky test.
-  xit('should have menu labels', () => {
+  it('should have menu labels', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const app = fixture.nativeElement;
@@ -40,8 +33,11 @@ describe('AppComponent', () => {
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-item');
     expect(menuItems.length).toEqual(12);
-    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/folder/inbox');
-    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual('/folder/outbox');
+    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual(
+      '/folder/inbox'
+    );
+    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual(
+      '/folder/outbox'
+    );
   });
-
 });
