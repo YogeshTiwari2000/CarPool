@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.page.html',
-  styleUrls: ['./auth.page.scss'],
+  selector: 'app-not-found',
+  templateUrl: './not-found.page.html',
+  styleUrls: ['./not-found.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class AuthPage implements OnInit {
+export class NotFoundPage implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
+    console.log("Not Found page");
+
   }
 
 }

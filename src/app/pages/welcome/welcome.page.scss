@@ -1,0 +1,26 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 2rem;
+    padding-bottom: 4rem;
+
+    .btn-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 2rem;
+        width: -webkit-fill-available;
+    }
+}
+
+@media (min-width: 768px) {
+    .main {
+        .btn-box {
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}
