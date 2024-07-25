@@ -5,28 +5,28 @@
       <ion-col>
         <div class="timeLocationSection">
           <div class="card-item left-part">
-            <span class="startTime time">5:00</span>
+            <span class="startTime time">{{userData['journeyStart']}}</span>
             <span class="circle"></span>
             <span class="startLocation">{{userData['source']}}</span>
           </div><br>
           <div>
-            <small class="travelTime">2:30</small>
+            <small class="travelTime">{{userData['name']}}</small>
           </div>
           <br>
           <div class="card-item right-part">
-            <span class="endTime time">17:20</span>
+            <span class="endTime time">{{userData['journeyEnd']}}</span>
             <span class="circle"></span>
-            <span class="endLocation">Gurugram</span>
+            <span class="endLocation">{{userData['destination']}}</span>
           </div>
         </div>
       </ion-col>
       <ion-col>
         <div class="chargesSeatSection ">
           <div class="card-item ion-text-end">
-            <div class="fair">Rs 220</div>
+            <div class="fair">Rs {{userData['price']}}</div>
           </div><br>
           <div class="card-item ion-text-end">
-            <div class="seat">seat avl. 3</div>
+            <div class="seat">seat avl. {{userData['seatAvl']}}</div>
           </div>
         </div>
       </ion-col>
