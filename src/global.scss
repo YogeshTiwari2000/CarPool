@@ -36,6 +36,15 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+@import url(./theme/variables.scss);
+
 .shadow-none {
     --box-shadow: none !important
+}
+
+.error-text {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--error-red);
 }

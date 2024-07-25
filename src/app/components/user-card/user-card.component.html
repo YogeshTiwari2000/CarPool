@@ -1,3 +1,58 @@
-<p>
-  user-card works!
-</p>
+<ion-card>
+  <ion-card-header>
+    <ion-row>
+      <ion-col>
+        <div class="timeLocationSection">
+          <div class="card-item left-part">
+            <span class="startTime time">5:00</span>
+            <span class="circle"></span>
+            <span class="startLocation">Rewari</span>
+          </div><br>
+          <div>
+            <small class="travelTime">2:30</small>
+          </div>
+          <br>
+          <div class="card-item right-part">
+            <span class="endTime time">17:20</span>
+            <span class="circle"></span>
+            <span class="endLocation">Gurugram</span>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="chargesSeatSection ">
+          <div class="card-item ion-text-end">
+            <div class="fair">Rs 220</div>
+          </div><br>
+          <div class="card-item ion-text-end">
+            <div class="seat">seat avl. 3</div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar>
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+
+      <h2>User Name</h2>
+
+    </ion-item>
+
+    <p>User Designation</p>
+    <p>Age: User Age</p>
+
+    <ion-col class="ion-no-padding">
+      <ion-label>Rating:</ion-label>
+      <ion-icon name="star"></ion-icon>
+    </ion-col>
+    <ion-row class="ion-no-padding">
+      <ion-button (click)="userDetailModal($event)">
+        open modal
+      </ion-button>
+    </ion-row>
+
+  </ion-card-content>
+</ion-card>

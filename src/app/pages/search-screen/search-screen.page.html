@@ -6,19 +6,32 @@
 
 <ion-content>
   <ion-row>
-    <ion-col size="12" sizeLg="6">
+    <ion-col size="12" sizeLg="6" class="ion-padding-top">
       <ion-input
-        label="Floating label"
+        type="text"
+        fill="solid"
+        label="From"
         labelPlacement="floating"
-        placeholder="Enter text"
+        errorText="Did not found"
+        ngModel
+        location
       ></ion-input>
     </ion-col>
-    <ion-col size="12" sizeLg="6">
+
+    <ion-col size="12" sizeLg="6" class="ion-padding-top">
       <ion-input
-        label="Floating label"
+        type="text"
+        fill="solid"
+        label="To"
         labelPlacement="floating"
-        placeholder="Enter text"
+        errorText="Did not found"
+        ngModel
+        location
       ></ion-input>
+    </ion-col>
+
+    <ion-col size="12" sizeLg="6" class="search-box">
+      <ion-button expand="block">Search</ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

@@ -8,26 +8,72 @@
 </ion-header>
 <ion-content class="ion-padding">
   <div class="loginArea ion-padding">
-    <div class="loginItems">
-      <ion-input
-        label="Username"
-        fill="outline"
-        labelPlacement="stacked"
-        placeholder="Enter your Username"
-      >
-      </ion-input>
-      <ion-input
-        type="password"
-        fill="outline"
-        label="Password"
-        labelPlacement="stacked"
-        placeholder="Enter your password"
-      >
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
-      <ion-button expand="block" class="ion-padding-vertical">Login</ion-button>
-      <p class="frgtPass" (click)="forgotPassModal()">Forgot Password ?</p>
-      <p class="btm-text">Don’t have an account yet? <a>Register here</a></p>
-    </div>
+    <form
+      class="loginItems"
+      #logInForm="ngForm"
+      (ngSubmit)="onSubmit(logInForm)"
+    >
+      <ion-row>
+        <ion-col size="12" class="ion-padding-bottom">
+          <ion-input
+            type="email"
+            label="Email"
+            fill="outline"
+            labelPlacement="stacked"
+            placeholder="Enter your Email"
+            ngModel
+            #email="ngModel"
+            name="email"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
+          >
+          </ion-input>
+          <div
+            class="error-text"
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+          >
+            <div *ngIf="email.errors?.['required']">
+              This field is required.
+            </div>
+            <div *ngIf="email.errors?.['pattern']">
+              Please provide a valid email
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="12" class="ion-padding-bottom">
+          <ion-input
+            type="password"
+            fill="outline"
+            label="Password"
+            labelPlacement="stacked"
+            ngModel
+            #password="ngModel"
+            name="password"
+            placeholder="Enter your password"
+            required
+            minlength="6"
+          >
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+          <div
+            class="error-text"
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+          >
+            <div *ngIf="password.errors?.['required']">
+              This field is required.
+            </div>
+            <div *ngIf="password.errors?.['minlength']">
+              Minimum length is 6 characters.
+            </div>
+          </div>
+          <p class="frgtPass" (click)="forgotPassModal()">Forgot Password ?</p>
+        </ion-col>
+        <ion-button type="submit" expand="block">Login</ion-button>
+      </ion-row>
+      <p class="btm-text">
+        Don’t have an account yet?
+        <a (click)="registerUser()">Register here</a>
+      </p>
+    </form>
   </div>
 </ion-content>
