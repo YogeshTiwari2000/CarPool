@@ -6,16 +6,30 @@
 
 <ion-content>
   <div class="main">
-    <div class="img-box">
-      <img src="" alt="">
-    </div>
     <div class="para-box">
       <h2>Welcome to Carpool</h2>
       <p>Start your awsome ride with us!</p>
     </div>
+    <div class="ride-box">
+      <div class="findRide">
+        <div class="text-box">Find Your Ride</div>
+        <div class="img-box"></div>
+      </div>
+      <div class="reqRide">
+        <div class="text-box">Request Ride</div>
+        <div class="img-box"></div>
+      </div>
+    </div>
     <div class="btn-box">
-      <ion-button expand="block" (click)="loginModal()"> Log in </ion-button>
-      <ion-button expand="block" [routerLink]="['/register']" routerLinkActive="router-link-active"> Register
+      <ion-button expand="block" (click)="loginModal()">
+        <span class="ion-padding"> Log in </span>
+      </ion-button>
+      <ion-button
+        expand="block"
+        [routerLink]="['/register']"
+        routerLinkActive="router-link-active"
+      >
+        <span class="ion-padding"> Register </span>
       </ion-button>
     </div>
   </div>
