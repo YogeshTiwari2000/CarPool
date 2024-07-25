@@ -1,0 +1,41 @@
+.timeLocationSection {
+    width: fit-content;
+    position: relative;
+
+
+    .circle {
+        min-width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #a9aeb7;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        border: 1px solid blue;
+    }
+
+
+
+    .card-item {
+        display: flex;
+        gap: 1.5rem;
+        position: relative;
+        align-items: baseline;
+
+        .time {
+            min-width: 2.5rem;
+        }
+    }
+
+}
+
+.timeLocationSection::before {
+    content: '';
+    // height: calc(100% - 1rem);
+    width: 0.1rem;
+    left: 4.25rem;
+    top: 0rem;
+    background-color: blue;
+    position: absolute;
+    height: 100%;
+}

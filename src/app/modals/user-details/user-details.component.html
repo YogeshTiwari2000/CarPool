@@ -1,30 +1,39 @@
-<ion-grid>
-  <ion-row class="ion-align-items-center">
-    <ion-col size="3" class="ion-text-end ">
-      <div> <img src="../../../assets/icon/up-down.png"></div>
-    </ion-col>
-    <ion-col size="">
-      <ion-row class="">
-        <ion-col size="12">
-          <h2>Start : Huda City Centre Metro, Gurugram </h2>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <div class="ion-text-center"><ion-icon name="arrow-down"></ion-icon>
+<h1>Heelo </h1>
+<ion-card>
+  <ion-card-header>
+    <ion-row>
+      <ion-col>
+        <div class="timeLocationSection">
+          <div class="card-item left-part">
+            <span class="startTime time">5:00</span>
+            <span class="circle"></span>
+            <span class="startLocation">Rewari</span>
+          </div><br>
+          <div>
+            <small class="travelTime">2:30</small>
           </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <h2>Destination : Bata Chowk, Rajiv Gandhi Colony, New Industrial Township, Faridabad, Haryana</h2>
-        </ion-col>
-      </ion-row>
+          <br>
+          <div class="card-item right-part">
+            <span class="endTime time">17:20</span>
+            <span class="circle"></span>
+            <span class="endLocation">Gurugram</span>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="chargesSeatSection ">
+          <div class="card-item ion-text-end">
+            <div class="fair">Rs 220</div>
+          </div><br>
+          <div class="card-item ion-text-end">
+            <div class="seat">seat avl. 3</div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
 
-    </ion-col>
-  </ion-row>
-
-</ion-grid>
+</ion-card>
 
 <ion-button (click)="close()">
   close
