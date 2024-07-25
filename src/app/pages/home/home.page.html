@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content>
-  @for (item of userData; track $index) {
-  <app-user-card [userData]="item"></app-user-card>
+  @for (user of usersList; track $index) {
+  <app-user-card [userInfo]="user"></app-user-card>
   }
 
 

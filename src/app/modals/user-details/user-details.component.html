@@ -1,4 +1,4 @@
-<h1>Heelo {{userData}}</h1>
+<h1>Heelo {{userData['name']}}</h1>
 <ion-card>
   <ion-card-header>
     <ion-row>
@@ -7,7 +7,7 @@
           <div class="card-item left-part">
             <span class="startTime time">5:00</span>
             <span class="circle"></span>
-            <span class="startLocation">Rewari</span>
+            <span class="startLocation">{{userData['source']}}</span>
           </div><br>
           <div>
             <small class="travelTime">2:30</small>

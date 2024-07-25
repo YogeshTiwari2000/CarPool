@@ -10,18 +10,18 @@ import { UserDetailsComponent } from 'src/app/modals/user-details/user-details.c
   imports: [IonCol, IonButton, IonRow, IonCardContent, IonCardSubtitle, IonIcon, IonCardTitle, IonAvatar, IonCardHeader, IonLabel, IonItem, IonCard, IonContent, IonHeader, IonInput, IonThumbnail],
 })
 export class UserCardComponent implements OnInit {
-  @Input() userData: any[] = [];
+  @Input() userInfo: any;
   constructor(public modalCtrl: ModalController) { }
 
   ngOnInit() {
     console.log("it's user card ts working");
-    console.log(this.userData);
+    console.log(this.userInfo);
   }
-  async userDetailModal(user: any) {
+  async userDetailModal(userInfo: any) {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
       component: UserDetailsComponent,
-      componentProps: { userData: user }
+      componentProps: { userData: userInfo }
     })
 
     modal.present()

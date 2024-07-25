@@ -14,7 +14,7 @@ import { UserCardComponent } from 'src/app/components/user-card/user-card.compon
 })
 export class HomePage implements OnInit {
   isLogeedIn: boolean = false;
-  userData: any = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  usersList: any = [{ name: 'test1', source: 's1' }, { name: 'test2', source: 's2' }, { name: 'test3', source: 's3' }];
 
 
   constructor() { }
