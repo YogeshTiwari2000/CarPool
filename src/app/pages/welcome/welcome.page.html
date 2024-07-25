@@ -15,7 +15,8 @@
     </div>
     <div class="btn-box">
       <ion-button expand="block" (click)="loginModal()"> Log in </ion-button>
-      <ion-button expand="block"> Register </ion-button>
+      <ion-button expand="block" [routerLink]="['/register']" routerLinkActive="router-link-active"> Register
+      </ion-button>
     </div>
   </div>
 </ion-content>
