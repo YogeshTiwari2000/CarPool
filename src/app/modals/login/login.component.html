@@ -9,17 +9,25 @@
 <ion-content class="ion-padding">
   <div class="loginArea ion-padding">
     <div class="loginItems">
-      <ion-input label="Username" fill="outline" labelPlacement="stacked" placeholder="Enter your Username">
+      <ion-input
+        label="Username"
+        fill="outline"
+        labelPlacement="stacked"
+        placeholder="Enter your Username"
+      >
       </ion-input>
-      <ion-input type="password" fill="outline" label="Password" labelPlacement="stacked"
-        placeholder="Enter your password">
+      <ion-input
+        type="password"
+        fill="outline"
+        label="Password"
+        labelPlacement="stacked"
+        placeholder="Enter your password"
+      >
         <ion-input-password-toggle slot="end"></ion-input-password-toggle>
       </ion-input>
       <ion-button expand="block" class="ion-padding-vertical">Login</ion-button>
       <p class="frgtPass" (click)="forgotPassModal()">Forgot Password ?</p>
-      <p class="btm-text">
-        Don’t have an account yet? <a>Register here</a>
-      </p>
+      <p class="btm-text">Don’t have an account yet? <a>Register here</a></p>
     </div>
   </div>
 </ion-content>
