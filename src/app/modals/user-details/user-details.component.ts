@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, IonButton, IonGrid, IonRow, IonCol, IonIcon, IonCard, IonCardHeader, IonCardContent, IonItem, IonAvatar, IonLabel } from '@ionic/angular/standalone';
 
 @Component({
@@ -9,11 +9,12 @@ import { ModalController, IonButton, IonGrid, IonRow, IonCol, IonIcon, IonCard, 
   imports: [IonLabel, IonAvatar, IonItem, IonCardContent, IonCardHeader, IonCard, IonIcon, IonCol, IonRow, IonGrid, IonButton,],
 })
 export class UserDetailsComponent implements OnInit {
-
+  @Input() userData: any;
   constructor(public modalCtrl: ModalController) { }
 
   ngOnInit() {
     console.log("user details");
+    console.log("user details", this.userData);
   }
 
   close() {

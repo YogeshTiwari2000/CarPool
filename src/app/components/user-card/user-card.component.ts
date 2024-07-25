@@ -17,10 +17,11 @@ export class UserCardComponent implements OnInit {
     console.log("it's user card ts working");
     console.log(this.userData);
   }
-  async userDetailModal(event: any) {
+  async userDetailModal(user: any) {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
-      component: UserDetailsComponent
+      component: UserDetailsComponent,
+      componentProps: { userData: user }
     })
 
     modal.present()
