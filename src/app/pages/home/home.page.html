@@ -9,7 +9,7 @@
 
 <ion-content>
   @for (item of userData; track $index) {
-  <app-user-card></app-user-card>
+  <app-user-card [userData]="item"></app-user-card>
   }
 
 
