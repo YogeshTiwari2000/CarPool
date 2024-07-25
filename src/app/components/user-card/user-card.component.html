@@ -4,28 +4,28 @@
       <ion-col>
         <div class="timeLocationSection">
           <div class="card-item left-part">
-            <span class="startTime time">5:00</span>
+            <span class="startTime time">{{userInfo['journeyStart']}}</span>
             <span class="circle"></span>
             <span class="startLocation">{{userInfo['source']}}</span>
           </div><br>
           <div>
-            <small class="travelTime">2:30</small>
+            <small class="travelTime">{{userInfo['name']}}</small>
           </div>
           <br>
           <div class="card-item right-part">
-            <span class="endTime time">17:20</span>
+            <span class="endTime time">{{userInfo['journeyEnd']}}</span>
             <span class="circle"></span>
-            <span class="endLocation">Gurugram</span>
+            <span class="endLocation">{{userInfo['destination']}}</span>
           </div>
         </div>
       </ion-col>
       <ion-col>
         <div class="chargesSeatSection ">
           <div class="card-item ion-text-end">
-            <div class="fair">Rs 220</div>
+            <div class="fair">Rs {{userInfo['price']}}</div>
           </div><br>
           <div class="card-item ion-text-end">
-            <div class="seat">seat avl. 3</div>
+            <div class="seat">seat avl. {{userInfo['seatAvl']}}</div>
           </div>
         </div>
       </ion-col>
@@ -34,19 +34,19 @@
   <ion-card-content>
     <ion-item lines="none" class="ion-no-padding">
       <ion-avatar>
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <img alt="Silhouette of a person's head" [src]="userInfo['profilePic']" />
       </ion-avatar>
 
       <h2>{{userInfo['name']}}</h2>
 
     </ion-item>
 
-    <p>User Designation</p>
-    <p>Age: User Age</p>
+    <p>{{userInfo['designation']}}</p>
+    <p>Age: {{userInfo['age']}}</p>
 
     <ion-col class="ion-no-padding">
-      <ion-label>Rating:</ion-label>
-      <ion-icon name="star"></ion-icon>
+      <ion-label>Rating: {{userInfo['rating']}} </ion-label>
+      <!-- <ion-icon name="star"></ion-icon> -->
     </ion-col>
     <ion-row class="ion-no-padding">
       <ion-button (click)="userDetailModal(userInfo)">

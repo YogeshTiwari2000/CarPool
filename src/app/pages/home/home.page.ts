@@ -14,7 +14,24 @@ import { UserCardComponent } from 'src/app/components/user-card/user-card.compon
 })
 export class HomePage implements OnInit {
   isLogeedIn: boolean = false;
-  usersList: any = [{ name: 'test1', source: 's1', rating: 4.3, verify: 'true' }, { name: 'test2', source: 's2', rating: 3, verify: 'true' }, { name: 'test3', source: 's3', rating: 3.5, verify: 'true' }];
+  usersList: any = [
+    {
+      name: 'test1', designation: 'dg1', age: '21', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '1', journeyStart: '2:00', journeyEnd: '4:00', source: 's1',
+      destination: 'd1', price: '100', seatAvl: '1',
+    },
+    {
+      name: 'test2', designation: 'dg2', age: '22', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '2', journeyStart: '3:00', journeyEnd: '5:00', source: 's2',
+      destination: 'd2', price: '200', seatAvl: '2',
+    },
+    {
+      name: 'test3', designation: 'dg3', age: '43', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '3', journeyStart: '14:00', journeyEnd: '18:00', source: 's3',
+      destination: 'd3', price: '300', seatAvl: '3',
+    },
+    {
+      name: 'test4', designation: 'dg4', age: '34', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '4', journeyStart: '17:00', journeyEnd: '22:00', source: 's4',
+      destination: 'd4', price: '400', seatAvl: '4',
+    },
+  ];
 
 
   constructor() { }

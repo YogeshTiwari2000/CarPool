@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+
 import { IonInput, IonHeader, IonContent, IonCard, IonThumbnail, IonItem, IonLabel, IonCardHeader, IonAvatar, IonCardTitle, IonIcon, IonCardSubtitle, IonCardContent, IonRow, IonButton, IonCol, ModalController } from "@ionic/angular/standalone";
 import { UserDetailsComponent } from 'src/app/modals/user-details/user-details.component';
 
@@ -7,7 +9,7 @@ import { UserDetailsComponent } from 'src/app/modals/user-details/user-details.c
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss'],
   standalone: true,
-  imports: [IonCol, IonButton, IonRow, IonCardContent, IonCardSubtitle, IonIcon, IonCardTitle, IonAvatar, IonCardHeader, IonLabel, IonItem, IonCard, IonContent, IonHeader, IonInput, IonThumbnail],
+  imports: [IonCol, IonButton, IonRow, IonCardContent, IonCardSubtitle, IonIcon, IonCardTitle, IonAvatar, IonCardHeader, IonLabel, IonItem, IonCard, IonContent, IonHeader, IonInput, IonThumbnail, CommonModule],
 })
 export class UserCardComponent implements OnInit {
   @Input() userInfo: any;
