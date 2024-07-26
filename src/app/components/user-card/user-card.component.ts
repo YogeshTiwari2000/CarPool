@@ -27,7 +27,7 @@ export class UserCardComponent implements OnInit {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
       component: UserDetailsComponent,
-      componentProps: { userData: userInfo }
+      componentProps: { userData: userInfo, journeyDuration: this.journeyDuration }
     })
 
     modal.present()
