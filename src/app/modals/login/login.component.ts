@@ -4,6 +4,7 @@ import { ForgotPassComponent } from '../forgot-pass/forgot-pass.component';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SocialLoginService } from 'src/app/services/auth/social-login.service';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,16 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit {
   public modalCtrl = inject(ModalController)
   public router = inject(Router)
+  private socialLogin = inject(SocialLoginService)
 
   constructor() { }
 
   ngOnInit() {
     console.log("Login Modal");
+    this.socialLogin.googleLogin("google")
   }
+
+
   close() {
     return this.modalCtrl.dismiss(null, 'close');
   }
