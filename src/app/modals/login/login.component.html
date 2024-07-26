@@ -8,12 +8,8 @@
 </ion-header>
 <ion-content class="ion-padding">
   <div class="loginArea ion-padding">
-    <form
-      class="loginItems"
-      #logInForm="ngForm"
-      (ngSubmit)="onSubmit(logInForm)"
-    >
-      <ion-row>
+    <form #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)">
+      <ion-row class="loginItems">
         <ion-col size="12" class="ion-padding-bottom">
           <ion-input
             type="email"
@@ -70,10 +66,23 @@
         </ion-col>
         <ion-button type="submit" expand="block">Login</ion-button>
       </ion-row>
-      <p class="btm-text">
-        Don’t have an account yet?
-        <a (click)="registerUser()">Register here</a>
-      </p>
     </form>
+    <!-- Social Logins -->
+    <div class="socialLogins">
+      <p class="ion-text-center">Or</p>
+      <div class="socialIcons">
+        <div class="google">
+          <img src="/assets/images/svgs/google.svg" alt="" />
+        </div>
+        <div class="faceBook">
+          <img src="/assets/images/svgs/facebook.svg" alt="" />
+        </div>
+      </div>
+    </div>
+    <!-- Social Logins -->
+    <p class="btm-text">
+      Don’t have an account yet?
+      <a (click)="registerUser()">Register here</a>
+    </p>
   </div>
 </ion-content>
