@@ -17,7 +17,7 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'mail' },
     { title: 'Not Found Page', url: '/auth', icon: 'paper-plane' },
     { title: 'Welcome Screen', url: '/welcome', icon: 'paper-plane' },
-    { title: 'Search Screen', url: '/search-screen', icon: 'paper-plane' },
+    { title: 'Search Screen', url: '/search', icon: 'paper-plane' },
 
   ];
 
