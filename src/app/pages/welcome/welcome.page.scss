@@ -23,36 +23,45 @@
         }
     }
 
-    .ride-box {
-        padding: 0 2rem;
+    .topBox {
         display: flex;
+        gap: .5rem;
         flex-direction: column;
-        gap: 0.8rem;
+        justify-content: space-between;
 
-        .reqRide,
-        .findRide {
+        .ride-box {
+            padding: 0 2rem;
             display: flex;
-            gap: .5rem;
-            align-items: center;
-            justify-content: space-between;
-            border: 3px solid #BAD4DA;
-            border-radius: 10px;
-            overflow: hidden;
-            // background: #ECFBF7;
+            flex-direction: column;
+            gap: 0.8rem;
 
-            .text-box {
-                padding: 2rem;
-                padding-right: 0.5rem;
-                font-size: 22px;
-                color: #3C7178;
-            }
+            .reqRide,
+            .findRide {
+                display: flex;
+                gap: .5rem;
+                align-items: center;
+                justify-content: space-between;
+                border: 2px solid #BAD4DA;
+                border-radius: 10px;
+                overflow: hidden;
+                // background: #ECFBF7;
 
-            .img-box {
-                max-width: 100%;
-                line-height: 0;
+                .text-box {
+                    padding: 2rem;
+                    padding-right: 0.5rem;
+                    font-size: 22px;
+                    color: #3C7178;
+                }
+
+                .img-box {
+                    max-width: 100%;
+                    line-height: 0;
+                }
             }
         }
     }
+
+
 
     .btn-box {
         display: flex;
@@ -70,6 +79,10 @@
             --background: #33A05E;
             --border-radius: 50px;
             text-transform: capitalize;
+
+            span {
+                padding: 0.5rem;
+            }
         }
 
         .register {
