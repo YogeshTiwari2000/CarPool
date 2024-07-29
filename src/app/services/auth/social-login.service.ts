@@ -29,10 +29,11 @@ export class SocialLoginService {
       }
     });
     google.accounts.id.renderButton(document.getElementById(tagId), {
-      theme: "filled-blue",
+      theme: "outline",
       size: "larger",
       shape: 'rectangle',
-      width: 350
+      width: 350,
+      text: "sign_in_with"
     })
   }
   private decodeToken(token: string) {
@@ -43,22 +44,13 @@ export class SocialLoginService {
 
   // Facebook login
   facebookLogin(): void {
-    console.log('Service Facebook login function called');
-    console.log("Facebook Provider ID: ", FacebookLoginProvider.PROVIDER_ID);
-
+    // console.log("Facebook Provider ID: ", FacebookLoginProvider.PROVIDER_ID);
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
       console.log('Facebook user logged in:', user);
       sessionStorage.setItem("facebookUserLog", JSON.stringify(user));
-      // Access user information
-      console.log('Facebook User Information:');
-      console.log('Name:', user.name);
-      console.log('Email:', user.email);
-      console.log('Photo URL:', user.photoUrl);
     }).catch(err => {
       console.error('Facebook login error:', err);
     });
   }
-
-
   // Facebook login
 }
