@@ -19,6 +19,7 @@ export class AppComponent {
     { title: 'Not Found Page', url: '/auth', icon: 'paper-plane' },
     { title: 'Welcome Screen', url: '/welcome', icon: 'paper-plane' },
     { title: 'Search Screen', url: '/search', icon: 'paper-plane' },
+    { title: 'Profile', url: '/profile', icon: 'paper-plane' },
 
   ];
 

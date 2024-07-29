@@ -25,6 +25,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/search-screen/search-screen.page').then(p => p.SearchScreenPage)
   },
   {
+    path: 'profile',
+    title: 'Profile',
+    loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
@@ -35,6 +40,7 @@ export const routes: Routes = [
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
+
 
 
 
