@@ -31,9 +31,46 @@
         </div>
       </ion-col>
     </ion-row>
+
   </ion-card-header>
 
 </ion-card>
+<ion-content>
+  <ion-card>
+    <ion-row class="ion-justify-content-center"><ion-col size="3"><ion-img src="../../../assets/icon/man.png"
+          alt="User Photo"></ion-img></ion-col></ion-row>
+    <ion-card-header>
+      <ion-card-title>{{ userData['designation'] }} designation</ion-card-title>
+      <ion-card-subtitle>{{userData['age']}} years old</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip color="success" *ngIf="user.isVerified">
+        Verified
+      </ion-chip>
+      <ion-item>
+        <ion-label>Rating</ion-label>
+        <ion-badge>4</ion-badge>
+      </ion-item>
+      <ion-list>
+        <ion-list-header>Verified Details</ion-list-header>
+        <ion-item *ngFor="let detail of user.verifiedDetails">
+          {{ detail }}
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-label>Frequency</ion-label>
+        <!-- <ion-note>{{ tripDetails.frequency }}</ion-note> -->
+      </ion-item>
+      <ion-item>
+        <ion-label>Available Seats</ion-label>
+        <!-- <ion-note>{{ tripDetails.availableSeats }}</ion-note> -->
+      </ion-item>
+      <ion-button expand="full">Request Contact Details</ion-button>
+      <ion-button expand="full" color="primary">Apply for Ride</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
 
 <ion-button (click)="close()">
   close
