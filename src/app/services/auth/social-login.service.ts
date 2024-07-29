@@ -4,19 +4,19 @@ import { SocialAuthService, SocialAuthServiceConfig, FacebookLoginProvider, Soci
 @Injectable({
   providedIn: 'root'
 })
-export class SocialLoginService implements OnInit {
+export class SocialLoginService {
   private client_id = '193485925855-ri8is9m3kd2pr2pfcfqifar7bn1tvkg3.apps.googleusercontent.com';
   private facebookAppId = '852363663092517';
   user: SocialUser | null = null;
   loggedIn: boolean = false;
-  constructor(private authService: SocialAuthService) { }
-  ngOnInit() {
+  constructor(private authService: SocialAuthService) {
     this.authService.authState.subscribe((user: SocialUser) => {
       this.user = user;
       console.log('User:', this.user);
       this.loggedIn = (user != null);
     });
   }
+
   // google login
   googleLogin(tagId: string) {
     google.accounts.id.initialize({

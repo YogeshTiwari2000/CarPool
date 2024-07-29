@@ -1,10 +1,11 @@
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, close, arrowDown, star } from 'ionicons/icons';
+import { LocalStorageService } from './shared/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,9 @@ import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutlin
   imports: [RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule],
 })
 export class AppComponent {
+
+  public localStr = inject(LocalStorageService)
+  public router = inject(Router)
   public appPages = [
     { title: 'Home', url: '/home', icon: 'mail' },
     { title: 'Not Found Page', url: '/auth', icon: 'paper-plane' },
@@ -25,6 +29,11 @@ export class AppComponent {
 
   constructor() {
     addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, close, arrowDown, star });
+  }
+
+  logOut() {
+    this.localStr.clear()
+    this.router.navigate(['/welcome'])
   }
 
 
