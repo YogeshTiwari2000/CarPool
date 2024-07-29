@@ -43,23 +43,23 @@
         <div class="main-2">
           <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template class="btn-box-1">
+          <ion-modal [keepContentsMounted]="true" class="btn-box-1">
+            <ng-template>
               <ion-datetime id="datetime"></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
 
-        <ion-button>
+        <button class="btn-btn">
           <div class="flex-box">
             <div class="counter-input">2 passenger</div>
             <div class="counter-input">-</div>
             <div class="counter-input">+</div>
           </div>
-        </ion-button>
+        </button>
 
         <ion-col size="12" sizeLg="6" class="search-box btn-box">
-          <ion-button class="login" expand="block">Search</ion-button>
+          <ion-button class="login" expand="block">Search > </ion-button>
         </ion-col>
       </div>
     </div>
