@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton } from '@ionic/angular/standalone';
+import { IonDatetime } from '@ionic/angular';
+
+
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal } from '@ionic/angular/standalone';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 declare var google:any;
 
@@ -10,17 +13,37 @@ declare var google:any;
   templateUrl: './search-screen.page.html',
   styleUrls: ['./search-screen.page.scss'],
   standalone: true,
-  imports: [IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
+  imports: [IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
   providers:[GooglePlaceModule]
 })
 export class SearchScreenPage implements OnInit {
 
   constructor() { }
 
+  @ViewChild(IonModal) modal: IonModal | undefined;
+  @ViewChild(IonDatetime) datetime: IonDatetime | undefined;
+  selectedDate: string | undefined;
+
   ngOnInit() {
     console.log("search page");
     
   }
+
+
+
+  openCalendar() {
+    this.modal?.present();
+  }
+
+  closeModal() {
+    this.modal?.dismiss();
+  }
+
+  onDateChange(event: any) {
+    this.selectedDate = event.detail.value;
+    console.log('Selected date:', this.selectedDate);
+  }
+
   to:any
   from:any
   ionViewWillEnter() {

@@ -7,34 +7,64 @@
 <ion-content>
   <!-- {{ formattedaddress }} -->
   <ion-row>
-    <ion-col size="12" sizeLg="6" class="ion-padding-top">
-      <ion-input
-        type="text"
-        fill="outline"
-        label="Trip Start"
-        placeholder="Trip Start"
-        labelPlacement="stacked"
-        errorText="Did not found"
-        [(ngModel)]="from"
-        id="fromLocation"
-      ></ion-input>
-    </ion-col>
+    <div class="main">
+      <div class="para-box">
+        <h2>Find a Ride</h2>
+        <p>Enter your ride details...</p>
+      </div>
 
-    <ion-col size="12" sizeLg="6" class="ion-padding-top">
-      <ion-input
-        type="text"
-        fill="outline"
-        label="Trip End"
-        placeholder="Trip End"
-        labelPlacement="stacked"
-        errorText="Did not found"
-        [(ngModel)]="to"
-        id="toLocation"
-      ></ion-input>
-    </ion-col>
+      <div class="main-1">
+        <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
+          <ion-input
+            type="text"
+            fill="outline"
+            label="Trip Start"
+            placeholder="Trip Start"
+            labelPlacement="stacked"
+            errorText="Did not found"
+            [(ngModel)]="from"
+            id="fromLocation"
+          ></ion-input>
+        </ion-col>
 
-    <ion-col size="12" sizeLg="6" class="search-box">
-      <ion-button expand="block">Search</ion-button>
-    </ion-col>
+        <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
+          <ion-input
+            type="text"
+            fill="outline"
+            label="Trip End"
+            placeholder="Trip End"
+            labelPlacement="stacked"
+            errorText="Did not found"
+            [(ngModel)]="to"
+            id="toLocation"
+          ></ion-input>
+        </ion-col>
+
+        <!-- <div class="main-2">
+          <ion-col size="12" sizeLg="6" (click)="openCalendar()" class="search-box btn-box">
+            <ion-button class="login" expand="block">Search</ion-button>
+          </ion-col>
+          <ion-modal #modal>
+            <ion-content>
+              <ion-label>Date</ion-label>
+              <ion-datetime
+                display-format="MMM DD, YYYY"
+                [(ngModel)]="selectedDate"
+                (ionChange)="onDateChange($event)"
+              >
+              </ion-datetime>
+
+              <ion-button expand="full" (click)="openCalendar()">
+                Select Date
+              </ion-button>
+            </ion-content>
+          </ion-modal>
+        </div> -->
+
+        <ion-col size="12" sizeLg="6" class="search-box btn-box">
+          <ion-button class="login" expand="block">Search</ion-button>
+        </ion-col>
+      </div>
+    </div>
   </ion-row>
 </ion-content>
