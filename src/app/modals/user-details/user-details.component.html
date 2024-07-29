@@ -1,62 +1,68 @@
-<h1>Heelo {{userData['name']}}</h1>
-<ion-card>
-  <ion-card-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ride Details</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <ion-row>
-      <ion-col>
-        <div class="timeLocationSection">
-          <div class="card-item left-part">
-            <span class="startTime time">{{userData['journeyStart']}}</span>
-            <span class="circle"></span>
-            <span class="startLocation">{{userData['source']}}</span>
-          </div><br>
-          <div>
-            <small class="travelTime">{{journeyDuration}}</small>
-          </div>
-          <br>
-          <div class="card-item right-part">
-            <span class="endTime time">{{userData['journeyEnd']}}</span>
-            <span class="circle"></span>
-            <span class="endLocation">{{userData['destination']}}</span>
-          </div>
-        </div>
-      </ion-col>
-      <ion-col>
-        <div class="chargesSeatSection ">
-          <div class="card-item ion-text-end">
-            <div class="fair">Rs {{userData['price']}}</div>
-          </div><br>
-          <div class="card-item ion-text-end">
-            <div class="seat">seat avl. {{userData['seatAvl']}}</div>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-
-  </ion-card-header>
-
-</ion-card>
 <ion-content>
   <ion-card>
-    <ion-row class="ion-justify-content-center"><ion-col size="3"><ion-img src="../../../assets/icon/man.png"
-          alt="User Photo"></ion-img></ion-col></ion-row>
     <ion-card-header>
-      <ion-card-title>{{ userData['designation'] }} designation</ion-card-title>
-      <ion-card-subtitle>{{userData['age']}} years old</ion-card-subtitle>
+
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <div class="timeLocationSection">
+            <div class="card-item left-part">
+              <span class="startTime time">{{userData['journeyStart']}}</span>
+              <span class="circle"></span>
+              <span class="startLocation">{{userData['source']}}</span>
+            </div><br>
+            <div>
+              <small class="travelTime">{{journeyDuration}}</small>
+            </div>
+            <br>
+            <div class="card-item right-part">
+              <span class="endTime time">{{userData['journeyEnd']}}</span>
+              <span class="circle"></span>
+              <span class="endLocation">{{userData['destination']}}</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="4">
+          <div class="charges-seat-section ion-text-end">
+            <div class="card-item">
+              <ion-text color="success" class="fair">₹{{ userData['price'] }}</ion-text>
+            </div>
+            <div class="card-item">
+              <ion-text color="primary" class="seat">
+                {{ userData['seatAvl'] }} Seats Available
+              </ion-text>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="4">
+        <ion-img src="../../../assets/icon/man.png" alt="User Photo" class="profile-photo"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-card-header>
+      <ion-card-title>{{ userData['designation'] }}</ion-card-title>
+      <ion-card-subtitle>{{ userData['age'] }} years old</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-chip color="success" *ngIf="user.isVerified">
-        Verified
-      </ion-chip>
       <ion-item>
         <ion-label>Rating</ion-label>
-        <ion-badge>4</ion-badge>
+        <ion-badge color="warning">4</ion-badge>
+        <ion-icon name="star" class="star-icon"></ion-icon>
       </ion-item>
       <ion-list>
         <ion-list-header>Verified Details</ion-list-header>
-        <ion-item *ngFor="let detail of user.verifiedDetails">
-          {{ detail }}
-        </ion-item>
+        <!-- Add verified details here -->
       </ion-list>
       <ion-item>
         <ion-label>Frequency</ion-label>
@@ -64,16 +70,12 @@
       </ion-item>
       <ion-item>
         <ion-label>Available Seats</ion-label>
-        <!-- <ion-note>{{ tripDetails.availableSeats }}</ion-note> -->
+        <ion-note class="ion-align-self-center seat">{{ userData['seatAvl'] }}</ion-note>
       </ion-item>
-      <ion-button expand="full">Request Contact Details</ion-button>
-      <ion-button expand="full" color="primary">Apply for Ride</ion-button>
+      <ion-button expand="block" color="secondary" class="button-margin">Request Contact Details</ion-button>
+      <ion-button expand="block" color="primary" class="button-margin">Apply for Ride</ion-button>
     </ion-card-content>
   </ion-card>
+
+  <ion-button expand="full" color="light" (click)="close()">Close</ion-button>
 </ion-content>
-
-
-
-<ion-button (click)="close()">
-  close
-</ion-button>
