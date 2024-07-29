@@ -1,6 +1,7 @@
 <h1>Heelo {{userData['name']}}</h1>
 <ion-card>
   <ion-card-header>
+
     <ion-row>
       <ion-col>
         <div class="timeLocationSection">
@@ -10,7 +11,7 @@
             <span class="startLocation">{{userData['source']}}</span>
           </div><br>
           <div>
-            <small class="travelTime">{{userData['name']}}</small>
+            <small class="travelTime">{{journeyDuration}}</small>
           </div>
           <br>
           <div class="card-item right-part">
@@ -70,6 +71,7 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 
 
 <ion-button (click)="close()">

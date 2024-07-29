@@ -18,7 +18,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/welcome/welcome.page').then(p => p.WelcomePage)
   },
   {
-    path: 'search-screen',
+    path: 'search',
     title: 'Search Ride',
     loadComponent: () => import('./pages/search-screen/search-screen.page').then(p => p.SearchScreenPage)
   },

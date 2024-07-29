@@ -1,0 +1,20 @@
+.socialIcons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+
+    .google,
+    .faceBook {
+        // width: 15%;
+
+        img {
+            max-width: 100%;
+            line-height: 0;
+            box-shadow: 0 4px 18px #00000040;
+            border-radius: 50%;
+        }
+    }
+
+
+}

@@ -10,6 +10,7 @@ import { ModalController, IonButton, IonGrid, IonRow, IonCol, IonIcon, IonCard, 
 })
 export class UserDetailsComponent implements OnInit {
   @Input() userData: any;
+  @Input() journeyDuration: any;
   constructor(public modalCtrl: ModalController) { }
 
   ngOnInit() {
