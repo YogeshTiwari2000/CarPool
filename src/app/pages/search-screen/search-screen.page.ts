@@ -86,5 +86,21 @@ export class SearchScreenPage implements OnInit {
    });
    }
   }
-
+  increment() {
+    const counterElement = document.getElementById('counter');
+    if (counterElement !== null) {
+      let currentValue = parseInt(counterElement.textContent || "0"); 
+      counterElement.textContent = `${currentValue + 1} passenger`;
+    }
+  }
+  decrement() {
+    const counterElement = document.getElementById('counter');
+    if (counterElement !== null) {
+      let currentValue = parseInt(counterElement.textContent || "0");
+      if (currentValue > 0) {
+        counterElement.textContent = `${currentValue - 1} passenger`;
+      }
+    }
+  }
+  
 }
