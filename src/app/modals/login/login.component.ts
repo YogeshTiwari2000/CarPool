@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { SocialLoginService } from 'src/app/services/auth/social-login.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { from } from 'rxjs';
+import { CommonService } from 'src/app/shared/common.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   public router = inject(Router)
   private socialLogin = inject(SocialLoginService)
   public localStr = inject(LocalStorageService)
+  public commonService = inject(CommonService)
 
   userData: any = ""
 
@@ -55,8 +57,12 @@ export class LoginComponent implements OnInit {
       console.log('Form submitted!', form.value);
       if (this.userData) {
         if (this.userData.password === loginData.password) {
+          this.commonService.isUserLoggedin = true
+          const isUserLoggedIn = this.commonService.isUserLoggedin
+          this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
           this.close()
           this.router.navigate(['/home'])
+
         }
       }
     } else {
