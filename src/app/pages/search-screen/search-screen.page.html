@@ -40,26 +40,15 @@
           ></ion-input>
         </ion-col>
 
-        <!-- <div class="main-2">
-          <ion-col size="12" sizeLg="6" (click)="openCalendar()" class="search-box btn-box">
-            <ion-button class="login" expand="block">Search</ion-button>
-          </ion-col>
-          <ion-modal #modal>
-            <ion-content>
-              <ion-label>Date</ion-label>
-              <ion-datetime
-                display-format="MMM DD, YYYY"
-                [(ngModel)]="selectedDate"
-                (ionChange)="onDateChange($event)"
-              >
-              </ion-datetime>
+        <div class="main-2">
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-              <ion-button expand="full" (click)="openCalendar()">
-                Select Date
-              </ion-button>
-            </ion-content>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template class="btn-box-1">
+              <ion-datetime id="datetime"></ion-datetime>
+            </ng-template>
           </ion-modal>
-        </div> -->
+        </div>
 
         <ion-col size="12" sizeLg="6" class="search-box btn-box">
           <ion-button class="login" expand="block">Search</ion-button>

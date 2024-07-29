@@ -35,7 +35,15 @@
     .main-1 {
         margin: 2rem;
     }
- 
+ .main-2{
+    display: flex;
+ }
+ .btn-box-1{
+    --background: #33A05E;
+    --border-radius: 50px;
+    text-transform: capitalize;
+ }
+
 .btn-box {
     display: flex;
     flex-direction: column;
