@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonInput, IonInputPasswordToggle, IonContent, IonHeader, IonToolbar, IonTitle, ModalController, IonIcon, IonButton, IonCol, IonRow } from "@ionic/angular/standalone";
+import { IonInput, IonInputPasswordToggle, IonContent, IonHeader, IonToolbar, IonTitle, ModalController, IonIcon, IonButton, IonCol, IonRow, IonAvatar } from "@ionic/angular/standalone";
 import { ForgotPassComponent } from '../forgot-pass/forgot-pass.component';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -14,7 +14,7 @@ import { CommonService } from 'src/app/shared/common.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [IonRow, IonCol, IonButton, IonIcon, IonTitle, IonToolbar, IonHeader, IonContent, IonInput, IonInputPasswordToggle, FormsModule, CommonModule]
+  imports: [IonAvatar, IonRow, IonCol, IonButton, IonIcon, IonTitle, IonToolbar, IonHeader, IonContent, IonInput, IonInputPasswordToggle, FormsModule, CommonModule]
 })
 export class LoginComponent implements OnInit {
   public modalCtrl = inject(ModalController)
@@ -68,6 +68,14 @@ export class LoginComponent implements OnInit {
     } else {
       alert('Form is invalid')
     }
+  }
+
+
+  // for facebook
+  facebookLogin() {
+    console.log('facebook login btn called');
+
+    this.socialLogin.facebookLogin();
   }
 
 }
