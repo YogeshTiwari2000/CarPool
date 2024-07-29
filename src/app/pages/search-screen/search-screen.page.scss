@@ -38,6 +38,13 @@
  .main-2{
     display: flex;
  }
+ .flex-box{
+    display: flex;
+    margin-top: 1rem;
+    border-radius: 19px;
+    gap: 2rem;
+
+ }
  .btn-box-1{
     --background: #33A05E;
     --border-radius: 50px;
