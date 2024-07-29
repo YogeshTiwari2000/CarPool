@@ -124,3 +124,26 @@ ion-card {
 .seat {
     font-size: 14px;
 }
+
+.flex-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    flex-direction: row;
+
+    ion-card-title {
+        font-size: 1.2em; // Adjust font size
+        font-weight: bold; // Make the title bold
+        margin-right: 8px; // Add space between title and subtitle
+    }
+
+    ion-card-subtitle {
+        font-size: 1em; // Adjust font size
+        color: gray; // Optional: change color for subtitle
+    }
+}
+
+ion-card-content {
+    padding-top: 1rem;
+}
