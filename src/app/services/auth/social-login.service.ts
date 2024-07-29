@@ -22,24 +22,34 @@ export class SocialLoginService {
   }
 
   // google login
-  googleLogin(tagId: string) {
-    google.accounts.id.initialize({
-      client_id: this.client_id,
-      callback: (res: any) => {
-        if (res) {
-          const payload = this.decodeToken(res.credential)
-          sessionStorage.setItem("googleUserLog", JSON.stringify(payload))
-          this.localStr.setItem("googleUserLog", payload)
+  googleLogin(tagId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      google.accounts.id.initialize({
+        client_id: this.client_id,
+        callback: (res: any) => {
+          if (res) {
+            try {
+              const payload = JSON.stringify(this.decodeToken(res.credential))
+              // sessionStorage.setItem("googleUserLog", JSON.stringify(payload))
+              // this.localStr.setItem("googleUserLog", payload)
+              resolve(payload);
+            } catch (error) {
+              reject(error);
+            }
+          } else {
+            reject(new Error('No response received from Google login.'));
+          }
         }
-      }
-    });
-    google.accounts.id.renderButton(document.getElementById(tagId), {
-      theme: "outline",
-      size: "larger",
-      shape: 'rectangle',
-      width: 350,
-      text: "sign_in_with"
+      });
+      google.accounts.id.renderButton(document.getElementById(tagId), {
+        theme: "outline",
+        size: "larger",
+        shape: 'rectangle',
+        width: 350,
+        text: "sign_in_with"
+      })
     })
+
   }
   private decodeToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]))

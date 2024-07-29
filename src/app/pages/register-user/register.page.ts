@@ -34,19 +34,22 @@ export class RegisterPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log("register user");
-    this.socialLogin.googleLogin("google")
+    await this.socialLogin.googleLogin("google").then((res) => {
+      this.localStr.setItem("googleUserLog", JSON.parse(res))
+      if (this.localStr.getItem("googleUserLog")) {
+        let googleLogin = this.localStr.getItem("googleUserLog")
+        console.log("googleLogin === ", googleLogin);
+        this.userData.userEmail = googleLogin.email
+        this.userData.userName = googleLogin.name
+      }
+    })
     if (this.localStr.getItem("users")) {
       this.users = this.localStr.getItem("users")
     }
 
-    if (this.localStr.getItem("googleUserLog")) {
-      let googleLogin = this.localStr.getItem("googleUserLog")
-      console.log("googleLogin === ", googleLogin);
-      this.userData.userEmail = googleLogin.email
-      this.userData.userName = googleLogin.name
-    }
+
   }
 
   onSubmit(form: NgForm) {
