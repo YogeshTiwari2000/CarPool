@@ -59,6 +59,8 @@ ion-menu.md ion-item.selected ion-icon {
 
 ion-menu.md ion-item ion-icon {
   color: #616e7e;
+  -webkit-margin-end: 16px;
+  margin-inline-end: 16px;
 }
 
 ion-menu.md ion-item ion-label {

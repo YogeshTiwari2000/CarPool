@@ -41,13 +41,13 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   async ngOnInit() {
-    console.log("Login Modal", this.userData);
+    // console.log("Login Modal", this.userData);
     let getData: any[] = this.localStr.getItem("users")
-    // console.log("getData === ", getData);
+    console.log("getData === ", getData);
     await this.socialLogin.googleLogin("google").then((res) => {
       const googleUserLog = JSON.parse(res)
       // console.log("googleUserLog === ", googleUserLog);
-      // this.localStr.setItem("googleUserLog", googleUserLog)
+      this.localStr.setItem("googleUserLog", googleUserLog)
       const user = this.commonService.checkEmailExists(getData, googleUserLog.email)
       if (user) {
         console.log('Email exists in the data', user);
@@ -60,7 +60,9 @@ export class LoginComponent implements OnInit {
         this.userData.isSocialLogin = true
         console.log("this.userData === ", this.userData);
 
-        this.users = this.localStr.getItem("users")
+        if (this.localStr.getItem("users")) {
+          this.users = this.localStr.getItem("users")
+        }
 
         let data: { [key: string]: any } = {}
         data[this.userData.userEmail] = { ...this.userData };
@@ -72,6 +74,7 @@ export class LoginComponent implements OnInit {
         this.commonService.isUserLoggedin = true
         const isUserLoggedIn = this.commonService.isUserLoggedin
         this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
+        this.close()
         this.router.navigate(['/home'])
       }
 
@@ -82,8 +85,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      if (this.localStr.getItem("users")) {
-
+      let users = this.localStr.getItem("users")
+      if (users) {
+        console.log("users === ", users);
+        let user = this.commonService.checkEmailExists(users, form.value.email)
+        console.log("user === ", user);
       }
       // const loginData = form.value
       // console.log('Form submitted!', form.value);
