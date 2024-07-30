@@ -35,6 +35,7 @@ export class SearchScreenPage implements OnInit {
 
   to:any
   from:any
+  
   ionViewWillEnter() {
     this.fromLocation()
     this.toLocation()

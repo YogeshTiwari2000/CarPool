@@ -81,6 +81,27 @@
 
  
 }
+ion-datetime-button::before {
+    content: "\f073";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 24px;
+    display: inline-block;
+    margin-right: 8px;
+    position: absolute;
+    z-index: 2;
+    left: 3rem;
+}
+ion-datetime-button:host{
+    padding-left: 2rem;
+}
+ion-datetime-button::after {
+    content: '\1F551'; 
+    font-size: 24px; 
+    margin-right: 8px; 
+    display: inline-block; 
+}
+
 button.togg-btn-1 {
     border-radius: 12px;
     padding: 1rem;
