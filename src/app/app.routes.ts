@@ -40,6 +40,14 @@ export const routes: Routes = [
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
+  {
+    path: 'about',
+    loadComponent: () => import('./pages/profile/about/about.page').then( m => m.AboutPage)
+  },
+  {
+    path: 'account',
+    loadComponent: () => import('./pages/profile/account/account.page').then( m => m.AccountPage)
+  },
 
 
 
