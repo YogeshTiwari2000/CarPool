@@ -23,13 +23,33 @@ export class LoginComponent implements OnInit {
   public localStr = inject(LocalStorageService)
   public commonService = inject(CommonService)
 
-  userData: any = ""
+  isSocialLogin: boolean = false
+
+  userData: any = {
+    userEmail: "",
+    userName: "",
+    password: "",
+    cpassword: "",
+    phone: "",
+    pickUpLocation: "",
+    dropLocation: "",
+    isSocialLogin: this.isSocialLogin
+  }
 
   constructor() { }
 
-  ngOnInit() {
-    console.log("Login Modal");
-    this.socialLogin.googleLogin("google")
+  async ngOnInit() {
+    console.log("Login Modal", this.userData);
+    await this.socialLogin.googleLogin("google").then((res) => {
+      this.localStr.setItem("googleUserLog", JSON.parse(res))
+      if (this.localStr.getItem("googleUserLog")) {
+        let googleLogin = this.localStr.getItem("googleUserLog")
+        console.log("googleLogin === ", googleLogin);
+        this.userData.userEmail = googleLogin.email
+        this.userData.userName = googleLogin.name
+        this.userData.isSocialLogin = true
+      }
+    }).catch((error) => console.log(error))
     if (this.localStr.getItem("userData")) {
       this.userData = this.localStr.getItem("userData")
     }
@@ -74,7 +94,6 @@ export class LoginComponent implements OnInit {
   // for facebook
   facebookLogin() {
     console.log('facebook login btn called');
-
     this.socialLogin.facebookLogin();
   }
 
