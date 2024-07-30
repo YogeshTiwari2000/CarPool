@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit {
   private socialLogin = inject(SocialLoginService)
   public localStr = inject(LocalStorageService)
   public commonService = inject(CommonService)
-
+  users: any[] = []
   isSocialLogin: boolean = false
+  email_verified: boolean = false
 
   userData: any = {
     userEmail: "",
@@ -33,26 +34,70 @@ export class LoginComponent implements OnInit {
     phone: "",
     pickUpLocation: "",
     dropLocation: "",
-    isSocialLogin: this.isSocialLogin
+    isSocialLogin: this.isSocialLogin,
+    email_verified: this.email_verified
   }
 
   constructor() { }
 
   async ngOnInit() {
     console.log("Login Modal", this.userData);
+    let getData: any[] = this.localStr.getItem("users")
+    // console.log("getData === ", getData);
     await this.socialLogin.googleLogin("google").then((res) => {
-      this.localStr.setItem("googleUserLog", JSON.parse(res))
-      if (this.localStr.getItem("googleUserLog")) {
-        let googleLogin = this.localStr.getItem("googleUserLog")
-        console.log("googleLogin === ", googleLogin);
-        this.userData.userEmail = googleLogin.email
-        this.userData.userName = googleLogin.name
+      const googleUserLog = JSON.parse(res)
+      // console.log("googleUserLog === ", googleUserLog);
+      // this.localStr.setItem("googleUserLog", googleUserLog)
+      const user = this.commonService.checkEmailExists(getData, googleUserLog.email)
+      if (user) {
+        console.log('Email exists in the data', user);
+      } else {
+        console.log('Email does not exist in the data');
+        this.userData.userEmail = googleUserLog.email
+        this.userData.userName = googleUserLog.name
+        this.userData.email_verified = googleUserLog.email_verified
         this.userData.isSocialLogin = true
+        console.log("this.userData === ", this.userData);
       }
+
+      // if (this.localStr.getItem("googleUserLog")) {
+      //   let googleLogin = this.localStr.getItem("googleUserLog")
+      //   console.log("googleLogin === ", googleLogin);
+      //   this.userData.userEmail = googleLogin.email
+      //   this.userData.userName = googleLogin.name
+      //   this.userData.isSocialLogin = true
+      // }
     }).catch((error) => console.log(error))
-    if (this.localStr.getItem("userData")) {
-      this.userData = this.localStr.getItem("userData")
+  }
+
+
+
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      if (this.localStr.getItem("users")) {
+
+      }
+      // const loginData = form.value
+      // console.log('Form submitted!', form.value);
+      // if (this.userData) {
+      //   if (this.userData.password === loginData.password) {
+      //     this.commonService.isUserLoggedin = true
+      //     const isUserLoggedIn = this.commonService.isUserLoggedin
+      //     this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
+      //     this.close()
+      //     this.router.navigate(['/home'])
+
+      //   }
+      // }
+    } else {
+      alert('Form is invalid')
     }
+  }
+
+  // for facebook
+  facebookLogin() {
+    console.log('facebook login btn called');
+    this.socialLogin.facebookLogin();
   }
 
   close() {
@@ -70,31 +115,4 @@ export class LoginComponent implements OnInit {
     this.close()
     this.router.navigate(['/register'])
   }
-
-  onSubmit(form: NgForm) {
-    if (form.valid) {
-      const loginData = form.value
-      console.log('Form submitted!', form.value);
-      if (this.userData) {
-        if (this.userData.password === loginData.password) {
-          this.commonService.isUserLoggedin = true
-          const isUserLoggedIn = this.commonService.isUserLoggedin
-          this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-          this.close()
-          this.router.navigate(['/home'])
-
-        }
-      }
-    } else {
-      alert('Form is invalid')
-    }
-  }
-
-
-  // for facebook
-  facebookLogin() {
-    console.log('facebook login btn called');
-    this.socialLogin.facebookLogin();
-  }
-
 }

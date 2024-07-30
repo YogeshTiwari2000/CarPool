@@ -21,6 +21,8 @@ export class RegisterPage implements OnInit {
   public commonService = inject(CommonService)
   users: any[] = []
   isSocialLogin: boolean = false
+  email_verified: boolean = false
+
 
   userData: any = {
     userEmail: "",
@@ -30,13 +32,17 @@ export class RegisterPage implements OnInit {
     phone: "",
     pickUpLocation: "",
     dropLocation: "",
-    isSocialLogin: this.isSocialLogin
+    isSocialLogin: this.isSocialLogin,
+    email_verified: this.email_verified
+
   }
 
   constructor() { }
 
   async ngOnInit() {
-    console.log("register user", this.userData);
+    if (this.localStr.getItem("users")) {
+      this.users = this.localStr.getItem("users")
+    }
     await this.socialLogin.googleLogin("google").then((res) => {
       this.localStr.setItem("googleUserLog", JSON.parse(res))
       if (this.localStr.getItem("googleUserLog")) {
@@ -45,11 +51,10 @@ export class RegisterPage implements OnInit {
         this.userData.userEmail = googleLogin.email
         this.userData.userName = googleLogin.name
         this.userData.isSocialLogin = true
+        this.userData.email_verified = googleLogin.email_verified
       }
     }).catch((error) => console.log(error))
-    if (this.localStr.getItem("users")) {
-      this.users = this.localStr.getItem("users")
-    }
+
   }
 
   onSubmit(form: NgForm) {
@@ -57,7 +62,7 @@ export class RegisterPage implements OnInit {
       // console.log('Form submitted!', form.value);
       // console.log('Form submitted!', this.userData);
       let data: { [key: string]: any } = {}
-      data[form.value.email] = { ...this.userData };
+      data[this.userData.userEmail] = { ...this.userData };
 
       this.users.push(data)
       console.log('this.users', this.users);
@@ -66,7 +71,8 @@ export class RegisterPage implements OnInit {
       this.commonService.isUserLoggedin = true
       const isUserLoggedIn = this.commonService.isUserLoggedin
       this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-      this.router.navigate(['/home'])
+      // this.router.navigate(['/home'])
+      form.reset()
     } else {
       alert('Form is invalid')
     }
