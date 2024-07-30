@@ -38,3 +38,32 @@
     background-color: blue;
     position: absolute;
 }
+
+
+.travelDetails {
+
+    p:first-child {
+        font-weight: 700;
+        color: green;
+        padding-left: 1.7rem;
+    }
+
+    p:last-child {
+
+        padding-left: 1.7rem;
+    }
+
+    .location {
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
+        display: flex;
+        gap: 0.2rem;
+        align-items: center;
+    }
+
+    .location ion-icon {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}

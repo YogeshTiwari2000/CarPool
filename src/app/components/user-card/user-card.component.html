@@ -64,8 +64,10 @@
         <div class="travelDetails">
           <p>Source</p>
           <p class="location">
-            <ion-icon name="location-outline"></ion-icon>
-            {{userInfo['source']}}
+            <ion-icon name="location"></ion-icon>
+            <b>
+              {{userInfo['source']}}
+            </b>
           </p>
           <p>{{userInfo['journeyStart']}}</p>
         </div>
@@ -78,11 +80,13 @@
       <ion-col class="ion-text-end">
         <div class="travelDetails">
           <p>Source</p>
-          <p class="location">
-            <ion-icon name="location-outline"></ion-icon>
-            {{userInfo['source']}}
+          <p class="location ion-justify-content-end">
+            <!-- <ion-icon name="location"></ion-icon> -->
+            <b>
+              {{userInfo['designation']}}
+            </b>
           </p>
-          <p>{{userInfo['journeyStart']}}</p>
+          <p>{{userInfo['journeyEnd']}}</p>
         </div>
       </ion-col>
     </ion-row>
