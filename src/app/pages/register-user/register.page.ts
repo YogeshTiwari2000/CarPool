@@ -69,9 +69,10 @@ export class RegisterPage implements OnInit {
 
       this.localStr.setItem('users', this.users)
       this.commonService.isUserLoggedin = true
+      this.commonService.currentUserEmail = this.userData.userEmail
       const isUserLoggedIn = this.commonService.isUserLoggedin
       this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-      // this.router.navigate(['/home'])
+      this.router.navigate(['/home'])
       form.reset()
     } else {
       alert('Form is invalid')

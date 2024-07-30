@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit {
 
         this.localStr.setItem('users', this.users)
         this.commonService.isUserLoggedin = true
+        this.commonService.currentUserEmail = googleUserLog.email
         const isUserLoggedIn = this.commonService.isUserLoggedin
         this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
         this.close()

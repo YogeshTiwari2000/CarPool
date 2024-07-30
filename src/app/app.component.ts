@@ -6,6 +6,7 @@ import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonN
 import { addIcons } from 'ionicons';
 import { close, arrowDown, star, search, home, person } from 'ionicons/icons';
 import { LocalStorageService } from './shared/local-storage.service';
+import { CommonService } from './shared/common.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ import { LocalStorageService } from './shared/local-storage.service';
   imports: [RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule],
 })
 export class AppComponent {
-  currentUserEmail: string = ""
+  public commonService = inject(CommonService)
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
   public appPages = [
@@ -28,10 +29,10 @@ export class AppComponent {
     addIcons({ close, arrowDown, star, search, home, person });
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")
-      this.currentUserEmail = user.email
+      this.commonService.currentUserEmail = user.email
     }
     else {
-      this.currentUserEmail = "Your@email.com"
+      this.commonService.currentUserEmail = "Your@email.com"
     }
 
   }

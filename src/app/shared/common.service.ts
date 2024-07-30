@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class CommonService {
   public isUserLoggedin: boolean = false
+  public currentUserEmail: string = ""
   constructor() { }
   checkEmailExists(data: any[], email: string): any | null {
     if (!data) {
