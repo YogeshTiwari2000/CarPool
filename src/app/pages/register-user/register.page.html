@@ -23,7 +23,7 @@
           label="Name"
           fill="outline"
           labelPlacement="stacked"
-          ngModel
+          [(ngModel)]="userData.userName"
           #name="ngModel"
           name="name"
           placeholder="Enter your Name"
@@ -48,7 +48,7 @@
           fill="outline"
           labelPlacement="stacked"
           placeholder="Enter your Email"
-          ngModel
+          [(ngModel)]="userData.userEmail"
           #email="ngModel"
           name="email"
           required
@@ -65,13 +65,14 @@
           </div>
         </div>
       </ion-col>
+
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input
           type="password"
           fill="outline"
           label="Password"
           labelPlacement="stacked"
-          ngModel
+          [(ngModel)]="userData.password"
           #password="ngModel"
           name="password"
           placeholder="Enter your password"
@@ -94,11 +95,38 @@
       </ion-col>
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input
+          type="password"
+          fill="outline"
+          label="Confirm Password"
+          labelPlacement="stacked"
+          [(ngModel)]="userData.cpassword"
+          #cpassword="ngModel"
+          name="cpassword"
+          placeholder="Enter password again"
+          required
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <div
+          class="error-text"
+          *ngIf="cpassword.invalid && (cpassword.dirty || cpassword.touched)"
+        >
+          <div *ngIf="cpassword.errors?.['required']">
+            This field is required.
+          </div>
+          <div *ngIf="!passwordsMatch(userData.password)">
+            Passwords do not match.
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
+        <ion-input
           type="tel"
           label="Mobile"
           fill="outline"
           labelPlacement="stacked"
-          ngModel
+          [(ngModel)]="userData.phone"
           #mobile="ngModel"
           name="mobile"
           placeholder="Enter your Mobile"
@@ -127,7 +155,7 @@
               label="Pick-up Location"
               fill="outline"
               labelPlacement="stacked"
-              ngModel
+              [(ngModel)]="userData.pickUpLocation"
               name="pickUpLocation"
               placeholder="Optional"
             >
@@ -138,7 +166,7 @@
               label="Drop Location"
               fill="outline"
               labelPlacement="stacked"
-              ngModel
+              [(ngModel)]="userData.dropLocation"
               name="dropLocation"
               placeholder="Optional"
             >

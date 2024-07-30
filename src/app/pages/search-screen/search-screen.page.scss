@@ -38,21 +38,39 @@
  .main-2{
     display: flex;
  }
- .btn-box-1{
-    --background: #33A05E;
-    --border-radius: 50px;
-    text-transform: capitalize;
- }
-
-.btn-box {
+ .flex-box{
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+
+    border-radius: 19px;
+    gap: 2rem;
+
+ 
+ }
+ .counter-input {
+    padding: 1rem;
+}
+.counter-input:nth-child(3) {
+    border-left: 2px solid #BAD4DA ;
+
+}
+ button.btn-btn {
+    margin-top: 1rem;
+    border-radius: 12px;
+    width: fit-content;
+    background: rgba(221, 247, 247, 0.7019607843);
+    border: 2px solid #BAD4DA ;
+}
+.btn-box {
+
     width: -webkit-fill-available;
     padding: 2rem;
     border-radius: 30px 30px 0 0;
+    align-items: center;
+    position: absolute;
+    bottom: 0rem;
+    left: 0rem;
 
-
+ 
 
     .login
 {
@@ -63,7 +81,17 @@
 
  
 }
-
+button.togg-btn-1 {
+    border-radius: 12px;
+    padding: 1rem;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    background: #408540;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
 @media (min-width: 768px) {
     .main {
         .btn-box {

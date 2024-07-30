@@ -19,7 +19,7 @@ export class UserCardComponent implements OnInit {
 
   ngOnInit() {
     console.log("it's user card ts working");
-    console.log(this.userInfo);
+    // console.log(this.userInfo);
     this.dateInput = this.userInfo['date'];
     this.calculateJourneyDuration();
   }

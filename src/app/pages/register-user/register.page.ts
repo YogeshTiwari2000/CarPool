@@ -19,19 +19,50 @@ export class RegisterPage implements OnInit {
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
   public commonService = inject(CommonService)
+  users: any[] = []
+  isSocialLogin: boolean = false
 
+  userData: any = {
+    userEmail: "",
+    userName: "",
+    password: "",
+    cpassword: "",
+    phone: "",
+    pickUpLocation: "",
+    dropLocation: ""
+  }
 
   constructor() { }
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log("register user");
-    this.socialLogin.googleLogin("google")
+    await this.socialLogin.googleLogin("google").then((res) => {
+      this.localStr.setItem("googleUserLog", JSON.parse(res))
+      if (this.localStr.getItem("googleUserLog")) {
+        let googleLogin = this.localStr.getItem("googleUserLog")
+        console.log("googleLogin === ", googleLogin);
+        this.userData.userEmail = googleLogin.email
+        this.userData.userName = googleLogin.name
+      }
+    })
+    if (this.localStr.getItem("users")) {
+      this.users = this.localStr.getItem("users")
+    }
+
+
   }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      console.log('Form submitted!', form.value);
-      this.localStr.setItem('userData', form.value)
+      // console.log('Form submitted!', form.value);
+      // console.log('Form submitted!', this.userData);
+      let data: { [key: string]: any } = {}
+      data[form.value.email] = { ...this.userData, isSocialLogin: this.isSocialLogin };
+
+      this.users.push(data)
+      console.log('this.users', this.users);
+
+      this.localStr.setItem('users', this.users)
       this.commonService.isUserLoggedin = true
       const isUserLoggedIn = this.commonService.isUserLoggedin
       this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
@@ -39,6 +70,10 @@ export class RegisterPage implements OnInit {
     } else {
       alert('Form is invalid')
     }
+  }
+
+  passwordsMatch(password: any): boolean {
+    return this.userData.cpassword === password;
   }
 
 }
