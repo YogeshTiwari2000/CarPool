@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       const user = this.commonService.checkEmailExists(getData, googleUserLog.email)
       if (user) {
         console.log('Email exists in the data', user);
+        this.commonService.alertBox("User already exist", "Login alert", ["Ok"])
         this.router.navigate(['/home'])
       } else {
         console.log('Email does not exist in the data');

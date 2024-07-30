@@ -75,7 +75,7 @@ export class RegisterPage implements OnInit {
       this.router.navigate(['/home'])
       form.reset()
     } else {
-      alert('Form is invalid')
+      this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"])
     }
   }
 
