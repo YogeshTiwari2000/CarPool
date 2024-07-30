@@ -29,13 +29,14 @@ export class RegisterPage implements OnInit {
     cpassword: "",
     phone: "",
     pickUpLocation: "",
-    dropLocation: ""
+    dropLocation: "",
+    isSocialLogin: this.isSocialLogin
   }
 
   constructor() { }
 
   async ngOnInit() {
-    console.log("register user");
+    console.log("register user", this.userData);
     await this.socialLogin.googleLogin("google").then((res) => {
       this.localStr.setItem("googleUserLog", JSON.parse(res))
       if (this.localStr.getItem("googleUserLog")) {
@@ -43,13 +44,12 @@ export class RegisterPage implements OnInit {
         console.log("googleLogin === ", googleLogin);
         this.userData.userEmail = googleLogin.email
         this.userData.userName = googleLogin.name
+        this.userData.isSocialLogin = true
       }
-    })
+    }).catch((error) => console.log(error))
     if (this.localStr.getItem("users")) {
       this.users = this.localStr.getItem("users")
     }
-
-
   }
 
   onSubmit(form: NgForm) {
@@ -57,7 +57,7 @@ export class RegisterPage implements OnInit {
       // console.log('Form submitted!', form.value);
       // console.log('Form submitted!', this.userData);
       let data: { [key: string]: any } = {}
-      data[form.value.email] = { ...this.userData, isSocialLogin: this.isSocialLogin };
+      data[form.value.email] = { ...this.userData };
 
       this.users.push(data)
       console.log('this.users', this.users);

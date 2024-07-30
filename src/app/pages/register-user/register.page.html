@@ -66,6 +66,7 @@
         </div>
       </ion-col>
 
+      @if (userData.isSocialLogin === false) {
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input
           type="password"
@@ -119,6 +120,7 @@
           </div>
         </div>
       </ion-col>
+      }
 
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input
