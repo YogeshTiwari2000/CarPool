@@ -15,18 +15,25 @@ import { LocalStorageService } from './shared/local-storage.service';
   imports: [RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule],
 })
 export class AppComponent {
-
+  currentUserEmail: string = ""
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
   public appPages = [
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
-
   ];
 
   constructor() {
     addIcons({ close, arrowDown, star, search, home, person });
+    if (this.localStr.getItem("googleUserLog")) {
+      const user = this.localStr.getItem("googleUserLog")
+      this.currentUserEmail = user.email
+    }
+    else {
+      this.currentUserEmail = "Your@email.com"
+    }
+
   }
 
   logOut() {
