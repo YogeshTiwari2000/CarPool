@@ -27,7 +27,11 @@ export class SearchScreenPage implements OnInit {
 
 
 
-
+  swapLocations() {
+    const temp = this.from;
+    this.from = this.to;
+    this.to = temp;
+  }
 
   to:any
   from:any
