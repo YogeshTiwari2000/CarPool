@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       const user = this.commonService.checkEmailExists(getData, googleUserLog.email)
       if (user) {
         console.log('Email exists in the data', user);
+        this.router.navigate(['/home'])
       } else {
         console.log('Email does not exist in the data');
         this.userData.userEmail = googleUserLog.email
@@ -58,15 +59,22 @@ export class LoginComponent implements OnInit {
         this.userData.email_verified = googleUserLog.email_verified
         this.userData.isSocialLogin = true
         console.log("this.userData === ", this.userData);
+
+        this.users = this.localStr.getItem("users")
+
+        let data: { [key: string]: any } = {}
+        data[this.userData.userEmail] = { ...this.userData };
+
+        this.users.push(data)
+        console.log('this.users', this.users);
+
+        this.localStr.setItem('users', this.users)
+        this.commonService.isUserLoggedin = true
+        const isUserLoggedIn = this.commonService.isUserLoggedin
+        this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
+        this.router.navigate(['/home'])
       }
 
-      // if (this.localStr.getItem("googleUserLog")) {
-      //   let googleLogin = this.localStr.getItem("googleUserLog")
-      //   console.log("googleLogin === ", googleLogin);
-      //   this.userData.userEmail = googleLogin.email
-      //   this.userData.userName = googleLogin.name
-      //   this.userData.isSocialLogin = true
-      // }
     }).catch((error) => console.log(error))
   }
 
