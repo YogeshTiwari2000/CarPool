@@ -7,6 +7,8 @@ import { addIcons } from 'ionicons';
 import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create } from 'ionicons/icons';
 import { LocalStorageService, } from './shared/local-storage.service';
 import { CommonService } from './shared/common.service';
+import { HandleDataService } from './services/data/handle-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +21,14 @@ export class AppComponent {
   public commonService = inject(CommonService)
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
+  private handleData = inject(HandleDataService)
   public appPages = [
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
   ];
+
+  datalist$: Observable<any> = new Observable()
 
   constructor() {
     addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create });
@@ -35,13 +40,15 @@ export class AppComponent {
       this.commonService.currentUserEmail = "Your@email.com"
     }
 
+    this.datalist$ = this.handleData.getData()
+
+
+
   }
 
   logOut() {
     this.localStr.clear()
     this.router.navigate(['/welcome'])
   }
-
-
 
 }

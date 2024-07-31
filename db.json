@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "e45e",
+      "dewanshusingh21@gmail.com": {
+        "userEmail": "dewanshusingh21@gmail.com",
+        "userName": "dew",
+        "password": "dew@123D",
+        "cpassword": "dew@123D",
+        "phone": "9876543210",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": false,
+        "email_verified": false
+      }
+    },
+    {
+      "id": "52c6",
+      "dewanshu.singh@paavu.com": {
+        "userEmail": "dewanshu.singh@paavu.com",
+        "userName": "Dewanshu Singh",
+        "password": "",
+        "cpassword": "",
+        "phone": "9876543210",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": true,
+        "email_verified": true
+      }
+    },
+    {
+      "id": "3eb2",
+      "dewanshusingh21@gmail.com": {
+        "userEmail": "dewanshusingh21@gmail.com",
+        "userName": "dew",
+        "password": "dew@123D",
+        "cpassword": "dew@123D",
+        "phone": "9876543210",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": false,
+        "email_verified": false
+      }
+    }
+  ]
+}

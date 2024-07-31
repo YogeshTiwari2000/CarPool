@@ -6,6 +6,8 @@ import { SocialLoginService } from 'src/app/services/auth/social-login.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/common.service';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -19,10 +21,13 @@ export class RegisterPage implements OnInit {
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
   public commonService = inject(CommonService)
-  users: any[] = []
+  private handleData = inject(HandleDataService)
+
+  users$: Observable<any[]> = new Observable();
+
+  // users: any[] = []
   isSocialLogin: boolean = false
   email_verified: boolean = false
-
 
   userData: any = {
     userEmail: "",
@@ -34,51 +39,102 @@ export class RegisterPage implements OnInit {
     dropLocation: "",
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified
-
   }
+
+  // userData: UserData = new UserData()
 
   constructor() { }
 
-  async ngOnInit() {
-    if (this.localStr.getItem("users")) {
-      this.users = this.localStr.getItem("users")
-    }
-    await this.socialLogin.googleLogin("google").then((res) => {
-      this.localStr.setItem("googleUserLog", JSON.parse(res))
-      if (this.localStr.getItem("googleUserLog")) {
-        let googleLogin = this.localStr.getItem("googleUserLog")
-        console.log("googleLogin === ", googleLogin);
-        this.userData.userEmail = googleLogin.email
-        this.userData.userName = googleLogin.name
-        this.userData.isSocialLogin = true
-        this.userData.email_verified = googleLogin.email_verified
-      }
-    }).catch((error) => console.log(error))
+  // async ngOnInit() {
+  //   if (this.localStr.getItem("users")) {
+  //     // this.users = this.localStr.getItem("users")
+  //     this.users$ = this.handleData.getData()
+  //   }
+  //   await this.socialLogin.googleLogin("google").then((res) => {
+  //     this.localStr.setItem("googleUserLog", JSON.parse(res))
+  //     let googleLogin = this.localStr.getItem("googleUserLog")
+  //     if (googleLogin) {
+  //       console.log("googleLogin === ", googleLogin);
+  //       this.userData.userEmail = googleLogin.email
+  //       this.userData.userName = googleLogin.name
+  //       this.userData.isSocialLogin = true
+  //       this.userData.email_verified = googleLogin.email_verified
+  //     }
+  //   }).catch((error) => console.log(error))
 
+  // }
+
+  async ngOnInit() {
+    this.users$ = this.handleData.getData();
+
+    try {
+      const res = await this.socialLogin.googleLogin("google");
+      this.localStr.setItem("googleUserLog", JSON.parse(res));
+      const googleLogin = this.localStr.getItem("googleUserLog");
+
+      if (googleLogin) {
+        console.log("googleLogin === ", googleLogin);
+        this.userData.userEmail = googleLogin.email;
+        this.userData.userName = googleLogin.name;
+        this.userData.isSocialLogin = true;
+        this.userData.email_verified = googleLogin.email_verified;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  // onSubmit(form: NgForm) {
+  //   if (form.valid) {
+  //     // console.log('Form submitted!', form.value);
+  //     // console.log('Form submitted!', this.userData);
+  //     let data: { [key: string]: any } = {}
+  //     data[this.userData.userEmail] = { ...this.userData };
+
+  //     this.users$.push(data)
+  //     // this.users.push(data)
+  //     console.log('this.users', this.users$);
+
+  //     this.localStr.setItem('users', this.users$)
+  //     // this.localStr.setItem('users', this.users)
+  //     this.commonService.isUserLoggedin = true
+  //     this.commonService.currentUserEmail = this.userData.userEmail
+  //     const isUserLoggedIn = this.commonService.isUserLoggedin
+  //     this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
+  //     this.router.navigate(['/home'])
+  //     form.reset()
+  //   } else {
+  //     this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"])
+  //   }
+  // }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      // console.log('Form submitted!', form.value);
-      // console.log('Form submitted!', this.userData);
-      let data: { [key: string]: any } = {}
-      data[this.userData.userEmail] = { ...this.userData };
+      const email = this.userData.userEmail;
+      console.log("email === ", email);
 
-      this.users.push(data)
-      console.log('this.users', this.users);
+      this.handleData.checkUserExists(email).subscribe(userExists => {
+        console.log("userExists === ", userExists);
+        if (userExists) {
+          this.commonService.alertBox("User already exists", "Registration Error", ["Ok"]);
+        } else {
+          const data = { [email]: { ...this.userData } };
 
-      this.localStr.setItem('users', this.users)
-      this.commonService.isUserLoggedin = true
-      this.commonService.currentUserEmail = this.userData.userEmail
-      const isUserLoggedIn = this.commonService.isUserLoggedin
-      this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-      this.router.navigate(['/home'])
-      form.reset()
+          this.handleData.addUser(data).subscribe(() => {
+            this.localStr.setItem('currentUser', data[email]);
+            this.commonService.isUserLoggedin = true;
+            this.commonService.currentUserEmail = email;
+            const isUserLoggedIn = this.commonService.isUserLoggedin;
+            this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
+            this.router.navigate(['/home']);
+            form.reset();
+          });
+        }
+      });
     } else {
-      this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"])
+      this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"]);
     }
   }
-
   passwordsMatch(password: any): boolean {
     return this.userData.cpassword === password;
   }
@@ -132,3 +188,27 @@ export class RegisterPage implements OnInit {
 
 
 }
+
+// strongly typed dataStructure for user Data 
+// export class UserData {
+//   userEmail: string;
+//   userName: string;
+//   password: string;
+//   cpassword: string;
+//   phone: number;
+//   pickUpLocation: string;
+//   dropLocation: string;
+//   isSocialLogin: boolean;
+//   email_verified: boolean;
+//   constructor() {
+//     this.userEmail = "";
+//     this.userName = "";
+//     this.password = "";
+//     this.cpassword = "";
+//     this.phone = 0;
+//     this.pickUpLocation = "";
+//     this.dropLocation = "";
+//     this.isSocialLogin = false;
+//     this.email_verified = false
+//   }
+// }
