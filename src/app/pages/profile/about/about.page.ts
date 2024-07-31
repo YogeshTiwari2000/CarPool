@@ -12,10 +12,33 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, Io
 })
 export class AboutPage implements OnInit {
 
+  isEmailVerified: boolean = false
+  isPhoneVerified: boolean = false
+  isGovtIdVerified: boolean = false
+
+
   constructor() { }
 
   ngOnInit() {
     console.log("about")
+    const data: any = localStorage.getItem('googleUserLog');
+    const parsedData: any = JSON.parse(data)
+    console.log(parsedData);
+
+    console.log('parsedData.email', parsedData.email);
+    this.isEmailVerified = this.checkEmailVerified(parsedData.email)
+    this.isPhoneVerified = this.checkPhoneVerified(parsedData.phone)
+    this.isGovtIdVerified = this.checkIsGovtIdVerified(parsedData.govtId)
+  }
+  checkEmailVerified(email: string): boolean {
+    return email != '';
+  }
+  checkPhoneVerified(phone: number): boolean {
+    return phone != null;
+  }
+  checkIsGovtIdVerified(govtId: number): boolean {
+    return govtId != null;
   }
 
 }
+

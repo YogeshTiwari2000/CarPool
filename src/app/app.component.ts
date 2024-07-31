@@ -4,8 +4,8 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline } from 'ionicons/icons';
-import { LocalStorageService } from './shared/local-storage.service';
+import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create } from 'ionicons/icons';
+import { LocalStorageService, } from './shared/local-storage.service';
 import { CommonService } from './shared/common.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class AppComponent {
   ];
 
   constructor() {
-    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline });
+    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create });
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")
       this.commonService.currentUserEmail = user.email

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonTabs, IonTabBar, IonTabButton, IonIcon, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -12,11 +13,11 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonTabs, IonTabBar, IonTab
 })
 export class ProfilePage implements OnInit {
 
-  constructor() { }
+  constructor(private routes: Router) { }
 
   ngOnInit() {
     console.log("profile");
-
+    this.routes.navigate(['profile/about']);
   }
 
 }
