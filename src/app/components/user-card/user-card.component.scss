@@ -1,69 +1,127 @@
-.timeLocationSection {
-    width: fit-content;
-    position: relative;
+ion-card {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 25px 2px,
+        rgba(0, 0, 0, 0.14) 1px 3px 7px -2px,
+        rgba(0, 0, 0, 0.12) -12px 12px 21px 0px;
 
 
-    .circle {
-        min-width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #a9aeb7;
-        display: inline-block;
-        vertical-align: middle;
-        position: relative;
-        border: 1px solid blue;
-    }
+    .travelDetails {
 
+        p:first-child {
+            font-weight: 700;
+            font-size: 12px;
+            color: #33A05E;
+            padding-left: 1.7rem;
+        }
 
+        p:last-child {
+            color: #BAD4DA;
+            font-weight: 700;
+            font-size: 12px;
+            padding-left: 1.7rem;
+        }
 
-    .card-item {
-        display: flex;
-        gap: 1.5rem;
-        position: relative;
-        align-items: baseline;
+        .location {
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 0;
+            display: flex;
+            gap: 0.2rem;
+            align-items: center;
 
-        .time {
-            min-width: 2.5rem;
+            .locationIcon svg {
+                height: 1.5rem;
+                width: 1.5rem;
+                color: #D3E3E7;
+            }
         }
     }
 
-}
-
-.timeLocationSection::before {
-    content: '';
-    height: calc(100% - 1rem);
-    width: 0.1rem;
-    left: 4.25rem;
-    top: 0rem;
-    background-color: blue;
-    position: absolute;
-}
-
-
-.travelDetails {
-
-    p:first-child {
-        font-weight: 700;
-        color: green;
-        padding-left: 1.7rem;
-    }
-
-    p:last-child {
-
-        padding-left: 1.7rem;
-    }
-
-    .location {
-        font-size: 24px;
-        margin-top: 0;
-        margin-bottom: 0;
+    .timeSection {
         display: flex;
-        gap: 0.2rem;
         align-items: center;
+        justify-content: center;
+
+        .totalTimeTakenArea {
+            width: 8rem;
+            height: fit-content;
+            position: relative;
+            display: flex;
+            justify-content: center;
+
+            .timeBox {
+                width: fit-content;
+                height: fit-content;
+                background-color: #a9aeb7;
+                padding: 0.1rem 0.5rem;
+                border-radius: 1rem;
+                color: #33666C;
+                font-size: 11px;
+            }
+
+            .arrowIcon svg {
+                position: absolute;
+                width: 100%;
+                left: 0;
+                height: 1rem;
+                top: 10%;
+                z-index: -1;
+
+            }
+
+        }
     }
 
-    .location ion-icon {
-        height: 1.5rem;
-        width: 1.5rem;
+    .divider {
+        height: 0.1rem;
+        background-color: #D3E3E7;
+        width: 100%;
+    }
+
+    .userInfo {
+        display: flex;
+        gap: 1rem;
+
+        ion-avatar {
+            --border-radius: 15%;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            p {
+                font-size: 11px;
+            }
+
+            div {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .seatPriceSection {
+        display: flex;
+        align-items: center;
+        // gap: 1rem;
+        justify-content: end;
+
+        .price {
+            padding: 0.1rem 0.5rem;
+            background-color: #279657;
+            color: white;
+            font-size: 16px;
+            border-radius: 1rem;
+        }
+
+        ion-badge {
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 0.2rem 0.7rem;
+            border-radius: 1rem;
+
+
+        }
     }
 }
