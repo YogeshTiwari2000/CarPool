@@ -92,9 +92,7 @@ ion-datetime-button::before {
     z-index: 2;
     left: 3rem;
 }
-ion-datetime-button:host{
-    padding-left: 2rem;
-}
+
 ion-datetime-button::after {
     content: '\1F551'; 
     font-size: 24px; 
