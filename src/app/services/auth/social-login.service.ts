@@ -56,15 +56,22 @@ export class SocialLoginService {
   }
   // google login
 
-  // Facebook login
-  facebookLogin(): void {
-    // console.log("Facebook Provider ID: ", FacebookLoginProvider.PROVIDER_ID);
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
-      console.log('Facebook user logged in:', user);
-      sessionStorage.setItem("facebookUserLog", JSON.stringify(user));
-    }).catch(err => {
-      console.error('Facebook login error:', err);
+  // Facebook login 
+  facebookLogin(): Promise<SocialUser> {
+    return new Promise((resolve, reject) => {
+      this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
+        // console.log('Facebook user logged in:', user);
+        sessionStorage.setItem("facebookUserLog", JSON.stringify(user));
+        resolve(user);
+      }).catch(err => {
+        console.error('Facebook login error:', err);
+        reject(err);
+      });
     });
   }
+
+
+
+
   // Facebook login
 }
