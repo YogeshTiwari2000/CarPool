@@ -1,0 +1,31 @@
+.filterArea {
+    max-width: fit-content;
+
+    div {
+
+
+
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        border-radius: 1rem;
+        background-color: #DCEEF2;
+        width: fit-content;
+
+
+        svg {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+}
+
+.backBtn {
+    max-width: 2rem;
+    display: flex;
+    align-items: center;
+
+    ion-icon {
+        font-size: 4.5rem;
+    }
+}

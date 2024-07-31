@@ -1,17 +1,49 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
+
+  <ion-card class="ion-padding">
+    <ion-row class="gap-1">
+      <ion-col class="backBtn">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            start from
+          </ion-col>
+          <ion-col>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-col>
+          <ion-col>
+            end here
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          Today,2 passanger
+        </ion-row>
+      </ion-col>
+      <ion-col class="filterArea">
+        <div>
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M9.80386 1.43601C12.4596 1.43601 15.0623 1.65965 17.5956 2.08958C18.1094 2.17634 18.4796 2.62555 18.4796 3.14609V4.15248C18.4796 4.43731 18.4235 4.71935 18.3145 4.9825C18.2055 5.24565 18.0458 5.48475 17.8444 5.68616L12.6081 10.9225C12.4067 11.1239 12.2469 11.363 12.1379 11.6261C12.0289 11.8893 11.9728 12.1713 11.9728 12.4561V15.2777C11.9729 15.6806 11.8607 16.0756 11.6489 16.4183C11.4371 16.761 11.134 17.038 10.7736 17.2182L7.63492 18.7875V12.4561C7.63493 12.1713 7.57883 11.8893 7.46983 11.6261C7.36083 11.363 7.20107 11.1239 6.99967 10.9225L1.76337 5.68616C1.56197 5.48475 1.4022 5.24565 1.29321 4.9825C1.18421 4.71935 1.12811 4.43731 1.12811 4.15248V3.14609C1.12811 2.62555 1.49828 2.17634 2.01208 2.08958C4.58643 1.65372 7.19287 1.4351 9.80386 1.43601Z"
+              stroke="#3C7178" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
   @for (user of usersList; track $index) {
   <app-user-card [userInfo]="user"></app-user-card>
   }
-
-
 
 </ion-content>
