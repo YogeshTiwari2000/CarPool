@@ -38,17 +38,17 @@
  .main-2{
     display: flex;
  }
- .flex-box{
+ .flex-box {
     display: flex;
-
     border-radius: 19px;
-    gap: 2rem;
-
- 
- }
+    align-items: center;
+    padding-left: 1rem;
+}
  .counter-input {
     padding: 1rem;
+
 }
+
 .counter-input:nth-child(3) {
     border-left: 2px solid #BAD4DA ;
 

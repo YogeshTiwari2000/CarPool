@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon } from '@ionic/angular/standalone';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 declare var google:any;
 
@@ -12,7 +12,7 @@ declare var google:any;
   templateUrl: './search-screen.page.html',
   styleUrls: ['./search-screen.page.scss'],
   standalone: true,
-  imports: [IonDatetimeButton, IonDatetime,  IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
+  imports: [IonIcon, IonDatetimeButton, IonDatetime,  IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
   providers:[GooglePlaceModule]
 })
 export class SearchScreenPage implements OnInit {
