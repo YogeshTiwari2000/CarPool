@@ -147,3 +147,70 @@ ion-card {
 ion-card-content {
     padding-top: 1rem;
 }
+
+.journey-time {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timeSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .totalTimeTakenArea {
+        width: 8rem;
+        height: fit-content;
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        .timeBox {
+            width: fit-content;
+            height: fit-content;
+            background-color: #a9aeb7;
+            padding: 0.1rem 0.5rem;
+            border-radius: 1rem;
+            color: #33666C;
+            font-size: 11px;
+        }
+
+        .arrowIcon svg {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            height: 1rem;
+            top: 10%;
+            z-index: -1;
+
+        }
+
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.svg-icon {
+    max-width: 1.8rem;
+}
+
+.ion-align-item-start {
+    align-items: flex-start;
+}
+
+.star-width {
+    max-width: 1.5rem;
+}
+
+.svg-container {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    font-size: 13px;
+}
+
+.user-img {
+    width: 3rem;
+}
