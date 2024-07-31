@@ -25,7 +25,6 @@ export class RegisterPage implements OnInit {
 
   users$: Observable<any[]> = new Observable();
 
-  // users: any[] = []
   isSocialLogin: boolean = false
   email_verified: boolean = false
 
@@ -40,30 +39,8 @@ export class RegisterPage implements OnInit {
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified
   }
-  users:any;
-  
-  // userData: UserData = new UserData()
 
   constructor() { }
-
-  // async ngOnInit() {
-  //   if (this.localStr.getItem("users")) {
-  //     // this.users = this.localStr.getItem("users")
-  //     this.users$ = this.handleData.getData()
-  //   }
-  //   await this.socialLogin.googleLogin("google").then((res) => {
-  //     this.localStr.setItem("googleUserLog", JSON.parse(res))
-  //     let googleLogin = this.localStr.getItem("googleUserLog")
-  //     if (googleLogin) {
-  //       console.log("googleLogin === ", googleLogin);
-  //       this.userData.userEmail = googleLogin.email
-  //       this.userData.userName = googleLogin.name
-  //       this.userData.isSocialLogin = true
-  //       this.userData.email_verified = googleLogin.email_verified
-  //     }
-  //   }).catch((error) => console.log(error))
-
-  // }
 
   async ngOnInit() {
     this.users$ = this.handleData.getData();
@@ -117,17 +94,17 @@ export class RegisterPage implements OnInit {
       this.handleData.checkUserExists(email).subscribe(userExists => {
         console.log("userExists === ", userExists);
         if (userExists) {
-          this.commonService.alertBox("User already exists", "Registration Error", ["Ok"]);
+          this.commonService.alertBox("User already exists! please Login", "Registration Error", ["Ok"]);
         } else {
           const data = { [email]: { ...this.userData } };
 
           this.handleData.addUser(data).subscribe(() => {
-            this.localStr.setItem('currentUser', data[email]);
+            this.localStr.setItem('currentUser', data);
             this.commonService.isUserLoggedin = true;
             this.commonService.currentUserEmail = email;
             const isUserLoggedIn = this.commonService.isUserLoggedin;
             this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-            this.router.navigate(['/home']);
+            // this.router.navigate(['/home']);
             form.reset();
           });
         }
@@ -144,7 +121,7 @@ export class RegisterPage implements OnInit {
     console.log('facebook login btn called');
     this.socialLogin.facebookLogin().then(user => {
       console.log('Facebook login successful:', user);
-      this.localStr.setItem("facevookUserLog", user);
+      this.localStr.setItem("faceBookUserLog", user);
       let getData: any[] = this.localStr.getItem("users")
       const fbuser = this.commonService.checkEmailExists(getData, user.email)
       console.log('fbuser check email exist or not', fbuser);
@@ -163,22 +140,21 @@ export class RegisterPage implements OnInit {
 
 
         if (this.localStr.getItem("users")) {
-          this.users = this.localStr.getItem("users")
+          this.users$ = this.localStr.getItem("users")
         }
 
 
         let data: { [key: string]: any } = {}
         data[this.userData.userEmail] = { ...this.userData };
 
-        this.users.push(data)
-        console.log('this.users', this.users);
+        // this.users$.push(data)
+        console.log('this.users', this.users$);
 
-        this.localStr.setItem('users', this.users)
+        this.localStr.setItem('users', this.users$)
         this.commonService.isUserLoggedin = true
         this.commonService.currentUserEmail = user.email
         const isUserLoggedIn = this.commonService.isUserLoggedin
         this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-        // this.close()
         this.router.navigate(['/home'])
       }
 
@@ -187,10 +163,11 @@ export class RegisterPage implements OnInit {
     });
   }
 
-
 }
 
 // strongly typed dataStructure for user Data 
+// userData: UserData = new UserData()
+
 // export class UserData {
 //   userEmail: string;
 //   userName: string;

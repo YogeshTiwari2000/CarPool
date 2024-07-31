@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { map, Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class HandleDataService {
-  public http = inject(HttpClient)
-  private apiUrl = 'http://localhost:3000/users';
+  public http = inject(HttpClient);
+  private apiUrl = "http://localhost:3000/users";
   constructor() { }
 
   // getData(): any {
@@ -21,14 +21,24 @@ export class HandleDataService {
   }
 
   checkUserExists(email: string): Observable<boolean> {
-    console.log("email === ", email);
-    let data: any = this.http.get<any[]>(`${this.apiUrl}?userEmail=${email}`).pipe(
-      map((users: any) => {
-        console.log("users === ", users);
-        users.length > 0
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(users => {
+        // console.log("users === ", users);
+        if (users) {
+          return users.some(user => {
+            // console.log("user === ", user);
+            const userKeys = Object.keys(user);
+            // console.log("userKeys === ", userKeys);
+            return userKeys.some(key => {
+              const userData = user[key];
+              return userData.userEmail === email;
+            });
+          });
+        } else {
+          return false;
+        }
       })
     );
-    return data
   }
 
   addUser(user: any): Observable<any> {
