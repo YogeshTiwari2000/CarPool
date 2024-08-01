@@ -101,7 +101,14 @@ button.btn-btn {
 
 
 }
+.IonMenuButton:hover{
+    border: none!important;
 
+}
+
+.has-focus.ion-valid.sc-ion-input-md-h, .ion-touched.ion-invalid.sc-ion-input-md-h{
+    border: none!important;
+}
 // ion-datetime-button::before {
 //     content: "\f073";
 //     font-family: "Font Awesome 6 Free";
