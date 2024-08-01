@@ -19,10 +19,11 @@ export class SearchScreenPage implements OnInit {
 
   constructor() { }
 
+  date:any = ''
+  time:any = ''
 
   ngOnInit() {
     console.log("search page");
-
   }
 
 

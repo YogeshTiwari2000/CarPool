@@ -15,28 +15,41 @@
 
       <div class="main-1">
         <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-          <ion-input type="text" fill="outline" label="Trip Start" placeholder="Trip Start" labelPlacement="stacked"
-            errorText="Did not found" [(ngModel)]="from" id="fromLocation"></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Trip Start"
+            errorText="Did not found"
+            [(ngModel)]="from"
+            id="fromLocation"
+          ></ion-input>
+          <div class="togg-btn">
+            <button class="togg-btn-1" (click)="swapLocations()">
+              swap &#8597;
+            </button>
+          </div>
         </ion-col>
 
         <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-          <ion-input type="text" fill="outline" label="Trip End" placeholder="Trip End" labelPlacement="stacked"
-            errorText="Did not found" [(ngModel)]="to" id="toLocation"></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Trip End"
+            errorText="Did not found"
+            [(ngModel)]="to"
+            id="toLocation"
+          ></ion-input>
         </ion-col>
 
-        <div class="togg-btn">
-          <button class="togg-btn-1" (click)="swapLocations()">
-            swap &#8597;
-          </button>
-        </div>
         <div class="main-2">
-          <ion-datetime-button datetime="datetime"> </ion-datetime-button>
-
-          <ion-modal [keepContentsMounted]="true" class="btn-box-1 clac-btn">
+          <input type="date" [(ngModel)]="date" />
+          <!-- <p>Selected date and time: {{ date }}</p> -->
+          <!-- <ion-datetime-button part="button" datetime="datetime">
+          </ion-datetime-button> -->
+          <input type="time" [(ngModel)]="time" />
+          <!-- <ion-modal [keepContentsMounted]="true" class="btn-box-1 clac-btn">
             <ng-template>
               <ion-datetime id="datetime"> </ion-datetime>
             </ng-template>
-          </ion-modal>
+          </ion-modal> -->
         </div>
 
         <button class="btn-btn">

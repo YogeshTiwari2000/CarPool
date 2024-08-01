@@ -3,6 +3,12 @@
     background: #ddf7f7b3;
 }
 
+    ion-datetime-button::part(button) {
+        --padding-left: 5rem !important;
+        --background: #000;
+      }
+
+
 .main {
     display: flex;
     flex-direction: column;
