@@ -26,6 +26,7 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
+    { title: 'feedback', url: '/feedback', icon: 'person' },
   ];
 
   datalist$: Observable<any> = new Observable()

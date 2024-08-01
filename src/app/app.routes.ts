@@ -33,6 +33,11 @@ export const routes: Routes = [
 
   },
   {
+    path: 'feedback',
+    loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
@@ -43,10 +48,6 @@ export const routes: Routes = [
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
-
-
-
-
 
 
 ];

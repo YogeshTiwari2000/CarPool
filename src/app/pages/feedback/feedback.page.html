@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>feedback</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p class="ion-text-center">How was your ride?</p>
+  <!-- <ion-row class="ion-justify-content-center">
+    <ion-col *ngFor="let star of stars,let i = index" class="w-fit">
+      <ion-icon name="star-outline" (click)="onStarClick(i)"></ion-icon>
+    </ion-col>
+  </ion-row> -->
+
+  <ion-row class="ion-justify-content-center starArea">
+    <div *ngFor="let star of stars; let i = index" class="w-fit">
+      <ion-icon [name]="filledStars[i] ? 'star' : 'star-outline'" (click)="onStarClick(i)"
+        [class.ratingColor]="filledStars[i]"></ion-icon>
+    </div>
+  </ion-row>
+
+  <ion-button size="full" (click)="submitFeedback()">
+    <ion-label>Submit</ion-label>
+  </ion-button>
+</ion-content>
