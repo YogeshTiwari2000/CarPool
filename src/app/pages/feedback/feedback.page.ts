@@ -11,7 +11,8 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonTabButton, IonLabel, Io
   imports: [IonCol, IonRow, IonButton, IonIcon, IonLabel, IonTabButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class FeedbackPage implements OnInit {
-
+  rating: any;
+  email: any = 'sholetshubham8@gmail.com'
   constructor() { }
   stars: any = ['1', '2', '3', '4', '5'];
   filledStars: boolean[] = [false, false, false, false, false];
@@ -21,6 +22,7 @@ export class FeedbackPage implements OnInit {
 
   onStarClick(index: number) {
     console.log('Star index:', index + 1);
+    this.rating = index + 1;
     for (let i = 0; i < this.stars.length; i++) {
       this.filledStars[index] = true;
       this.filledStars[i] = i <= index;
