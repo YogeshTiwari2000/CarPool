@@ -23,6 +23,7 @@ export class SearchScreenPage implements OnInit {
 
   date:any = ''
   time:any = ''
+  passengers: number = 2;
 
   ngOnInit() {
     console.log("search page");
@@ -38,12 +39,20 @@ export class SearchScreenPage implements OnInit {
 
   to: any
   from: any
+  place:any
 
   ionViewWillEnter() {
     this.fromLocation()
     this.toLocation()
   }
 
+  onSearch() {
+    console.log('From:', this.from);
+    console.log('To:', this.to);
+    console.log('Date:', this.date);
+    console.log('Time:', this.time);
+    console.log('Passengers:', this.passengers);
+  }
 
 
 
@@ -102,6 +111,7 @@ export class SearchScreenPage implements OnInit {
     if (counterElement !== null) {
       let currentValue = parseInt(counterElement.textContent || "0");
       counterElement.textContent = `${currentValue + 1} passenger`;
+      this.passengers++;
     }
   }
   decrement() {
@@ -110,6 +120,7 @@ export class SearchScreenPage implements OnInit {
       let currentValue = parseInt(counterElement.textContent || "0");
       if (currentValue > 0) {
         counterElement.textContent = `${currentValue - 1} passenger`;
+        this.passengers--;
       }
     }
   }

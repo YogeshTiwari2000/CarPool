@@ -53,6 +53,7 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .flex-box {
@@ -74,11 +75,10 @@
 
 button.btn-btn {
     border-radius: 12px;
-    width: 100%;
+    width: fit-content;
     background: rgba(221, 247, 247, 0.7019607843);
     border: 2px solid #BAD4DA;
-    margin: auto;
-    padding: 1rem;
+    
 }
 
 .btn-box {
