@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit {
           } else {
             this.userData.email_verified = googleLogin.email_verified
             this.userData.profilePicture = googleLogin.picture
+            this.userData.userName = googleLogin.name;
             this.userData.isSocialLogin = true
             const data = { [this.userData.userEmail]: { ...this.userData } };
             console.log("data === ", data);

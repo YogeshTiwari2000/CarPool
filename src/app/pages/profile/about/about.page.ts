@@ -12,6 +12,9 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, Io
 })
 export class AboutPage implements OnInit {
 
+  currentUser: any = ''
+
+
   isEmailVerified: boolean = false
   isPhoneVerified: boolean = false
   isGovtIdVerified: boolean = false
@@ -20,15 +23,19 @@ export class AboutPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("about")
-    const data: any = localStorage.getItem('googleUserLog');
+    const data: any = localStorage.getItem('currentUser');
     const parsedData: any = JSON.parse(data)
-    console.log(parsedData);
 
-    console.log('parsedData.email', parsedData.email);
-    this.isEmailVerified = this.checkEmailVerified(parsedData.email)
-    this.isPhoneVerified = this.checkPhoneVerified(parsedData.phone)
-    this.isGovtIdVerified = this.checkIsGovtIdVerified(parsedData.govtId)
+    const keys = Object.keys(parsedData);
+    const firstKey = keys[0];
+    this.currentUser = parsedData[firstKey];
+
+    console.log(this.currentUser);
+
+
+    // this.isEmailVerified = this.checkEmailVerified(parsedData.email)
+    // this.isPhoneVerified = this.checkPhoneVerified(parsedData.phone)
+    // this.isGovtIdVerified = this.checkIsGovtIdVerified(parsedData.govtId)
   }
   checkEmailVerified(email: string): boolean {
     return email != '';

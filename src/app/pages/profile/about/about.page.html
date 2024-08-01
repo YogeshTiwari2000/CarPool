@@ -3,13 +3,17 @@
     <ion-card-header>
       <div class="photo">
         <ion-avatar slot="start">
+          @if (currentUser) {
+          <img [src]="currentUser.profilePicture" alt="User Photo" />
+          }@else {
           <img
             src="../../../../assets/images/svgs/person.svg"
             alt="User Photo"
           />
+          }
         </ion-avatar>
         <div class="detail">
-          <ion-card-title>Yogi</ion-card-title>
+          <ion-card-title>{{currentUser.userName}}</ion-card-title>
           <ion-card-subtitle>Angular Developer</ion-card-subtitle>
         </div>
       </div>

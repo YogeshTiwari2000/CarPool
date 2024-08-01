@@ -1,8 +1,17 @@
 .photo {
     display: flex;
     align-items: center;
-}
 
-.detail {
-    margin-left: 10px;
+    ion-avatar {
+        img {
+            padding: 5px;
+            border: 2px solid green;
+        }
+    }
+
+
+
+    .detail {
+        margin-left: 10px;
+    }
 }
