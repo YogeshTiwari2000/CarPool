@@ -46,11 +46,9 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   async ngOnInit() {
-    // console.log("Login Modal", this.userData);
-    // let getData: any[] = this.localStr.getItem("users")
-    // console.log("getData === ", getData);
     this.users$ = this.handleData.getData();
 
+    // googleLogin
     await this.socialLogin.googleLogin("google").then((res) => {
       this.localStr.setItem("googleUserLog", JSON.parse(res));
       const googleLogin = this.localStr.getItem("googleUserLog");
@@ -92,19 +90,32 @@ export class LoginComponent implements OnInit {
         })
       }
     }).catch((error) => console.log(error));
-
+    // googleLogin
   }
 
-
-
+  // formLogin
   onSubmit(form: NgForm) {
     if (form.valid) {
-      let users = this.localStr.getItem("users")
-      if (users) {
-        console.log("users === ", users);
-        let user = this.commonService.checkEmailExists(users, form.value.email)
-        console.log("user === ", user);
-      }
+      let userEmail = form.value.email
+      this.handleData.checkUserExists(userEmail).subscribe(userExists => {
+        if (userExists) {
+          console.log("userExists === ", userExists);
+          let currentUser: any = this.handleData.user
+          console.log(currentUser);
+          if (currentUser[userEmail].password === form.value.password) {
+            this.commonService.isUserLoggedin = true
+            const isUserLoggedIn = this.commonService.isUserLoggedin
+            this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
+            this.close()
+            this.router.navigate(['/home'])
+          } else {
+            this.commonService.alertBox("Please create your account", "Login alert", ["Ok"]);
+            this.router.navigate(['/register'])
+
+          }
+
+        }
+      })
       // const loginData = form.value
       // console.log('Form submitted!', form.value);
       // if (this.userData) {
@@ -121,8 +132,10 @@ export class LoginComponent implements OnInit {
       alert('Form is invalid')
     }
   }
+  // formLogin
 
 
+  // facebookLogin
   async facebookLogin() {
     try {
       this.socialLogin.facebookLogin().then(faceBookUser => {
@@ -151,6 +164,7 @@ export class LoginComponent implements OnInit {
             } else {
               this.userData.email_verified = true
               this.userData.isSocialLogin = true
+              this.userData.userName = fBUser.name
               const data = { [this.userData.userEmail]: { ...this.userData } };
               console.log("data === ", data);
               this.handleData.addUser(data).subscribe(() => {
@@ -164,53 +178,8 @@ export class LoginComponent implements OnInit {
                 this.commonService.alertBox("Account created successfully", "Log in", ["Ok"]);
               });
             }
-
           })
-
-          // this.userData.userEmail = fBUser.email
-          // this.userData.userName = fBUser.name
-          // this.userData.email_verified = true
-          // this.userData.isSocialLogin = true
         }
-
-        // this.socialLogin.facebookLogin().then(user => {
-        //   console.log('Facebook login successful:', user);
-        //   this.localStr.setItem("facevookUserLog", user);
-        //   let getData: any[] = this.localStr.getItem("users")
-        //   const fbuser = this.commonService.checkEmailExists(getData, user.email)
-        //   console.log('fbuser check email exist or not', fbuser);
-        // if (fbuser) {
-        //   console.log('Email exists in the data', fbuser);
-        //   this.commonService.alertBox("User already exist", "Login alert", ["Ok"])
-        //   this.router.navigate(['/home'])
-        // } else {
-        //   console.log('Email does not exist in the data');
-        //   this.userData.userEmail = user.email
-        //   this.userData.userName = user.name
-        //   this.userData.email_verified = true
-        //   this.userData.isSocialLogin = true
-        //   console.log("this.userData === ", this.userData);
-
-
-        //   if (this.localStr.getItem("users")) {
-        //     this.users = this.localStr.getItem("users")
-        //   }
-
-
-        //   let data: { [key: string]: any } = {}
-        //   data[this.userData.userEmail] = { ...this.userData };
-
-        //   this.users.push(data)
-        //   console.log('this.users', this.users);
-
-        //   this.localStr.setItem('users', this.users)
-        //   this.commonService.isUserLoggedin = true
-        //   this.commonService.currentUserEmail = user.email
-        //   const isUserLoggedIn = this.commonService.isUserLoggedin
-        //   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-        //   this.close()
-        //   this.router.navigate(['/home'])
-        // }
 
       }).catch(err => {
         console.error('Error during Facebook login:', err);
@@ -220,6 +189,8 @@ export class LoginComponent implements OnInit {
     }
 
   }
+  // facebookLogin
+
 
   // login modal
   close() {
