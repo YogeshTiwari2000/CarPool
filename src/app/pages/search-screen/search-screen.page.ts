@@ -46,13 +46,17 @@ export class SearchScreenPage implements OnInit {
     this.toLocation()
   }
 
-  onSearch() {
-    console.log('From:', this.from);
-    console.log('To:', this.to);
-    console.log('Date:', this.date);
-    console.log('Time:', this.time);
-    console.log('Passengers:', this.passengers);
+  search() {
+    const searchData = {
+      from: this.from,
+      to: this.to,
+      date: this.date,
+      time: this.time,
+      passengers: this.passengers
+    };
+    console.log(searchData);
   }
+
 
 
 
