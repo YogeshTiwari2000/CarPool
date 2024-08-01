@@ -8,6 +8,8 @@ import { map, Observable } from "rxjs";
 export class HandleDataService {
   public http = inject(HttpClient);
   private apiUrl = "http://localhost:3000/users";
+
+  public user: any
   constructor() { }
 
   // getData(): any {
@@ -26,7 +28,9 @@ export class HandleDataService {
         // console.log("users === ", users);
         if (users) {
           return users.some(user => {
-            // console.log("user === ", user);
+            console.log("user === ", user);
+            this.user = user
+            console.log(" this.user === ", this.user);
             const userKeys = Object.keys(user);
             // console.log("userKeys === ", userKeys);
             return userKeys.some(key => {
