@@ -9,12 +9,16 @@ import { CommonService } from 'src/app/shared/common.service';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { Observable } from 'rxjs';
 
+declare var google: any;
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonAvatar, IonBackButton, IonButton, IonItem, IonInput, IonCol, IonRow, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonInputPasswordToggle,]
+  imports: [IonAvatar, IonBackButton, IonButton, IonItem, IonInput, IonCol, IonRow, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonInputPasswordToggle,],
+  providers: [GooglePlaceModule]
 })
 export class RegisterPage implements OnInit {
   private socialLogin = inject(SocialLoginService)
@@ -27,6 +31,9 @@ export class RegisterPage implements OnInit {
 
   isSocialLogin: boolean = false
   email_verified: boolean = false
+
+  pickUpLocation: any
+  dropLocation: any
 
   userData: any = {
     userEmail: "",
@@ -44,7 +51,7 @@ export class RegisterPage implements OnInit {
 
   async ngOnInit() {
     this.users$ = this.handleData.getData();
-
+    //google login
     try {
       const res = await this.socialLogin.googleLogin("google");
       this.localStr.setItem("googleUserLog", JSON.parse(res));
@@ -57,35 +64,13 @@ export class RegisterPage implements OnInit {
         this.userData.isSocialLogin = true;
         this.userData.email_verified = googleLogin.email_verified;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      this.commonService.alertBox(error, "Register alert", ["Ok"])
     }
+    //google login
+
   }
-
-  // onSubmit(form: NgForm) {
-  //   if (form.valid) {
-  //     // console.log('Form submitted!', form.value);
-  //     // console.log('Form submitted!', this.userData);
-  //     let data: { [key: string]: any } = {}
-  //     data[this.userData.userEmail] = { ...this.userData };
-
-  //     this.users$.push(data)
-  //     // this.users.push(data)
-  //     console.log('this.users', this.users$);
-
-  //     this.localStr.setItem('users', this.users$)
-  //     // this.localStr.setItem('users', this.users)
-  //     this.commonService.isUserLoggedin = true
-  //     this.commonService.currentUserEmail = this.userData.userEmail
-  //     const isUserLoggedIn = this.commonService.isUserLoggedin
-  //     this.localStr.setItem("isUserLoggedIn", isUserLoggedIn)
-  //     this.router.navigate(['/home'])
-  //     form.reset()
-  //   } else {
-  //     this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"])
-  //   }
-  // }
-
   onSubmit(form: NgForm) {
     if (form.valid) {
       const email = this.userData.userEmail;
@@ -104,7 +89,7 @@ export class RegisterPage implements OnInit {
             this.commonService.currentUserEmail = email;
             const isUserLoggedIn = this.commonService.isUserLoggedin;
             this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-            // this.router.navigate(['/home']);
+            this.router.navigate(['/home']);
             form.reset();
           });
         }
@@ -113,10 +98,11 @@ export class RegisterPage implements OnInit {
       this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"]);
     }
   }
-  passwordsMatch(password: any): boolean {
-    return this.userData.cpassword === password;
+  passwordsMatch(password: string): boolean {
+    return password === this.userData.cpassword;
   }
 
+  //Facebook login
   async facebookLogin() {
     try {
       this.socialLogin.facebookLogin().then(faceBookUser => {
@@ -176,6 +162,63 @@ export class RegisterPage implements OnInit {
     // }
 
 
+  }
+  //Facebook login
+
+  ionViewWillEnter() {
+    this.pickUpLoc()
+    this.dropLoc()
+  }
+
+  pickUpLoc() {
+    let inputElement = document.getElementById('pickUpLocation');
+    if (inputElement) {
+      let input = inputElement.getElementsByTagName('input')[0];
+      let autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], componentRestrictions: { country: 'in' } });
+      google.maps.event.addListener(autocomplete, 'place_changed', () => {
+        // retrieve the place object for your use
+        let place = autocomplete.getPlace();
+        console.log("google place called", place);
+        this.pickUpLocation = place.formatted_address;
+        // for (var i = 0; i < place.address_components.length; i++) {
+        //   for (var j = 0; j < place.address_components[i].types.length; j++) {
+        //     if (place.address_components[i].types[j] == "postal_code") {
+        //       this.pincode = place.address_components[i].long_name;
+        //     }
+        //     if (place.address_components[i].types[j] == "locality") {
+        //       this.city = place.address_components[i].long_name;
+        //       console.log("enter in locality if", this.city);
+        //     }
+        //   }
+        // }
+        // this.locationName = place.formatted_address;
+      });
+    }
+  }
+  dropLoc() {
+    let inputElement = document.getElementById('dropLocation');
+    if (inputElement) {
+      let input = inputElement.getElementsByTagName('input')[0];
+      let autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], componentRestrictions: { country: 'in' } });
+      google.maps.event.addListener(autocomplete, 'place_changed', () => {
+        // retrieve the place object for your use
+        let place = autocomplete.getPlace();
+        console.log("google place called", place);
+        this.dropLocation = place.formatted_address;
+        // for (var i = 0; i < place.address_components.length; i++) {
+        //   for (var j = 0; j < place.address_components[i].types.length; j++) {
+        //     if (place.address_components[i].types[j] == "postal_code") {
+        //       this.pincode = place.address_components[i].long_name;
+        //     }
+        //     if (place.address_components[i].types[j] == "locality") {
+        //       this.city = place.address_components[i].long_name;
+        //       console.log("enter in locality if", this.city);
+        //     }
+        //   }
+        // }
+        // this.locationName = place.formatted_address;
+      });
+    }
   }
 
 }
