@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   email_verified: boolean = false
 
   userData: any = {
+    profilePicture: "",
     userEmail: "",
     userName: "",
     password: "",
@@ -73,6 +74,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/home']);
           } else {
             this.userData.email_verified = googleLogin.email_verified
+            this.userData.profilePicture = googleLogin.picture
             this.userData.isSocialLogin = true
             const data = { [this.userData.userEmail]: { ...this.userData } };
             console.log("data === ", data);
@@ -164,6 +166,7 @@ export class LoginComponent implements OnInit {
             } else {
               this.userData.email_verified = true
               this.userData.isSocialLogin = true
+              this.userData.profilePicture = fBUser.photoUrl
               this.userData.userName = fBUser.name
               const data = { [this.userData.userEmail]: { ...this.userData } };
               console.log("data === ", data);

@@ -36,6 +36,7 @@ export class RegisterPage implements OnInit {
   dropLocation: any
 
   userData: any = {
+    profilePicture: "",
     userEmail: "",
     userName: "",
     password: "",
@@ -61,6 +62,7 @@ export class RegisterPage implements OnInit {
         console.log("googleLogin === ", googleLogin);
         this.userData.userEmail = googleLogin.email;
         this.userData.userName = googleLogin.name;
+        this.userData.profilePicture = googleLogin.picture
         this.userData.isSocialLogin = true;
         this.userData.email_verified = googleLogin.email_verified;
       }
@@ -118,6 +120,7 @@ export class RegisterPage implements OnInit {
         if (fBUser) {
           this.userData.userEmail = fBUser.email
           this.userData.userName = fBUser.name
+          this.userData.profilePicture = fBUser.photoUrl
           this.userData.email_verified = true
           this.userData.isSocialLogin = true
         }

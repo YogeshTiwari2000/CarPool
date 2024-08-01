@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline } from 'ionicons/icons';
+import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles } from 'ionicons/icons';
 import { LocalStorageService, } from './shared/local-storage.service';
 import { CommonService } from './shared/common.service';
 import { HandleDataService } from './services/data/handle-data.service';
@@ -26,13 +26,13 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'feedback', url: '/feedback', icon: 'person' },
+    { title: 'Feedback', url: '/feedback', icon: 'chatbubbles' },
   ];
 
   datalist$: Observable<any> = new Observable()
 
   constructor() {
-    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, });
+    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles });
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")
       this.commonService.currentUserEmail = user.email
