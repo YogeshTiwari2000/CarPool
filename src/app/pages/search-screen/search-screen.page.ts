@@ -20,9 +20,9 @@ declare var google: any;
 export class SearchScreenPage implements OnInit {
 
   constructor() { }
-
+  time: string = '12:00';
   date:any = ''
-  time:any = ''
+  // time:any = ''
   passengers: number = 2;
 
   ngOnInit() {
