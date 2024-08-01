@@ -1,8 +1,7 @@
-
-::ng-deep   .input-fill-outline.sc-ion-input-md-h .input-wrapper.sc-ion-input-md {
+::ng-deep .input-fill-outline.sc-ion-input-md-h .input-wrapper.sc-ion-input-md {
     border-bottom: none;
     background: #ddf7f7b3;
-}  
+}
 
 .main {
     display: flex;
@@ -30,36 +29,41 @@
         }
     }
 
-    }
+}
 
-    .main-1 {
-        margin: 2rem;
-    }
- .main-2{
+.main-1 {
+    margin: 2rem;
+}
+
+.main-2 {
     display: flex;
- }
- .flex-box {
+}
+
+.flex-box {
     display: flex;
     border-radius: 19px;
     align-items: center;
     padding-left: 1rem;
 }
- .counter-input {
+
+.counter-input {
     padding: 1rem;
 
 }
 
 .counter-input:nth-child(3) {
-    border-left: 2px solid #BAD4DA ;
+    border-left: 2px solid #BAD4DA;
 
 }
- button.btn-btn {
+
+button.btn-btn {
     margin-top: 1rem;
     border-radius: 12px;
     width: fit-content;
     background: rgba(221, 247, 247, 0.7019607843);
-    border: 2px solid #BAD4DA ;
+    border: 2px solid #BAD4DA;
 }
+
 .btn-box {
 
     width: -webkit-fill-available;
@@ -70,17 +74,17 @@
     bottom: 0rem;
     left: 0rem;
 
- 
 
-    .login
-{
+
+    .login {
         --background: #33A05E;
         --border-radius: 50px;
         text-transform: capitalize;
     }
 
- 
+
 }
+
 ion-datetime-button::before {
     content: "\f073";
     font-family: "Font Awesome 6 Free";
@@ -94,10 +98,10 @@ ion-datetime-button::before {
 }
 
 ion-datetime-button::after {
-    content: '\1F551'; 
-    font-size: 24px; 
-    margin-right: 8px; 
-    display: inline-block; 
+    content: '\1F551';
+    font-size: 24px;
+    margin-right: 8px;
+    display: inline-block;
 }
 
 button.togg-btn-1 {
@@ -111,6 +115,7 @@ button.togg-btn-1 {
     font-weight: bold;
     margin-bottom: 1rem;
 }
+
 @media (min-width: 768px) {
     .main {
         .btn-box {
