@@ -29,9 +29,21 @@
       <b>WORST</b>
     </ng-container>
   </ion-row>
-  <ion-row>
 
+  <ion-row class="ion-margin-top">
+    <ion-select class="feedbackSelect" label="Select Desired Feedback" label-placement="floating" fill="outline"
+      [multiple]="true">
+      <ion-select-option value="rough driving">Rough Driving</ion-select-option>
+      <ion-select-option value="misbehave">Misbehave</ion-select-option>
+      <ion-select-option value="drunk">drunk</ion-select-option>
+    </ion-select>
   </ion-row>
+
+  <ion-row class="ion-margin-vertical">
+    <ion-textarea label="Add a comment" labelPlacement="floating" rows="5" fill="outline"
+      placeholder="Enter text"></ion-textarea>
+  </ion-row>
+
   <ion-button size="full" class="" (click)="submitFeedback()">
     <ion-label><b>SUBMIT</b></ion-label>
   </ion-button>

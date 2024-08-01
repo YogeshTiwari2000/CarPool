@@ -1,16 +1,30 @@
-.feedHeading {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.starArea {
-    gap: 1.5rem;
-
-    ion-icon {
-        font-size: 1.5rem;
+ion-content {
+    .feedHeading {
+        font-size: 24px;
+        font-weight: bold;
     }
 
-    .ratingColor {
-        color: orange;
+    .starArea {
+        gap: 1.5rem;
+
+        ion-icon {
+            font-size: 1.5rem;
+        }
+
+        .ratingColor {
+            color: orange;
+        }
+    }
+
+    .feedbackSelect {
+        min-height: 73px;
+    }
+
+
+}
+
+::ng-deep {
+    .multiple-select-alert {
+        --max-width: 80%;
     }
 }
