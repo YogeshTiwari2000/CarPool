@@ -98,8 +98,13 @@ export class RegisterPage implements OnInit {
       this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"]);
     }
   }
-  passwordsMatch(password: string): boolean {
-    return password === this.userData.cpassword;
+  passCheck = false;
+  validatePassword() {
+    if (this.userData.password != this.userData.cpassword) {
+      this.passCheck = true
+    } else {
+      this.passCheck = false
+    }
   }
 
   //Facebook login

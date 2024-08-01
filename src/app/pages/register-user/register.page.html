@@ -105,6 +105,7 @@
           name="cpassword"
           placeholder="Enter password again"
           required
+          (input)="validatePassword()"
         >
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
@@ -115,10 +116,8 @@
           <div *ngIf="cpassword.errors?.['required']">
             This field is required.
           </div>
-          <div *ngIf="cpassword.valid && !passwordsMatch(userData.password)">
-            Passwords do not match.
-          </div>
         </div>
+        <div class="error-text" *ngIf="passCheck">Passwords do not match.</div>
       </ion-col>
       }
 
