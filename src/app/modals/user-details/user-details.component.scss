@@ -194,7 +194,7 @@ ion-card-content {
 }
 
 .svg-icon {
-    max-width: 1.8rem;
+    max-width: 1.5rem;
 }
 
 .ion-align-item-start {
@@ -214,4 +214,20 @@ ion-card-content {
 
 .user-img {
     width: 3rem;
+}
+
+.journey-box {
+    width: fit-content;
+}
+
+ion-card {
+    /* margin: 0.5rem 0; */
+    border-radius: 0;
+}
+
+.lst-bnt {
+    padding: 1rem 4rem;
+    border-radius: 24px;
+    background: #33A05E;
+    color: white;
 }
