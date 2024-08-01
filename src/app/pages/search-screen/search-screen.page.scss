@@ -3,6 +3,7 @@
     background: #ddf7f7b3;
 }
 
+
     ion-datetime-button::part(button) {
         --padding-left: 5rem !important;
         --background: #000;
@@ -36,6 +37,12 @@
     }
 
 }
+.main-1-1 {
+    border: 2px solid #BAD4DA;
+    padding: 1rem;
+    border-radius: 25px;
+    background: #ddf7f7b3;
+}
 
 .main-1 {
     margin: 2rem;
@@ -43,6 +50,9 @@
 
 .main-2 {
     display: flex;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    gap: 2rem;
 }
 
 .flex-box {
@@ -111,16 +121,48 @@ ion-datetime-button::after {
 }
 
 button.togg-btn-1 {
-    border-radius: 12px;
-    padding: 1rem;
-    height: 28px;
     display: flex;
-    align-items: center;
-    margin: auto;
-    background: #408540;
-    font-weight: bold;
-    margin-bottom: 1rem;
+    background: transparent;
+    position: relative;
+    top: -1rem;
+    float: right;
+    right: 0rem;
 }
+::ng-deep .input-bottom.sc-ion-input-md {
+    border-top: none!important;
+
+}
+.date{
+    border: 2px solid #BAD4DA;
+    padding: 1rem;
+    border-radius: 25px;
+    background: rgba(221, 247, 247, 0.7019607843);
+}
+.time{
+    border: 2px solid #BAD4DA;
+    padding: 1rem;
+    border-radius: 25px;
+    background: rgba(221, 247, 247, 0.7019607843);
+}
+.togg-btn {
+    border-bottom: 2px solid #BAD4DA;;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (min-width: 768px) {
     .main {

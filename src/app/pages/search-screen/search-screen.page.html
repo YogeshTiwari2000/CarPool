@@ -14,42 +14,40 @@
       </div>
 
       <div class="main-1">
-        <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-          <ion-input
-            type="text"
-            placeholder="Trip Start"
-            errorText="Did not found"
-            [(ngModel)]="from"
-            id="fromLocation"
-          ></ion-input>
+        <div class="main-1-1">
+          <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
+            <ion-input
+              type="text"
+              placeholder="Trip Start"
+              errorText="Did not found"
+              [(ngModel)]="from"
+              id="fromLocation"
+            ></ion-input>
+          </ion-col>
           <div class="togg-btn">
             <button class="togg-btn-1" (click)="swapLocations()">
-              swap &#8597;
+              <!-- swap &#8597; -->
+              <img src="../../../assets/images/svgs/swap.svg" />
             </button>
           </div>
-        </ion-col>
-
-        <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-          <ion-input
-            type="text"
-            placeholder="Trip End"
-            errorText="Did not found"
-            [(ngModel)]="to"
-            id="toLocation"
-          ></ion-input>
-        </ion-col>
+          <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
+            <ion-input
+              type="text"
+              placeholder="Trip End"
+              errorText="Did not found"
+              [(ngModel)]="to"
+              id="toLocation"
+            ></ion-input>
+          </ion-col>
+        </div>
 
         <div class="main-2">
-          <input type="date" [(ngModel)]="date" />
-          <!-- <p>Selected date and time: {{ date }}</p> -->
-          <!-- <ion-datetime-button part="button" datetime="datetime">
-          </ion-datetime-button> -->
-          <input type="time" [(ngModel)]="time" />
-          <!-- <ion-modal [keepContentsMounted]="true" class="btn-box-1 clac-btn">
-            <ng-template>
-              <ion-datetime id="datetime"> </ion-datetime>
-            </ng-template>
-          </ion-modal> -->
+          <div class="custom-date-container">
+            <input type="date" [(ngModel)]="date" class="date" />
+          </div>
+          <div class="custom-time-container">
+            <input type="time" [(ngModel)]="time" class="time" />
+          </div>
         </div>
 
         <button class="btn-btn">
