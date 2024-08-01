@@ -27,13 +27,13 @@
                   d="M13.4375 8.3125C13.4375 13.9666 7.5 17.2188 7.5 17.2188C7.5 17.2188 1.5625 13.9666 1.5625 8.3125C1.5625 6.73778 2.18806 5.22755 3.30155 4.11405C4.41505 3.00056 5.92528 2.375 7.5 2.375C9.07472 2.375 10.5849 3.00056 11.6984 4.11405C12.8119 5.22755 13.4375 6.73778 13.4375 8.3125Z"
                   stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <p class="startLocation ion-margin-0">SPAZE ITECH PARK, Sector 49, Gurugram,
+              <p class="startLocation ion-no-margin">SPAZE ITECH PARK, Sector 49, Gurugram,
                 HaryanaSPAZE ITECH PARK, Sector 49,
                 Gurugram, H
                 122018{{userData['source']}}</p>
             </div>
-            <p class="ion-flex ion-margin-0 ion-align-item-start"><svg class="svg-icon" viewBox="0 0 17 19" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+            <div class="ion-flex ion-no-margin ion-align-item-start">
+              <svg class="svg-icon" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M13 8.5C13 9.95869 12.4205 11.3576 11.3891 12.3891C10.3576 13.4205 8.95869 14 7.5 14C6.04131 14 4.64236 13.4205 3.61091 12.3891C2.57946 11.3576 2 9.95869 2 8.5C2 7.04131 2.57946 5.64236 3.61091 4.61091C4.64236 3.57946 6.04131 3 7.5 3C8.95869 3 10.3576 3.57946 11.3891 4.61091C12.4205 5.64236 13 7.04131 13 8.5Z"
                   stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -45,33 +45,33 @@
                 Haryana SPAZE ITECH PARK, Sector 49,
                 Gurugram, H
                 122018{{userData['destination']}}</span>
-            </p>
-          </div>
-          <div class="journey-time">
-            <p> <span class="startTime time">{{userData['journeyStart']}}</span></p>
-            <p>
-              <ion-col class="ion-text-center timeSection">
-                <div class="totalTimeTakenArea">
-                  <div class="timeBox">
-                    {{journeyDuration}}
+            </div>
+
+            <div class="journey-time">
+              <p> <span class="startTime time">{{userData['journeyStart']}}</span></p>
+              <p>
+                <ion-col class="ion-text-center timeSection">
+                  <div class="totalTimeTakenArea">
+                    <div class="timeBox">
+                      {{journeyDuration}}
+                    </div>
+
+                    <div class="arrowIcon">
+                      <svg viewBox="0 0 68 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M62.3828 1.71362L66.4496 6.41817M66.4496 6.41817L62.3828 11.1227M66.4496 6.41817H0.839233"
+                          stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+
+                    </div>
                   </div>
-
-                  <div class="arrowIcon">
-                    <svg viewBox="0 0 68 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M62.3828 1.71362L66.4496 6.41817M66.4496 6.41817L62.3828 11.1227M66.4496 6.41817H0.839233"
-                        stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-
-                  </div>
-                </div>
-              </ion-col>
-            </p>
-            <p> <span class="endTime time">{{userData['journeyEnd']}}</span></p>
+                </ion-col>
+              </p>
+              <p> <span class="endTime time">{{userData['journeyEnd']}}</span></p>
+            </div>
           </div>
-
           <!--  -->
-          <ion-card-content>
+          <ion-card-content class="ion-no-padding">
             <ion-item lines="none">
               <ion-label>Total Price of 2 passengers</ion-label>
               <ion-note slot="end">
@@ -94,8 +94,8 @@
             </ion-item>
             <ion-list>
               <ion-item lines="">
-                <img src="./assets/images/svgs/verified.svg" alt="">
-                <ion-label>Verified Profile</ion-label>
+                <p> <img src="./assets/images/svgs/verified.svg" alt=""></p>
+                <p><ion-label>Verified Profile</ion-label></p>
               </ion-item>
               <ion-item lines="">
                 <img src="./assets/images/svgs/verified.svg" alt="">
@@ -120,8 +120,23 @@
               </ion-item>
             </ion-list>
             <ion-item lines="none">
-              <ion-icon name="car-outline" slot="start"></ion-icon>
+              <!-- <ion-icon name="car-outline" slot="start"></ion-icon> -->
               <ion-label>MARUTI SWIFT (Grey)</ion-label>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_92_1257)">
+                  <path
+                    d="M7.30077 6.16C6.41542 6.16 5.57135 6.53924 4.98311 7.20126L1.31139 11.3313C0.522301 11.7977 -0.00602507 12.6485 -0.0131371 13.6128L-0.0393843 17.3283C-0.0460875 18.2454 0.706351 19.0053 1.62312 19.0061L2.84374 19.0072C2.93599 19.6509 3.19342 20.2733 3.64109 20.7769C4.21039 21.4173 5.08666 21.84 6.16 21.84C7.81921 21.84 9.14441 20.6018 9.41171 19.0159L18.573 19.028C18.6689 19.6617 18.8799 20.2806 19.3211 20.7769C19.8904 21.4173 20.7667 21.84 21.84 21.84C23.4986 21.84 24.8817 20.6228 25.1497 19.0378L26.3605 19.0389C27.2588 19.0398 28 18.2999 28 17.4016V14.2308C28 12.8588 27.001 11.6796 25.6473 11.4538L20.79 10.6444L18.4023 7.23188C17.9322 6.5601 17.1626 6.16001 16.3428 6.16001L7.30077 6.16ZM7.30077 7.28H11.76V10.64H5.00498L3.22655 10.8631L5.81983 7.945C6.19591 7.52174 6.73459 7.28 7.30077 7.28ZM12.88 7.28H16.3428C16.7987 7.28 17.2235 7.50074 17.4847 7.87391L19.4206 10.64H12.88L12.88 7.28ZM6.15998 16.24C7.40374 16.24 8.39998 17.2363 8.39998 18.48C8.39998 19.7238 7.40374 20.72 6.15998 20.72C5.36665 20.72 4.84293 20.4427 4.47889 20.0331C4.11486 19.6236 3.91998 19.0556 3.91998 18.48C3.91998 17.9044 4.11486 17.3364 4.47889 16.9269C4.84293 16.5173 5.36665 16.24 6.15998 16.24ZM21.84 16.24C23.0837 16.24 24.08 17.2363 24.08 18.48C24.08 19.7238 23.0837 20.72 21.84 20.72C21.0466 20.72 20.5229 20.4427 20.1589 20.0331C19.7949 19.6236 19.6 19.0556 19.6 18.48C19.6 17.9044 19.7949 17.3364 20.1589 16.9269C20.5229 16.5173 21.0467 16.24 21.84 16.24Z"
+                    fill="#BAD4DA" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_92_1257">
+                    <rect width="28" height="28" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+
+
+
             </ion-item>
             <ion-button expand="block" color="success">Book</ion-button>
           </ion-card-content>
