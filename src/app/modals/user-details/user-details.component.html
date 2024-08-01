@@ -72,7 +72,8 @@
     <ion-item lines="none">
       <ion-label>Total Price of {{userData['seatAvl']}} passengers</ion-label>
       <ion-note slot="end">
-        ₹ {{userData['price']}}
+        <!-- ₹ ({{userData['price']}}*{{userData['seatAvl']}}) -->
+        <button class="totalprice">₹ {{ calculateTotalPrice() }}</button>
       </ion-note>
     </ion-item>
   </ion-card>
@@ -85,7 +86,7 @@
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M8.99002 2.675C9.36336 1.7775 10.6367 1.7775 11.01 2.675L12.745 6.84667L17.2484 7.20833C18.2184 7.28583 18.6117 8.49583 17.8725 9.12917L14.4417 12.0683L15.4892 16.4625C15.715 17.4092 14.6859 18.1567 13.8559 17.65L10 15.295L6.14419 17.65C5.31419 18.1567 4.28502 17.4083 4.51086 16.4625L5.55836 12.0683L2.12752 9.12917C1.38836 8.49583 1.78169 7.28583 2.75169 7.20833L7.25502 6.84667L8.99002 2.675Z"
               fill="#BAD4DA" />
-          </svg>{{userData['name']}}/5 - 1 rating
+          </svg>{{userData['rating']}}/5 - 1 rating
         </p>
       </ion-label>
       <div class="user-img"><img src="../../../assets/icon/user.png"></div>
@@ -139,13 +140,20 @@
 
 
     </ion-item>
-    <button class="lst-bnt ">Book <svg width="11" height="21" viewBox="0 0 11 21" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 19.7638L9.99351 10.7452L1 1.72663" stroke="white" stroke-width="1.5" stroke-linecap="round"
-          stroke-linejoin="round" />
-      </svg>
-    </button>
+    <!-- <ion-col size="12" sizeLg="6" class="search-box btn-box">
+      <ion-button class="login" expand="block">
+        Search >
+      </ion-button>
+    </ion-col> -->
+    <div class="search-btn">
+      <button class="lst-bnt "> Book <svg width="11" height="21" viewBox="0 0 11 21" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 19.7638L9.99351 10.7452L1 1.72663" stroke="white" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
 
+    </div>
 
   </ion-card>
 </ion-content>

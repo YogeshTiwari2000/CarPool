@@ -227,13 +227,49 @@ ion-card {
 
 }
 
+// .lst-bnt {
+//     padding: 1rem 4rem;
+//     border-radius: 24px;
+//     background: #33A05E;
+//     color: white;
+// }
+
 .lst-bnt {
     padding: 1rem 4rem;
     border-radius: 24px;
-    background: #33A05E;
-    color: white;
+    background: #33a05e;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+    font-size: 17px;
+    margin: 2rem auto;
 }
 
 .color-grey {
     color: #7EADB8;
+}
+
+.btn-box {
+    width: -webkit-fill-available;
+    padding: 2rem;
+    border-radius: 30px 30px 0 0;
+    align-items: center;
+    position: absolute;
+    bottom: 0rem;
+    left: 0rem;
+
+    .login {
+        --background: #33A05E;
+        --border-radius: 50px;
+        text-transform: capitalize;
+    }
+}
+
+.totalprice {
+    font-size: 16px;
+    background: #33a05e;
+    padding: 0.5rem;
+    border-radius: 15px;
 }

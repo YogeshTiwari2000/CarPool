@@ -21,6 +21,9 @@ export class UserDetailsComponent implements OnInit {
   close() {
     this.modalCtrl.dismiss()
   }
+  calculateTotalPrice(): number {
+    return this.userData.price * this.userData.seatAvl;
+  }
 
 
 
