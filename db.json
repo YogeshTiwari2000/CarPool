@@ -29,6 +29,21 @@
         "isSocialLogin": true,
         "email_verified": true
       }
+    },
+    {
+      "id": "abdf",
+      "yogi.baba@baba.com": {
+        "profilePicture": "",
+        "userEmail": "yogi.baba@baba.com",
+        "userName": "yogi",
+        "password": "baba.com",
+        "cpassword": "12420Y",
+        "phone": "9582467932",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": false,
+        "email_verified": false
+      }
     }
   ]
 }
