@@ -14,7 +14,13 @@
         </ion-avatar>
         <div class="detail">
           <ion-card-title>{{currentUser.userName}}</ion-card-title>
-          <ion-card-subtitle>Angular Developer</ion-card-subtitle>
+          <ion-card-subtitle>
+            @if (currentUser.rating) {
+            <div>4/5 rating</div>
+            }@else {
+            <div>No rating given</div>
+            }
+          </ion-card-subtitle>
         </div>
       </div>
     </ion-card-header>
@@ -26,7 +32,7 @@
       </ion-item>
       }
 
-      <ion-item lines="none">
+      <ion-item button lines="none" (click)="openEditCard()">
         <ion-icon slot="start" name="create"></ion-icon>
         <ion-label color="primary">Edit personal details</ion-label>
       </ion-item>
