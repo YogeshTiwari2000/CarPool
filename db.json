@@ -1,34 +1,6 @@
 {
   "users": [
     {
-      "id": "ffc3",
-      "sholetshubham8@gmail.com": {
-        "userEmail": "sholetshubham8@gmail.com",
-        "userName": "",
-        "password": "",
-        "cpassword": "",
-        "phone": "",
-        "pickUpLocation": "",
-        "dropLocation": "",
-        "isSocialLogin": true,
-        "email_verified": true
-      }
-    },
-    {
-      "id": "b809",
-      "yogesh.tiwari@paavu.com": {
-        "userEmail": "yogesh.tiwari@paavu.com",
-        "userName": "yogi",
-        "password": "121003",
-        "cpassword": "121003",
-        "phone": "9582467932",
-        "pickUpLocation": "",
-        "dropLocation": "",
-        "isSocialLogin": false,
-        "email_verified": false
-      }
-    },
-    {
       "id": "f2a7",
       "dewanshu.singh@paavu.com": {
         "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIkgegYs_b9uOr78xy-AaQE9EPi3hYFubLchzJ2_F7Mw-LD70M=s96-c",
