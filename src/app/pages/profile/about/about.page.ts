@@ -29,7 +29,7 @@ export class AboutPage implements OnInit {
     // const firstKey = keys[0];
     const firstKey = keys[1];
     this.currentUser = parsedData[firstKey];
-    console.log(this.currentUser);
+    console.log('about page', this.currentUser);
 
     this.isEmailVerified = this.currentUser.email_verified ? true : false
     this.isPhoneVerified = this.currentUser.phone_verified ? true : false
@@ -38,10 +38,20 @@ export class AboutPage implements OnInit {
 
   async openEditCard() {
     const modal = await this.modalCtrl.create({
-      component: EditCardComponent
+      component: EditCardComponent,
+      componentProps: { data: this.currentUser }
     })
 
-    modal.present()
+    modal.onDidDismiss().then((dataFromModal) => {
+      if (dataFromModal !== null) {
+        console.log('The result:', dataFromModal.data);
+
+      }
+    })
+
+    return await modal.present();
+
+
   }
 
 }

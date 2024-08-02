@@ -6,4 +6,52 @@
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<ion-content> </ion-content>
+<ion-content class="ion-padding">
+  <ion-card class="ion-padding">
+    {{ data | json }}
+    <ion-row>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="email"
+          label="Email"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your Email"
+          [(ngModel)]="data.userEmail"
+          name="email"
+          required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        >
+        </ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="phone"
+          label="Phone"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your phone"
+          [(ngModel)]="data.phone"
+          name="phone"
+          required
+        >
+        </ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="text"
+          label="Name"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your Name"
+          [(ngModel)]="data.userName"
+          name="name"
+          required
+        >
+        </ion-input>
+      </ion-col>
+
+      <ion-button type="button" expand="block">Update</ion-button>
+    </ion-row>
+  </ion-card>
+</ion-content>
