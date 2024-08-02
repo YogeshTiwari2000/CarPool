@@ -27,7 +27,8 @@ export class AboutPage implements OnInit {
     const parsedData: any = JSON.parse(data)
 
     const keys = Object.keys(parsedData);
-    const firstKey = keys[0];
+    // const firstKey = keys[0];
+    const firstKey = keys[1];
     this.currentUser = parsedData[firstKey];
 
     console.log(this.currentUser);
