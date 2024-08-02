@@ -25,7 +25,20 @@ export class UserDetailsComponent implements OnInit {
     return this.userData.price * this.userData.seatAvl;
   }
 
+  dateFormat(dateString: string): string {
+    const date = new Date(dateString);
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
 
+    const weekday = weekdays[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+
+    return `${weekday} ${day} ${month}`;
+  }
 
 
 

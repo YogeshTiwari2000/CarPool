@@ -11,7 +11,8 @@
   <ion-card>
     <ion-item lines="none">
       <div class="journey-box">
-        <p>Date Week_day</p>
+        <p class="date">{{ dateFormat('2024/08/07') }} </p>
+
 
         <div class="ion-flex ion-align-item-start ion-padding-bottom">
           <svg class="svg-icon" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,11 +136,6 @@
         </defs>
       </svg>
     </ion-item>
-    <!-- <ion-col size="12" sizeLg="6" class="search-box btn-box">
-      <ion-button class="login" expand="block">
-        Search >
-      </ion-button>
-    </ion-col> -->
 
   </ion-card>
   <div class="search-btn">
@@ -150,5 +146,11 @@
           stroke-linejoin="round" />
       </svg>
     </button>
+    <!-- <ion-button class="book-btn" expand="">
+      <span> Book </span><svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 19.7638L9.99351 10.7452L1 1.72663" stroke="white" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </ion-button> -->
   </div>
 </ion-content>
