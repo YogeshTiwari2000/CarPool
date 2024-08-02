@@ -12,9 +12,76 @@
   </ion-header>
   <ion-card>
     <ion-item lines="none">
-      <ion-icon name="star"></ion-icon>
-      <ion-label color="primary">
-        <h2>4.8</h2>
-      </ion-label>
+      <div class="ion-fx">
+        <ion-icon name="star" color="dark" class="star"></ion-icon>
+        <h2 class="ion-color-dark rating"><strong>4.8</strong></h2>
+      </div>
     </ion-item>
-  </ion-card></ion-content>
+    <ion-item>
+      <p>6912 Ratings </p><ion-icon name="information-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-card>
+      <ion-item lines="none">
+        <div lines="none" class="rating-container">
+          <div class="rating-box ion-fx">
+            <p>5 star</p>
+            <div class="star-box"> <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star"
+                color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark" class="star"></ion-icon>
+              <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark"
+                class="star"></ion-icon>
+            </div>
+            <p>58%</p>
+          </div>
+          <div class="rating-box ion-fx">
+            <p>4 star</p>
+            <div class="star-box"> <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star"
+                color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark" class="star"></ion-icon>
+              <ion-icon name="star" color="dark" class="star"></ion-icon>
+            </div>
+            <p>38%</p>
+          </div>
+          <div class="rating-box ion-fx">
+            <p>3 star</p>
+            <div class="star-box"> <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star"
+                color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark" class="star"></ion-icon> </div>
+            <p>58%</p>
+          </div>
+          <div class="rating-box ion-fx">
+            <p>2 star</p>
+            <div class="star-box"> <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star"
+                color="dark" class="star"></ion-icon> </div>
+            <p>58%</p>
+          </div>
+          <div class="rating-box ion-fx">
+            <p>1 star</p>
+            <div class="star-box"> <ion-icon name="star" color="dark" class="star"></ion-icon> </div>
+            <p>58%</p>
+          </div>
+        </div>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header class="review-container">
+        <div class="photo">
+          <ion-avatar slot="start">
+            <img src="../../../../assets/images/svgs/person.svg" alt="User Photo" />
+          </ion-avatar>
+          <div class="detail">
+            <ion-card-title>Yogi</ion-card-title>
+            <ion-card-subtitle>Oct 12,2023</ion-card-subtitle>
+          </div>
+        </div>
+        <div class="review-star"><ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star"
+            color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark" class="star"></ion-icon>
+          <ion-icon name="star" color="dark" class="star"></ion-icon> <ion-icon name="star" color="dark"
+            class="star"></ion-icon>
+        </div>
+      </ion-card-header>
+      <ion-item lines="none">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore alias quas architecto quod, vel maxime
+        temporibus explicabo nisi itaque porro!
+      </ion-item>
+    </ion-card>
+  </ion-card>
+</ion-content>

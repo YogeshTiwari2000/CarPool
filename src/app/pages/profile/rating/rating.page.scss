@@ -1,0 +1,47 @@
+.ion-fx {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    font-size: 1.5rem;
+}
+
+.rating {
+    font-size: 2.5rem;
+}
+
+.rating-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.rating-box {
+    gap: 2rem;
+}
+
+.star-box {
+    width: 8rem;
+}
+
+.photo {
+    display: flex;
+    align-items: center;
+
+    ion-avatar {
+        img {
+            padding: 5px;
+            border: 2px solid green;
+        }
+    }
+
+    .detail {
+        margin-left: 10px;
+    }
+}
+
+.review-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
