@@ -273,3 +273,14 @@ ion-card {
     padding: 0.5rem;
     border-radius: 15px;
 }
+
+ion-list.text-gray {
+    padding: 1rem;
+
+    ion-item {
+        ion-label {
+            color: var(--text-gray) !important
+        }
+    }
+
+}
