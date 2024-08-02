@@ -2,20 +2,16 @@
     max-width: fit-content;
 
     div {
-
-
-
-        padding: 0.5rem 1rem;
+        padding: 0.8rem;
         display: flex;
         align-items: center;
-        border-radius: 1rem;
+        border-radius: 8px;
         background-color: #DCEEF2;
         width: fit-content;
 
-
         svg {
-            height: 2rem;
-            width: 2rem;
+            height: 1.5rem;
+            width: 1.5rem;
         }
     }
 }

@@ -7,13 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card class="ion-padding">
-    <ion-row class="gap-1">
-      <ion-col class="backBtn">
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-row class="gap-1 ion-align-items-center">
+      <ion-col
+        class="backBtn"
+        size="1"
+        [routerLink]="['/search']"
+        routerLinkActive="router-link-active"
+      >
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-col>
-      <ion-col>
+      <ion-col size="9">
         <ion-row class="ion-align-items-center">
           <ion-col> start from </ion-col>
           <ion-col>
@@ -23,7 +28,7 @@
         </ion-row>
         <ion-row> Today,2 passanger </ion-row>
       </ion-col>
-      <ion-col class="filterArea">
+      <ion-col size="2" class="filterArea ion-no-padding">
         <div>
           <svg
             viewBox="0 0 20 20"
