@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, IonButton, IonGrid, IonRow, IonCol, IonIcon, IonCard, IonCardHeader, IonCardContent, IonItem, IonAvatar, IonLabel, IonContent, IonChip, IonList, IonCardTitle, IonBadge, IonListHeader, IonCardSubtitle, IonImg, IonHeader, IonTitle, IonToolbar, IonText, IonNote } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'],
+  selector: 'app-ride-details',
+  templateUrl: './ride-details.component.html',
+  styleUrls: ['./ride-details.component.scss'],
   standalone: true,
   imports: [IonNote, IonText, IonToolbar, IonTitle, IonHeader, IonImg, IonCardSubtitle, IonListHeader, IonBadge, IonCardTitle, IonList, IonChip, IonContent, IonLabel, IonAvatar, IonItem, IonCardContent, IonCardHeader, IonCard, IonIcon, IonCol, IonRow, IonGrid, IonButton,],
 })

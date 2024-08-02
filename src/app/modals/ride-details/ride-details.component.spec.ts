@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { UserDetailsComponent } from './user-details.component';
+import { UserDetailsComponent } from './ride-details.component';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -9,7 +9,7 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserDetailsComponent ],
+      declarations: [UserDetailsComponent],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 

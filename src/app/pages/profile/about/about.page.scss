@@ -9,9 +9,13 @@
         }
     }
 
-
-
     .detail {
         margin-left: 10px;
+    }
+}
+
+ion-card-content {
+    ion-icon {
+        margin-inline-end: 12px;
     }
 }

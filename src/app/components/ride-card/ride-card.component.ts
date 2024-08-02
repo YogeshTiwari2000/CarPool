@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { IonInput, IonHeader, IonContent, IonCard, IonThumbnail, IonItem, IonLabel, IonCardHeader, IonAvatar, IonCardTitle, IonIcon, IonCardSubtitle, IonCardContent, IonRow, IonButton, IonCol, ModalController, IonItemDivider, IonBadge } from "@ionic/angular/standalone";
-import { UserDetailsComponent } from 'src/app/modals/user-details/user-details.component';
+import { UserDetailsComponent } from 'src/app/modals/ride-details/ride-details.component';
 
 @Component({
-  selector: 'app-user-card',
-  templateUrl: './user-card.component.html',
-  styleUrls: ['./user-card.component.scss'],
+  selector: 'app-ride-card',
+  templateUrl: './ride-card.component.html',
+  styleUrls: ['./ride-card.component.scss'],
   standalone: true,
   imports: [IonBadge, IonItemDivider, IonCol, IonButton, IonRow, IonCardContent, IonCardSubtitle, IonIcon, IonCardTitle, IonAvatar, IonCardHeader, IonLabel, IonItem, IonCard, IonContent, IonHeader, IonInput, IonThumbnail, CommonModule, IonItemDivider, IonBadge],
 })
-export class UserCardComponent implements OnInit {
+export class RideCardComponent implements OnInit {
   @Input() userInfo: any;
   dateInput: string | undefined;
   journeyDuration: string | undefined;

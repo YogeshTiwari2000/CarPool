@@ -33,18 +33,10 @@ export class AboutPage implements OnInit {
     console.log(this.currentUser);
 
 
-    // this.isEmailVerified = this.checkEmailVerified(parsedData.email)
-    // this.isPhoneVerified = this.checkPhoneVerified(parsedData.phone)
-    // this.isGovtIdVerified = this.checkIsGovtIdVerified(parsedData.govtId)
-  }
-  checkEmailVerified(email: string): boolean {
-    return email != '';
-  }
-  checkPhoneVerified(phone: number): boolean {
-    return phone != null;
-  }
-  checkIsGovtIdVerified(govtId: number): boolean {
-    return govtId != null;
+    this.isEmailVerified = this.currentUser.email_verified ? true : false
+    this.isPhoneVerified = this.currentUser.phone_verified ? true : false
+    this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false
+
   }
 
 }

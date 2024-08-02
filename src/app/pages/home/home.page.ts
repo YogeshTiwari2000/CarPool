@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon } from '@ionic/angular/standalone';
 
-import { UserCardComponent } from 'src/app/components/user-card/user-card.component';
+import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonNav, IonCol, IonRow, IonCard, IonButton, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, UserCardComponent, RouterLink, RouterLinkActive]
+  imports: [IonIcon, IonNav, IonCol, IonRow, IonCard, IonButton, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RideCardComponent, RouterLink, RouterLinkActive]
 })
 export class HomePage implements OnInit {
   isLogeedIn: boolean = false;
