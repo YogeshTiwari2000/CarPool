@@ -51,7 +51,7 @@
     display: flex;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
@@ -67,7 +67,7 @@
 
 }
 
-.counter-input[_ngcontent-ng-c2402017958]:nth-child(3) {
+.counter-input:nth-child(3) {
     border-right: 2px solid #BAD4DA;
 }
 
@@ -154,9 +154,16 @@ button.togg-btn-1 {
             justify-content: center;
         }
     }
-    .main-1 {
-        margin: 6rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
+    
+   
+}
+@media (max-width: 768px) {
+    button.btn-btn {
+        width: 100%;
     }
+
+.flex-box {
+    padding-left: 0rem;
+    justify-content: center;
+}
 }
