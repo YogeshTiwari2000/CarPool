@@ -2,13 +2,10 @@
     border-bottom: none;
     background: #ddf7f7b3;
 }
-
-
     ion-datetime-button::part(button) {
         --padding-left: 5rem !important;
         --background: #000;
       }
-
 
 .main {
     display: flex;
@@ -78,22 +75,6 @@ button.btn-btn {
     border: 2px solid #BAD4DA;
     
 }
-// ion-input[required]::part(native) {
-//     border-bottom: none;
-//     --highlight-color:transparent!important
-//   }
-//   ion-input.ion-invalid[required]::part(native) {
-//     border-bottom: none;
-//     --highlight-color:transparent!important
-//   }
-//   .ion-input::part(placeholder) {
-//     border-bottom: none;
-//     --highlight-color:transparent!important
-//   }
-ion-input[required]::part(placeholder) {
-    border-bottom: none!important;
-    --highlight-color:transparent!important
-  }
 
 .btn-box {
     width: -webkit-fill-available;
@@ -109,7 +90,6 @@ ion-input[required]::part(placeholder) {
         text-transform: capitalize;
       height: 3rem;
     }
-
 
 }
 .has-focus.ion-valid.sc-ion-input-md-h, .ion-touched.ion-invalid.sc-ion-input-md-h:hover{
@@ -163,6 +143,10 @@ button.togg-btn-1 {
     font-weight: 400;
     font-size: 16px;
 }
+::ng-deep    .input-highlight.sc-ion-input-md {
+    border-bottom: none;
+        background: transparent!important; 
+    }
 @media (min-width: 768px) {
     .main {
         .btn-box {
@@ -171,8 +155,6 @@ button.togg-btn-1 {
         }
    
     }
-    
-   
 }
 @media (max-width: 768px) {
     button.btn-btn {
