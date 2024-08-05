@@ -78,6 +78,22 @@ button.btn-btn {
     border: 2px solid #BAD4DA;
     
 }
+// ion-input[required]::part(native) {
+//     border-bottom: none;
+//     --highlight-color:transparent!important
+//   }
+//   ion-input.ion-invalid[required]::part(native) {
+//     border-bottom: none;
+//     --highlight-color:transparent!important
+//   }
+//   .ion-input::part(placeholder) {
+//     border-bottom: none;
+//     --highlight-color:transparent!important
+//   }
+ion-input[required]::part(placeholder) {
+    border-bottom: none!important;
+    --highlight-color:transparent!important
+  }
 
 .btn-box {
     width: -webkit-fill-available;
@@ -98,7 +114,7 @@ button.btn-btn {
 }
 .has-focus.ion-valid.sc-ion-input-md-h, .ion-touched.ion-invalid.sc-ion-input-md-h:hover{
   border-left: 2px solid #33A05E;
-  border-bottom: none;
+  border-bottom: none !important;
 
 }
 .img-1{
@@ -153,6 +169,7 @@ button.togg-btn-1 {
             flex-direction: row;
             justify-content: center;
         }
+   
     }
     
    
@@ -162,8 +179,17 @@ button.togg-btn-1 {
         width: 100%;
     }
 
-.flex-box {
-    padding-left: 0rem;
-    justify-content: center;
+    .flex-box {
+        padding-left: 1rem;
+        justify-content: space-around;
+    }
+    .counter-input {
+        padding: 1rem;
+        padding-right: 2rem;
+    }
 }
+@media (max-width: 375px) {
+    .counter-input {
+        padding-right: 1rem;
+    }
 }
