@@ -43,18 +43,26 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage),
     canActivate: [authGuard]
   },
+  {
+    path: 'myWallet',
+    loadComponent: () => import('./pages/my-wallet/my-wallet.page').then(m => m.MyWalletPage),
+    canActivate: [authGuard],
+    title: "Wallet"
+  },
 
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
   },
+
   {
     path: '**',
     pathMatch: 'full',
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
+
 
 
 ];
