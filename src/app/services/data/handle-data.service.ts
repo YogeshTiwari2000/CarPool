@@ -22,6 +22,13 @@ export class HandleDataService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  removeKeys(obj:any, key:any) {
+    if (obj.hasOwnProperty(key)) {
+      delete obj[key];
+  }
+  return obj;
+}
+
   checkUserExists(email: string): Observable<boolean> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       map(users => {
@@ -29,12 +36,13 @@ export class HandleDataService {
         if (users) {
           return users.some(user => {
             console.log("user === ", user);
-            this.user = user
+            
+            this.user = this.removeKeys(user,"id");
             console.log(" this.user === ", this.user);
-            const userKeys = Object.keys(user);
+            const userKeys = Object.keys(this.user);
             // console.log("userKeys === ", userKeys);
             return userKeys.some(key => {
-              const userData = user[key];
+              const userData = this.user[key];
               return userData.userEmail === email;
             });
           });

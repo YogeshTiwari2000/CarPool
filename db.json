@@ -59,6 +59,21 @@
         "isSocialLogin": true,
         "email_verified": true
       }
+    },
+    {
+      "id": "b8fb",
+      "nikita.shukla@paavu.com": {
+        "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKnsPBYCSXMz8f56NCKg1uRUhVdm8sqBxjF9cfWimKfENOtrw=s96-c",
+        "userEmail": "nikita.shukla@paavu.com",
+        "userName": "Nikita Shukla",
+        "password": "",
+        "cpassword": "",
+        "phone": "",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": true,
+        "email_verified": true
+      }
     }
   ]
 }

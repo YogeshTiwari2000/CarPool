@@ -24,10 +24,12 @@ export class AboutPage implements OnInit {
   ngOnInit() {
     const data: any = localStorage.getItem('currentUser');
     const parsedData: any = JSON.parse(data)
+    console.log("data === ",parsedData);
 
     const keys = Object.keys(parsedData);
-    // const firstKey = keys[0];
-    const firstKey = keys[1];
+    console.log("keys === ",keys);
+    const firstKey = keys[0];
+    // const firstKey = keys[1];
     this.currentUser = parsedData[firstKey];
     console.log('about page', this.currentUser);
 
