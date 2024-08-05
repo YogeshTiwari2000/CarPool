@@ -26,7 +26,6 @@ export class ProfilePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
     const data: any = localStorage.getItem('currentUser');
     const parsedData: any = JSON.parse(data)
     console.log("data === ", parsedData);

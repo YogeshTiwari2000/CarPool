@@ -61,17 +61,17 @@ export class FeedbackPage implements OnInit {
     });
   }
 
-  handleChange(event: any) {
-    console.log('ionChange fired with value: ' + event.detail.value);
-  }
+  // handleChange(event: any) {
+  //   console.log('ionChange fired with value: ' + event.detail.value);
+  // }
 
-  handleCancel() {
-    console.log('ionCancel fired');
-  }
+  // handleCancel() {
+  //   console.log('ionCancel fired');
+  // }
 
-  handleDismiss() {
-    console.log('ionDismiss fired');
-  }
+  // handleDismiss() {
+  //   console.log('ionDismiss fired');
+  // }
 
   submitFeedback() {
     console.log('feedback submitted successfully');

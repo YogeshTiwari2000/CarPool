@@ -10,8 +10,6 @@ export class CommonService {
 
 
   constructor(private alertController: AlertController) {
-
-
   }
 
   async alertBox(message: string, header: string, buttons?: string[], subHeader?: string,) {

@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
   public commonService = inject(CommonService)
   private handleData = inject(HandleDataService)
 
-  // users: any[] = []
-  users$: Observable<any[]> = new Observable();
+  users: any;
+  // users$: Observable<any[]> = new Observable();
 
   isSocialLogin: boolean = false
   email_verified: boolean = false
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   async ngOnInit() {
-    this.users$ = this.handleData.getData();
+    this.users = this.handleData.getData();
 
     // googleLogin
     await this.socialLogin.googleLogin("google").then((res) => {

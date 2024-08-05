@@ -27,7 +27,7 @@ export class RegisterPage implements OnInit {
   public commonService = inject(CommonService)
   private handleData = inject(HandleDataService)
 
-  users$: Observable<any[]> = new Observable();
+  users: any;
 
   isSocialLogin: boolean = false
   email_verified: boolean = false
@@ -51,7 +51,8 @@ export class RegisterPage implements OnInit {
   constructor() { }
 
   async ngOnInit() {
-    this.users$ = this.handleData.getData();
+
+    this.users = this.handleData.getData();
     //google login
     try {
       const res = await this.socialLogin.googleLogin("google");

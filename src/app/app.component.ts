@@ -30,7 +30,7 @@ export class AppComponent {
     { title: 'Wallet', url: '/myWallet', icon: 'wallet' },
   ];
 
-  datalist$: Observable<any> = new Observable()
+  datalist: any;
 
   constructor() {
     addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet });
@@ -42,7 +42,7 @@ export class AppComponent {
       this.commonService.currentUserEmail = "Your@email.com"
     }
 
-    this.datalist$ = this.handleData.getData()
+    this.datalist = this.handleData.getData()
 
 
 
