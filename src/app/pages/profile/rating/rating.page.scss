@@ -45,3 +45,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.no-shadow {
+    --ion-box-shadow: none !important;
+}

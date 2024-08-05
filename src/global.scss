@@ -44,7 +44,8 @@ html.md {
 }
 
 .shadow-none {
-    --box-shadow: none !important
+    --box-shadow: none !important;
+    box-shadow: none !important
 }
 
 .error-text {
