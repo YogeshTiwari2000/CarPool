@@ -27,18 +27,21 @@ export const routes: Routes = [
   {
     path: 'profile',
     title: 'Profile',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./pages/profile/profile.routes').then(r => r.routes),
-      }
-    ],
+    loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage),
     canActivate: [authGuard]
 
   },
   {
+    path: 'profile/rating',
+    title: 'Rating',
+    loadComponent: () => import('./pages/rating/rating.page').then(m => m.RatingPage),
+    canActivate: [authGuard]
+  },
+  {
     path: 'feedback',
-    loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage)
+    title: 'Feedback',
+    loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage),
+    canActivate: [authGuard]
   },
 
   {
