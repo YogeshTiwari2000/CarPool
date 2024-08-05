@@ -14,36 +14,35 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class FeedbackPage implements OnInit {
   dataservice = inject(HandleDataService)
   star: any;
-  email: any = 'dewanshusingh21@gmail.com'
+  email: any = 'shubham.sholet@paavu.com'
+  users: any[] = [];
+
   constructor() { }
   stars: any = ['1', '2', '3', '4', '5'];
   filledStars: boolean[] = [false, false, false, false, false];
 
-  feedbackFields = {
-    name: '',
-    email: '',
-    photo: '',
-    star: '',
-    feedback: '',
-    comment: '',
-  }
 
-  rating = {
-    given: [{
-      ...this.feedbackFields
-    }],
-    recieved: [{
-      ...this.feedbackFields
-    }]
-  }
+  rating = [
+    {
+      "feedbackFields": {
+        name: '',
+        email: '',
+        photo: '',
+        star: '',
+        feedback: '',
+        comment: '',
+      }
+    }
+  ]
 
 
 
   ngOnInit() {
+
     console.log('this.dataservice.user',
-
-      this.dataservice.checkUserExists(this.email)
-
+      this.dataservice.checkUserExists(this.email).subscribe((user) => {
+        console.log("user === ", user);
+      })
     );
 
   }

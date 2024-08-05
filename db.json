@@ -44,6 +44,21 @@
         "isSocialLogin": false,
         "email_verified": false
       }
+    },
+    {
+      "id": "8e52",
+      "shubham.sholet@paavu.com": {
+        "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocL13r6ZNdJKOi6XRnVuHCVIR6ozMda-5NEr8u2TgeiP-NpuLg=s96-c",
+        "userEmail": "shubham.sholet@paavu.com",
+        "userName": "Shubham Sholet",
+        "password": "",
+        "cpassword": "",
+        "phone": "",
+        "pickUpLocation": "",
+        "dropLocation": "",
+        "isSocialLogin": true,
+        "email_verified": true
+      }
     }
   ]
 }
