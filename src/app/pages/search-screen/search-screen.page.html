@@ -25,6 +25,7 @@
               errorText="Did not found"
               [(ngModel)]="from"
               id="fromLocation"
+              required="fields does not exists"
             ></ion-input>
           </ion-col>
           <div class="togg-btn">
@@ -40,16 +41,27 @@
               errorText="Did not found"
               [(ngModel)]="to"
               id="toLocation"
+              required="fields does not exists"
             ></ion-input>
           </ion-col>
         </div>
 
         <div class="main-2">
           <div class="custom-date-container">
-            <input type="date" [(ngModel)]="date" class="date" />
+            <input
+              type="date"
+              [(ngModel)]="date"
+              class="date"
+              required="fields does not exists"
+            />
           </div>
           <div class="custom-time-container">
-            <input type="time" [(ngModel)]="time" class="time" />
+            <input
+              type="time"
+              [(ngModel)]="time"
+              class="time"
+              required="fields does not exists"
+            />
           </div>
 
           <button class="btn-btn">

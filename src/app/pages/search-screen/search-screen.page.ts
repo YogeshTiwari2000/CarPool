@@ -37,6 +37,7 @@ export class SearchScreenPage implements OnInit {
     this.to = temp;
   }
 
+isInputRequired: boolean = true;
   to: any
   from: any
   place:any
