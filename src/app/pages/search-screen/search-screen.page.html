@@ -3,12 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Trip Search</ion-title>
+    <ion-title>Find Your Ride</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- {{ formattedaddress }} -->
   <ion-row>
     <div class="main">
       <div class="para-box">
@@ -19,55 +18,51 @@
       <div class="main-1">
         <div class="main-1-1">
           <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-            <ion-input
-              type="text"
-              placeholder="Trip Start"
-              errorText="Did not found"
-              [(ngModel)]="from"
-              id="fromLocation"
-              required="fields does not exists"
-            ></ion-input>
+            <div class="input-wrapper">
+              <img
+                src="../../../assets/images/svgs/location.svg"
+                class="icon"
+              />
+              <ion-input
+                type="text"
+                placeholder="Trip Start"
+                [(ngModel)]="from"
+                id="fromLocation"
+                required
+              ></ion-input>
+            </div>
           </ion-col>
           <div class="togg-btn">
             <button class="togg-btn-1" (click)="swapLocations()">
-              <!-- swap &#8597; -->
               <img class="img-1" src="../../../assets/images/svgs/swap.svg" />
             </button>
           </div>
           <ion-col size="12" sizeLg="6" class="ion-padding-top ride-box">
-            <ion-input
-              type="text"
-              placeholder="Trip End"
-              errorText="Did not found"
-              [(ngModel)]="to"
-              id="toLocation"
-              required="fields does not exists"
-            ></ion-input>
+            <div class="input-wrapper">
+              <img src="../../../assets/images/svgs/round.svg" class="icon" />
+              <ion-input
+                type="text"
+                placeholder="Trip End"
+                [(ngModel)]="to"
+                id="toLocation"
+                required
+              ></ion-input>
+            </div>
           </ion-col>
         </div>
 
         <div class="main-2">
           <div class="custom-date-container">
-            <input
-              type="date"
-              [(ngModel)]="date"
-              class="date"
-              required="fields does not exists"
-            />
+            <input type="date" [(ngModel)]="date" class="date" required />
           </div>
           <div class="custom-time-container">
-            <input
-              type="time"
-              [(ngModel)]="time"
-              class="time"
-              required="fields does not exists"
-            />
+            <input type="time" [(ngModel)]="time" class="time" required />
           </div>
 
           <button class="btn-btn">
             <div class="flex-box">
               <img src="../../../assets/images/svgs/person.svg" />
-              <div class="counter-input" id="counter" value="0" readonly>
+              <div class="counter-input" id="counter" readonly>
                 2 passengers
               </div>
               <div class="counter-input" id="decrement" (click)="decrement()">

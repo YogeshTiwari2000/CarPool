@@ -147,6 +147,18 @@ button.togg-btn-1 {
     border-bottom: none;
         background: transparent!important; 
     }
+    .input-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+      
+      /* Styling for icons */
+      .icon {
+        width: 24px; /* Width of the icon */
+        height: 24px; /* Height of the icon */
+        margin-right: 8px; /* Space between icon and input field */
+      }
 @media (min-width: 768px) {
     .main {
         .btn-box {
