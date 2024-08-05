@@ -91,6 +91,7 @@ button.btn-btn {
         --background: #33A05E;
         --border-radius: 50px;
         text-transform: capitalize;
+      height: 3rem;
     }
 
 
@@ -107,24 +108,7 @@ button.btn-btn {
     border-bottom: none!important;
     --highlight-color:transparent!important
 }
-// ion-datetime-button::before {
-//     content: "\f073";
-//     font-family: "Font Awesome 6 Free";
-//     font-weight: 900;
-//     font-size: 24px;
-//     display: inline-block;
-//     margin-right: 8px;
-//     position: absolute;
-//     z-index: 2;
-//     left: 3rem;
-// }
 
-// ion-datetime-button::after {
-//     content: '\1F551';
-//     font-size: 24px;
-//     margin-right: 8px;
-//     display: inline-block;
-// }
 .sc-ion-input-md-h {
     min-height: 0px;
     padding: 0 !important;
@@ -158,55 +142,21 @@ button.togg-btn-1 {
 .togg-btn {
     border-bottom: 2px solid #BAD4DA;;
 }
-
-
-
-
-
-
-
-/* Hide the default icon */
-
-// .date::-webkit-calendar-picker-indicator,
-// .time::-webkit-calendar-picker-indicator {
-// }
-
-
-// .date::-webkit-calendar-picker-indicator
-//  {
-// //   position: absolute;
-// //   right: 0;
-// //   opacity: 0; /* Hide the default icon */
-// //   z-index: 2;
-
-// }
-
-// .date i::before{
-//     content: "\f073";
-//     font-family: "Font Awesome 6 Free";
-//     font-weight: 900;
-//     font-size: 24px;
-//     display: inline-block;
-//     margin-right: 8px;
-//     position: absolute;
-//     z-index: 2;
-//     left: 3rem;
-// }
-
-
-
-
-
-
-
-
-
-
+.counter-input[_ngcontent-ng-c2402017958] {
+    padding: 1rem;
+    font-weight: 400;
+    font-size: 16px;
+}
 @media (min-width: 768px) {
     .main {
         .btn-box {
             flex-direction: row;
             justify-content: center;
         }
+    }
+    .main-1[_ngcontent-ng-c2402017958] {
+        margin: 6rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
     }
 }
