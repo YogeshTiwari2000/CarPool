@@ -100,6 +100,7 @@ export class RegisterPage implements OnInit {
       this.commonService.alertBox("Form is invalid", "Form alert", ["Ok"]);
     }
   }
+
   passCheck = false;
   validatePassword() {
     if (this.userData.password != this.userData.cpassword) {
