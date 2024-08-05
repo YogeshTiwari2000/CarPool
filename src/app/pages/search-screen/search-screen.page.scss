@@ -67,9 +67,8 @@
 
 }
 
-.counter-input:nth-child(3) {
-    border-left: 2px solid #BAD4DA;
-
+.counter-input[_ngcontent-ng-c2402017958]:nth-child(3) {
+    border-right: 2px solid #BAD4DA;
 }
 
 button.btn-btn {
@@ -98,9 +97,12 @@ button.btn-btn {
 }
 .has-focus.ion-valid.sc-ion-input-md-h, .ion-touched.ion-invalid.sc-ion-input-md-h:hover{
   border-left: 2px solid #33A05E;
+  border-bottom: none;
 
 }
-
+.img-1{
+    width: 2.5rem;
+}
 .has-focus.ion-valid.sc-ion-input-md-h, .ion-touched.ion-invalid.sc-ion-input-md-h{
     border-bottom: none!important;
     --highlight-color:transparent!important
@@ -123,12 +125,15 @@ button.btn-btn {
 //     margin-right: 8px;
 //     display: inline-block;
 // }
-
+.sc-ion-input-md-h {
+    min-height: 0px;
+    padding: 0 !important;
+}
 button.togg-btn-1 {
     display: flex;
     background: transparent;
     position: relative;
-    top: -1rem;
+    top: -1.3rem;
     float: right;
     right: 0rem;
 }
@@ -136,15 +141,17 @@ button.togg-btn-1 {
     border-top: none!important;
 
 }
-.date{
+.date[_ngcontent-ng-c2402017958] {
     border: 2px solid #BAD4DA;
-    padding: 1rem;
+    padding: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     border-radius: 15px;
     background: rgba(221, 247, 247, 0.7019607843);
 }
 .time{
     border: 2px solid #BAD4DA;
-    padding: 1rem;
+    padding: 0.6rem;
     border-radius: 15px;
     background: rgba(221, 247, 247, 0.7019607843);
 }
