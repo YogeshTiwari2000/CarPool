@@ -7,13 +7,27 @@
   </ion-toolbar>
 </ion-header> -->
 
-<ion-breadcrumbs>
-  <ion-breadcrumb defaultHref="profile/account">Account</ion-breadcrumb>
-  <ion-breadcrumb defaultHref="profile/rating">Rating</ion-breadcrumb>
-</ion-breadcrumbs>
+<div class="navigate">
+
+  <!-- <ion-icon name="person"></ion-icon> -->
+  <div routerLink="/profile/account">Account</div>
+  <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_8152_152259)">
+      <path d="M6 4L10 8L6 12" stroke="#667085" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <defs>
+      <clipPath id="clip0_8152_152259">
+        <rect width="16" height="16" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+
+
+  <div routerLink="/profile/rating">Rating</div>
+  <!-- <ion-icon name="star"></ion-icon> -->
+</div>
 
 <ion-content class="ion-padding-horizontal">
-
 
   <ion-item lines="none">
     <div class="ion-fx">
@@ -65,8 +79,8 @@
     </ion-item>
   </ion-card>
 
-  <ion-card>
-    <ion-card-header class="review-container">
+  <ion-card class="ion-padding">
+    <ion-card-header class="review-container ion-no-padding ion-padding-bottom">
       <div class="photo">
         <ion-avatar slot="start">
           <img src="../../../../assets/images/svgs/person.svg" alt="User Photo" />
