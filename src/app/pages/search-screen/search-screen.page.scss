@@ -91,6 +91,7 @@ button.btn-btn {
         --border-radius: 50px;
         text-transform: capitalize;
       height: 3rem;
+      font-size: 19px;
     }
 
 }
@@ -185,6 +186,9 @@ button.togg-btn-1 {
     }
     .counter-input {
         padding: 1rem;
+        padding-right: 2rem;
+    }
+    .time {
         padding-right: 2rem;
     }
 }
