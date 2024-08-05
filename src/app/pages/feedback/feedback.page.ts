@@ -14,7 +14,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class FeedbackPage implements OnInit {
   dataservice = inject(HandleDataService)
   star: any;
-  email: any = 'shubham.sholet@paavu.com'
+  email: any = 'sholetshubham8@gmail.com'
   users: any[] = [];
   feedbackForm: FormGroup;
   stars: any = ['1', '2', '3', '4', '5'];
@@ -26,7 +26,7 @@ export class FeedbackPage implements OnInit {
         email: '',
         photo: '',
         star: '',
-        feedback: '',
+        fbDetails: [],
         comment: '',
       }
     }
@@ -77,15 +77,27 @@ export class FeedbackPage implements OnInit {
     console.log('feedback submitted successfully');
     console.log(this.feedbackForm.value);
     const feedbackValues = this.feedbackForm.value;
+
     this.rating[0].feedbackFields = {
-      name: this.dataservice.user?.name || '', // Adjust as needed
+      name: this.dataservice.user?.userName || '',
       email: this.email,
-      photo: this.dataservice.user?.profilePic || '', // Adjust as needed
+      photo: this.dataservice.user?.profilePicture || '',
       star: feedbackValues.star,
-      feedback: feedbackValues.fbSelectedOption,
+      fbDetails: feedbackValues.feedbackOptions,
       comment: feedbackValues.comment
     };
 
     console.log(this.rating);
+
+    const currentUser = this.dataservice.user;
+    if (currentUser) {
+      currentUser.feedback = this.rating[0].feedbackFields;
+      console.log('Updated Current User:', currentUser);
+
+      this.dataservice.updateUser(currentUser).subscribe((response: any) => {
+        console.log('User updated with feedback:', response);
+      });
+    }
+
   }
 }

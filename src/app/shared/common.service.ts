@@ -7,7 +7,12 @@ import { AlertController } from '@ionic/angular/standalone';
 export class CommonService {
   public isUserLoggedin: boolean = false
   public currentUserEmail: string = ""
-  constructor(private alertController: AlertController) { }
+
+
+  constructor(private alertController: AlertController) {
+
+
+  }
 
   async alertBox(message: string, header: string, buttons?: string[], subHeader?: string,) {
     const alert = await this.alertController.create({
@@ -19,6 +24,7 @@ export class CommonService {
 
     await alert.present();
   }
+
   checkEmailExists(data: any[], email: string): any | null {
     if (!data) {
       return null;
@@ -30,4 +36,8 @@ export class CommonService {
     }
     return null;
   }
+
+
+
+
 }
