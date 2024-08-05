@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonTabButton, IonLabel, IonIcon, IonButton, IonRow, IonCol, IonItem, IonTextarea, IonSelect, IonSelectOption, IonList } from '@ionic/angular/standalone';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 
@@ -9,19 +9,16 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   templateUrl: './feedback.page.html',
   styleUrls: ['./feedback.page.scss'],
   standalone: true,
-  imports: [IonList, IonTextarea, IonItem, IonCol, IonRow, IonButton, IonIcon, IonLabel, IonTabButton, IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule]
+  imports: [IonList, IonTextarea, IonItem, IonCol, IonRow, IonButton, IonIcon, IonLabel, IonTabButton, IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class FeedbackPage implements OnInit {
   dataservice = inject(HandleDataService)
   star: any;
   email: any = 'shubham.sholet@paavu.com'
   users: any[] = [];
-
-  constructor() { }
+  feedbackForm: FormGroup;
   stars: any = ['1', '2', '3', '4', '5'];
   filledStars: boolean[] = [false, false, false, false, false];
-
-
   rating = [
     {
       "feedbackFields": {
@@ -35,16 +32,21 @@ export class FeedbackPage implements OnInit {
     }
   ]
 
+  constructor(private FormBuilder: FormBuilder) {
+    this.feedbackForm = this.FormBuilder.group({
+      star: [null, Validators.required],
+      feedbackOptions: [[]],
+      comment: ['']
+    });
+  }
+
 
 
   ngOnInit() {
-
-    console.log('this.dataservice.user',
-      this.dataservice.checkUserExists(this.email).subscribe((user) => {
-        console.log("user === ", user);
-      })
-    );
-
+    this.dataservice.checkUserExists(this.email).subscribe((userExists: boolean) => {
+      const currentUser = this.dataservice.user;
+      console.log('Current User here is:', currentUser);
+    });
   }
 
   onStarClick(index: number) {
@@ -54,6 +56,9 @@ export class FeedbackPage implements OnInit {
       this.filledStars[index] = true;
       this.filledStars[i] = i <= index;
     }
+    this.feedbackForm.patchValue({
+      star: this.star
+    });
   }
 
   handleChange(event: any) {
@@ -70,6 +75,17 @@ export class FeedbackPage implements OnInit {
 
   submitFeedback() {
     console.log('feedback submitted successfully');
+    console.log(this.feedbackForm.value);
+    const feedbackValues = this.feedbackForm.value;
+    this.rating[0].feedbackFields = {
+      name: this.dataservice.user?.name || '', // Adjust as needed
+      email: this.email,
+      photo: this.dataservice.user?.profilePic || '', // Adjust as needed
+      star: feedbackValues.star,
+      feedback: feedbackValues.fbSelectedOption,
+      comment: feedbackValues.comment
+    };
 
+    console.log(this.rating);
   }
 }
