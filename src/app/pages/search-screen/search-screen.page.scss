@@ -57,6 +57,7 @@
     border-radius: 19px;
     align-items: center;
     padding-left: 1rem;
+    color: black;
 }
 
 .counter-input {
@@ -70,6 +71,7 @@
 
 button.btn-btn {
     border-radius: 12px;
+    color: black;
     width: fit-content;
     background: rgba(221, 247, 247, 0.7019607843);
     border: 2px solid #BAD4DA;
@@ -127,12 +129,14 @@ button.togg-btn-1 {
     padding-left: 1rem;
     padding-right: 1rem;
     border-radius: 15px;
+    color: black;
     background: rgba(221, 247, 247, 0.7019607843);
 }
 .time{
     border: 2px solid #BAD4DA;
     padding: 0.6rem;
     border-radius: 15px;
+    color: black;
     background: rgba(221, 247, 247, 0.7019607843);
 }
 .togg-btn {
@@ -142,6 +146,7 @@ button.togg-btn-1 {
     padding: 1rem;
     font-weight: 400;
     font-size: 16px;
+    color: black;
 }
 ::ng-deep    .input-highlight.sc-ion-input-md {
     border-bottom: none;
