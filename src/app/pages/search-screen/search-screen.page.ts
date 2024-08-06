@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons,IonMenuButton, IonImg } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg } from '@ionic/angular/standalone';
 
 import { Router } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
@@ -14,14 +14,14 @@ declare var google: any;
   templateUrl: './search-screen.page.html',
   styleUrls: ['./search-screen.page.scss'],
   standalone: true,
-  imports: [IonImg, IonButtons, IonIcon, IonDatetimeButton, IonDatetime, IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonMenuButton],
+  imports: [IonImg, IonButtons, IonIcon, IonDatetimeButton, IonDatetime, IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton],
   providers: [GooglePlaceModule]
 })
 export class SearchScreenPage implements OnInit {
 
   constructor() { }
   time: string = '12:00';
-  date:any = ''
+  date: any = ''
   // time:any = ''
   passengers: number = 2;
 
@@ -37,10 +37,10 @@ export class SearchScreenPage implements OnInit {
     this.to = temp;
   }
 
-isInputRequired: boolean = true;
+  isInputRequired: boolean = true;
   to: any
   from: any
-  place:any
+  place: any
 
   ionViewWillEnter() {
     this.fromLocation()
