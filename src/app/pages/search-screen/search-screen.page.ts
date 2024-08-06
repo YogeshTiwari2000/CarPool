@@ -116,7 +116,7 @@ export class SearchScreenPage implements OnInit {
     const counterElement = document.getElementById('open-modal-addPassanger');
     if (counterElement !== null) {
       let currentValue = parseInt(counterElement.textContent || "0");
-      if (currentValue < 7) {
+      if (currentValue < 6) {
         counterElement.textContent = `${currentValue + 1} passenger`;
         this.passengers++;
       }
@@ -149,11 +149,11 @@ export class SearchScreenPage implements OnInit {
       const passengerNumber = Number(this.passanger);
       console.log("passanger === ", this.passanger);
       console.log(" counterElement?.textContent === ", counterElement?.textContent);
-      if (!isNaN(passengerNumber) && passengerNumber < 7) {
+      if (!isNaN(passengerNumber) && passengerNumber < 6) {
 
         counterElement!.textContent = `${this.passanger} passenger`;
       } else {
-        alert('passanger must be less than or equal to seat available')
+        alert('passanger must be less than or equal to 6')
       }
     }
   }
