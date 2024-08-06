@@ -85,13 +85,7 @@
 
     <div class="ion-fx ion-justify-content-between ion-padding-top">
       <h4>Latest Transactions</h4>
-      <p
-        class="text-gray"
-        [routerLink]="['/history-wallet']"
-        routerLinkActive="router-link-active"
-      >
-        View all
-      </p>
+      <p class="text-gray" (click)="goToWalletHistory()">View all</p>
     </div>
 
     <div *ngFor="let item of dummy_data">

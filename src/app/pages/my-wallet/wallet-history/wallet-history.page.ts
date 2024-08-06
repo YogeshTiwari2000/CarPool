@@ -1,24 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-
-
-import data from '../../../../assets/dummy.json'
+// import data from '../../../assets/dummy.json'
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-history-wallet',
-  templateUrl: './history-wallet.page.html',
-  styleUrls: ['./history-wallet.page.css'],
+  selector: 'app-my-wallet',
+  templateUrl: './wallet-history.page.html',
+  styleUrls: ['./wallet-history.page.scss'],
   standalone: true,
   imports: [IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,RouterLink]
 })
-export class HistoryWalletComponent implements OnInit {
+export class MyWalletPage implements OnInit {
 
-  constructor() {
-    console.log(data);
+  constructor(private router :Router) {
+    // console.log(data);
 
   }
 
@@ -190,5 +187,7 @@ export class HistoryWalletComponent implements OnInit {
     // ]
 
   }
-
+  goToWalletHistory(){
+    this.router.navigate(['/wallet-history'])
+  }
 }

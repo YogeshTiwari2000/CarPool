@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>walletHistory</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="main-content">
+    <div class="ion-fx ion-justify-content-between ion-padding-top">
+      <h4>Latest Transactions</h4>
+    </div>
+
+    <div *ngFor="let item of dummy_data">
+      <ion-row>
+        <ion-col size="12">
+          <ion-list class="ion-no-margin">
+            <ion-item class="ion-no-padding transaction-card">
+              <ion-icon name="cash" class="ion-padding-end"></ion-icon>
+              <ion-label>
+                <h3>Top up</h3>
+                <p>Yesterday 02:12</p>
+              </ion-label>
+              <ion-text color="success">+$430.00</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+</ion-content>

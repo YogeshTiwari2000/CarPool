@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import data from '../../../assets/dummy.json'
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-my-wallet',
@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 })
 export class MyWalletPage implements OnInit {
 
-  constructor() {
+  constructor(private router :Router) {
     console.log(data);
 
   }
@@ -187,5 +187,7 @@ export class MyWalletPage implements OnInit {
     // ]
 
   }
-
+  goToWalletHistory(){
+    this.router.navigate(['/wallet-history'])
+  }
 }

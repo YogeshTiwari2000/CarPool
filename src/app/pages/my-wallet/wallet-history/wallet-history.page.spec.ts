@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyWalletPage } from './my-wallet.page';
+import {MyWalletPage } from './wallet-history.page';
 
-describe('MyWalletPage', () => {
+describe('WalletHistoryPage', () => {
   let component: MyWalletPage;
   let fixture: ComponentFixture<MyWalletPage>;
 
