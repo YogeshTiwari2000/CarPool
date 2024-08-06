@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
+import { OverlayEventDetail } from '@ionic/core/components';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg } from '@ionic/angular/standalone';
 
 import { Router } from '@angular/router';
@@ -18,7 +18,8 @@ declare var google: any;
   providers: [GooglePlaceModule]
 })
 export class SearchScreenPage implements OnInit {
-
+  @ViewChild(IonModal)
+  modal!: IonModal;
   constructor() { }
   time: string = '12:00';
   date: any = ''
@@ -112,15 +113,17 @@ export class SearchScreenPage implements OnInit {
     }
   }
   increment() {
-    const counterElement = document.getElementById('counter');
+    const counterElement = document.getElementById('open-modal-addPassanger');
     if (counterElement !== null) {
       let currentValue = parseInt(counterElement.textContent || "0");
-      counterElement.textContent = `${currentValue + 1} passenger`;
-      this.passengers++;
+      if (currentValue < 7) {
+        counterElement.textContent = `${currentValue + 1} passenger`;
+        this.passengers++;
+      }
     }
   }
   decrement() {
-    const counterElement = document.getElementById('counter');
+    const counterElement = document.getElementById('open-modal-addPassanger');
     if (counterElement !== null) {
       let currentValue = parseInt(counterElement.textContent || "0");
       if (currentValue > 0) {
@@ -129,5 +132,29 @@ export class SearchScreenPage implements OnInit {
       }
     }
   }
+  passanger: Number | undefined;
 
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal.dismiss(this.passanger, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    const counterElement = document.getElementById('open-modal-addPassanger');
+    if (ev.detail.role === 'confirm') {
+      const passengerNumber = Number(this.passanger);
+      console.log("passanger === ", this.passanger);
+      console.log(" counterElement?.textContent === ", counterElement?.textContent);
+      if (!isNaN(passengerNumber) && passengerNumber < 7) {
+
+        counterElement!.textContent = `${this.passanger} passenger`;
+      } else {
+        alert('passanger must be less than or equal to seat available')
+      }
+    }
+  }
 }
