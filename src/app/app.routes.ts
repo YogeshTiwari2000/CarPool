@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 
+
+
 export const routes: Routes = [
 
   {
@@ -37,6 +39,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/rating/rating.page').then(m => m.RatingPage),
     canActivate: [authGuard]
   },
+
+
+
+
+
   {
     path: 'create-ride',
     loadComponent: () => import('./pages/create-ride/create-ride.page').then(m => m.CreateRidePage)
