@@ -21,16 +21,23 @@ ion-card-content {
     }
 }
 
-// .ion-fx {
-//     display: flex;
-// }
+.ion-fx {
+    display: flex;
+}
+
 .main-content {
     padding: 16px;
 
 }
 
 .features-box {
-    background-color: #270685;
+    // background-color: #270685;
+
+    background: #1cd8d2;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #1cd8d2, #93edc7);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #1cd8d2, #93edc7);
     padding: 1rem;
 }
 
@@ -59,12 +66,20 @@ ion-card-content {
 
 .balance-card-container {
     background-color: #6a61a1;
-    background: linear-gradient(to right, #331098, #5033A4);
+    // background: linear-gradient(to right, #331098, #5033A4);
+    background: #50c9c3;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #50c9c3, #96deda);
+
 }
 
 .balance-card h1 {
     font-size: 2.5em;
     margin: 8px 0;
+}
+
+.ion-img {
+    width: 2rem;
 }
 
 .actions {
@@ -117,3 +132,12 @@ ion-item p {
 ion-item ion-text {
     font-size: 1em;
 }
+
+.transaction-img {
+    width: 3rem;
+    height: 2rem;
+    border-radius: 15px;
+    padding-right: 1rem;
+}
+
+/* Wallmart */
