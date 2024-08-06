@@ -222,10 +222,12 @@ input {
     background: transparent;
     border: none;
     width: 100%;
+    text-align: center;
 }
 
 input:focus {
     outline: none;
+    text-align: center;
 }
 
 /* Firefox */
@@ -233,13 +235,25 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+#errorHere {
+    color: red;
+    padding: 0;
+}
+
 ::ng-deep {
     .addPassanger {
-        --height: 150px;
+        --height: 250px;
         --width: 300px;
         --backdrop-opacity: 0.5 !important;
         --border-radius: 8px;
         backdrop-filter: blur(5px);
+
+        .modalCont {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
     }
 }
 

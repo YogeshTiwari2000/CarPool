@@ -139,21 +139,39 @@ export class SearchScreenPage implements OnInit {
   }
 
   confirm() {
-    this.modal.dismiss(this.passanger, 'confirm');
+    const passengerNumber = Number(this.passanger);
+    const error = document.getElementById('errorHere');
+
+    if (!isNaN(passengerNumber) && passengerNumber > 0 && passengerNumber <= 6) {
+      this.modal.dismiss(this.passanger, 'confirm');
+    } else {
+      if (error) {
+        if (isNaN(passengerNumber)) {
+          error.textContent = `Please enter a valid number of passengers.`;
+        } else if (passengerNumber <= 0) {
+          error.textContent = `The number of passengers must be greater than 0.`;
+        } else {
+          error.textContent = `The number of passengers must be less than or equal to 6.`;
+        }
+      }
+    }
   }
 
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     const counterElement = document.getElementById('open-modal-addPassanger');
+    const error = document.getElementById('errorHere');
     if (ev.detail.role === 'confirm') {
       const passengerNumber = Number(this.passanger);
       console.log("passanger === ", this.passanger);
       console.log(" counterElement?.textContent === ", counterElement?.textContent);
-      if (!isNaN(passengerNumber) && passengerNumber < 6) {
-
+      if (!isNaN(passengerNumber)) {
+        error!.textContent = `please enter the number of passanger`;
+      }
+      else if (passengerNumber < 6) {
         counterElement!.textContent = `${this.passanger} passenger`;
       } else {
-        alert('passanger must be less than or equal to 6')
+        error!.textContent = `passanger must be less than 6`;
       }
     }
   }
