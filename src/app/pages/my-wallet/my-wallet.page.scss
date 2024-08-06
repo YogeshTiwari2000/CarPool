@@ -5,12 +5,13 @@
     ion-avatar {
         img {
             padding: 5px;
-            border: 2px solid green;
+            // border: 2px solid green;
         }
     }
 
     .detail {
         margin-left: 10px;
+        color: white;
     }
 }
 
@@ -38,7 +39,7 @@ ion-card-content {
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    background-color: #3b3b98;
+    background-color: #6F45E9;
     padding: 16px;
     border-radius: 8px;
     color: white;
@@ -50,11 +51,15 @@ ion-card-content {
 }
 
 .balance-card {
-    background-color: #6a61a1;
     border-radius: 12px;
     color: white;
     padding: 16px;
     text-align: center;
+}
+
+.balance-card-container {
+    background-color: #6a61a1;
+    background: linear-gradient(to right, #331098, #5033A4);
 }
 
 .balance-card h1 {

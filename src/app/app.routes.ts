@@ -46,7 +46,7 @@ export const routes: Routes = [
   {
     path: 'myWallet',
     loadComponent: () => import('./pages/my-wallet/my-wallet.page').then(m => m.MyWalletPage),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     title: "Wallet"
   },
 
