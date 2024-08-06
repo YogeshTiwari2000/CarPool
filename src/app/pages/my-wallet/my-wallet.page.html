@@ -13,7 +13,9 @@
         </ion-avatar>
         <div class="detail">
           <!-- <ion-card-title color="light">{{ userData?.userName }}</ion-card-title> -->
-          <ion-card-title color="light">{{currentUser.userName}}</ion-card-title>
+          <ion-card-title color="light"
+            >{{currentUser.userName}}</ion-card-title
+          >
           <ion-card-subtitle color="light">
             {{ currentUser?.isSocialLogin ? 'Social Login' : 'Regular User' }}
           </ion-card-subtitle>
@@ -44,7 +46,7 @@
 
     <div class="ion-fx ion-justify-content-between ion-padding-top">
       <h4>Latest Transactions</h4>
-      <p class="text-gray">View all</p>
+      <p class="text-gray" (click)="goToWalletHistory()">View all</p>
     </div>
     <div *ngFor="let item of transactions">
       <ion-row>
@@ -56,21 +58,30 @@
                 <h3>{{ item.description }}</h3>
                 <p>{{ item.date }}</p>
               </ion-label>
-              <ion-text [color]="item.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-                {{ item.type === 'credit' ? '+' : '-' }}${{ item.amount.toFixed(2) }}
+              <ion-text
+                [color]="item.type === 'credit' ? 'success' : 'danger'"
+                class="ion-padding-end"
+              >
+                {{ item.type === 'credit' ? '+' : '-' }}${{
+                item.amount.toFixed(2) }}
               </ion-text>
-              <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="6"
+                height="10"
+                viewBox="0 0 6 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M3.78132 4.99999L0.481323 1.69999L1.42399 0.757324L5.66666 4.99999L1.42399 9.24266L0.481323 8.29999L3.78132 4.99999Z"
-                  fill="#535D66" />
+                  fill="#535D66"
+                />
               </svg>
             </ion-item>
           </ion-list>
-
         </ion-col>
       </ion-row>
     </div>
-
   </ion-grid>
 </ion-content>
 
