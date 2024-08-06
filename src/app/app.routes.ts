@@ -38,6 +38,10 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'create-ride',
+    loadComponent: () => import('./pages/create-ride/create-ride.page').then(m => m.CreateRidePage)
+  },
+  {
     path: 'feedback',
     title: 'Feedback',
     loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage),
@@ -62,7 +66,6 @@ export const routes: Routes = [
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
-
 
 
 ];
