@@ -1,9 +1,6 @@
 [
     {
         "yogesh.tiwari@paavu.com": {
-            "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocK-soA9fgCZmHQGvuHO_ZjoVDIOYNQ9Cnj-2ID34eo0TvwQCAI=s96-c",
-            "userEmail": "yogesh.tiwari@paavu.com",
-            "userName": "Yogesh",
             "password": "",
             "cpassword": "",
             "phone": "9582467932",
@@ -18,7 +15,7 @@
                     {
                         "id": "txn1",
                         "date": "2024-08-06",
-                        "amount": -20.00,
+                        "amount": 20.00,
                         "type": "debit",
                         "description": "Purchase at Store A",
                         "status": "completed",
@@ -99,7 +96,7 @@
                     {
                         "id": "txn3",
                         "date": "2024-08-08",
-                        "amount": -30.00,
+                        "amount": 30.00,
                         "type": "debit",
                         "description": "Purchase at Store C",
                         "status": "completed",
@@ -170,7 +167,7 @@
                     {
                         "id": "txn5",
                         "date": "2024-08-10",
-                        "amount": -10.00,
+                        "amount": 10.00,
                         "type": "debit",
                         "description": "Purchase at Store E",
                         "status": "completed",
@@ -241,7 +238,7 @@
                     {
                         "id": "txn7",
                         "date": "2024-08-12",
-                        "amount": -40.00,
+                        "amount": 40.00,
                         "type": "debit",
                         "description": "Purchase at Store G",
                         "status": "completed",
@@ -312,7 +309,7 @@
                     {
                         "id": "txn9",
                         "date": "2024-08-14",
-                        "amount": -50.00,
+                        "amount": 50.00,
                         "type": "debit",
                         "description": "Purchase at Store I",
                         "status": "completed",
@@ -383,7 +380,7 @@
                     {
                         "id": "txn11",
                         "date": "2024-08-16",
-                        "amount": -60.00,
+                        "amount": 60.00,
                         "type": "debit",
                         "description": "Purchase at Store K",
                         "status": "completed",
@@ -454,7 +451,7 @@
                     {
                         "id": "txn13",
                         "date": "2024-08-18",
-                        "amount": -70.00,
+                        "amount": 70.00,
                         "type": "debit",
                         "description": "Purchase at Store M",
                         "status": "completed",
@@ -525,7 +522,7 @@
                     {
                         "id": "txn15",
                         "date": "2024-08-20",
-                        "amount": -80.00,
+                        "amount": 80.00,
                         "type": "debit",
                         "description": "Purchase at Store O",
                         "status": "completed",
@@ -596,7 +593,7 @@
                     {
                         "id": "txn17",
                         "date": "2024-08-22",
-                        "amount": -90.00,
+                        "amount": 90.00,
                         "type": "debit",
                         "description": "Purchase at Store Q",
                         "status": "completed",
@@ -667,7 +664,7 @@
                     {
                         "id": "txn19",
                         "date": "2024-08-24",
-                        "amount": -100.00,
+                        "amount": 100.00,
                         "type": "debit",
                         "description": "Purchase at Store S",
                         "status": "completed",

@@ -23,20 +23,30 @@ export class MyWalletPage implements OnInit {
     console.log("mydata === ", this.mydata);
   }
   mydata = data;
+  currentUser: any = '';
 
 
   ngOnInit() {
     const currentUserEmail = 'yogesh.tiwari@paavu.com'; // Replace with actual logic
 
-    // Find the user data for the current user
-    const userEntry = data.find((user: any) => user[currentUserEmail]);
-    console.log(userEntry);
+    const currentUserData: any = localStorage.getItem('currentUser');
+    const parsedData: any = JSON.parse(currentUserData);
+    console.log(parsedData);
 
-    if (userEntry) {
-      this.userData = userEntry[currentUserEmail];
-      const userWallet = this.userData.wallet;
-      this.transactions = userWallet.transactions;
-      this.balance = userWallet.balance;
+    this.currentUser = parsedData;
+
+    // Find the user data for the current user
+    if (this.mydata.length > 0) {
+      const userEntry = data.find((user: any) => user[currentUserEmail]);
+      console.log(userEntry);
+
+      if (userEntry) {
+        this.userData = userEntry[currentUserEmail];
+        const userWallet = this.userData.wallet;
+        this.transactions = userWallet.transactions;
+        this.balance = userWallet.balance;
+      }
+
     }
   }
   goToWalletHistory() {

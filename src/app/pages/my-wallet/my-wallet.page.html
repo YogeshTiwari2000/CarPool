@@ -1,21 +1,21 @@
-(dataValidate)?
-(<ion-header [translucent]="true">
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>My Wallet</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="mydata.length > 0">
   <ion-grid class="main-content">
     <div class="features-box">
       <div class="photo">
         <ion-avatar slot="start">
-          <img [src]="userData?.profilePicture" alt="User Photo" />
+          <img [src]="currentUser.profilePicture" alt="User Photo" />
         </ion-avatar>
         <div class="detail">
-          <ion-card-title color="light">{{ userData?.userName }}</ion-card-title>
-          <ion-card-subtitle color="light" routerLinkActive="router-link-active">
-            {{ userData?.isSocialLogin ? 'Social Login' : 'Regular User' }}
+          <!-- <ion-card-title color="light">{{ userData?.userName }}</ion-card-title> -->
+          <ion-card-title color="light">{{currentUser.userName}}</ion-card-title>
+          <ion-card-subtitle color="light">
+            {{ currentUser?.isSocialLogin ? 'Social Login' : 'Regular User' }}
           </ion-card-subtitle>
         </div>
       </div>
@@ -23,36 +23,17 @@
         <ion-row>
           <ion-col size="12" class="balance-card">
             <h4>Main balance</h4>
-            <h1 class="rupiya-icon"><img src="../../../assets/images/svgs/rupiya.svg" alt="">{{ balance.toFixed(2) }}
-            </h1>
+            <h1>${{ balance.toFixed(2) }}</h1>
             <ion-grid class="actions">
               <ion-row>
                 <ion-col class="action">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M2 12.6667H14V14H2V12.6667ZM8.66667 3.88537V11.3334H7.33333V3.88537L3.286 7.93337L2.34333 6.99071L8 1.33337L13.6567 6.99004L12.714 7.93271L8.66667 3.88671V3.88537Z"
-                      fill="white" />
-                  </svg>
-
-                  <p class="ion-no-margin">Top up</p>
+                  <!-- Top up SVG and text -->
                 </ion-col>
                 <ion-col class="action">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M2 12.6667H14V14H2V12.6667ZM8.66667 8.78137L12.714 4.73337L13.6567 5.67604L8 11.3334L2.34333 5.67671L3.286 4.73337L7.33333 8.78004V1.33337H8.66667V8.78137Z"
-                      fill="white" />
-                  </svg>
-
-                  <p class="ion-no-margin">Withdraw</p>
+                  <!-- Withdraw SVG and text -->
                 </ion-col>
                 <ion-col class="action">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M12.9167 10.0687C13.3492 9.0409 13.4488 7.90337 13.2014 6.81605C12.954 5.72873 12.372 4.74629 11.5373 4.00687C10.7026 3.26744 9.65712 2.80821 8.5479 2.69374C7.43867 2.57927 6.32146 2.81532 5.35334 3.3687L4.69201 2.2107C5.70376 1.63244 6.84947 1.32961 8.01481 1.33242C9.18015 1.33522 10.3244 1.64357 11.3333 2.2267C14.3267 3.9547 15.4733 7.6547 14.078 10.74L14.9727 11.256L12.196 12.732L12.086 9.58936L12.9167 10.0687ZM3.08334 5.93136C2.65077 6.95916 2.55119 8.09669 2.79862 9.18401C3.04604 10.2713 3.62802 11.2538 4.46272 11.9932C5.29743 12.7326 6.34289 13.1919 7.45211 13.3063C8.56134 13.4208 9.67855 13.1847 10.6467 12.6314L11.308 13.7894C10.2963 14.3676 9.15055 14.6705 7.9852 14.6676C6.81986 14.6648 5.67563 14.3565 4.66667 13.7734C1.67334 12.0454 0.526672 8.34536 1.92201 5.26003L1.02667 4.7447L3.80334 3.2687L3.91334 6.41136L3.08267 5.93203L3.08334 5.93136ZM8.94334 9.88536L7.05601 8.00003L5.17067 9.88536L4.22801 8.9427L7.05667 6.1147L8.94267 8.00003L10.8287 6.1147L11.7713 7.05736L8.94267 9.88536H8.94334Z"
-                      fill="white" />
-                  </svg>
-
-                  <p class="ion-no-margin">Transfer</p>
+                  <!-- Transfer SVG and text -->
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -63,9 +44,7 @@
 
     <div class="ion-fx ion-justify-content-between ion-padding-top">
       <h4>Latest Transactions</h4>
-      <p class="text-gray" [routerLink]="['/history-wallet']" routerLinkActive="router-link-active">
-        View all
-      </p>
+      <p class="text-gray">View all</p>
     </div>
     <div *ngFor="let item of transactions">
       <ion-row>
@@ -87,9 +66,14 @@
               </svg>
             </ion-item>
           </ion-list>
+
         </ion-col>
       </ion-row>
     </div>
+
   </ion-grid>
 </ion-content>
-):<h1>"Data NotFound"</h1>
+
+<ion-content *ngIf="mydata.length === 0">
+  <h2>No Data found</h2>
+</ion-content>
