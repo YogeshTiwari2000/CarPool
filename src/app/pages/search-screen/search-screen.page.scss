@@ -14,6 +14,9 @@
     height: 100%;
     padding: 0rem;
     padding-bottom: 0rem;
+    margin: auto;
+    max-width: 450px;
+
 
     .para-box {
         padding: 0 2rem;
@@ -48,8 +51,8 @@
     display: flex;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    gap: 1rem;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .flex-box {
@@ -64,7 +67,14 @@
     padding: 1rem;
 
 }
-
+.custom-time-container {
+    flex-basis: 3rem;
+    flex-grow: 1;
+}
+.custom-date-container {
+    flex-basis: 10rem;
+    flex-grow: 1;
+}
 .counter-input:nth-child(3) {
     border-right: 2px solid #BAD4DA;
 }
@@ -75,9 +85,14 @@ button.btn-btn {
     width: fit-content;
     background: rgba(221, 247, 247, 0.7019607843);
     border: 2px solid #BAD4DA;
+    flex-basis: 26rem;
+    flex-grow: 1;
     
 }
-
+.flex-box {
+    padding-left: 1rem;
+    justify-content: space-around;
+}
 .btn-box {
     width: -webkit-fill-available;
     padding: 2rem;
@@ -90,9 +105,11 @@ button.btn-btn {
         --background: #33A05E;
         --border-radius: 50px;
         text-transform: capitalize;
-      height: 3rem;
-      font-size: 19px;
-      font-weight: 600;
+        height: 3rem;
+        font-size: 19px;
+        font-weight: 600;
+        max-width: 500px;
+        margin: auto;
     }
 
 }
@@ -141,6 +158,11 @@ button.togg-btn-1 {
     color: black;
     background: rgba(221, 247, 247, 0.7019607843);
 }
+button.btn-btn {
+    width: 100%;
+    margin-top: 0.7rem;
+}
+
 .togg-btn {
     border-bottom: 2px solid #BAD4DA;;
 }
@@ -177,14 +199,8 @@ button.togg-btn-1 {
     }
 }
 @media (max-width: 768px) {
-    button.btn-btn {
-        width: 100%;
-    }
-
-    .flex-box {
-        padding-left: 1rem;
-        justify-content: space-around;
-    }
+ 
+   
     .counter-input {
         padding: 1rem;
         padding-right: 2rem;
