@@ -1,19 +1,19 @@
 [
     {
-        "john.doe@paavu.com": {
-            "profilePicture": "https://example.com/john.jpg",
-            "userEmail": "john.doe@paavu.com",
-            "userName": "John Doe",
+        "yogesh.tiwari@paavu.com": {
+            "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocK-soA9fgCZmHQGvuHO_ZjoVDIOYNQ9Cnj-2ID34eo0TvwQCAI=s96-c",
+            "userEmail": "yogesh.tiwari@paavu.com",
+            "userName": "Yogesh",
             "password": "",
             "cpassword": "",
-            "phone": "123-456-7890",
+            "phone": "9582467932",
             "pickUpLocation": "Location A",
             "dropLocation": "Location B",
             "isSocialLogin": true,
             "email_verified": true,
             "wallet": {
                 "balance": 150.00,
-                "currency": "USD",
+                "currency": "Rs",
                 "transactions": [
                     {
                         "id": "txn1",
@@ -23,7 +23,12 @@
                         "description": "Purchase at Store A",
                         "status": "completed",
                         "paymentMethod": "credit card",
-                        "category": "shopping"
+                        "category": "shopping",
+                        "sendTo": {
+                            "profilePicture": "https://example.com/john.jpg",
+                            "userEmail": "john.doe@paavu.com",
+                            "userName": "John Doe"
+                        }
                     },
                     {
                         "id": "txn2",
@@ -33,7 +38,12 @@
                         "description": "Refund from Store B",
                         "status": "completed",
                         "paymentMethod": "bank transfer",
-                        "category": "refund"
+                        "category": "refund",
+                        "sendTo": {
+                            "profilePicture": "https://example.com/john.jpg",
+                            "userEmail": "john.doe@paavu.com",
+                            "userName": "John Doe"
+                        }
                     }
                 ],
                 "withdrawals": [
