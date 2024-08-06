@@ -13,9 +13,49 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, 
 export class MyWalletPage implements OnInit {
 
   constructor() { }
-
+  lastSixTransaction:any;
+  totalAmount:any="10,500";
   ngOnInit() {
     console.log("wallet");
+    
+    this.lastSixTransaction = [
+      {
+      "Name":"Walmart",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"500",
+      "Type":"Deduction"
+    },
+    {
+      "Name":"Wallet Top up",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"1000",
+      "Type":"Addition"
+    },
+    {
+      "Name":"Refund From Netflix",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"20.20",
+      "Type":"Addition"
+    },
+    {
+      "Name":"Netflix Recharge",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"40",
+      "Type":"Deduction"
+    },
+    {
+      "Name":"Amazon",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"35.23",
+      "Type":"Deduction"
+    },
+    {
+      "Name":"Wallet Top Up",
+      "Date":"2024-08-06 12:32",
+      "Amount" :"1000",
+      "Type":"Addition"
+    }
+  ]
 
   }
 
