@@ -4,6 +4,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <app-travel-from-to></app-travel-from-to>
+  <div class="dateTime">
+    <div class="custom-date-container">
+      <input type="date" [(ngModel)]="date" class="date" required />
+    </div>
+    <div class="custom-time-container">
+      <input type="time" [(ngModel)]="time" class="time" required />
+    </div>
+  </div>
+  <div class="seatAvl">
+    <p>Seat Available</p>
+    <input type="number" [(ngModel)]="seatAvl" required />
+    <ion-button (click)="decseatAvl()" class="decBtn" [disabled]="seatAvl <= 1">-</ion-button>
+    <ion-button (click)="incseatAvl()" [disabled]="seatAvl >= 7">+</ion-button>
+  </div>
 </ion-content>

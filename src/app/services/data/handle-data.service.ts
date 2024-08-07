@@ -25,7 +25,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
-  constructor() {}
+  constructor() { }
 
   //encrypt password
   encryptPass(getPass: string) {
@@ -98,6 +98,9 @@ export class HandleDataService {
       isExist: false,
     };
   }
+
+
+  // removeable feedback page function 
 
   checkUserExists(email: string): Observable<any> {
     const _data = this.getData();
