@@ -25,7 +25,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
-  constructor() { }
+  constructor() {}
 
   //encrypt password
   encryptPass(getPass: string) {
@@ -97,56 +97,5 @@ export class HandleDataService {
       data: null,
       isExist: false,
     };
-  }
-
-
-  // removeable feedback page function 
-
-  checkUserExists(email: string): Observable<any> {
-    const _data = this.getData();
-    return new Observable((observer) => {
-      // Find the user object where the key matches the email
-      // const userObj: any = _data.find((userObj: any) => userObj[email]);
-      // if (userObj) {
-      //   observer.next(userObj[email]);
-      // } else {
-      //   observer.next(false);
-      // }
-      // observer.complete();
-    });
-  }
-
-  getExistingUserData(userData: any) {
-    console.log("existingUser===", (this.user = userData));
-    return (this.user = userData);
-  }
-
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
-      map((users) => {
-        const user = users.find((userObj) => {
-          const userKeys = Object.keys(userObj);
-          return userKeys.some((key) => userObj[key].userEmail === email);
-        });
-        return user ? user[Object.keys(user)[0]] : null; // Extract the user data
-      })
-    );
-  }
-
-  updateUser(user: any): Observable<any> {
-    return this.getUserByEmail(user.userEmail)
-      .pipe
-      // switchMap(existingUser => {
-      //   if (!existingUser) {
-      //     throw new Error("User not found");
-      //   }
-
-      //   const userId = Object.keys(existingUser)[0]; // Assuming there is only one key per user object
-      //   console.log("userId === ", userId);
-      //   console.log("user === ", user);
-      //   // Send the PUT request to update the specific user entry
-      //   return this.http.put(`${this.apiUrl}/${userId}`, user);
-      // })
-      ();
   }
 }
