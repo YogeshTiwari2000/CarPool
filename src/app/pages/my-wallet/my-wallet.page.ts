@@ -59,6 +59,7 @@ export class MyWalletPage implements OnInit {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
       component: TopWithdrawComponent,
+      cssClass: 'topwithdraw'
     })
 
     modal.present()
