@@ -32,7 +32,6 @@ export class SearchScreenPage implements OnInit {
 
 
 
-
   isInputRequired: boolean = true;
 
 

@@ -40,10 +40,6 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
-
-
-
-
   {
     path: 'create-ride',
     loadComponent: () => import('./pages/create-ride/create-ride.page').then(m => m.CreateRidePage)
@@ -62,7 +58,7 @@ export const routes: Routes = [
   },
   {
     path: 'wallet-history',
-    loadComponent: () => import('./pages/my-wallet/wallet-history/wallet-history.page').then( m => m.MyWalletPage)
+    loadComponent: () => import('./pages/my-wallet/wallet-history/wallet-history.page').then(m => m.MyWalletPage)
   },
   {
     path: '',
@@ -76,7 +72,5 @@ export const routes: Routes = [
     title: 'Page not found',
     loadComponent: () => import('./pages/not-found/not-found.page').then(p => p.NotFoundPage)
   },
-
-
 
 ];

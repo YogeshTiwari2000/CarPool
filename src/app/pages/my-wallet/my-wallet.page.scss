@@ -32,13 +32,13 @@ ion-card-content {
 
 .features-box {
     // background-color: #270685;
-
     background: #1cd8d2;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #1cd8d2, #93edc7);
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #1cd8d2, #93edc7);
     padding: 1rem;
+    border-radius: 15px;
 }
 
 .header {
@@ -147,5 +147,7 @@ ion-item ion-text {
     justify-content: center;
     align-items: center;
 }
+
+
 
 /* Wallmart */
