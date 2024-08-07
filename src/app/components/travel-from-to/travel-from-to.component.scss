@@ -5,6 +5,7 @@
      border-radius: 25px;
      position: relative;
      background: rgba(221, 247, 247, 0.7019607843);
+     max-width: 450px;
  }
 
  .flex-box {
@@ -49,4 +50,35 @@
          text-overflow: ellipsis !important;
          white-space: nowrap !important;
      }
+ }
+
+ .has-focus.ion-valid.sc-ion-input-md-h,
+ .ion-touched.ion-invalid.sc-ion-input-md-h {
+     --border-color: none !important;
+ }
+
+ .ion-touched.ion-invalid.sc-ion-input-md-h {
+     --highlight-color: none !important;
+ }
+
+ .has-focus.ion-valid.sc-ion-input-md-h,
+ .ion-touched.ion-invalid.sc-ion-input-md-h:hover {
+     //   border-left: 2px solid #33A05E;
+     border-bottom: none !important;
+
+ }
+
+
+ .has-focus.ion-valid.sc-ion-input-md-h,
+ .ion-touched.ion-invalid.sc-ion-input-md-h {
+     border-bottom: none !important;
+     --highlight-color: transparent !important
+ }
+
+ .sc-ion-input-md-h {
+     --highlight-color-focused: none !important;
+     --highlight-color-valid: none !important;
+     --highlight-color-invalid: none !important;
+     --highlight-color: none !important;
+
  }
