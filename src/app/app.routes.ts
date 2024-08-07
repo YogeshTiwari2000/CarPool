@@ -73,6 +73,10 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'top-withdraw',
+    loadComponent: () => import('./pages/top-withdraw/top-withdraw.page').then(m => m.TopWithdrawPage)
+  },
+  {
     path: "",
     redirectTo: "home",
     pathMatch: "full",
@@ -85,4 +89,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/not-found/not-found.page").then((p) => p.NotFoundPage),
   },
+
 ];

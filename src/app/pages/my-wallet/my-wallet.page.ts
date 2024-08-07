@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import data from '../../../assets/dummy.json'
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonButton, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonButton, ModalController, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
-import { TopWithdrawComponent } from 'src/app/components/top-withdraw/top-withdraw.component';
+import { TopWithdrawPage } from '../top-withdraw/top-withdraw.page';
 
 @Component({
   selector: 'app-my-wallet',
   templateUrl: './my-wallet.page.html',
   styleUrls: ['./my-wallet.page.scss'],
   standalone: true,
-  imports: [IonButton, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
+  imports: [IonButtons, IonButton, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton]
 })
 export class MyWalletPage implements OnInit {
 
@@ -55,14 +55,13 @@ export class MyWalletPage implements OnInit {
     this.router.navigate(['/wallet-history'])
   }
 
-  async topUp() {
-    console.log("clicked");
-    const modal = await this.modalCtrl.create({
-      component: TopWithdrawComponent,
-      cssClass: 'topwithdraw'
-    })
-
-    modal.present()
+  topUp() {
+    // console.log("clicked");
+    // const modal = await this.modalCtrl.create({
+    //   component: TopWithdrawPage,
+    // })
+    // modal.present()
+    this.router.navigate(["/top-withdraw"]);
   }
 
 }
