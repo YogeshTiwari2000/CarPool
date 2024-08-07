@@ -12,9 +12,10 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   imports: [IonList, IonTextarea, IonItem, IonCol, IonRow, IonButton, IonIcon, IonLabel, IonTabButton, IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class FeedbackPage implements OnInit {
-  dataservice = inject(HandleDataService)
+  handleData = inject(HandleDataService)
   star: any;
-  email: any = 'sholetshubham8@gmail.com'
+  email: any = 'shubham.sholet@paavu.com'
+  // id: any = 'zhPlRI2PZ4or8StW5qAk'
   users: any[] = [];
   feedbackForm: FormGroup;
   stars: any = ['1', '2', '3', '4', '5'];
@@ -43,9 +44,15 @@ export class FeedbackPage implements OnInit {
 
 
   ngOnInit() {
-    this.dataservice.checkUserExists(this.email).subscribe((userExists: boolean) => {
-      const currentUser = this.dataservice.user;
-      console.log('Current User here is:', currentUser);
+    this.handleData.userExists(this.email).then(result => {
+      if (result.isExist) {
+        this.handleData.user = result.data;
+        console.log('User data:', result.data);
+      } else {
+        console.log('User not found');
+      }
+    }).catch(error => {
+      console.error('Error:', error);
     });
   }
 
@@ -74,30 +81,29 @@ export class FeedbackPage implements OnInit {
   // }
 
   submitFeedback() {
-    console.log('feedback submitted successfully');
+    console.log('Feedback submitted successfully');
     console.log(this.feedbackForm.value);
     const feedbackValues = this.feedbackForm.value;
 
-    this.rating[0].feedbackFields = {
-      name: this.dataservice.user?.userName || '',
-      email: this.email,
-      photo: this.dataservice.user?.profilePicture || '',
-      star: feedbackValues.star,
-      fbDetails: feedbackValues.feedbackOptions,
-      comment: feedbackValues.comment
-    };
-
-    console.log(this.rating);
-
-    const currentUser = this.dataservice.user;
+    // Ensure user data is available
+    const currentUser = this.handleData.user;
     if (currentUser) {
+      this.rating[0].feedbackFields = {
+        name: currentUser.userName || '',
+        email: this.email,
+        photo: currentUser.profilePicture || '',
+        star: feedbackValues.star,
+        fbDetails: feedbackValues.feedbackOptions,
+        comment: feedbackValues.comment
+      };
+
+      console.log(this.rating);
+
       currentUser.feedback = this.rating[0].feedbackFields;
       console.log('Updated Current User:', currentUser);
 
-      this.dataservice.updateUser(currentUser).subscribe((response: any) => {
-        console.log('User updated with feedback:', response);
-      });
-    }
 
+    }
   }
+
 }
