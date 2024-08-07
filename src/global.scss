@@ -78,3 +78,24 @@ ion-card {
     margin-bottom: 16px !important;
     box-shadow: 0px 1px 14px 0px #00000012 !important;
 }
+
+// btns
+.success {
+    --background: var(--success);
+    --border-radius: 50px;
+    text-transform: capitalize;
+
+    span {
+        padding: 0.5rem;
+    }
+}
+
+.danger {
+    --background: var(--danger);
+    --border-radius: 50px;
+    text-transform: capitalize;
+
+    span {
+        padding: 0.5rem;
+    }
+}
