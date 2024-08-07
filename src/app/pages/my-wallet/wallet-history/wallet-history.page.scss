@@ -2,3 +2,34 @@
     box-sizing: border-box;
     padding-left: 0.5rem;
 }
+.search-type{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 500px;
+    margin-left: -1.5rem !important;
+}
+button.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 8px;
+    padding-left: 0px;
+    padding-right: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid gainsboro;
+}
+button.filter-btn:hover{
+    background-color: grey;
+}
+
+::ng-deep  input.searchbar-input.sc-ion-searchbar-md {
+    border-radius: 8px;
+    border: 1px solid gainsboro;
+}
+   
+   
+   
+   
