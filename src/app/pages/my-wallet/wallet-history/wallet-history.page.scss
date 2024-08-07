@@ -22,14 +22,22 @@ button.filter-btn {
     border: 1px solid gainsboro;
 }
 button.filter-btn:hover{
-    background-color: grey;
+    background-color: #a79e9e2b;
 }
 
 ::ng-deep  input.searchbar-input.sc-ion-searchbar-md {
     border-radius: 8px;
     border: 1px solid gainsboro;
 }
-   
+.text {
+    padding-left: 0rem;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+ion-list.ion-no-margin.md.list-md {
+    padding-left: 0rem;
+}
    
    
    

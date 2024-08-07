@@ -2,6 +2,8 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonModal } from '@ionic/angular';
+import { isWithinInterval, parseISO } from 'date-fns';
+
 
 // import data from '../../../assets/dummy.json'
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar } from '@ionic/angular/standalone';
@@ -257,6 +259,9 @@ export class MyWalletPage implements OnInit {
       );
     });
   }
-  
+  onFilterButtonClick(){
+    this.filtered_data = this.dummy_data;
+
+  }
   
 }

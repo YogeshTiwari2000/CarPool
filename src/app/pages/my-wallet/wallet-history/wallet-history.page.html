@@ -12,7 +12,7 @@
           <ion-toolbar class="serch-items">
             <ion-searchbar (ionInput)="filterData($event)"></ion-searchbar>
           </ion-toolbar>
-          <button class="filter-btn">
+          <button class="filter-btn" (click)="onFilterButtonClick()">
             <div class="default-btn">
               <svg
                 width="30"
@@ -27,7 +27,7 @@
                 />
               </svg>
             </div>
-            Filters
+            <div class="text">Filter</div>
           </button>
         </div>
       </ion-col>
