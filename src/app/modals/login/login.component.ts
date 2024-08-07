@@ -270,50 +270,6 @@ export class LoginComponent implements OnInit {
                 }
               })
               .catch((error) => console.log(error));
-
-            // this.handleData
-            //   .checkUserExists(this.userData.userEmail)
-            //   .subscribe((userExists) => {
-            //     if (userExists) {
-            //       console.log("userExist === ", userExists);
-            //       let currentUser = this.handleData.user;
-            //       if (currentUser) {
-            //         this.localStr.setItem("currentUser", currentUser);
-            //       } else {
-            //         this.localStr.setItem("currentUser", fBUser);
-            //       }
-            //       this.commonService.isUserLoggedin = true;
-            //       this.commonService.currentUserEmail = this.userData.userEmail;
-            //       const isUserLoggedIn = this.commonService.isUserLoggedin;
-            //       this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-            //       this.close();
-            //       this.router.navigate(["/home"]);
-            //     } else {
-            //       this.userData.email_verified = true;
-            //       this.userData.isSocialLogin = true;
-            //       this.userData.profilePicture = fBUser.photoUrl;
-            //       this.userData.userName = fBUser.name;
-            //       const data = {
-            //         [this.userData.userEmail]: { ...this.userData },
-            //       };
-            //       console.log("data === ", data);
-            //       // this.handleData.addUser(data).subscribe(() => {
-            //       //   this.localStr.setItem("currentUser", data);
-            //       //   this.commonService.isUserLoggedin = true;
-            //       //   this.commonService.currentUserEmail =
-            //       //     this.userData.userEmail;
-            //       //   const isUserLoggedIn = this.commonService.isUserLoggedin;
-            //       //   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-            //       //   this.router.navigate(["/home"]);
-            //       //   this.close();
-            //       //   this.commonService.alertBox(
-            //       //     "Account created successfully",
-            //       //     "Log in",
-            //       //     ["Ok"]
-            //       //   );
-            //       // });
-            //     }
-            //   });
           }
         })
         .catch((err) => {
