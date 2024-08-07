@@ -51,6 +51,11 @@ export class EditCardComponent implements OnInit {
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
 
+  checkDocs?: boolean = false;
+  userRole = "passenger";
+  // userRole = "driver";
+  fileDetails: any;
+
   constructor() {}
 
   ngOnInit() {
@@ -77,7 +82,39 @@ export class EditCardComponent implements OnInit {
   }
 
   updateData() {
+    // if (this.userRole === "driver" && this.checkDocs === false) {
+    //   console.log("Drivers cannot update data without verified documents.");
+    //   return;
+    // }
+
     this.data.password = this.handleData.encryptPass(this.data.password);
-    console.log("edit modal", this.data);
+
+    if (this.userRole === "driver" && this.checkDocs === true) {
+      console.log("edit if modal", this.data);
+    } else {
+      console.log("edit else modal", this.data);
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.checkDocs = true;
+      this.fileDetails = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      };
+      console.log("File Details:", this.fileDetails);
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        console.log("File Content:", e.target.result);
+      };
+      reader.readAsText(file);
+      this.data.govtDocs = { ...this.fileDetails };
+      console.log("File Details:", this.fileDetails);
+    }
   }
 }
