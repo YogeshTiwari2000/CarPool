@@ -12,10 +12,12 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './wallet-history.page.html',
   styleUrls: ['./wallet-history.page.scss'],
   standalone: true,
-  imports: [IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,RouterLink]
+  imports: [IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
 })
+
 export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
+  lastSixTransaction!: { Name: string; Date: string; Amount: string; Type: string; }[];
   constructor(private router :Router) {
     // console.log(data);
 
@@ -35,8 +37,11 @@ export class MyWalletPage implements OnInit {
         "dropLocation": "",
         "isSocialLogin": true,
         "email_verified": true,
-        "wallet": {
-
+       "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
         }
       }
     },
@@ -52,7 +57,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": true,
-        "email_verified": true
+        "email_verified": true,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     },
     {
@@ -67,7 +78,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": true,
-        "email_verified": true
+        "email_verified": true,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     },
     {
@@ -82,7 +99,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": false,
-        "email_verified": false
+        "email_verified": false,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     },
     {
@@ -112,7 +135,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": true,
-        "email_verified": true
+        "email_verified": true,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     },
     {
@@ -127,7 +156,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": true,
-        "email_verified": true
+        "email_verified": true,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     },
     {
@@ -142,7 +177,13 @@ export class MyWalletPage implements OnInit {
         "pickUpLocation": "",
         "dropLocation": "",
         "isSocialLogin": true,
-        "email_verified": true
+        "email_verified": true,
+        "wallet": {
+          "transactions": [
+            { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
+            { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
+          ]
+        }
       }
     }
   ]
@@ -189,8 +230,33 @@ export class MyWalletPage implements OnInit {
     // ]
 
   }
+  filtered_data = [...this.dummy_data];
   goToWalletHistory(){
     this.router.navigate(['/wallet-history'])
   }
+  getUserInfo(item: any) {
+    const emailKey = Object.keys(item).find(key => key.includes('@'));
+    if (emailKey) {
+      return item[emailKey] || { wallet: { transactions: [] } }; // Default to an object with empty transactions
+    }
+    return { wallet: { transactions: [] } }; // Default to an object with empty transactions
+  }
+  filterData(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+  
+    if (!searchTerm) {
+      this.filtered_data = this.dummy_data;
+      return;
+    }
+  
+    this.filtered_data = this.dummy_data.filter(item => {
+      const userInfo = this.getUserInfo(item);
+      return (
+        userInfo.userName?.toLowerCase().includes(searchTerm) ||
+        userInfo.userEmail?.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
+  
   
 }
