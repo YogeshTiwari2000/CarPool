@@ -55,7 +55,7 @@ export class HandleDataService {
     const data = querySnapshot.docs.map((doc) => {
       const docData = doc.data();
       return {
-        [docData["userEmail"]]: {
+        [doc.id]: {
           ...docData,
         },
       };
