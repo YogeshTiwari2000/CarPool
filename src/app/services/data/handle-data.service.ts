@@ -5,11 +5,15 @@ import { map, Observable } from "rxjs";
 import {
   addDoc,
   collection,
+  doc,
   Firestore,
   getDocs,
   query,
+  updateDoc,
   where,
 } from "@angular/fire/firestore";
+import { LocalStorageService } from "src/app/shared/local-storage.service";
+import { CommonService } from "src/app/shared/common.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +21,8 @@ import {
 export class HandleDataService {
   public http = inject(HttpClient);
   private agfirestore: Firestore = inject(Firestore);
+  private localStr: LocalStorageService = inject(LocalStorageService);
+  private commonService: CommonService = inject(CommonService);
   private apiUrl = "http://localhost:3000/users";
 
   public user: any;
@@ -27,7 +33,7 @@ export class HandleDataService {
   };
   constructor() {}
 
-  //encrypt password
+  //encrypt pass
   encryptPass(getPass: string) {
     var passA = btoa(getPass);
     var passB = btoa("devil");
@@ -35,6 +41,7 @@ export class HandleDataService {
     // console.log('generatedPass', generatedPass);
     return generatedPass;
   }
+  //addUser
   async addUser(userData: any) {
     if (userData) {
       const collectionInstance = collection(
@@ -45,7 +52,7 @@ export class HandleDataService {
       console.log("docRef", docRef.id);
     }
   }
-
+  //getData
   async getData() {
     const collectionRef = collection(
       this.agfirestore,
@@ -63,7 +70,7 @@ export class HandleDataService {
     console.log(data);
     return data;
   }
-
+  //userExists
   async userExists(userEmail: any): Promise<any> {
     if (userEmail) {
       const collectionRef = collection(
@@ -77,6 +84,7 @@ export class HandleDataService {
       // console.log("querySnapshot.docs === ", querySnapshot.docs);
       if (querySnapshot.docs.length > 0) {
         let _data = querySnapshot.forEach((doc) => {
+          this.localStr.setItem("currentUserDocId", doc.id);
           this.data = doc.data();
           return this.data;
         });
@@ -97,5 +105,41 @@ export class HandleDataService {
       data: null,
       isExist: false,
     };
+  }
+  //updateDocument
+  async updateDocument(docId: string, data: any) {
+    try {
+      const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
+      await updateDoc(docRef, data);
+      this.commonService.alertBox("Document Updated", "Document update info", [
+        "Ok",
+      ]);
+    } catch (error: any) {
+      this.commonService.alertBox(
+        error,
+        "Document update error",
+        ["Ok"],
+        "Error occurs while updating document"
+      );
+    }
+  }
+  //updateDocumentField
+  async updateDocumentField(docId: string, keyToUpdate: string, data: any) {
+    try {
+      const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
+      await updateDoc(docRef, {
+        [keyToUpdate]: data,
+      });
+      this.commonService.alertBox("Document Updated", "Document update info", [
+        "Ok",
+      ]);
+    } catch (error: any) {
+      this.commonService.alertBox(
+        error,
+        "Document update error",
+        ["Ok"],
+        "Error occurs while updating document"
+      );
+    }
   }
 }
