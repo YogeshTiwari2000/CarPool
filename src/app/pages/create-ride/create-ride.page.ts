@@ -115,11 +115,7 @@ export class CreateRidePage implements OnInit {
   }
 
   toggleReturnRide() {
-    console.log('return btn clicked');
-
     this.returnride = !this.returnride;
-
-    console.log("this.returnride === ", this.returnride);
   }
 
 
