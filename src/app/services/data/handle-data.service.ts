@@ -31,7 +31,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
-  constructor() { }
+  constructor() {}
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -107,7 +107,7 @@ export class HandleDataService {
     };
   }
   //updateDocument
-  async updateDocument(docId: any, data: any) {
+  async updateDocument(docId: string | any, data: any) {
     try {
       const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
       await updateDoc(docRef, data);
@@ -115,8 +115,9 @@ export class HandleDataService {
         "Ok",
       ]);
     } catch (error: any) {
+      console.log("error === ", error);
       this.commonService.alertBox(
-        error,
+        error.message,
         "Document update error",
         ["Ok"],
         "Error occurs while updating document"

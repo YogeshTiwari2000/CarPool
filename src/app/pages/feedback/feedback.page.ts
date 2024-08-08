@@ -1,70 +1,114 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonTabButton, IonLabel, IonIcon, IonButton, IonRow, IonCol, IonItem, IonTextarea, IonSelect, IonSelectOption, IonList } from '@ionic/angular/standalone';
-import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { Component, Inject, OnInit, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonTabButton,
+  IonLabel,
+  IonIcon,
+  IonButton,
+  IonRow,
+  IonCol,
+  IonItem,
+  IonTextarea,
+  IonSelect,
+  IonSelectOption,
+  IonList,
+} from "@ionic/angular/standalone";
+import { HandleDataService } from "src/app/services/data/handle-data.service";
+import { LocalStorageService } from "src/app/shared/local-storage.service";
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.page.html',
-  styleUrls: ['./feedback.page.scss'],
+  selector: "app-feedback",
+  templateUrl: "./feedback.page.html",
+  styleUrls: ["./feedback.page.scss"],
   standalone: true,
-  imports: [IonList, IonTextarea, IonItem, IonCol, IonRow, IonButton, IonIcon, IonLabel, IonTabButton, IonContent, IonHeader, IonTitle, IonToolbar, IonSelect, IonSelectOption, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [
+    IonList,
+    IonTextarea,
+    IonItem,
+    IonCol,
+    IonRow,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTabButton,
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonSelect,
+    IonSelectOption,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class FeedbackPage implements OnInit {
-  handleData = inject(HandleDataService)
+  handleData = inject(HandleDataService);
+  localStorageService = inject(LocalStorageService);
   star: any;
-  email: any = 'shubham.sholet@paavu.com'
+  email: any = "shubham.sholet@paavu.com";
   // id: any = 'zhPlRI2PZ4or8StW5qAk'
   users: any[] = [];
   feedbackForm: FormGroup;
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: any = ["1", "2", "3", "4", "5"];
   filledStars: boolean[] = [false, false, false, false, false];
   rating = [
     {
-      "feedbackFields": {
-        name: '',
-        email: '',
-        photo: '',
-        star: '',
+      feedbackFields: {
+        name: "",
+        email: "",
+        photo: "",
+        star: "",
         fbDetails: [],
-        comment: '',
-      }
-    }
-  ]
+        comment: "",
+      },
+    },
+  ];
 
   constructor(private FormBuilder: FormBuilder) {
     this.feedbackForm = this.FormBuilder.group({
       star: [0, Validators.required],
       feedbackOptions: [[]],
-      comment: ['']
+      comment: [""],
     });
   }
 
-
-
   ngOnInit() {
-    this.handleData.userExists(this.email).then(result => {
-      if (result.isExist) {
-        this.handleData.user = result.data;
-        console.log('User data:', result.data);
-      } else {
-        console.log('User not found');
-      }
-    }).catch(error => {
-      console.error('Error:', error);
-    });
+    this.handleData
+      .userExists(this.email)
+      .then((result) => {
+        if (result.isExist) {
+          this.handleData.user = result.data;
+          console.log("User data:", result.data);
+        } else {
+          console.log("User not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   onStarClick(index: number) {
-    console.log('Star index:', index + 1);
+    console.log("Star index:", index + 1);
     this.star = index + 1;
     for (let i = 0; i < this.stars.length; i++) {
       this.filledStars[index] = true;
       this.filledStars[i] = i <= index;
     }
     this.feedbackForm.patchValue({
-      star: this.star
+      star: this.star,
     });
   }
 
@@ -81,7 +125,7 @@ export class FeedbackPage implements OnInit {
   // }
 
   submitFeedback() {
-    console.log('Feedback submitted successfully');
+    console.log("Feedback submitted successfully");
     console.log(this.feedbackForm.value);
     const feedbackValues = this.feedbackForm.value;
 
@@ -90,23 +134,23 @@ export class FeedbackPage implements OnInit {
     console.log("currentUser === ", currentUser);
     if (currentUser) {
       this.rating[0].feedbackFields = {
-        name: currentUser.userName || '',
+        name: currentUser.userName || "",
         email: this.email,
-        photo: currentUser.profilePicture || '',
+        photo: currentUser.profilePicture || "",
         star: feedbackValues.star,
         fbDetails: feedbackValues.feedbackOptions,
-        comment: feedbackValues.comment
+        comment: feedbackValues.comment,
       };
 
       console.log(this.rating);
 
       currentUser.feedback = this.rating[0].feedbackFields;
-      console.log('Updated Current User:', currentUser);
+      const currentUserDocId =
+        this.localStorageService.getItem("currentUserDocId");
 
-      const currentUserDocId = localStorage.getItem('currentUserDocId')
-      this.handleData.updateDocument(currentUserDocId, currentUser)
-
+      console.log("Updated Current User:", currentUser);
+      console.log("currentUserDocId === ", currentUserDocId);
+      this.handleData.updateDocument(currentUserDocId, currentUser);
     }
   }
-
 }

@@ -1,18 +1,21 @@
-import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular/standalone';
+import { Injectable } from "@angular/core";
+import { AlertController } from "@ionic/angular/standalone";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CommonService {
-  public isUserLoggedin: boolean = false
-  public currentUserEmail: string = ""
+  public isUserLoggedin: boolean = false;
+  public currentUserEmail: string = "";
 
+  constructor(private alertController: AlertController) {}
 
-  constructor(private alertController: AlertController) {
-  }
-
-  async alertBox(message: string, header: string, buttons?: string[], subHeader?: string,) {
+  async alertBox(
+    message: string,
+    header: string,
+    buttons?: string[],
+    subHeader?: string
+  ) {
     const alert = await this.alertController.create({
       header: header,
       subHeader: subHeader,
@@ -34,8 +37,4 @@ export class CommonService {
     }
     return null;
   }
-
-
-
-
 }
