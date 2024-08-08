@@ -61,7 +61,7 @@ export class FeedbackPage implements OnInit {
   // id: any = 'zhPlRI2PZ4or8StW5qAk'
   users: any[] = [];
   feedbackForm: FormGroup;
-  stars: any = ["1", "2", "3", "4", "5"];
+  stars: number[] = [1, 2, 3, 4, 5];
   filledStars: boolean[] = [false, false, false, false, false];
   rating = [
     {
