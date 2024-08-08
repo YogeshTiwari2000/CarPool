@@ -20,6 +20,7 @@ import {
   IonSelectOption,
 } from "@ionic/angular/standalone";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
+import { LocalStorageService } from "src/app/shared/local-storage.service";
 
 @Component({
   selector: "app-edit-card",
@@ -50,6 +51,7 @@ export class EditCardComponent implements OnInit {
   @Input() data: any;
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
+  private localStr = inject(LocalStorageService);
 
   checkDocs?: boolean = false;
   userRole = "passenger";
@@ -93,6 +95,11 @@ export class EditCardComponent implements OnInit {
       console.log("edit if modal", this.data);
     } else {
       console.log("edit else modal", this.data);
+      this.handleData
+        .updateDocument(this.localStr.getItem("currentUserDocId"), this.data)
+        .then((res) => {
+          this.close();
+        });
     }
   }
 

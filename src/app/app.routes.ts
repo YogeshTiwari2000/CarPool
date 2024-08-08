@@ -46,6 +46,7 @@ export const routes: Routes = [
 
   {
     path: "create-ride",
+    title: "Create Ride",
     loadComponent: () =>
       import("./pages/create-ride/create-ride.page").then(
         (m) => m.CreateRidePage
@@ -73,8 +74,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'top-withdraw',
-    loadComponent: () => import('./pages/top-withdraw/top-withdraw.page').then(m => m.TopWithdrawPage)
+    path: "top-withdraw",
+    loadComponent: () =>
+      import("./pages/top-withdraw/top-withdraw.page").then(
+        (m) => m.TopWithdrawPage
+      ),
   },
   {
     path: "",
@@ -89,5 +93,4 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/not-found/not-found.page").then((p) => p.NotFoundPage),
   },
-
 ];

@@ -90,6 +90,16 @@ ion-card {
     }
 }
 
+.primary {
+    --background: var(--primary-btn);
+    --border-radius: 50px;
+    text-transform: capitalize;
+
+    span {
+        padding: 0.5rem;
+    }
+}
+
 .danger {
     --background: var(--danger);
     --border-radius: 50px;

@@ -209,9 +209,9 @@
           name="docType"
           required
         >
-          <ion-select-option value="male">Adhaar Card</ion-select-option>
-          <ion-select-option value="female">Pen Card</ion-select-option>
-          <ion-select-option value="others">Others</ion-select-option>
+          <ion-select-option value="Adhaar Card">Adhaar Card</ion-select-option>
+          <ion-select-option value="Pen Card">Pen Card</ion-select-option>
+          <ion-select-option value="Others">Others</ion-select-option>
         </ion-select>
         <div
           class="error-text"
@@ -248,7 +248,7 @@
         </div>
       </ion-col>
 
-      <ion-col size="12" class="ion-padding-bottom">
+      <!-- <ion-col size="12" class="ion-padding-bottom">
         <ion-input
           type="phone"
           label="Phone"
@@ -267,7 +267,7 @@
         >
           <div *ngIf="phone.errors?.['required']">This field is required.</div>
         </div>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-card>
 </ion-content>
