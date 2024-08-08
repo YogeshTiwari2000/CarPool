@@ -15,7 +15,11 @@
           <ion-toolbar class="serch-items">
             <ion-searchbar (ionInput)="filterData($event)"></ion-searchbar>
           </ion-toolbar>
-          <button class="filter-btn" (click)="onFilterButtonClicks()">
+          <button
+            class="filter-btn"
+            id="click-trigger"
+            (click)="onFilterButtonClicks()"
+          >
             <div class="default-btn">
               <svg
                 width="30"
@@ -32,7 +36,50 @@
             </div>
             <div class="text">Filter</div>
 
-            <div class="hidden">
+            <ion-popover trigger="click-trigger" triggerAction="click">
+              <ng-template>
+                <ion-content class="ion-padding">
+                  <div class="filter-box">
+                    <p>From</p>
+                    <ion-datetime-button
+                      datetime="datetime"
+                    ></ion-datetime-button>
+                  </div>
+                  <ion-modal [keepContentsMounted]="true">
+                    <ng-template>
+                      <ion-datetime
+                        id="datetime"
+                        (ionChange)="onDateTimeChanges($event)"
+                      ></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+
+                  <div class="filter-box">
+                    <p>To</p>
+                    <ion-datetime-button
+                      datetime="datetime"
+                    ></ion-datetime-button>
+                  </div>
+                  <ion-modal [keepContentsMounted]="true">
+                    <ng-template>
+                      <ion-datetime
+                        id="datetime"
+                        (ionChange)="onDateTimeChanges($event)"
+                      ></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+
+                  <div class="cred-debts">
+                    <button class="credit">Credited</button>
+                    <button class="debit">Debited</button>
+                  </div>
+                </ion-content>
+              </ng-template>
+
+              <!-- --2-- -->
+            </ion-popover>
+
+            <!-- <div class="hidden">
               <div class="ion-delegate-host ion-page">
                 <ion-datetime-button datetime="datetime"></ion-datetime-button>
               </div>
@@ -42,10 +89,6 @@
                 (willDismiss)="onModalDismiss()"
               >
                 <ng-template>
-                  <ion-datetime
-                    id="datetime"
-                    (ionChange)="onDateTimeChanges($event)"
-                  ></ion-datetime>
                   <ion-row>
                     <ion-col>
                       <ion-button
@@ -63,7 +106,7 @@
                   </ion-row>
                 </ng-template>
               </ion-modal>
-            </div>
+            </div> -->
           </button>
         </div>
       </ion-col>

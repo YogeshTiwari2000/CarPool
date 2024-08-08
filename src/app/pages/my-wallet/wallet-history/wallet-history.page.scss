@@ -44,3 +44,37 @@ ion-modal>.ion-page {
     contain: layout style;
     height: 100%;
 }
+.filter-box{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+::ng-deep .popover-viewport:has(>ion-content) {
+    overflow: hidden;
+    width: 19rem;
+    // height: 300px;
+}
+.cred-debts {
+    display: flex;
+    gap: 1rem;
+}
+.credit{
+    border: 2px solid gainsboro;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: transparent;
+    color: black;
+    font-size: 15px;
+    font-weight: 400;
+
+}
+.debit{
+    border: 2px solid gainsboro;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: transparent;
+    color: black;
+    font-size: 15px;
+    font-weight: 400;
+
+}
