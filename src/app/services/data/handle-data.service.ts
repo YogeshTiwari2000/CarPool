@@ -11,6 +11,13 @@ import {
   updateDoc,
   where,
 } from "@angular/fire/firestore";
+import {
+  getDownloadURL,
+  ref,
+  Storage,
+  uploadBytes,
+} from "@angular/fire/storage";
+
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
 
@@ -20,12 +27,16 @@ import { CommonService } from "src/app/shared/common.service";
 export class HandleDataService {
   public http = inject(HttpClient);
   private agfirestore: Firestore = inject(Firestore);
+  private agFireStorage: Storage = inject(Storage);
+
   private localStr: LocalStorageService = inject(LocalStorageService);
   private commonService: CommonService = inject(CommonService);
   private apiUrl = "http://localhost:3000/users";
 
   public user: any;
   public data: any;
+
+  public uploadedFileUrl: any;
 
   private firebaseNodes: any = {
     usersNode: "users",
@@ -144,6 +155,46 @@ export class HandleDataService {
         ["Ok"],
         "Error occurs while updating document"
       );
+    }
+  }
+
+  // async fileUplaodToFirebase(selectedFile: any) {
+  //   let currentUserDocId = this.localStr.getItem("currentUserDocId");
+  //   const imgFolderRef = ref(
+  //     this.agFireStorage,
+  //     `${this.firebaseNodes.usersNode}/${currentUserDocId}`
+  //   );
+  //   await uploadBytes(imgFolderRef, selectedFile)
+  //     .then((snapShot) => {
+  //       getDownloadURL(imgFolderRef)
+  //         .then((url) => {
+  //           this.uploadedFileUrl = url;
+  //           return this.uploadedFileUrl;
+  //         })
+  //         .catch((error) => {
+  //           console.error(`Error while Upload ${error}`);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       console.error(`Error while Upload ${error}`);
+  //     });
+  // }
+
+  async fileUploadToFirebase(selectedFile: any) {
+    let currentUserDocId = this.localStr.getItem("currentUserDocId");
+    const imgFolderRef = ref(
+      this.agFireStorage,
+      `${this.firebaseNodes.usersNode}/${currentUserDocId}/${selectedFile.name}`
+    );
+
+    try {
+      const snapShot = await uploadBytes(imgFolderRef, selectedFile);
+      const url = await getDownloadURL(imgFolderRef);
+      this.uploadedFileUrl = url;
+      return this.uploadedFileUrl;
+    } catch (error) {
+      console.error(`Error while uploading: ${error}`);
+      return null;
     }
   }
 }

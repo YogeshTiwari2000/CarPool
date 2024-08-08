@@ -234,17 +234,46 @@
           (input)="onFileSelected($event)"
         >
         </ion-input>
-        <!-- <div
-          class="error-text"
-          *ngIf="checkDocs === false && userRole === 'passenger'"
-        >
-          <div>This field is required.</div>
-        </div> -->
         <div
           class="error-text"
           *ngIf="checkDocs === false && userRole === 'driver'"
         >
           <div>This field is required for <strong>drivers</strong>.</div>
+        </div>
+
+        <!-- File Preview -->
+        <div *ngIf="data.govtDocs?.url">
+          <h4>File Preview:</h4>
+
+          <!-- Image Preview -->
+          <!-- <div *ngIf="fileDetails.type.startsWith('image/')">
+            <img
+              [src]="data.govtDocs?.url"
+              alt="File Preview"
+              style="max-width: 100%"
+            />
+          </div> -->
+
+          <!-- PDF Preview -->
+          <!-- <div *ngIf="fileDetails.type === 'application/pdf'">
+            <iframe
+              [src]="data.govtDocs?.url"
+              width="100%"
+              height="600px"
+            ></iframe>
+          </div> -->
+
+          <!-- Other Document Previews (e.g., .docx, .txt) -->
+          <!-- <div
+            *ngIf="
+              fileDetails.type !== 'image/' &&
+              fileDetails.type !== 'application/pdf'
+            "
+          >
+            <a [href]="data.govtDocs?.url" download="{{ fileDetails.name }}"
+              >Download {{ fileDetails.name }}</a
+            >
+          </div> -->
         </div>
       </ion-col>
     </ion-row>
@@ -331,9 +360,9 @@
           interface="popover"
           placeholder="Select Preferences"
           justify="space-between"
-          [(ngModel)]="about.trevalPreference"
-          #trevalPreference="ngModel"
-          name="trevalPreference"
+          [(ngModel)]="about.travelPreference"
+          #travelPreference="ngModel"
+          name="travelPreference"
           multiple="true"
         >
           <ion-select-option value="smoker">Smoker</ion-select-option>
