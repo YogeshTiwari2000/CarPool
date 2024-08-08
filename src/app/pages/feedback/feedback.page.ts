@@ -87,6 +87,7 @@ export class FeedbackPage implements OnInit {
 
     // Ensure user data is available
     const currentUser = this.handleData.user;
+    console.log("currentUser === ", currentUser);
     if (currentUser) {
       this.rating[0].feedbackFields = {
         name: currentUser.userName || '',
@@ -102,6 +103,8 @@ export class FeedbackPage implements OnInit {
       currentUser.feedback = this.rating[0].feedbackFields;
       console.log('Updated Current User:', currentUser);
 
+      const currentUserDocId = localStorage.getItem('currentUserDocId')
+      this.handleData.updateDocument(currentUserDocId, currentUser)
 
     }
   }

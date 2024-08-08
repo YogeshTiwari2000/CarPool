@@ -31,7 +31,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
-  constructor() {}
+  constructor() { }
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -107,7 +107,7 @@ export class HandleDataService {
     };
   }
   //updateDocument
-  async updateDocument(docId: string, data: any) {
+  async updateDocument(docId: any, data: any) {
     try {
       const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
       await updateDoc(docRef, data);
@@ -124,7 +124,7 @@ export class HandleDataService {
     }
   }
   //updateDocumentField
-  async updateDocumentField(docId: string, keyToUpdate: string, data: any) {
+  async updateDocumentField(docId: any, keyToUpdate: string, data: any) {
     try {
       const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
       await updateDoc(docRef, {
