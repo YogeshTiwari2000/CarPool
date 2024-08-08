@@ -44,19 +44,20 @@ ion-modal>.ion-page {
     contain: layout style;
     height: 100%;
 }
-.filter-box{
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-}
+// .filter-box{
+//     display: flex;
+//     flex-direction: row;
+//     align-items: baseline;
+// }
 ::ng-deep .popover-viewport:has(>ion-content) {
     overflow: hidden;
-    width: 19rem;
+    --width: 255px;
     // height: 300px;
 }
 .cred-debts {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
 }
 .credit{
     border: 2px solid gainsboro;
@@ -78,3 +79,11 @@ ion-modal>.ion-page {
     font-weight: 400;
 
 }
+// .para-txt{
+//     flex-basis: 8rem;
+//     flex-grow: 1;
+// }
+// .date{
+//     flex-basis: 10rem;
+//     flex-grow: 1; 
+// }
