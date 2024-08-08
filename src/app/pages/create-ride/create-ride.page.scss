@@ -1,4 +1,8 @@
 .rideDetails {
+    form {
+        max-width: 450px;
+        margin: auto;
+    }
 
     .date,
     .time,
@@ -15,32 +19,20 @@
     }
 
     .tofrom {
-        max-width: 420px;
         margin: auto;
     }
 
     .dateTime {
         display: flex;
-        justify-content: center;
-        width: fit-content;
+        justify-content: space-between;
+        // width: fit-content;
         margin: auto;
         margin-top: 1rem;
         gap: 1rem;
-
-        .custom-time-container {
-            flex-basis: 3rem;
-            flex-grow: 1;
-        }
-
-        .custom-date-container {
-            flex-basis: 10rem;
-            flex-grow: 1;
-        }
     }
 
     .seatAvl {
         margin: auto;
-        max-width: 420px;
         margin-top: 1rem;
         display: flex;
         gap: 0.5rem;
@@ -48,8 +40,8 @@
 
         input {
             background-color: transparent;
-            max-width: 2rem;
-            text-align: center;
+            text-align: left;
+
             padding: 0;
             margin: 0;
             border: none;
@@ -69,7 +61,6 @@
 
     .price {
         margin: auto;
-        max-width: 420px;
         margin-top: 1rem;
         display: flex;
         gap: 0.5rem;
@@ -97,51 +88,22 @@
         -moz-appearance: textfield;
     }
 
-    .returnRide {
+    input:focus-visible {
+        outline: none;
+        // text-decoration: underline;
+        --border-bottom: 2px solid blue;
+        // text-underline-offset: 6px
+    }
 
-        max-width: 420px;
-        margin: auto;
+    .returnRide {
         margin-top: 1rem;
 
-        ion-radio::part(container) {
-            width: 30px;
-            height: 30px;
-
-            border-radius: 8px;
-            border: 2px solid #ddd;
-        }
-
-        ion-radio::part(mark) {
-            background: none;
-            transition: none;
-            transform: none;
-            border-radius: 0;
-        }
-
-        ion-radio.radio-checked::part(container) {
-            background: #6815ec;
-            border-color: transparent;
-        }
-
-        ion-radio.radio-checked::part(mark) {
-            width: 6px;
-            height: 10px;
-
-            border-width: 0px 2px 2px 0px;
-            border-style: solid;
-            border-color: #fff;
-
-            transform: rotate(45deg);
-        }
-
-        ion-radio-group {
-            display: flex;
+        ion-toggle {
+            width: 100%;
         }
     }
 
     .submit {
-        max-width: 450px;
-        margin: auto;
         margin-top: 1rem;
     }
 }

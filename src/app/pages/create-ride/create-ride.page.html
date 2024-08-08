@@ -9,45 +9,74 @@
 
 <ion-content class="ion-padding rideDetails">
   <form [formGroup]="createRideForm" (ngSubmit)="onCreateRide()">
-    <div class="tofrom">
-      <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
-    </div>
-    <div class="dateTime">
-      <div class="custom-date-container">
-        <input type="date" [(ngModel)]="date" class="date" formControlName="date" />
-      </div>
-      <div class="custom-time-container">
-        <input type="time" [(ngModel)]="time" class="time" formControlName="time" />
-      </div>
-    </div>
-    <div class="seatAvl">
-      <p>Seat Available</p>
-      <input type="number" [(ngModel)]="seatAvl" formControlName="seatAvl" />
-      <div>
-        <ion-button (click)="decseatAvl()" class="decBtn" [disabled]="seatAvl <= 1">-</ion-button>
-        <ion-button (click)="incseatAvl()" [disabled]="seatAvl >= 7">+</ion-button>
-      </div>
-    </div>
-    <div class="price">
-      <p>Price Per Person</p>
-      <span>Rs-</span>
-      <input type="number" [(ngModel)]="price" formControlName="price" />
-    </div>
-    <div class="returnRide">
-      <ion-radio-group value="custom-checked">
-        <ion-label>Yes</ion-label>
-        <ion-radio slot="start" value="yes" aria-label="Custom checkbox for yes"></ion-radio>
+    <ion-row>
 
 
-        <ion-label>No</ion-label>
-        <ion-radio slot="start" value="no" aria-label="Custom checkbox for no"></ion-radio>
+      <ion-col size="12" class="tofrom">
+        <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
+      </ion-col>
+      <ion-col size="12" class="dateTime">
+        <div class="custom-date-container">
+          <input type="date" [(ngModel)]="date" class="date" formControlName="date" />
+        </div>
+        <div class="custom-time-container">
+          <input type="time" [(ngModel)]="time" class="time" formControlName="time" />
+        </div>
+      </ion-col>
+      <ion-col size="12" class="seatAvl">
+        <p>Seat Available</p>
+        <input type="number" [(ngModel)]="seatAvl" formControlName="seatAvl" />
+        <div>
+          <ion-button (click)="decseatAvl()" class="decBtn" [disabled]="seatAvl <= 1">-</ion-button>
+          <ion-button (click)="incseatAvl()" [disabled]="seatAvl >= 7">+</ion-button>
+        </div>
+      </ion-col>
+      <ion-col size="12" class="price">
+        <p>Price Per Person</p>
+        <span>Rs-</span>
+        <input type="number" [(ngModel)]="price" formControlName="price" />
+      </ion-col>
+      <ion-col size="12" class="returnRide">
+        <ion-toggle [enableOnOffLabels]="true" (click)="toggleReturnRide()">
+          Publish Return Ride
+        </ion-toggle>
+      </ion-col>
 
-      </ion-radio-group>
 
-    </div>
-    <div class="submit">
-      <ion-button expand="full" type="submit" [disabled]="createRideForm.invalid">Create
-        Ride</ion-button>
-    </div>
+
+      <ng-container class="returnRideDetails" *ngIf="returnride">
+        <ion-col size="12" class="tofrom">
+          <p>** Enter Return Ride Details</p>
+          <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
+        </ion-col>
+        <ion-col size="12" class="dateTime">
+          <div class="custom-date-container">
+            <input type="date" [(ngModel)]="returnDate" class="date" formControlName="returnDate" />
+          </div>
+          <div class="custom-time-container">
+            <input type="time" [(ngModel)]="returnTime" class="time" formControlName="returnTime" />
+          </div>
+        </ion-col>
+        <ion-col size="12" class="seatAvl">
+          <p>Seat Available</p>
+          <input type="number" [(ngModel)]="returnSeatAvl" formControlName="returnSeatAvl" />
+          <div>
+            <ion-button (click)="decReturnSeatAvl()" class="decBtn" [disabled]="seatAvl <= 1">-</ion-button>
+            <ion-button (click)="incReturnSeatAvl()" [disabled]="seatAvl >= 7">+</ion-button>
+          </div>
+        </ion-col>
+        <ion-col size="12" class="price">
+          <p>Price Per Person</p>
+          <span>Rs-</span>
+          <input type="number" [(ngModel)]="returnPrice" formControlName="returnPrice" />
+        </ion-col>
+      </ng-container>
+
+
+      <ion-col size="12" class="submit">
+        <ion-button expand="block" class="primary" type="submit" [disabled]="createRideForm.invalid">Create
+          Ride</ion-button>
+      </ion-col>
+    </ion-row>
   </form>
 </ion-content>

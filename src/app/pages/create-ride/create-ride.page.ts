@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol } from '@ionic/angular/standalone';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-
   templateUrl: './create-ride.page.html',
   styleUrls: ['./create-ride.page.scss'],
   standalone: true,
-  imports: [IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,]
+  imports: [IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,]
 })
 export class CreateRidePage implements OnInit {
   time: string = '';
@@ -18,16 +18,33 @@ export class CreateRidePage implements OnInit {
   date: any = '';
   seatAvl: number = 1;
   price: number = 120;
+  returnTime: string = '';
+  returnFrom: string | undefined;
+  returnTo: string | undefined;
+  returnDate: any = '';
+  returnSeatAvl: number = 2;
+  returnPrice: number = 100;
+
+
+
   createRideForm: FormGroup;
 
 
+
+  returnride: boolean = false;
   rideDetails = {
     time: '',
     from: '',
     to: '',
     date: '',
     seatAvl: '',
-    price: ''
+    price: '',
+    returnTime: '',
+    returnFrom: '',
+    returnTo: '',
+    returnDate: '',
+    returnSeatAvl: '',
+    returnPrice: ''
   }
 
   constructor(private FormBuilder: FormBuilder) {
@@ -38,6 +55,12 @@ export class CreateRidePage implements OnInit {
       date: ['', Validators.required],
       seatAvl: ['', Validators.required],
       price: ['', Validators.required],
+      returnTime: [''],
+      returnFrom: [''],
+      returnTo: [''],
+      returnDate: [''],
+      returnSeatAvl: [''],
+      returnPrice: ['']
 
     });
   }
@@ -79,6 +102,26 @@ export class CreateRidePage implements OnInit {
       this.seatAvl--
     }
   }
+  incReturnSeatAvl() {
+    if (this.returnSeatAvl < 7) {
+      this.returnSeatAvl++
+    }
+  }
+
+  decReturnSeatAvl() {
+    if (this.returnSeatAvl > 1) {
+      this.returnSeatAvl--
+    }
+  }
+
+  toggleReturnRide() {
+    console.log('return btn clicked');
+
+    this.returnride = !this.returnride;
+
+    console.log("this.returnride === ", this.returnride);
+  }
+
 
 
   onCreateRide() {
@@ -89,11 +132,20 @@ export class CreateRidePage implements OnInit {
       to: this.to ?? '',
       date: this.date,
       seatAvl: this.seatAvl.toString(),
-      price: this.price.toString()
+      price: this.price.toString(),
+      returnTime: this.time,
+      returnFrom: this.from ?? '',
+      returnTo: this.to ?? '',
+      returnDate: this.date,
+      returnSeatAvl: this.seatAvl.toString(),
+      returnPrice: this.price.toString()
+
     };
 
     console.log('onCreateRide clicked');
     console.log('rideDetails===', this.rideDetails);
 
   }
+
+
 }
