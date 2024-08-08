@@ -1,13 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>create-ride</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Create Your Ride</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding rideDetails">
   <form [formGroup]="createRideForm" (ngSubmit)="onCreateRide()">
     <div class="tofrom">
-      <app-travel-from-to></app-travel-from-to>
+      <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
     </div>
     <div class="dateTime">
       <div class="custom-date-container">

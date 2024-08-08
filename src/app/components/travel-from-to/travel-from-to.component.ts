@@ -1,5 +1,5 @@
 declare var google: any;
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,10 @@ export class TravelFromToComponent implements OnInit {
   to: any
   from: any
   place: any
+
+
+  @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
+
   constructor() {
     this.fromLocation()
     this.toLocation()
@@ -59,6 +63,8 @@ export class TravelFromToComponent implements OnInit {
         //   }
         // }
         // this.locationName = place.formatted_address;
+
+        this.emitLocations();
       });
     }
   }
@@ -84,7 +90,13 @@ export class TravelFromToComponent implements OnInit {
         //   }
         // }
         // this.locationName = place.formatted_address;
+        this.emitLocations();
       });
     }
   }
+
+  emitLocations() {
+    this.locationsChanged.emit({ from: this.from, to: this.to });
+  }
+
 }
