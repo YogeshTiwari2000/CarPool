@@ -151,3 +151,10 @@ ion-item ion-text {
 
 
 /* Wallmart */
+.transaction-box {
+    padding: 0 1rem;
+}
+
+::ng-deep .item-inner {
+    padding: 0;
+}

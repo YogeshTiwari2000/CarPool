@@ -9,16 +9,15 @@
 
 <ion-content>
   <ion-card class="ion-padding">
-    <ion-item lines="none">
+    <!-- <ion-item lines="none">
       <ion-avatar class="custom-avatar-bg"><img src="../../../assets/images/svgs/left-arrow.svg" alt=""></ion-avatar>
-    </ion-item>
+    </ion-item> -->
     <ion-card-header>
-
       <ion-card-subtitle class="custom-font-subtitle">Add Money to</ion-card-subtitle>
       <ion-card-title class="custom-font-title">Wallet </ion-card-title>
 
       <ion-item lines="none" class="ion-no-padding custom-font-subtitle" color="">
-        <ion-label>Available Balance ₹ 112</ion-label>
+        <ion-label>Available Balance ₹ {{balance}}</ion-label>
         <ion-icon name="wallet" slot="end" class="custom-icon-size" color="light"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -27,71 +26,69 @@
     <ion-card-content>
       <ion-list>
         <ion-item lines="none ion-no-padding">
-          <ion-input class="input-box ion-no-padding">
-            <!-- <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon> -->
+          <ion-input [(ngModel)]="amountToAdd" type="number" inputmode="numeric" class="input-box ion-no-padding"
+            placeholder="Enter amount" pattern="[0-9]*" required>
             <img src="../../../assets/images/svgs/rupiya.svg" alt="" slot="start">
-
           </ion-input>
         </ion-item>
       </ion-list>
 
-      <ion-button expand="block" color="primary" class="ion-margin-top next-btn">Proceed to Add Money</ion-button>
+      <ion-button expand="block" color="primary" class="ion-margin-top next-btn " (click)='addMoney()'>Proceed to Add
+        Money</ion-button>
 
-      <ion-item lines="none" class="ion-margin-top ion-no-padding">
+      <ion-item lines="none" class="ion-margin-top ion-no-padding ">
         <ion-label>Withdraw Amount</ion-label>
         <!-- <ion-toggle slot="end"></ion-toggle> -->
-        <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clip-path="url(#clip0_237_256)">
-            <path
-              d="M24.2344 31.9688C28.506 31.9688 31.9688 28.506 31.9688 24.2344C31.9688 19.9628 28.506 16.5 24.2344 16.5C19.9628 16.5 16.5 19.9628 16.5 24.2344C16.5 28.506 19.9628 31.9688 24.2344 31.9688Z"
-              fill="white" />
-            <path
-              d="M8.76562 16.5C13.0372 16.5 16.5 13.0372 16.5 8.76562C16.5 4.49405 13.0372 1.03125 8.76562 1.03125C4.49405 1.03125 1.03125 4.49405 1.03125 8.76562C1.03125 13.0372 4.49405 16.5 8.76562 16.5Z"
-              fill="#71C2FF" />
-            <path
-              d="M8.76562 11.8594C8.33766 11.8594 7.99219 11.5139 7.99219 11.0859V6.44531C7.99219 6.01734 8.33766 5.67188 8.76562 5.67188C9.19359 5.67188 9.53906 6.01734 9.53906 6.44531V11.0859C9.53906 11.5139 9.19359 11.8594 8.76562 11.8594Z"
-              fill="white" />
-            <path
-              d="M8.76562 17.2734C4.07344 17.2734 0.257812 13.4578 0.257812 8.76562C0.257812 4.07344 4.07344 0.257812 8.76562 0.257812C13.4578 0.257812 17.2734 4.07344 17.2734 8.76562C17.2734 13.4578 13.4578 17.2734 8.76562 17.2734ZM8.76562 1.80469C4.9268 1.80469 1.80469 4.9268 1.80469 8.76562C1.80469 12.6045 4.9268 15.7266 8.76562 15.7266C12.6045 15.7266 15.7266 12.6045 15.7266 8.76562C15.7266 4.9268 12.6045 1.80469 8.76562 1.80469Z"
-              fill="#71C2FF" />
-            <path
-              d="M24.2344 32.7422C19.5422 32.7422 15.7266 28.9266 15.7266 24.2344C15.7266 19.5422 19.5422 15.7266 24.2344 15.7266C28.9266 15.7266 32.7422 19.5422 32.7422 24.2344C32.7422 28.9266 28.9266 32.7422 24.2344 32.7422ZM24.2344 17.2734C20.3955 17.2734 17.2734 20.3955 17.2734 24.2344C17.2734 28.0732 20.3955 31.1953 24.2344 31.1953C28.0732 31.1953 31.1953 28.0732 31.1953 24.2344C31.1953 20.3955 28.0732 17.2734 24.2344 17.2734Z"
-              fill="#444B54" />
-            <path
-              d="M29.3907 0.773436C28.9627 0.773436 28.6172 1.1189 28.6172 1.54687V5.21297C26.5109 3.18398 23.1568 1.03383 18.9699 0.172733C18.5522 0.0850763 18.1449 0.355779 18.0572 0.773436C17.9722 1.19109 18.2403 1.60101 18.658 1.68609C22.6231 2.50336 25.7658 4.55297 27.6737 6.44531H23.7188C23.2908 6.44531 22.9454 6.79078 22.9454 7.21875C22.9454 7.64672 23.2908 7.99219 23.7188 7.99219H29.3907C29.8187 7.99219 30.1641 7.64672 30.1641 7.21875V1.54687C30.1641 1.1189 29.8187 0.773436 29.3907 0.773436Z"
-              fill="#71C2FF" />
-            <path
-              d="M14.3395 31.3139C10.377 30.4992 7.23422 28.447 5.32641 26.5547H9.28125C9.70922 26.5547 10.0547 26.2092 10.0547 25.7812C10.0547 25.3533 9.70922 25.0078 9.28125 25.0078H3.60938C3.18141 25.0078 2.83594 25.3533 2.83594 25.7812V31.4531C2.83594 31.8811 3.18141 32.2266 3.60938 32.2266C4.03734 32.2266 4.38281 31.8811 4.38281 31.4531V27.787C6.48914 29.816 9.84328 31.9662 14.0276 32.8273C14.0791 32.8376 14.1333 32.8427 14.1848 32.8427C14.5432 32.8427 14.8655 32.5901 14.9428 32.224C15.0279 31.8089 14.7598 31.399 14.3395 31.3139Z"
-              fill="#444B54" />
-          </g>
-          <defs>
-            <clipPath id="clip0_237_256">
-              <rect width="33" height="33" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
 
+        <img src="../../../assets/images/svgs/transfer.svg" alt="">
       </ion-item>
 
-      <ion-note slot="end" class="ion-padding-top">Available Balance ₹ 112</ion-note>
+
+      <ion-note slot="end" class="ion-padding-top">Available Balance ₹ {{balance}}</ion-note>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-list-header>
-      <ion-label>Last Transaction</ion-label>
-      <ion-note slot="end">View All</ion-note>
-    </ion-list-header>
+  <ion-list class="viewAll">
 
-    <!-- <ion-item *ngFor="let transaction of transactions">
-      <ion-avatar slot="start">
-        <img src="assets/avatar.png" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ transaction.name }}</h2>
-        <p>{{ transaction.date }}</p>
-      </ion-label>
-      <ion-note slot="end" color="danger">₹ -{{ transaction.amount }}</ion-note>
-    </ion-item> -->
+    <ion-label>Last Transaction</ion-label>
+    <ion-label (click)="goToWalletHistory()">View All</ion-label>
   </ion-list>
+
+  <!-- <ion-row>
+    <ion-col size="12">
+      <ion-list class="ion-padding">
+        <ion-item class="ion-no-padding transaction-card">
+          <ion-icon name="cash" class="ion-padding-end"></ion-icon>
+          <ion-label>
+            <h3>Yogesh</h3>
+            <p>122 Aug 2024</p>
+          </ion-label>
+          <ion-text color="success">150</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row> -->
+  <div *ngFor="let item of transaction_data" class="ion-padding-start">
+    <ion-row>
+      <ion-col size="12">
+        <ion-list class="ion-no-margin ion-no-padding">
+          <ion-item class="ion-no-padding transaction-card">
+            <ion-icon name="cash" class="ion-padding-end"></ion-icon>
+            <ion-label class="ion-no-padding">
+              <h3>{{ item.description }}</h3>
+              <p>{{ item.date }}</p>
+            </ion-label>
+            <ion-text [color]="item.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
+              {{ item.type === 'credit' ? '+' : '-' }} ₹ {{ item.amount.toFixed(2) }}
+            </ion-text>
+            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3.78132 4.99999L0.481323 1.69999L1.42399 0.757324L5.66666 4.99999L1.42399 9.24266L0.481323 8.29999L3.78132 4.99999Z"
+                fill="#535D66" />
+            </svg>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>

@@ -49,6 +49,8 @@ ion-input img {
     font-size: 17px;
 }
 
-::ng-deep .next-btn {
-    padding: 0.5rem !important;
+.viewAll {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
 }
