@@ -9,11 +9,8 @@
     <p class="ion-text-center feedHeading">How was your ride?</p>
     <ion-row class="ion-justify-content-center starArea">
       <div *ngFor="let star of stars; let i = index" class="w-fit">
-        <ion-icon
-          [name]="filledStars[i] ? 'star' : 'star-outline'"
-          (click)="onStarClick(i)"
-          [class.ratingColor]="filledStars[i]"
-        ></ion-icon>
+        <ion-icon [name]="filledStars[i] ? 'star' : 'star-outline'" (click)="onStarClick(i)"
+          [class.ratingColor]="filledStars[i]"></ion-icon>
       </div>
     </ion-row>
 
@@ -36,33 +33,21 @@
     </ion-row>
 
     <ion-row class="ion-margin-top">
-      <ion-select
-        formControlName="feedbackOptions"
-        label="Select Desired Feedback"
-        label-placement="floating"
-        fill="outline"
-        multiple="true"
-      >
-        <ion-select-option value="rough driving"
-          >Rough Driving</ion-select-option
-        >
+      <ion-select formControlName="feedbackOptions" label="Select Desired Feedback" label-placement="floating"
+        fill="outline" multiple="true">
+        <ion-select-option value="rough driving">Rough Driving</ion-select-option>
         <ion-select-option value="misbehave">Misbehave</ion-select-option>
         <ion-select-option value="drunk">Drunk</ion-select-option>
       </ion-select>
     </ion-row>
 
     <ion-row class="ion-margin-vertical">
-      <ion-textarea
-        formControlName="comment"
-        label="Add a comment"
-        labelPlacement="floating"
-        rows="5"
-        fill="outline"
-        placeholder="Enter text"
-      ></ion-textarea>
+      <ion-textarea formControlName="comment" label="Add a comment" labelPlacement="floating" rows="5" fill="outline"
+        placeholder="Enter text"></ion-textarea>
     </ion-row>
 
-    <ion-button type="submit" size="full">
+    <ion-button [disabled]="!feedbackForm.get('star')?.value || feedbackForm.get('star')?.value < 0" type="submit"
+      size="full">
       <ion-label><b>SUBMIT</b></ion-label>
     </ion-button>
   </form>

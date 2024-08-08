@@ -18,7 +18,7 @@ export class FeedbackPage implements OnInit {
   // id: any = 'zhPlRI2PZ4or8StW5qAk'
   users: any[] = [];
   feedbackForm: FormGroup;
-  stars: any = ['1', '2', '3', '4', '5'];
+  stars: number[] = [1, 2, 3, 4, 5];
   filledStars: boolean[] = [false, false, false, false, false];
   rating = [
     {
@@ -35,7 +35,7 @@ export class FeedbackPage implements OnInit {
 
   constructor(private FormBuilder: FormBuilder) {
     this.feedbackForm = this.FormBuilder.group({
-      star: [null, Validators.required],
+      star: [0, Validators.required],
       feedbackOptions: [[]],
       comment: ['']
     });
