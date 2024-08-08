@@ -21,8 +21,8 @@ export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   lastSixTransaction!: { Name: string; Date: string; Amount: string; Type: string; }[];
   selectedDateTime: any;
-  cdr: any;
-  constructor(private router :Router , cdr: ChangeDetectorRef) {
+
+  constructor(private router :Router , private cdr: ChangeDetectorRef) {
     // console.log(data);
 
   }
@@ -294,13 +294,16 @@ export class MyWalletPage implements OnInit {
 
 
 // Filter method in the component class
-filterByType(type: TransactionType) {
+filterByType(type: 'credit' | 'debit') {
   this.filtered_data = this.original_data.filter(user => {
     const transactions = this.getUserInfo(user)?.wallet?.transactions || [];
     return transactions.some((transaction: { type: string; }) => transaction.type === type);
   });
-  this.cdr.detectChanges(); // Manually trigger change detection
+
+  console.log('Filtered Data:', this.filtered_data); // Check if data is filtered correctly
+  this.cdr.detectChanges(); // Trigger change detection
 }
+
 
   
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
