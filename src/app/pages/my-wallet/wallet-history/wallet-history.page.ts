@@ -1,10 +1,13 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 // import data from '../../../assets/dummy.json'
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons,IonMenuButton, IonButton, IonPopover } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
+type TransactionType = 'credit' | 'debit';
 
 @Component({
   selector: 'app-my-wallet',
@@ -18,11 +21,16 @@ export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   lastSixTransaction!: { Name: string; Date: string; Amount: string; Type: string; }[];
   selectedDateTime: any;
-  constructor(private router :Router) {
+  cdr: any;
+  constructor(private router :Router , cdr: ChangeDetectorRef) {
     // console.log(data);
 
   }
+  selectedFromDateTime: string | null = null;
+  selectedToDateTime: string | null = null;
   isModalOpen = false;
+  original_data: any[] = []; // Assuming you have an original_data array
+
 
   onFilterButtonClicks() {
     this.isModalOpen = true;
@@ -273,34 +281,28 @@ export class MyWalletPage implements OnInit {
     this.filtered_data = this.dummy_data;
 
   }
-
-  cancel() {
-    this.isModalOpen = false;
-    this.modal.dismiss(null, 'cancel');
+  onFromDateTimeChange(event: any) {
+    this.selectedFromDateTime = event.detail.value;
   }
 
-  confirm() {
-    if (this.selectedDateTime) {
-      const selectedDate = new Date(this.selectedDateTime).toISOString().split('T')[0];
-      this.filtered_data = []; // Clear current data
-
-      this.dummy_data.forEach(item => {
-        const userInfo = this.getUserInfo(item);
-        userInfo.wallet.transactions.forEach((transaction: any) => {
-          const transactionDate = new Date(transaction.date).toISOString().split('T')[0];
-          if (transactionDate === selectedDate) {
-            this.filtered_data.push(transaction);
-          }
-        });
-      });
-      
-      this.isModalOpen = false;
-      // Trigger change detection if necessary
-      // this.changeDetectorRef.detectChanges();
-    } else {
-      alert("Please select a date and time.");
-    }
+  onToDateTimeChange(event: any) {
+    this.selectedToDateTime = event.detail.value;
   }
+  
+
+
+
+
+// Filter method in the component class
+filterByType(type: TransactionType) {
+  this.filtered_data = this.original_data.filter(user => {
+    const transactions = this.getUserInfo(user)?.wallet?.transactions || [];
+    return transactions.some((transaction: { type: string; }) => transaction.type === type);
+  });
+  this.cdr.detectChanges(); // Manually trigger change detection
+}
+
+  
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
 
   onDateTimeChange(event: any) {

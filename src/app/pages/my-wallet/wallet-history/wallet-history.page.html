@@ -35,50 +35,54 @@
               </svg>
             </div>
             <div class="text">Filter</div>
-
             <ion-popover trigger="click-trigger" triggerAction="click">
               <ng-template>
                 <ion-content class="ion-padding">
+                  <!-- From DateTime Picker -->
                   <div class="filter-box">
                     <p class="para-txt">From</p>
                     <ion-datetime-button
                       class="date"
-                      datetime="datetime"
+                      datetime="fromDatetime"
                     ></ion-datetime-button>
                   </div>
                   <ion-modal [keepContentsMounted]="true">
                     <ng-template>
                       <ion-datetime
-                        id="datetime"
-                        (ionChange)="onDateTimeChanges($event)"
+                        id="fromDatetime"
+                        (ionChange)="onFromDateTimeChange($event)"
                       ></ion-datetime>
                     </ng-template>
                   </ion-modal>
 
+                  <!-- To DateTime Picker -->
                   <div class="filter-box">
                     <p class="para-txt">To</p>
                     <ion-datetime-button
                       class="date"
-                      datetime="datetime"
+                      datetime="toDatetime"
                     ></ion-datetime-button>
                   </div>
                   <ion-modal [keepContentsMounted]="true">
                     <ng-template>
                       <ion-datetime
-                        id="datetime"
-                        (ionChange)="onDateTimeChanges($event)"
+                        id="toDatetime"
+                        (ionChange)="onToDateTimeChange($event)"
                       ></ion-datetime>
                     </ng-template>
                   </ion-modal>
 
+                  <!-- Credit/Debit Buttons -->
                   <div class="cred-debts">
-                    <button class="credit">Credited</button>
-                    <button class="debit">Debited</button>
+                    <button class="credit" (click)="filterByType('credit')">
+                      Credited
+                    </button>
+                    <button class="debit" (click)="filterByType('debit')">
+                      Debited
+                    </button>
                   </div>
                 </ion-content>
               </ng-template>
-
-              <!-- --2-- -->
             </ion-popover>
           </button>
         </div>
