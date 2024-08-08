@@ -78,6 +78,7 @@ export class RegisterPage implements OnInit {
     dropLocation: "",
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified,
+    ride: {},
   };
 
   constructor() {}
