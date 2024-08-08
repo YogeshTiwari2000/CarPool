@@ -8,9 +8,8 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-card>
-    <ion-item lines="none" class="ion-padding-top">
+  <ion-card class="ion-padding">
+    <ion-item lines="none">
       <ion-avatar class="custom-avatar-bg"><img src="../../../assets/images/svgs/left-arrow.svg" alt=""></ion-avatar>
     </ion-item>
     <ion-card-header>
@@ -26,12 +25,17 @@
 
 
     <ion-card-content>
-      <!-- <ion-item lines="none">
-        <ion-label position="floating">Amount</ion-label>
-        <ion-input value="₹ 500" readonly></ion-input>
-      </ion-item> -->
+      <ion-list>
+        <ion-item lines="none ion-no-padding">
+          <ion-input class="input-box ion-no-padding">
+            <!-- <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon> -->
+            <img src="../../../assets/images/svgs/rupiya.svg" alt="" slot="start">
 
-      <ion-button expand="block" color="primary" class="ion-margin-top">Proceed to Add Money</ion-button>
+          </ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" color="primary" class="ion-margin-top next-btn">Proceed to Add Money</ion-button>
 
       <ion-item lines="none" class="ion-margin-top ion-no-padding">
         <ion-label>Withdraw Amount</ion-label>
