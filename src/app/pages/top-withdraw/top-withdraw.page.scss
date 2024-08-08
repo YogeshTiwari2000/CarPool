@@ -49,6 +49,6 @@ ion-input img {
     font-size: 17px;
 }
 
-.button-inner {
+::ng-deep .next-btn {
     padding: 0.5rem !important;
 }
