@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+
 import {
   FormBuilder,
   FormGroup,
@@ -22,18 +23,19 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
-  IonList,
+  IonList, IonButtons
 } from "@ionic/angular/standalone";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-feedback",
   templateUrl: "./feedback.page.html",
   styleUrls: ["./feedback.page.scss"],
   standalone: true,
-  imports: [
+  imports: [IonButtons,
     IonList,
     IonTextarea,
     IonItem,
@@ -56,6 +58,7 @@ import { CommonService } from "src/app/shared/common.service";
 })
 export class FeedbackPage implements OnInit {
   handleData = inject(HandleDataService);
+  router = inject(Router);
   localStorageService = inject(LocalStorageService);
   commonService = inject(CommonService);
 
@@ -113,6 +116,10 @@ export class FeedbackPage implements OnInit {
     this.feedbackForm.patchValue({
       star: this.star,
     });
+  }
+
+  onSkip() {
+    this.router.navigate(['/home'])
   }
 
   // handleChange(event: any) {

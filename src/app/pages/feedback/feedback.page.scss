@@ -1,4 +1,16 @@
+.skipBtn {
+    --background: none !important;
+    --box-shadow: none !important;
+    --color: black !important;
+    text-transform: none !important;
+}
+
 ion-content {
+    form {
+        max-width: 450px;
+        margin: auto;
+    }
+
     .feedHeading {
         font-size: 24px;
         font-weight: bold;
