@@ -35,7 +35,6 @@ export class TopWithdrawPage implements OnInit {
       this.amountToAdd = 0
     } else {
       console.error("Invalid Amount Entered");
-
     }
   }
   goToWalletHistory() {
