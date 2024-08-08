@@ -125,7 +125,11 @@ export class HandleDataService {
     }
   }
   //updateDocumentField
-  async updateDocumentField(docId: any, keyToUpdate: string, data: any) {
+  async updateDocumentField(
+    docId: string | any,
+    keyToUpdate: string,
+    data: any
+  ) {
     try {
       const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
       await updateDoc(docRef, {
@@ -136,7 +140,7 @@ export class HandleDataService {
       ]);
     } catch (error: any) {
       this.commonService.alertBox(
-        error,
+        error.message,
         "Document update error",
         ["Ok"],
         "Error occurs while updating document"

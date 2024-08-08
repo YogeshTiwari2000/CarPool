@@ -26,6 +26,7 @@ import {
 } from "@ionic/angular/standalone";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
+import { CommonService } from "src/app/shared/common.service";
 
 @Component({
   selector: "app-feedback",
@@ -56,8 +57,10 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
 export class FeedbackPage implements OnInit {
   handleData = inject(HandleDataService);
   localStorageService = inject(LocalStorageService);
+  commonService = inject(CommonService);
+
   star: any;
-  email: any = "shubham.sholet@paavu.com";
+  email: any = this.commonService.currentUserEmail;
   // id: any = 'zhPlRI2PZ4or8StW5qAk'
   users: any[] = [];
   feedbackForm: FormGroup;
