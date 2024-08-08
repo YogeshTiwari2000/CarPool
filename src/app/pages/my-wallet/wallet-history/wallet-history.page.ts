@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 
 // import data from '../../../assets/dummy.json'
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons,IonMenuButton, IonButton } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './wallet-history.page.html',
   styleUrls: ['./wallet-history.page.scss'],
   standalone: true,
-  imports: [IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
+  imports: [IonButton, IonButtons, IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink,IonMenuButton]
 })
 
 export class MyWalletPage implements OnInit {
@@ -24,7 +24,19 @@ export class MyWalletPage implements OnInit {
     // console.log(data);
 
   }
+  isModalOpen = false;
 
+  onFilterButtonClicks() {
+    this.isModalOpen = true;
+  }
+
+  onModalDismiss() {
+    this.isModalOpen = false;
+  }
+
+  onDateTimeChanges(event: any) {
+    console.log('Selected datetime value:', event.detail.value);
+  }
   dummy_data = [
     {
       "id": "f2a7",
@@ -264,7 +276,15 @@ export class MyWalletPage implements OnInit {
 
   }
 
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
 
+  confirm() {
+  alert("selected succesfully")
+
+  
+  }
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
 
   onDateTimeChange(event: any) {

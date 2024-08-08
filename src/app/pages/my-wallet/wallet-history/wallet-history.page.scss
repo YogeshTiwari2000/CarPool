@@ -1,6 +1,6 @@
-*{
+.main-content{
     box-sizing: border-box;
-    padding-left: 0.5rem;
+    padding-left: 2rem;
 }
 .search-type{
     display: flex;
@@ -39,5 +39,8 @@ ion-list.ion-no-margin.md.list-md {
     padding-left: 0rem;
 }
    
-   
-   
+ion-modal>.ion-page {
+    position: relative;
+    contain: layout style;
+    height: 100%;
+}
