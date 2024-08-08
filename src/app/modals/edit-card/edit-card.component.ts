@@ -57,6 +57,15 @@ export class EditCardComponent implements OnInit {
   userRole = "passenger";
   // userRole = "driver";
   fileDetails: any;
+  vehicleDetails: any = {
+    vehicleType: "",
+    vehicleNumber: "",
+    vehicleName: "",
+  };
+  about: any = {
+    miniBio: "",
+    trevalPreference: [],
+  };
 
   constructor() {}
 
@@ -78,11 +87,6 @@ export class EditCardComponent implements OnInit {
     this.changePass = !this.changePass;
   }
 
-  close() {
-    const data = "test data";
-    this.modalCtrl.dismiss(data, "backdrop");
-  }
-
   updateData() {
     // if (this.userRole === "driver" && this.checkDocs === false) {
     //   console.log("Drivers cannot update data without verified documents.");
@@ -95,12 +99,17 @@ export class EditCardComponent implements OnInit {
       console.log("edit if modal", this.data);
     } else {
       console.log("edit else modal", this.data);
-      this.handleData
-        .updateDocument(this.localStr.getItem("currentUserDocId"), this.data)
-        .then((res) => {
-          this.close();
-        });
+      // this.handleData
+      //   .updateDocument(this.localStr.getItem("currentUserDocId"), this.data)
+      //   .then((res) => {
+      //     this.close();
+      //   });
     }
+  }
+
+  close() {
+    const data = this.data;
+    this.modalCtrl.dismiss(data, "backdrop");
   }
 
   onFileSelected(event: any) {

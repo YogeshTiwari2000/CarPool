@@ -247,27 +247,103 @@
           <div>This field is required for <strong>drivers</strong>.</div>
         </div>
       </ion-col>
-
-      <!-- <ion-col size="12" class="ion-padding-bottom">
-        <ion-input
-          type="phone"
-          label="Phone"
+    </ion-row>
+  </ion-card>
+  <!--  -->
+  <ion-card class="ion-padding">
+    <ion-row>
+      <ion-col>
+        <ion-title class="ion-no-padding"> Vehicle details </ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-select
+          label="Vehicle Type"
           fill="outline"
           labelPlacement="stacked"
-          placeholder="Enter your phone"
-          [(ngModel)]="data.phone"
-          name="phone"
-          #phone="ngModel"
+          interface="popover"
+          placeholder="Select Vehicle Type"
+          justify="space-between"
+          [(ngModel)]="vehicleDetails.vehicleType"
+          #vehicleType="ngModel"
+          name="vehicleType"
+          required
+        >
+          <ion-select-option value="Car">Car</ion-select-option>
+          <ion-select-option value="Bus">Bus</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="text"
+          label="Vehicle Name"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your vehicle name"
+          [(ngModel)]="vehicleDetails.vehicleName"
+          name="vehicleName"
           required
         >
         </ion-input>
-        <div
-          class="error-text"
-          *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="text"
+          label="Vehicle Number"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your vehicle number"
+          [(ngModel)]="vehicleDetails.vehicleNumber"
+          name="vehicleNumber"
+          required
         >
-          <div *ngIf="phone.errors?.['required']">This field is required.</div>
-        </div>
-      </ion-col> -->
+        </ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <!--  -->
+  <ion-card class="ion-padding">
+    <ion-row>
+      <ion-col>
+        <ion-title class="ion-no-padding"> About you </ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-input
+          type="text"
+          label="Mini Bio"
+          fill="outline"
+          labelPlacement="stacked"
+          placeholder="Enter your mini bio"
+          [(ngModel)]="about.miniBio"
+          name="miniBio"
+          required
+        >
+        </ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-select
+          label="Preferences"
+          fill="outline"
+          labelPlacement="stacked"
+          interface="popover"
+          placeholder="Select Preferences"
+          justify="space-between"
+          [(ngModel)]="about.trevalPreference"
+          #trevalPreference="ngModel"
+          name="trevalPreference"
+          multiple="true"
+        >
+          <ion-select-option value="smoker">Smoker</ion-select-option>
+          <ion-select-option value="nonSmoker">Non-Smoker</ion-select-option>
+          <hr />
+          <ion-select-option value="male">Male</ion-select-option>
+          <ion-select-option value="female">Female</ion-select-option>
+          <ion-select-option value="others">Others</ion-select-option>
+        </ion-select>
+      </ion-col>
     </ion-row>
   </ion-card>
 </ion-content>
