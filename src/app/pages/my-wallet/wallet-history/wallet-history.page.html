@@ -28,6 +28,19 @@
               </svg>
             </div>
             <div class="text">Filter</div>
+
+            <div class="hidden">
+              <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime
+                    id="datetime"
+                    (ionChange)="onDateTimeChange($event)"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </div>
           </button>
         </div>
       </ion-col>
