@@ -2,9 +2,6 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
-
-
 // import data from '../../../assets/dummy.json'
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons,IonMenuButton, IonButton } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
@@ -20,6 +17,7 @@ import { Router, RouterLink } from '@angular/router';
 export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   lastSixTransaction!: { Name: string; Date: string; Amount: string; Type: string; }[];
+  selectedDateTime: any;
   constructor(private router :Router) {
     // console.log(data);
 
@@ -277,13 +275,31 @@ export class MyWalletPage implements OnInit {
   }
 
   cancel() {
+    this.isModalOpen = false;
     this.modal.dismiss(null, 'cancel');
   }
 
   confirm() {
-  alert("selected succesfully")
+    if (this.selectedDateTime) {
+      const selectedDate = new Date(this.selectedDateTime).toISOString().split('T')[0];
+      this.filtered_data = []; // Clear current data
 
-  
+      this.dummy_data.forEach(item => {
+        const userInfo = this.getUserInfo(item);
+        userInfo.wallet.transactions.forEach((transaction: any) => {
+          const transactionDate = new Date(transaction.date).toISOString().split('T')[0];
+          if (transactionDate === selectedDate) {
+            this.filtered_data.push(transaction);
+          }
+        });
+      });
+      
+      this.isModalOpen = false;
+      // Trigger change detection if necessary
+      // this.changeDetectorRef.detectChanges();
+    } else {
+      alert("Please select a date and time.");
+    }
   }
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
 
