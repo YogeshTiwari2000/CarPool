@@ -89,6 +89,9 @@ export class EditCardComponent implements OnInit {
         if (this.data.about) {
           this.about = this.data.about;
         }
+        if (this.data.govtDocs) {
+          this.govtDocs = this.data.govtDocs;
+        }
       })
       .catch((error) => {
         console.error("Error: ", error);
