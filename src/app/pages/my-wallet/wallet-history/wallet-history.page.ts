@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { HandleDataService } from '../../../services/data/handle-data.service';
 
 
 // import data from '../../../assets/dummy.json'
@@ -21,11 +22,13 @@ export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   lastSixTransaction!: { Name: string; Date: string; Amount: string; Type: string; }[];
   selectedDateTime: any;
+  handleDataService: any;
 
-  constructor(private router :Router , private cdr: ChangeDetectorRef) {
+  constructor(private router :Router , private cdr: ChangeDetectorRef , handleDataService: HandleDataService) {
     // console.log(data);
 
   }
+  data: any[] = [];
   selectedFromDateTime: string | null = null;
   selectedToDateTime: string | null = null;
   isModalOpen = false;
@@ -209,6 +212,8 @@ export class MyWalletPage implements OnInit {
   ]
   ngOnInit() {
     console.log("wallet");
+    this.data = this.handleDataService.getData();
+    this.filtered_data = this.data; 
 
     // this.lastSixTransaction = [
     //   {
@@ -282,11 +287,13 @@ export class MyWalletPage implements OnInit {
 
   }
   onFromDateTimeChange(event: any) {
-    this.selectedFromDateTime = event.detail.value;
+    this.fromDate = event.detail.value;
+    this.filterTransactions();
   }
 
   onToDateTimeChange(event: any) {
-    this.selectedToDateTime = event.detail.value;
+    this.toDate = event.detail.value;
+    this.filterTransactions();
   }
   
 
@@ -309,9 +316,33 @@ filterByType(type: 'credit' | 'debit') {
 
   
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
+  filterTransactions() {
+    if (this.fromDate && this.toDate) {
+      const from = new Date(this.fromDate).getTime();
+      const to = new Date(this.toDate).getTime();
 
-  onDateTimeChange(event: any) {
-    console.log('Selected datetime value:', event.detail.value);
+      this.filtered_data = this.data.map(user => {
+        const filteredTransactions = user.wallet.transactions.filter(
+          (transaction: any) => {
+            const transactionDate = new Date(transaction.date).getTime();
+            return transactionDate >= from && transactionDate <= to;
+          }
+        );
+
+        return {
+          ...user,
+          wallet: {
+            ...user.wallet,
+            transactions: filteredTransactions,
+          },
+        };
+      });
+    } else {
+      this.filtered_data = this.data; // Reset to all data if dates are not selected
+    }
   }
+  fromDate: string | null = null;
+  toDate: string | null = null;
+
   
 }
