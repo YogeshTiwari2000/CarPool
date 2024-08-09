@@ -128,49 +128,87 @@ export class EditCardComponent implements OnInit {
             console.log("Updated File Details with URL:", this.data.govtDocs);
 
             //update document
-            let _data = {
-              ...this.data,
-              vehicleDetails: this.vehicleDetails,
-              about: this.about,
-              govtDocs: this.govtDocs,
-            };
-            if (this.userRole === "driver" && this.checkDocs === true) {
-              console.log("edit if modal", _data);
-            } else {
-              console.log("edit else modal", _data);
-              const currentUserDocId =
-                this.localStr.getItem("currentUserDocId");
-              // console.log("data1", this.data);
+            this.updateDoc();
+            // let _data = {
+            //   ...this.data,
+            //   vehicleDetails: this.vehicleDetails,
+            //   about: this.about,
+            //   govtDocs: this.govtDocs,
+            // };
+            // if (this.userRole === "driver" && this.checkDocs === true) {
+            //   console.log("edit if modal", _data);
+            // } else {
+            //   console.log("edit else modal", _data);
+            //   const currentUserDocId =
+            //     this.localStr.getItem("currentUserDocId");
+            //   // console.log("data1", this.data);
 
-              if (currentUserDocId) {
-                this.handleData
-                  .updateDocument(currentUserDocId, _data)
-                  .then(() => {
-                    let updateData = this.handleData
-                      .userExists(this.data.userEmail)
-                      .then((res) => {
-                        this.data = res.data;
-                        console.log("this.data updated === ", this.data);
-                        this.localStr.setItem("currentUser", this.data);
-                        this.localStr.setItem("currentUser", _data);
-                        // this.close();
-                      })
-                      .catch((error) => {
-                        console.error("Error: ", error);
-                      });
-                  });
-              } else {
-                console.error("Error: currentUserDocId is null or undefined.");
-              }
-            }
+            //   if (currentUserDocId) {
+            //     this.handleData
+            //       .updateDocument(currentUserDocId, _data)
+            //       .then(() => {
+            //         let updateData = this.handleData
+            //           .userExists(this.data.userEmail)
+            //           .then((res) => {
+            //             this.data = res.data;
+            //             console.log("this.data updated === ", this.data);
+            //             this.localStr.setItem("currentUser", this.data);
+            //             this.localStr.setItem("currentUser", _data);
+            //             // this.close();
+            //           })
+            //           .catch((error) => {
+            //             console.error("Error: ", error);
+            //           });
+            //       });
+            //   } else {
+            //     console.error("Error: currentUserDocId is null or undefined.");
+            //   }
+            // }
           })
           .catch((e) => {
             console.error("Error: ", e);
           });
+      } else {
+        this.updateDoc();
       }
       // return;
     } else {
       console.error("Error: this.data is null or undefined.");
+    }
+  }
+
+  updateDoc() {
+    let _data = {
+      ...this.data,
+      vehicleDetails: this.vehicleDetails,
+      about: this.about,
+      govtDocs: this.govtDocs,
+    };
+    if (this.userRole === "driver" && this.checkDocs === true) {
+      console.log("edit if modal", _data);
+    } else {
+      console.log("edit else modal", _data);
+      const currentUserDocId = this.localStr.getItem("currentUserDocId");
+      // console.log("data1", this.data);
+
+      if (currentUserDocId) {
+        this.handleData.updateDocument(currentUserDocId, _data).then(() => {
+          let updateData = this.handleData
+            .userExists(this.data.userEmail)
+            .then((res) => {
+              this.data = res.data;
+              console.log("this.data updated === ", this.data);
+              this.localStr.setItem("currentUser", this.data);
+              this.localStr.setItem("currentUser", _data);
+              this.close();
+            })
+            .catch((error) => {
+              console.error("Error: ", error);
+            });
+        });
+      } else {
+        console.error("Error: currentUserDocId is null or undefined.");
+      }
     }
   }
 
