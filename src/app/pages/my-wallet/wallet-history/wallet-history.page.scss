@@ -38,17 +38,24 @@ button.filter-btn:hover{
 ion-list.ion-no-margin.md.list-md {
     padding-left: 0rem;
 }
-   
+.filter-box {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+ion-datetime-button.date.ion-color.ion-color-primary.md {
+    flex-basis: 21rem;
+    flex-grow: 1;
+}
+p.para-txt {
+    flex-basis: 5rem;
+    flex-grow: 1;
+}
 ion-modal>.ion-page {
     position: relative;
     contain: layout style;
     height: 100%;
 }
-// .filter-box{
-//     display: flex;
-//     flex-direction: row;
-//     align-items: baseline;
-// }
 ::ng-deep .popover-viewport:has(>ion-content) {
     overflow: hidden;
     --width: 255px;
@@ -79,11 +86,3 @@ ion-modal>.ion-page {
     font-weight: 400;
 
 }
-// .para-txt{
-//     flex-basis: 8rem;
-//     flex-grow: 1;
-// }
-// .date{
-//     flex-basis: 10rem;
-//     flex-grow: 1; 
-// }
