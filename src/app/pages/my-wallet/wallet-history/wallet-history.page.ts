@@ -295,9 +295,11 @@ export class MyWalletPage implements OnInit {
 
 // Filter method in the component class
 filterByType(type: 'credit' | 'debit') {
-  this.filtered_data = this.original_data.filter(user => {
+  const transactionType = type === 'credit' ? 'Addition' : 'Deduction';
+
+  this.filtered_data = this.dummy_data.filter(user => {
     const transactions = this.getUserInfo(user)?.wallet?.transactions || [];
-    return transactions.some((transaction: { type: string; }) => transaction.type === type);
+    return transactions.some((transaction: { type: string; }) => transaction.type === transactionType);
   });
 
   console.log('Filtered Data:', this.filtered_data); // Check if data is filtered correctly
