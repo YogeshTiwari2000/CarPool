@@ -67,11 +67,11 @@ export class EditCardComponent implements OnInit {
     travelPreference: [],
   };
   govtDocs: any = {
-    src: "",
+    fileDetails: "",
     url: "",
   };
 
-  fileContent: string | ArrayBuffer | null | any = null;
+  // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
 
   constructor() {}
@@ -83,9 +83,12 @@ export class EditCardComponent implements OnInit {
         this.data = res.data;
         console.log("this.data updated === ", this.data);
         this.localStr.setItem("currentUser", this.data);
-
-        this.vehicleDetails = this.data.vehicleDetails;
-        this.about = this.data.about;
+        if (this.data.vehicleDetails) {
+          this.vehicleDetails = this.data.vehicleDetails;
+        }
+        if (this.data.about) {
+          this.about = this.data.about;
+        }
       })
       .catch((error) => {
         console.error("Error: ", error);
@@ -112,49 +115,60 @@ export class EditCardComponent implements OnInit {
       if (this.data.password) {
         this.data.password = this.handleData.encryptPass(this.data.password);
       }
-      const fileUrl = await this.handleData
-        .fileUploadToFirebase(this.file)
-        .then(() => {
-          this.govtDocs = {
-            fileDetails: this.fileDetails,
-            src: this.fileContent,
-            url: fileUrl,
-          };
-          console.log("Updated File Details with URL:", this.data.govtDocs);
-        });
+      if (this.file) {
+        const fileUrl = this.handleData
+          .fileUploadToFirebase(this.file)
+          .then((res) => {
+            this.govtDocs = {
+              fileDetails: this.fileDetails,
+              url: res,
+            };
+            this.data.govtDocs = this.govtDocs;
+            // console.log("res === ", res);
+            console.log("Updated File Details with URL:", this.data.govtDocs);
 
-      let _data = {
-        ...this.data,
-        vehicleDetails: this.vehicleDetails,
-        about: this.about,
-        govtDocs: this.govtDocs,
-      };
-      if (this.userRole === "driver" && this.checkDocs === true) {
-        console.log("edit if modal", _data);
-      } else {
-        console.log("edit else modal", _data);
-        const currentUserDocId = this.localStr.getItem("currentUserDocId");
-        console.log("data1", this.data);
+            //update document
+            let _data = {
+              ...this.data,
+              vehicleDetails: this.vehicleDetails,
+              about: this.about,
+              govtDocs: this.govtDocs,
+            };
+            if (this.userRole === "driver" && this.checkDocs === true) {
+              console.log("edit if modal", _data);
+            } else {
+              console.log("edit else modal", _data);
+              const currentUserDocId =
+                this.localStr.getItem("currentUserDocId");
+              // console.log("data1", this.data);
 
-        // return;
-        if (currentUserDocId) {
-          this.handleData.updateDocument(currentUserDocId, _data).then(() => {
-            let updateData = this.handleData
-              .userExists(this.data.userEmail)
-              .then((res) => {
-                // this.data = res.data;
-                // console.log("this.data updated === ", this.data);
-                // this.localStr.setItem("currentUser", this.data);
-                this.localStr.setItem("currentUser", _data);
-              })
-              .catch((error) => {
-                console.error("Error: ", error);
-              });
+              if (currentUserDocId) {
+                this.handleData
+                  .updateDocument(currentUserDocId, _data)
+                  .then(() => {
+                    let updateData = this.handleData
+                      .userExists(this.data.userEmail)
+                      .then((res) => {
+                        this.data = res.data;
+                        console.log("this.data updated === ", this.data);
+                        this.localStr.setItem("currentUser", this.data);
+                        this.localStr.setItem("currentUser", _data);
+                        // this.close();
+                      })
+                      .catch((error) => {
+                        console.error("Error: ", error);
+                      });
+                  });
+              } else {
+                console.error("Error: currentUserDocId is null or undefined.");
+              }
+            }
+          })
+          .catch((e) => {
+            console.error("Error: ", e);
           });
-        } else {
-          console.error("Error: currentUserDocId is null or undefined.");
-        }
       }
+      // return;
     } else {
       console.error("Error: this.data is null or undefined.");
     }
@@ -164,36 +178,6 @@ export class EditCardComponent implements OnInit {
     const data = this.data;
     this.modalCtrl.dismiss(data, "backdrop");
   }
-
-  // onFileSelected(event: any) {
-  //   const file: File = event.target.files[0];
-  //   if (file) {
-  //     this.checkDocs = true;
-  //     this.fileDetails = {
-  //       name: file.name,
-  //       size: file.size,
-  //       type: file.type,
-  //       lastModified: file.lastModified,
-  //     };
-  //     console.log("File Details:", this.fileDetails);
-
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.fileContent = e.target.result;
-  //       console.log("File Content:", this.fileContent);
-  //     };
-
-  //     if (file.type.startsWith("image/")) {
-  //       reader.readAsDataURL(file); // For image preview
-  //     } else if (file.type === "application/pdf") {
-  //       reader.readAsDataURL(file); // For PDF preview
-  //     } else {
-  //       reader.readAsDataURL(file); // For other document formats
-  //     }
-
-  //     this.data.govtDocs = { ...this.fileDetails };
-  //   }
-  // }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
