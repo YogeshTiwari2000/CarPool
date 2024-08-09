@@ -69,25 +69,14 @@ export class TopWithdrawPage implements OnInit {
         "description": ""
       }
     ],
-    "rewardsPoints": 150,
-    "loyaltyTier": "Gold",
-    "linkedBankAccounts": [
-      {
-        "accountNumber": "1234567890",
-        "bankName": "Bank A",
-        "accountType": "savings",
-        "balance": 1000.00,
-        "currency": "USD"
-      }
-    ],
     "linkedCards": [
       {
-        "cardNumber": "1111-2222-3333-4444",
-        "cardType": "credit",
-        "expiryDate": "12/25",
-        "issuer": "Visa",
-        "balance": 2000.00,
-        "currency": "USD"
+        "cardNumber": "",
+        "cardType": "",
+        "expiryDate": "",
+        "issuer": "",
+        "balance": 0,
+        "currency": "Rs"
       }
     ]
   }

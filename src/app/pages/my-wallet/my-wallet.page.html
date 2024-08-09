@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="mydata.length > 0">
+<ion-content *ngIf="currentUser.length > 0">
   <ion-grid class="main-content ion-no-margin">
     <div class="features-box">
       <div class="photo">
@@ -89,6 +89,6 @@
   </ion-grid>
 </ion-content>
 
-<ion-content *ngIf="mydata.length === 0">
+<ion-content *ngIf="currentUser.length === 0">
   <h2>No Data found</h2>
 </ion-content>
