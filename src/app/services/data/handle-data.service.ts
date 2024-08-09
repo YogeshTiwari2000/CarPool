@@ -60,6 +60,7 @@ export class HandleDataService {
       );
       const docRef = await addDoc(collectionInstance, userData);
       console.log("docRef", docRef.id);
+      this.localStr.setItem("currentUserDocId", docRef.id);
     }
   }
   //getData

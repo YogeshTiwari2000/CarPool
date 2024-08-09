@@ -79,6 +79,7 @@ export class RegisterPage implements OnInit {
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified,
     ride: {},
+    wallet: {},
   };
 
   constructor() {}
