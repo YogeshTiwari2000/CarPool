@@ -107,18 +107,22 @@ export class EditCardComponent implements OnInit {
     this.changePass = !this.changePass;
   }
 
-  updateData() {
+  async updateData() {
     if (this.data) {
       if (this.data.password) {
         this.data.password = this.handleData.encryptPass(this.data.password);
       }
-      const fileUrl = this.handleData.fileUploadToFirebase(this.file);
-      this.govtDocs = {
-        ...this.fileDetails,
-        src: this.fileContent,
-        url: fileUrl,
-      };
-      console.log("Updated File Details with URL:", this.data.govtDocs);
+      const fileUrl = await this.handleData
+        .fileUploadToFirebase(this.file)
+        .then(() => {
+          this.govtDocs = {
+            fileDetails: this.fileDetails,
+            src: this.fileContent,
+            url: fileUrl,
+          };
+          console.log("Updated File Details with URL:", this.data.govtDocs);
+        });
+
       let _data = {
         ...this.data,
         vehicleDetails: this.vehicleDetails,
@@ -196,13 +200,13 @@ export class EditCardComponent implements OnInit {
     if (file) {
       this.file = file;
       this.checkDocs = true;
-      // this.fileDetails = {
-      //   name: file.name,
-      //   size: file.size,
-      //   type: file.type,
-      //   lastModified: file.lastModified,
-      // };
-      // console.log("File Details:", this.fileDetails);
+      this.fileDetails = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      };
+      console.log("File Details:", this.fileDetails);
     }
   }
 }
