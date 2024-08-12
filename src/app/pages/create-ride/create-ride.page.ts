@@ -28,7 +28,7 @@ export class CreateRidePage implements OnInit {
 
 
   createRideForm: FormGroup;
-
+  minDate: string = '';
 
 
   returnride: boolean = false;
@@ -64,11 +64,14 @@ export class CreateRidePage implements OnInit {
       returnSeatAvl: [''],
       returnPrice: ['']
 
+    }, {
+      validator: this.validateReturnTime('date', 'time', 'returnDate', 'returnTime')
     });
   }
 
   ngOnInit() {
-    this.setDateToCurrent()
+    this.setDateToCurrent();
+    this.setMinDate();
   }
 
   onLocationsChanged(event: { from: string, to: string }) {
@@ -90,6 +93,15 @@ export class CreateRidePage implements OnInit {
     console.log('Locations changed:', this.from, this.to);
   }
 
+  setMinDate() {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const yyyy = today.getFullYear();
+
+    this.minDate = `${yyyy}-${mm}-${dd}`;
+  }
+
   setDateToCurrent() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -102,6 +114,34 @@ export class CreateRidePage implements OnInit {
     const minutes = String(today.getMinutes()).padStart(2, '0');
     this.time = `${hours}:${minutes}`;
   }
+
+  validateReturnTime(dateKey: string, timeKey: string, returnDateKey: string, returnTimeKey: string) {
+    return (formGroup: FormGroup) => {
+      const dateControl = formGroup.controls[dateKey];
+      const timeControl = formGroup.controls[timeKey];
+      const returnDateControl = formGroup.controls[returnDateKey];
+      const returnTimeControl = formGroup.controls[returnTimeKey];
+
+      if (!returnDateControl || !returnTimeControl) {
+        return null;
+      }
+
+      const today = new Date();
+      const currentTime = `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
+
+      if (returnDateControl.value === dateControl.value && returnTimeControl.value <= currentTime) {
+        returnTimeControl.setErrors({ returnTimeInvalid: true });
+      } else {
+        returnTimeControl.setErrors(null);
+      }
+
+      return null;  // Ensure a return value from the function
+    };
+  }
+
+
+
+
   incseatAvl() {
     if (this.seatAvl < 7) {
       this.seatAvl++

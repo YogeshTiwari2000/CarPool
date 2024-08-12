@@ -17,7 +17,7 @@
       </ion-col>
       <ion-col size="12" class="dateTime">
         <div class="custom-date-container">
-          <input type="date" [(ngModel)]="date" class="date" formControlName="date" />
+          <input type="date" [(ngModel)]="date" [min]="minDate" class="date" formControlName="date" />
         </div>
         <div class="custom-time-container">
           <input type="time" [(ngModel)]="time" class="time" formControlName="time" />
@@ -51,12 +51,15 @@
         </ion-col>
         <ion-col size="12" class="dateTime">
           <div class="custom-date-container">
-            <input type="date" [(ngModel)]="returnDate" class="date" formControlName="returnDate" />
+            <input type="date" [(ngModel)]="returnDate" class="date" [min]="date" formControlName="returnDate" />
           </div>
           <div class="custom-time-container">
             <input type="time" [(ngModel)]="returnTime" class="time" formControlName="returnTime" />
           </div>
         </ion-col>
+        <div *ngIf="createRideForm.get('returnTime')?.hasError('returnTimeInvalid')" class="error">
+          Return time must be greater than the current time if return date equals the current date.
+        </div>
         <ion-col size="12" class="seatAvl">
           <p>Seat Available</p>
           <input type="number" [(ngModel)]="returnSeatAvl" formControlName="returnSeatAvl" />
