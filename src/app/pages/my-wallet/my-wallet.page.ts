@@ -21,7 +21,7 @@ export class MyWalletPage implements OnInit {
   userData: any;
   transactions: any[] = [];
   balance: number = 0;
-
+  userDataLength: any;
   wallet: any = {
     balance: 10,
     // currency: "Rs",
@@ -83,7 +83,11 @@ export class MyWalletPage implements OnInit {
 
       if (this.currentUser) {
         this.userData = this.currentUser;
-        console.log('currentUser length: ', this.currentUser.length);
+        const length = Object.keys(this.currentUser).length;
+        console.log('currentUser length: ', length);
+
+        this.userDataLength = length
+
         console.log('currentUser: ', this.currentUser);
 
 
