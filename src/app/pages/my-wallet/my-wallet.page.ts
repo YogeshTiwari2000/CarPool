@@ -83,6 +83,7 @@ export class MyWalletPage implements OnInit {
 
       if (this.currentUser) {
         this.userData = this.currentUser;
+
         const length = Object.keys(this.currentUser).length;
         console.log('currentUser length: ', length);
 
@@ -92,8 +93,7 @@ export class MyWalletPage implements OnInit {
 
 
         // Update wallet balance and transactions
-        this.userData.wallet = this.wallet.balance;
-        console.log("this.wallet.balance === ", this.wallet.balance);
+        this.userData.wallet.balance = this.wallet.balance;
         console.log("this.userData.wallet === ", this.userData.wallet);
         // this.transactions = this.userData.wallet.transactions;
         // this.balance = this.wallet.balance;

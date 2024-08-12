@@ -43,42 +43,6 @@ export class TopWithdrawPage implements OnInit {
   // close() {
   //   this.modalCtrl.dismiss()
   // }
-  "wallet": {
-    "balance": 0,
-    "currency": "Rs",
-    "transactions": [
-      {
-        "id": "",
-        "date": "",
-        "amount": 0,
-        "type": "",
-        "description": "",
-        "status": "",
-        "paymentMethod": "",
-        "category": ""
-      },
 
-    ],
-    "withdrawals": [
-      {
-        "id": "",
-        "date": "",
-        "amount": 0,
-        "method": "",
-        "status": "",
-        "description": ""
-      }
-    ],
-    "linkedCards": [
-      {
-        "cardNumber": "",
-        "cardType": "",
-        "expiryDate": "",
-        "issuer": "",
-        "balance": 0,
-        "currency": "Rs"
-      }
-    ]
-  }
 
 }
