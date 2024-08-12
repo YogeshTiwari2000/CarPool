@@ -23,87 +23,86 @@ export class MyWalletPage implements OnInit {
   balance: number = 0;
 
   wallet: any = {
-    balance: 0,
-    currency: "Rs",
-    transactions: [
-      {
-        id: "",
-        date: "",
-        amount: 0,
-        type: "",
-        description: "",
-        status: "",
-        paymentMethod: "",
-        category: ""
-      }
-    ],
-    withdrawals: [
-      {
-        id: "",
-        date: "",
-        amount: 0,
-        method: "",
-        status: "",
-        description: ""
-      }
-    ],
-    linkedCards: [
-      {
-        cardNumber: "",
-        cardType: "",
-        expiryDate: "",
-        issuer: "",
-        balance: 0,
-        currency: "Rs"
-      }
-    ]
+    balance: 10,
+    // currency: "Rs",
+    // transactions: [
+    //   {
+    //     id: "",
+    //     date: "",
+    //     amount: 0,
+    //     type: "",
+    //     description: "",
+    //     status: "",
+    //     paymentMethod: "",
+    //     category: ""
+    //   }
+    // ],
+    // withdrawals: [
+    //   {
+    //     id: "",
+    //     date: "",
+    //     amount: 0,
+    //     method: "",
+    //     status: "",
+    //     description: ""
+    //   }
+    // ],
+    // linkedCards: [
+    //   {
+    //     cardNumber: "",
+    //     cardType: "",
+    //     expiryDate: "",
+    //     issuer: "",
+    //     balance: 0,
+    //     currency: "Rs"
+    //   }
+    // ]
   }
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
     public localStr: LocalStorageService, private handleData: HandleDataService) {
 
-    // console.log(data);
-    // console.log("mydata === ", this.mydata);
   }
 
   // mydata = data;
   currentUser: any = '';
-  walletData: any = '';
-
 
   ngOnInit() {
     const currentUserEmail = this.commonService.currentUserEmail;
+
+
+    // Retrieve data from Firebase and store it in local storage
     this.handleData.userExists(currentUserEmail).then((res) => {
-      this.localStr.setItem("currentUser", res.data)
-    })
+      console.log("res.data === ", res.data);
+
+      // Store the retrieved data in local storage
+      this.localStr.setItem("currentUser", res.data);
+
+      // Update the wallet data
+      this.currentUser = this.localStr.getItem("currentUser");
+
+      if (this.currentUser) {
+        this.userData = this.currentUser;
+        console.log('currentUser length: ', this.currentUser.length);
+        console.log('currentUser: ', this.currentUser);
 
 
-    // const currentUserData = this.localStr.getItem('currentUser')
+        // Update wallet balance and transactions
+        this.userData.wallet = this.wallet.balance;
+        console.log("this.wallet.balance === ", this.wallet.balance);
+        console.log("this.userData.wallet === ", this.userData.wallet);
+        // this.transactions = this.userData.wallet.transactions;
+        // this.balance = this.wallet.balance;
 
-    // this.currentUser = currentUserData;
-    // console.log("this.currentUser === ", this.currentUser);
-
-    // this.walletData = this.currentUser.wallet;
-
-    // console.log(" this.walletData === ", this.walletData);
-    // console.log(" this.currentUser === ", this.currentUser);
-    // console.log(" this.currentUser === ", this.currentUser);
-    // Find the user data for the current user
-    // console.log("this.mydata.length === ", this.mydata.length);
-    if (this.currentUser.length > 0) {
-      const userEntry: any = this.currentUser.find((user: any) => user[currentUserEmail]);
-      console.log(userEntry);
-
-      if (userEntry) {
-        this.userData = userEntry[currentUserEmail];
-        console.log("this is userData : ", this.userData);
-
-        const userWallet = this.userData.wallet;
-        this.transactions = userWallet.transactions;
-        this.balance = userWallet.balance;
+        console.log("Updated Wallet Data: ", this.wallet);
+        this.balance = this.wallet.balance
+        console.log("balance === ", this.balance);
+      } else {
+        console.error("Error: currentUser data not found in local storage.");
       }
-
-    }
+    }).catch((error) => {
+      console.error("Error: ", error);
+    });
   }
   goToWalletHistory() {
     this.router.navigate(['/wallet-history'])
@@ -124,3 +123,15 @@ export class MyWalletPage implements OnInit {
 
 }
 
+// const currentUserData = this.localStr.getItem('currentUser')
+
+// this.currentUser = currentUserData;
+// console.log("this.currentUser === ", this.currentUser);
+
+// this.walletData = this.currentUser.wallet;
+
+// console.log(" this.walletData === ", this.walletData);
+// console.log(" this.currentUser === ", this.currentUser);
+// console.log(" this.currentUser === ", this.currentUser);
+// Find the user data for the current user
+// console.log("this.mydata.length === ", this.mydata.length);
