@@ -17,46 +17,51 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   imports: [IonButtons, IonButton, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton,]
 })
 export class MyWalletPage implements OnInit {
-
+  properBalance: number = 0;
   userData: any;
   transactions: any[] = [];
-  balance: number = 0;
   userDataLength: any;
+  // wallet: any = {
+  //   balance: 10,
+  //   // currency: "Rs",
+  //   // transactions: [
+  //   //   {
+  //   //     id: "",
+  //   //     date: "",
+  //   //     amount: 0,
+  //   //     type: "",
+  //   //     description: "",
+  //   //     status: "",
+  //   //     paymentMethod: "",
+  //   //     category: ""
+  //   //   }
+  //   // ],
+  //   // withdrawals: [
+  //   //   {
+  //   //     id: "",
+  //   //     date: "",
+  //   //     amount: 0,
+  //   //     method: "",
+  //   //     status: "",
+  //   //     description: ""
+  //   //   }
+  //   // ],
+  //   // linkedCards: [
+  //   //   {
+  //   //     cardNumber: "",
+  //   //     cardType: "",
+  //   //     expiryDate: "",
+  //   //     issuer: "",
+  //   //     balance: 0,
+  //   //     currency: "Rs"
+  //   //   }
+  //   // ]
+  // }
+
+
   wallet: any = {
-    balance: 10,
-    // currency: "Rs",
-    // transactions: [
-    //   {
-    //     id: "",
-    //     date: "",
-    //     amount: 0,
-    //     type: "",
-    //     description: "",
-    //     status: "",
-    //     paymentMethod: "",
-    //     category: ""
-    //   }
-    // ],
-    // withdrawals: [
-    //   {
-    //     id: "",
-    //     date: "",
-    //     amount: 0,
-    //     method: "",
-    //     status: "",
-    //     description: ""
-    //   }
-    // ],
-    // linkedCards: [
-    //   {
-    //     cardNumber: "",
-    //     cardType: "",
-    //     expiryDate: "",
-    //     issuer: "",
-    //     balance: 0,
-    //     currency: "Rs"
-    //   }
-    // ]
+    balance: 0,
+
   }
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -66,8 +71,9 @@ export class MyWalletPage implements OnInit {
 
   // mydata = data;
   currentUser: any = '';
-
   ngOnInit() {
+  }
+  ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
 
 
@@ -91,16 +97,35 @@ export class MyWalletPage implements OnInit {
 
         console.log('currentUser: ', this.currentUser);
 
+        const currentUserDocId = this.localStr.getItem("currentUserDocId");
+        console.log("this.currentUser.wallet.balance === ", this.currentUser.wallet.balance);
+
+        if (this.currentUser.wallet.balance != undefined) {
+          console.log('yes it has balance ');
+          this.wallet.balance = this.currentUser.wallet.balance
+
+        }
+        else {
+
+          console.log('you have to create it ');
+
+          this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.wallet)
+
+
+        }
+
+
+        // this.properBalance = this.currentUser.wallet.testbalance
+
 
         // Update wallet balance and transactions
-        this.userData.wallet.balance = this.wallet.balance;
-        console.log("this.userData.wallet === ", this.userData.wallet);
+        // this.userData.wallet.balance = this.wallet.balance;
+        // console.log("this.userData.wallet === ", this.userData.wallet);
         // this.transactions = this.userData.wallet.transactions;
         // this.balance = this.wallet.balance;
 
-        console.log("Updated Wallet Data: ", this.wallet);
-        this.balance = this.wallet.balance
-        console.log("balance === ", this.balance);
+        // console.log("Updated Wallet Data: ", this.wallet);
+        // this.balance = this.wallet.balance 
       } else {
         console.error("Error: currentUser data not found in local storage.");
       }
@@ -114,16 +139,10 @@ export class MyWalletPage implements OnInit {
 
   topUp() {
     this.router.navigate(['/top-withdraw'],
-      {
-        state: {
-          transactions: this.transactions,
-          balance: this.balance
-        }
-      }
-
     )
 
   }
+
 
 }
 
