@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol } from '@ionic/angular/standalone';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
+import { CommonService } from 'src/app/shared/common.service';
 
 @Component({
   selector: 'app-create-ride',
@@ -12,6 +15,14 @@ import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-
   imports: [IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,]
 })
 export class CreateRidePage implements OnInit {
+
+  private handleData = inject(HandleDataService);
+  localStorageService = inject(LocalStorageService);
+  commonService = inject(CommonService);
+
+  email: any = this.commonService.currentUserEmail;
+  users: any[] = [];
+
   time: string = '';
   from: string | undefined;
   to: string | undefined;
@@ -24,7 +35,6 @@ export class CreateRidePage implements OnInit {
   returnDate: any = '';
   returnSeatAvl: number = 2;
   returnPrice: number = 100;
-
 
 
   createRideForm: FormGroup;
@@ -49,6 +59,8 @@ export class CreateRidePage implements OnInit {
     returnPrice: ''
   }
 
+
+
   constructor(private FormBuilder: FormBuilder) {
     this.createRideForm = this.FormBuilder.group({
       from: ['', Validators.required],
@@ -72,6 +84,22 @@ export class CreateRidePage implements OnInit {
   ngOnInit() {
     this.setDateToCurrent();
     this.setMinDate();
+
+
+
+    this.handleData
+      .userExists(this.email)
+      .then((result) => {
+        if (result.isExist) {
+          this.handleData.user = result.data;
+          console.log("User data:", result.data);
+        } else {
+          console.log("User not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   onLocationsChanged(event: { from: string, to: string }) {
@@ -172,6 +200,12 @@ export class CreateRidePage implements OnInit {
 
 
   onCreateRide() {
+    const currentUser = this.handleData.user;
+    console.log("currentUser === ", currentUser);
+    const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+
+
+
     this.returnRideDetails = {
       returnTime: this.returnTime,
       returnFrom: this.returnFrom ?? '',
@@ -182,29 +216,54 @@ export class CreateRidePage implements OnInit {
 
     };
 
-    if (this.returnride === true) {
-      this.rideDetails = {
-        time: this.time,
-        from: this.from ?? '',
-        to: this.to ?? '',
-        date: this.date,
-        seatAvl: this.seatAvl.toString(),
-        price: this.price.toString(),
-        ...this.returnRideDetails
+
+    if (currentUser) {
+
+      if (this.returnride === true) {
+        this.rideDetails = {
+          time: this.time,
+          from: this.from ?? '',
+          to: this.to ?? '',
+          date: this.date,
+          seatAvl: this.seatAvl.toString(),
+          price: this.price.toString(),
+          ...this.returnRideDetails
+        }
+        console.log('rideDetails===', this.rideDetails);
+
+
+        this.handleData.updateDocumentField(currentUserDocId, 'ride', this.rideDetails)
+        console.log("this.handleData.user === ", this.handleData.user);
+
+
       }
-      console.log('rideDetails===', this.rideDetails);
-    }
-    else {
-      this.rideDetails = {
-        time: this.time,
-        from: this.from ?? '',
-        to: this.to ?? '',
-        date: this.date,
-        seatAvl: this.seatAvl.toString(),
-        price: this.price.toString(),
+      else {
+        this.rideDetails = {
+          time: this.time,
+          from: this.from ?? '',
+          to: this.to ?? '',
+          date: this.date,
+          seatAvl: this.seatAvl.toString(),
+          price: this.price.toString(),
+        }
+        console.log('rideDetails===', this.rideDetails);
+        this.handleData.updateDocumentField(currentUserDocId, 'ride', this.rideDetails)
+        console.log("this.handleData.user === ", this.handleData.user);
+
+
+
+
       }
-      console.log('rideDetails===', this.rideDetails);
+
+
+
+
+
+
+
+
     }
+
 
   }
 

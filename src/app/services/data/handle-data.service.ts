@@ -41,7 +41,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
-  constructor() {}
+  constructor() { }
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -146,7 +146,7 @@ export class HandleDataService {
       await updateDoc(docRef, {
         [keyToUpdate]: data,
       });
-      this.commonService.alertBox("Document Updated", "Document update info", [
+      this.commonService.alertBox("Document field Updated", "Document update info", [
         "Ok",
       ]);
     } catch (error: any) {
