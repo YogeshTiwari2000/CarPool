@@ -18,6 +18,8 @@ export class TravelFromToComponent implements OnInit {
   to: any
   from: any
   place: any
+  fromId: any = 'fromlocation' + Math.random()
+  toId: any = 'fromlocation' + Math.random()
 
 
   @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
@@ -41,8 +43,9 @@ export class TravelFromToComponent implements OnInit {
     this.to = temp;
   }
 
-  fromLocation() {
-    let inputElement = document.getElementById('fromLocation');
+  fromLocation(id: any = '') {
+    console.log("id === ", id);
+    let inputElement = document.getElementById(id);
     if (inputElement) {
       let input = inputElement.getElementsByTagName('input')[0];
       let autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], componentRestrictions: { country: 'in' } });
@@ -68,8 +71,8 @@ export class TravelFromToComponent implements OnInit {
       });
     }
   }
-  toLocation() {
-    let inputElement = document.getElementById('toLocation');
+  toLocation(id: any = '') {
+    let inputElement = document.getElementById(id);
     if (inputElement) {
       let input = inputElement.getElementsByTagName('input')[0];
       let autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], componentRestrictions: { country: 'in' } });

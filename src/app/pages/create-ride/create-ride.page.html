@@ -47,7 +47,7 @@
       <ng-container class="returnRideDetails" *ngIf="returnride">
         <ion-col size="12" class="tofrom">
           <p>** Enter Return Ride Details</p>
-          <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
+          <app-travel-from-to (locationsChanged)="onReturnLocationsChanged($event)"></app-travel-from-to>
         </ion-col>
         <ion-col size="12" class="dateTime">
           <div class="custom-date-container">

@@ -3,8 +3,8 @@
     <div class="input-wrapper">
       <img src="../../../assets/images/svgs/location.svg" class="icon" />
 
-      <ion-input type="text" placeholder="Trip Start" [(ngModel)]="from" id="fromLocation" required
-        (ngModelChange)="fromLocation()"></ion-input>
+      <ion-input type="text" placeholder="Trip Start" [(ngModel)]="from" [id]="fromId" required
+        (ngModelChange)="fromLocation(fromId)"></ion-input>
     </div>
   </ion-col>
 
@@ -17,8 +17,8 @@
     <div class="input-wrapper">
       <img src="../../../assets/images/svgs/round.svg" class="icon" />
 
-      <ion-input type="text" placeholder="Trip End" [(ngModel)]="to" id="toLocation" required
-        (ngModelChange)="toLocation()"></ion-input>
+      <ion-input type="text" placeholder="Trip End" [(ngModel)]="to" [id]="toId" required
+        (ngModelChange)="toLocation(toId)"></ion-input>
     </div>
   </ion-col>
 </div>

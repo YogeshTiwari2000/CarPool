@@ -39,6 +39,8 @@ export class CreateRidePage implements OnInit {
     date: '',
     seatAvl: '',
     price: '',
+  }
+  returnRideDetails = {
     returnTime: '',
     returnFrom: '',
     returnTo: '',
@@ -75,6 +77,15 @@ export class CreateRidePage implements OnInit {
     this.createRideForm.patchValue({
       from: this.from,
       to: this.to
+    });
+    console.log('Locations changed:', this.from, this.to);
+  }
+  onReturnLocationsChanged(event: { from: string, to: string }) {
+    this.returnFrom = event.from;
+    this.returnTo = event.to;
+    this.createRideForm.patchValue({
+      returnFrom: this.returnFrom,
+      returnTo: this.returnTo
     });
     console.log('Locations changed:', this.from, this.to);
   }
@@ -121,25 +132,39 @@ export class CreateRidePage implements OnInit {
 
 
   onCreateRide() {
-
-    this.rideDetails = {
-      time: this.time,
-      from: this.from ?? '',
-      to: this.to ?? '',
-      date: this.date,
-      seatAvl: this.seatAvl.toString(),
-      price: this.price.toString(),
-      returnTime: this.time,
-      returnFrom: this.from ?? '',
-      returnTo: this.to ?? '',
-      returnDate: this.date,
-      returnSeatAvl: this.seatAvl.toString(),
-      returnPrice: this.price.toString()
+    this.returnRideDetails = {
+      returnTime: this.returnTime,
+      returnFrom: this.returnFrom ?? '',
+      returnTo: this.returnTo ?? '',
+      returnDate: this.returnDate,
+      returnSeatAvl: this.returnSeatAvl.toString(),
+      returnPrice: this.returnPrice.toString()
 
     };
 
-    console.log('onCreateRide clicked');
-    console.log('rideDetails===', this.rideDetails);
+    if (this.returnride === true) {
+      this.rideDetails = {
+        time: this.time,
+        from: this.from ?? '',
+        to: this.to ?? '',
+        date: this.date,
+        seatAvl: this.seatAvl.toString(),
+        price: this.price.toString(),
+        ...this.returnRideDetails
+      }
+      console.log('rideDetails===', this.rideDetails);
+    }
+    else {
+      this.rideDetails = {
+        time: this.time,
+        from: this.from ?? '',
+        to: this.to ?? '',
+        date: this.date,
+        seatAvl: this.seatAvl.toString(),
+        price: this.price.toString(),
+      }
+      console.log('rideDetails===', this.rideDetails);
+    }
 
   }
 
