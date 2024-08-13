@@ -17,10 +17,17 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   imports: [IonButtons, IonButton, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton,]
 })
 export class MyWalletPage implements OnInit {
+
+
   properBalance: number = 0;
   userData: any;
+  currentUserData: any;
   transactions: any[] = [];
+  transactionList: any;
   userDataLength: any;
+  numberOfTransactions: any = 5;
+  latestTransaction: any;
+  selectedTransactions: any;
 
 
   wallet: any = {
@@ -41,9 +48,12 @@ export class MyWalletPage implements OnInit {
 
   }
 
-  // mydata = data;
   currentUser: any = '';
   ngOnInit() {
+    // console.log("walletTransaction", this.wallet);
+    console.log();
+
+
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
@@ -52,12 +62,27 @@ export class MyWalletPage implements OnInit {
     // Retrieve data from Firebase and store it in local storage
     this.handleData.userExists(currentUserEmail).then((res) => {
       console.log("res.data === ", res.data);
+      this.currentUserData = res.data;
+      // console.log(this.currentUserData);
+      console.log("current user data", this.currentUserData);
+
+
+      // console.log("transition list", this.currentUserData.wallet.transactionsList);
+      this.transactionList = this.currentUserData.wallet.transactionsList
+      console.log("transition list", this.transactionList);
+
+
+      this.selectedTransactions = this.transactionList.slice(0, this.numberOfTransactions);
+
 
       // Store the retrieved data in local storage
       this.localStr.setItem("currentUser", res.data);
 
+
       // Update the wallet data
       this.currentUser = this.localStr.getItem("currentUser");
+
+
 
       if (this.currentUser) {
         this.userData = this.currentUser;

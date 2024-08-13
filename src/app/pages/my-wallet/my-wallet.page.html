@@ -64,19 +64,19 @@
 
     </div>
 
-    <div *ngFor="let item of transactions">
+    <div *ngFor="let transaction of selectedTransactions;let i = index ">
       <ion-row>
         <ion-col size="12">
           <ion-list class="ion-no-margin ion-no-padding">
             <ion-item class="ion-no-padding transaction-card">
               <ion-icon name="cash" class="ion-padding-end"></ion-icon>
               <ion-label class="ion-no-padding">
-                <h3>{{ item.description }}</h3>
-                <p>{{ item.date }}</p>
+                <h3>{{ currentUserData.userName }}</h3>
+                <p>{{ transaction.date | slice:0:24 }}</p>
               </ion-label>
-              <ion-text [color]="item.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-                {{ item.type === 'credit' ? '+' : '-' }}${{
-                item.amount.toFixed(2) }}
+              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
+                {{ transaction.type === 'credit' ? '+' : '-' }}${{
+                transaction.amount.toFixed(2) }}
               </ion-text>
               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

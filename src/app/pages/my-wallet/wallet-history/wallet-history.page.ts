@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
@@ -6,7 +6,7 @@ import { HandleDataService } from '../../../services/data/handle-data.service';
 
 
 // import data from '../../../assets/dummy.json'
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons,IonMenuButton, IonButton, IonPopover } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons, IonMenuButton, IonButton, IonPopover } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
 type TransactionType = 'credit' | 'debit';
 
@@ -15,7 +15,7 @@ type TransactionType = 'credit' | 'debit';
   templateUrl: './wallet-history.page.html',
   styleUrls: ['./wallet-history.page.scss'],
   standalone: true,
-  imports: [IonPopover, IonButton, IonButtons, IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink,IonMenuButton]
+  imports: [IonPopover, IonButton, IonButtons, IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton]
 })
 
 export class MyWalletPage implements OnInit {
@@ -24,7 +24,7 @@ export class MyWalletPage implements OnInit {
   selectedDateTime: any;
   handleDataService: any;
 
-  constructor(private router :Router , private cdr: ChangeDetectorRef , handleDataService: HandleDataService) {
+  constructor(private router: Router, private cdr: ChangeDetectorRef, handleDataService: HandleDataService) {
     // console.log(data);
 
   }
@@ -60,7 +60,7 @@ export class MyWalletPage implements OnInit {
         "dropLocation": "",
         "isSocialLogin": true,
         "email_verified": true,
-       "wallet": {
+        "wallet": {
           "transactions": [
             { "transaction": "Walmart", "date": "2024-08-06 12:32", "amount": "500", "type": "Deduction" },
             { "transaction": "Wallet Top up", "date": "2024-08-06 12:32", "amount": "1000", "type": "Addition" }
@@ -213,7 +213,8 @@ export class MyWalletPage implements OnInit {
   ngOnInit() {
     console.log("wallet");
     this.data = this.handleDataService.getData();
-    this.filtered_data = this.data; 
+    console.log(" this.data  === ", this.data);
+    this.filtered_data = this.data;
 
     // this.lastSixTransaction = [
     //   {
@@ -256,7 +257,7 @@ export class MyWalletPage implements OnInit {
 
   }
   filtered_data = [...this.dummy_data];
-  goToWalletHistory(){
+  goToWalletHistory() {
     this.router.navigate(['/wallet-history'])
   }
   getUserInfo(item: any) {
@@ -268,12 +269,12 @@ export class MyWalletPage implements OnInit {
   }
   filterData(event: any) {
     const searchTerm = event.target.value.toLowerCase();
-  
+
     if (!searchTerm) {
       this.filtered_data = this.dummy_data;
       return;
     }
-  
+
     this.filtered_data = this.dummy_data.filter(item => {
       const userInfo = this.getUserInfo(item);
       return (
@@ -282,7 +283,7 @@ export class MyWalletPage implements OnInit {
       );
     });
   }
-  onFilterButtonClick(){
+  onFilterButtonClick() {
     this.filtered_data = this.dummy_data;
 
   }
@@ -295,26 +296,26 @@ export class MyWalletPage implements OnInit {
     this.toDate = event.detail.value;
     this.filterTransactions();
   }
-  
 
 
 
 
-// Filter method in the component class
-filterByType(type: 'credit' | 'debit') {
-  const transactionType = type === 'credit' ? 'Addition' : 'Deduction';
 
-  this.filtered_data = this.dummy_data.filter(user => {
-    const transactions = this.getUserInfo(user)?.wallet?.transactions || [];
-    return transactions.some((transaction: { type: string; }) => transaction.type === transactionType);
-  });
+  // Filter method in the component class
+  filterByType(type: 'credit' | 'debit') {
+    const transactionType = type === 'credit' ? 'Addition' : 'Deduction';
 
-  console.log('Filtered Data:', this.filtered_data); // Check if data is filtered correctly
-  this.cdr.detectChanges(); // Trigger change detection
-}
+    this.filtered_data = this.dummy_data.filter(user => {
+      const transactions = this.getUserInfo(user)?.wallet?.transactions || [];
+      return transactions.some((transaction: { type: string; }) => transaction.type === transactionType);
+    });
+
+    console.log('Filtered Data:', this.filtered_data); // Check if data is filtered correctly
+    this.cdr.detectChanges(); // Trigger change detection
+  }
 
 
-  
+
   @ViewChild('datetime', { static: true }) datetime?: IonDatetime;
   filterTransactions() {
     if (this.fromDate && this.toDate) {
@@ -344,5 +345,5 @@ filterByType(type: 'credit' | 'debit') {
   fromDate: string | null = null;
   toDate: string | null = null;
 
-  
+
 }

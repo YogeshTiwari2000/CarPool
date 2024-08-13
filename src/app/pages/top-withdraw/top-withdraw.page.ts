@@ -25,14 +25,14 @@ export class TopWithdrawPage implements OnInit {
   userdata: any;
   transaction_data: any = [];
   amountToAdd: number = 0;
-
   userBalance: any;
-
-
 
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log();
+
+  }
   ionViewWillEnter() {
     const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
     console.log("currentUserDocId === ", currentUserDocId);
@@ -72,7 +72,7 @@ export class TopWithdrawPage implements OnInit {
       const immutableTransaction = Object.freeze({ ...this.userdata.wallet.transactions });
 
 
-      this.userdata.wallet.transactionsList.push(immutableTransaction);
+      this.userdata.wallet.transactionsList.unshift(immutableTransaction);
 
       this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.userdata.wallet)
 
