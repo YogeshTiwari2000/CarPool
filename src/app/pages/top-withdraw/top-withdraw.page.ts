@@ -28,19 +28,6 @@ export class TopWithdrawPage implements OnInit {
 
   userBalance: any;
 
-  walletDetails = {
-    balance: 0,
-    transactions: {
-      id: "",
-      date: "",
-      amount: 0,
-      type: "",
-      status: "",
-      paidTo: "",
-    },
-    transactionsList: [] as { id: string; date: string; amount: number; type: string; status: string; paidTo: string; }[]
-  };
-
 
 
   constructor(private router: Router) { }
@@ -74,21 +61,20 @@ export class TopWithdrawPage implements OnInit {
     if (this.amountToAdd > 0) {
       const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
       this.userBalance += this.amountToAdd;
-      this.walletDetails.balance = this.userBalance;
-      this.walletDetails.transactions.id = Math.random().toString();
-      this.walletDetails.transactions.paidTo = this.userdata.userName
-      this.walletDetails.transactions.amount = this.amountToAdd
-      this.walletDetails.transactions.date = (new Date()).toString()
-      this.walletDetails.transactions.status = 'recieve'
-      this.walletDetails.transactions.type = 'credit'
-      // Make the transactions object immutable
-      const immutableTransaction = Object.freeze({ ...this.walletDetails.transactions });
+      this.userdata.wallet.balance = this.userBalance;
+      this.userdata.wallet.transactions.id = Math.random().toString();
+      this.userdata.wallet.transactions.paidTo = this.userdata.userName
+      this.userdata.wallet.transactions.amount = this.amountToAdd
+      this.userdata.wallet.transactions.date = (new Date()).toString()
+      this.userdata.wallet.transactions.status = 'recieve'
+      this.userdata.wallet.transactions.type = 'credit'
 
-      // Push the immutable object into the transactionsList
-      this.walletDetails.transactionsList.push(immutableTransaction);
+      const immutableTransaction = Object.freeze({ ...this.userdata.wallet.transactions });
 
-      // this.walletDetails.transactionsList.push(this.walletDetails.transactions);
-      this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.walletDetails)
+
+      this.userdata.wallet.transactionsList.push(immutableTransaction);
+
+      this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.userdata.wallet)
 
       this.amountToAdd = 0;
 
