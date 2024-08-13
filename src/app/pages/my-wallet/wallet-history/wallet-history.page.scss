@@ -1,14 +1,23 @@
-.main-content{
+.main-content {
     box-sizing: border-box;
     padding-left: 2rem;
 }
-.search-type{
+
+.serachSection {
+    position: fixed;
+    z-index: 1;
+    background-color: white;
+    width: 100%;
+}
+
+.search-type {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     max-width: 500px;
     margin-left: -1.5rem !important;
 }
+
 button.filter-btn {
     display: flex;
     align-items: center;
@@ -21,14 +30,16 @@ button.filter-btn {
     background: transparent;
     border: 1px solid gainsboro;
 }
-button.filter-btn:hover{
+
+button.filter-btn:hover {
     background-color: #a79e9e2b;
 }
 
-::ng-deep  input.searchbar-input.sc-ion-searchbar-md {
+::ng-deep input.searchbar-input.sc-ion-searchbar-md {
     border-radius: 8px;
     border: 1px solid gainsboro;
 }
+
 .text {
     padding-left: 0rem;
     font-size: 15px;
@@ -38,35 +49,42 @@ button.filter-btn:hover{
 ion-list.ion-no-margin.md.list-md {
     padding-left: 0rem;
 }
+
 .filter-box {
     display: flex;
     gap: 1rem;
     align-items: baseline;
 }
+
 ion-datetime-button.date.ion-color.ion-color-primary.md {
     flex-basis: 21rem;
     flex-grow: 1;
 }
+
 p.para-txt {
     flex-basis: 5rem;
     flex-grow: 1;
 }
+
 ion-modal>.ion-page {
     position: relative;
     contain: layout style;
     height: 100%;
 }
+
 ::ng-deep .popover-viewport:has(>ion-content) {
     overflow: hidden;
     --width: 255px;
     // height: 300px;
 }
+
 .cred-debts {
     display: flex;
     gap: 0.5rem;
     padding-top: 1.5rem;
 }
-.credit{
+
+.credit {
     border: 2px solid gainsboro;
     padding: 0.5rem;
     border-radius: 8px;
@@ -76,7 +94,8 @@ ion-modal>.ion-page {
     font-weight: 400;
 
 }
-.debit{
+
+.debit {
     border: 2px solid gainsboro;
     padding: 1rem;
     border-radius: 8px;

@@ -9,11 +9,11 @@
 
 <ion-content>
   <ion-grid class="main-content">
-    <ion-row>
+    <ion-row class="serachSection">
       <ion-col size="12">
         <div class="search-type">
           <ion-toolbar class="serch-items">
-            <ion-searchbar (ionInput)="filterData($event)"></ion-searchbar>
+            <ion-searchbar placeholder="Search by name or transaction" (ionInput)="filterData($event)"></ion-searchbar>
           </ion-toolbar>
           <button class="filter-btn" id="click-trigger" (click)="onFilterButtonClicks()">
             <div class="default-btn">
@@ -30,26 +30,35 @@
                   <!-- From DateTime Picker -->
                   <div class="filter-box">
                     <p class="para-txt">From:</p>
-                    <ion-datetime-button class="date" datetime="fromDatetime"></ion-datetime-button>
+                    <ion-datetime-button class="date" datetime="fromDatetime"
+                      (ionChange)="onDateTimeChanges($event, 'from')"></ion-datetime-button>
+                    <ion-modal [keepContentsMounted]="true">
+                      <ng-template>
+                        <ion-datetime id="fromDatetime" presentation="date"></ion-datetime>
+                      </ng-template>
+                    </ion-modal>
+
                   </div>
-                  <ion-modal [keepContentsMounted]="true">
-                    <ng-template>
-                      <ion-datetime id="fromDatetime" presentation="date"
-                        (ionChange)="onFromDateTimeChange($event)"></ion-datetime>
-                    </ng-template>
-                  </ion-modal>
 
                   <!-- To DateTime Picker -->
+                  <!-- <div class="filter-box">
+                    <ion-datetime id="toDatetime" datetime="toDatetime"
+                      (ionChange)="onDateTimeChanges($event,'from')"></ion-datetime>
+                    <p class="para-txt">To:</p>
+                    <ion-datetime-button class="date" datetime="toDatetime"
+                      (ionChange)="onDateTimeChanges($event, 'to')"></ion-datetime-button>
+                  </div> -->
                   <div class="filter-box">
                     <p class="para-txt">To:</p>
-                    <ion-datetime-button class="date" datetime="toDatetime"></ion-datetime-button>
+                    <ion-datetime-button class="date" datetime="toDatetime"
+                      (ionChange)="onDateTimeChanges($event, 'to')"></ion-datetime-button>
+                    <ion-modal [keepContentsMounted]="true">
+                      <ng-template>
+                        <ion-datetime id="toDatetime" presentation="date"></ion-datetime>
+                      </ng-template>
+                    </ion-modal>
+
                   </div>
-                  <ion-modal [keepContentsMounted]="true">
-                    <ng-template>
-                      <ion-datetime id="toDatetime" presentation="date"
-                        (ionChange)="onToDateTimeChange($event)"></ion-datetime>
-                    </ng-template>
-                  </ion-modal>
 
                   <!-- Credit/Debit Buttons -->
                   <div class="cred-debts">
@@ -72,23 +81,25 @@
       <h4>Latest Transactions</h4>
     </div>
 
-    <div *ngFor="let user of filtered_data">
-      <div *ngFor="let item of getUserInfo(user)?.wallet?.transactions || []">
-        <ion-row>
-          <ion-col size="12">
-            <ion-list class="ion-no-margin">
-              <ion-item class="ion-no-padding transaction-card">
-                <ion-icon name="cash" class="ion-padding-end"></ion-icon>
-                <ion-label>
-                  <h3>{{ item.transaction }}</h3>
-                  <p>{{ item.date }}</p>
-                </ion-label>
-                <ion-text color="success">{{ item.amount }}</ion-text>
-              </ion-item>
-            </ion-list>
-          </ion-col>
-        </ion-row>
-      </div>
+    <div *ngFor="let transaction of filteredData">
+      <ion-row>
+        <ion-col size="12">
+          <ion-list class="ion-no-margin">
+            <ion-item class="ion-no-padding transaction-card">
+              <ion-icon name="cash" class="ion-padding-end"></ion-icon>
+              <ion-label>
+                <h3>{{ currentUserData.userName }}</h3>
+                <p>{{ transaction.date | slice:0:24 }}</p>
+              </ion-label>
+              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
+                {{ transaction.type === 'credit' ? '+' : '-' }}${{ transaction.amount.toFixed(2) }}
+              </ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
     </div>
   </ion-grid>
 </ion-content>
+
+<!--  -->
