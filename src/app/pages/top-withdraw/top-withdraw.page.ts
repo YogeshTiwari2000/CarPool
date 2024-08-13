@@ -31,6 +31,16 @@ export class TopWithdrawPage implements OnInit {
 
   walletDetails = {
     balance: 0,
+    transactions: {
+      id: "",
+      date: "",
+      amount: 0,
+      type: "",
+      description: "",
+      status: "",
+      paymentMethod: "",
+      category: ""
+    }
 
   }
 

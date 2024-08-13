@@ -61,7 +61,16 @@ export class MyWalletPage implements OnInit {
 
   wallet: any = {
     balance: 0,
-
+    transactions: {
+      id: "",
+      date: "",
+      amount: 0,
+      type: "",
+      description: "",
+      status: "",
+      paymentMethod: "",
+      category: ""
+    }
   }
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
