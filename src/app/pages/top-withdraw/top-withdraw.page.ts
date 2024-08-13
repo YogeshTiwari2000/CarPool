@@ -28,7 +28,6 @@ export class TopWithdrawPage implements OnInit {
 
   userBalance: any;
 
-
   walletDetails = {
     balance: 0,
     transactions: {
@@ -36,17 +35,18 @@ export class TopWithdrawPage implements OnInit {
       date: "",
       amount: 0,
       type: "",
-      description: "",
       status: "",
-      paymentMethod: "",
-      category: ""
-    }
+      paidTo: "",
+    },
+    transactionsList: [] as { id: string; date: string; amount: number; type: string; status: string; paidTo: string; }[]
+  };
 
-  }
+
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+  ionViewWillEnter() {
     const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
     console.log("currentUserDocId === ", currentUserDocId);
     this.handleData
@@ -65,7 +65,6 @@ export class TopWithdrawPage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
-
   }
   @Output() updatedBalance = new EventEmitter<string>();
   addMoney() {
@@ -76,10 +75,22 @@ export class TopWithdrawPage implements OnInit {
       const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
       this.userBalance += this.amountToAdd;
       this.walletDetails.balance = this.userBalance;
+      this.walletDetails.transactions.id = Math.random().toString();
+      this.walletDetails.transactions.paidTo = this.userdata.userName
+      this.walletDetails.transactions.amount = this.amountToAdd
+      this.walletDetails.transactions.date = (new Date()).toString()
+      this.walletDetails.transactions.status = 'recieve'
+      this.walletDetails.transactions.type = 'credit'
+      // Make the transactions object immutable
+      const immutableTransaction = Object.freeze({ ...this.walletDetails.transactions });
+
+      // Push the immutable object into the transactionsList
+      this.walletDetails.transactionsList.push(immutableTransaction);
+
+      // this.walletDetails.transactionsList.push(this.walletDetails.transactions);
       this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.walletDetails)
 
       this.amountToAdd = 0;
-      // console.log("this.balance === ", this.balance);
 
 
     } else {
@@ -98,3 +109,4 @@ export class TopWithdrawPage implements OnInit {
 
 
 }
+

@@ -21,42 +21,6 @@ export class MyWalletPage implements OnInit {
   userData: any;
   transactions: any[] = [];
   userDataLength: any;
-  // wallet: any = {
-  //   balance: 10,
-  //   // currency: "Rs",
-  //   // transactions: [
-  //   //   {
-  //   //     id: "",
-  //   //     date: "",
-  //   //     amount: 0,
-  //   //     type: "",
-  //   //     description: "",
-  //   //     status: "",
-  //   //     paymentMethod: "",
-  //   //     category: ""
-  //   //   }
-  //   // ],
-  //   // withdrawals: [
-  //   //   {
-  //   //     id: "",
-  //   //     date: "",
-  //   //     amount: 0,
-  //   //     method: "",
-  //   //     status: "",
-  //   //     description: ""
-  //   //   }
-  //   // ],
-  //   // linkedCards: [
-  //   //   {
-  //   //     cardNumber: "",
-  //   //     cardType: "",
-  //   //     expiryDate: "",
-  //   //     issuer: "",
-  //   //     balance: 0,
-  //   //     currency: "Rs"
-  //   //   }
-  //   // ]
-  // }
 
 
   wallet: any = {
@@ -66,11 +30,10 @@ export class MyWalletPage implements OnInit {
       date: "",
       amount: 0,
       type: "",
-      description: "",
       status: "",
-      paymentMethod: "",
-      category: ""
-    }
+      paidTo: "",
+    },
+    transactionsList: [] as { id: string; date: string; amount: number; type: string; status: string; paidTo: string; }[]
   }
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -112,6 +75,10 @@ export class MyWalletPage implements OnInit {
         if (this.currentUser.wallet.balance != undefined) {
           console.log('yes it has balance ');
           this.wallet.balance = this.currentUser.wallet.balance
+
+          this.wallet = {
+            balance: this.currentUser.wallet.balance,
+          }
 
         }
         else {
