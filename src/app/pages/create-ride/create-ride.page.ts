@@ -22,6 +22,9 @@ export class CreateRidePage implements OnInit {
 
   email: any = this.commonService.currentUserEmail;
   users: any[] = [];
+  currentUser: any;
+  currentUserDocId: any;
+
 
   time: string = '';
   from: string | undefined;
@@ -42,21 +45,41 @@ export class CreateRidePage implements OnInit {
 
 
   returnride: boolean = false;
-  rideDetails = {
-    time: '',
-    from: '',
-    to: '',
-    date: '',
-    seatAvl: '',
-    price: '',
-  }
-  returnRideDetails = {
-    returnTime: '',
-    returnFrom: '',
-    returnTo: '',
-    returnDate: '',
-    returnSeatAvl: '',
-    returnPrice: ''
+
+  // rideDetails = {
+  //   time: '',
+  //   from: '',
+  //   to: '',
+  //   date: '',
+  //   seatAvl: '',
+  //   price: '',
+  // }
+  // returnRideDetails = {
+  //   returnTime: '',
+  //   returnFrom: '',
+  //   returnTo: '',
+  //   returnDate: '',
+  //   returnSeatAvl: '',
+  //   returnPrice: ''
+  // }
+
+  ride = {
+    rideDetails: {
+      time: '',
+      from: '',
+      to: '',
+      date: '',
+      seatAvl: '',
+      price: '',
+    },
+    returnRideDetails: {
+      returnTime: '',
+      returnFrom: '',
+      returnTo: '',
+      returnDate: '',
+      returnSeatAvl: '',
+      returnPrice: ''
+    },
   }
 
 
@@ -82,17 +105,21 @@ export class CreateRidePage implements OnInit {
   }
 
   ngOnInit() {
+    console.log();
+  }
+
+  ionViewWillEnter() {
     this.setDateToCurrent();
     this.setMinDate();
-
-
 
     this.handleData
       .userExists(this.email)
       .then((result) => {
         if (result.isExist) {
           this.handleData.user = result.data;
-          console.log("User data:", result.data);
+          this.currentUser = this.handleData.user;
+          console.log("currentUser === ", this.currentUser);
+          this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
         } else {
           console.log("User not found");
         }
@@ -100,6 +127,8 @@ export class CreateRidePage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
+
+
   }
 
   onLocationsChanged(event: { from: string, to: string }) {
@@ -200,13 +229,8 @@ export class CreateRidePage implements OnInit {
 
 
   onCreateRide() {
-    const currentUser = this.handleData.user;
-    console.log("currentUser === ", currentUser);
-    const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
 
-
-
-    this.returnRideDetails = {
+    this.ride.returnRideDetails = {
       returnTime: this.returnTime,
       returnFrom: this.returnFrom ?? '',
       returnTo: this.returnTo ?? '',
@@ -217,28 +241,28 @@ export class CreateRidePage implements OnInit {
     };
 
 
-    if (currentUser) {
+    if (this.currentUser) {
 
       if (this.returnride === true) {
-        this.rideDetails = {
+        this.ride.rideDetails = {
           time: this.time,
           from: this.from ?? '',
           to: this.to ?? '',
           date: this.date,
           seatAvl: this.seatAvl.toString(),
           price: this.price.toString(),
-          ...this.returnRideDetails
+          // ...this.ride.returnRideDetails
         }
-        console.log('rideDetails===', this.rideDetails);
+        console.log('rideDetails===', this.ride.rideDetails);
 
 
-        this.handleData.updateDocumentField(currentUserDocId, 'ride', this.rideDetails)
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
         console.log("this.handleData.user === ", this.handleData.user);
 
 
       }
       else {
-        this.rideDetails = {
+        this.ride.rideDetails = {
           time: this.time,
           from: this.from ?? '',
           to: this.to ?? '',
@@ -246,21 +270,11 @@ export class CreateRidePage implements OnInit {
           seatAvl: this.seatAvl.toString(),
           price: this.price.toString(),
         }
-        console.log('rideDetails===', this.rideDetails);
-        this.handleData.updateDocumentField(currentUserDocId, 'ride', this.rideDetails)
+        delete (this.ride as any).returnRideDetails;
+        console.log('rideDetails===', this.ride.rideDetails);
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
         console.log("this.handleData.user === ", this.handleData.user);
-
-
-
-
       }
-
-
-
-
-
-
-
 
     }
 
