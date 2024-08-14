@@ -7,6 +7,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, 
 import { Router, RouterLink } from '@angular/router';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
+import { cog } from 'ionicons/icons';
 
 type TransactionType = 'credit' | 'debit';
 
@@ -51,14 +52,55 @@ export class MyWalletPage implements OnInit {
   onModalDismiss() {
     this.isModalOpen = false;
   }
+  onDateTimeChange(event: any, type: 'from' | 'to') {
+    const selectedDate = event.detail.value ? new Date(event.detail.value).toISOString() : null;
 
-  onDateTimeChanges(event: any, type: 'from' | 'to') {
     if (type === 'from') {
-      this.selectedFromDateTime = event.detail.value;
+      this.selectedFromDateTime = selectedDate;
+      console.log("this.selectedFromDateTime === ", this.selectedFromDateTime);
     } else {
-      this.selectedToDateTime = event.detail.value;
+      this.selectedToDateTime = selectedDate;
+      console.log("this.selectedToDateTime === ", this.selectedToDateTime);
     }
-    this.applyFilters();
+
+    // Apply filters with the updated dates
+    this.filterByDate(this.selectedFromDateTime, this.selectedToDateTime);
+  }
+
+
+
+
+  filterByDate(fromDate: string | null, toDate: string | null) {
+    console.log(`Filtering from ${fromDate} to ${toDate}`);
+
+    this.filteredData = this.originalData.filter(transaction => {
+      const transactionDate = new Date(transaction.date).toISOString(); // Convert to ISO format
+      // console.log("transactionDate === ", transactionDate);
+
+      // Check if both fromDate and toDate are null
+      if (!fromDate && !toDate) {
+        return true; // No date filter applied
+      }
+
+      // Check if only fromDate is provided
+      if (fromDate && !toDate) {
+        return new Date(fromDate) <= new Date(transactionDate);
+      }
+
+      // Check if only toDate is provided
+      if (!fromDate && toDate) {
+        return new Date(toDate) >= new Date(transactionDate);
+      }
+
+      // Check if both fromDate and toDate are provided
+      if (fromDate && toDate) {
+        return new Date(fromDate) <= new Date(transactionDate) && new Date(transactionDate) <= new Date(toDate);
+      }
+
+      return false; // Default case
+    });
+
+    this.cdr.detectChanges(); // Manually trigger change detection
   }
 
   filterByType(type: TransactionType) {
@@ -77,6 +119,7 @@ export class MyWalletPage implements OnInit {
 
       // Filter by type
       const isTypeMatch = !this.selectedType || transaction.type === this.selectedType;
+      console.log("isTypeMatch === ", isTypeMatch);
 
       // Filter by name
       const isNameMatch = transaction.paidTo.toLowerCase().includes(this.searchTerm.toLowerCase());

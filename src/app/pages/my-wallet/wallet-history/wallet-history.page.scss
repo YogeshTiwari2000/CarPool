@@ -3,7 +3,7 @@
     padding-left: 2rem;
 }
 
-.serachSection {
+.searchSection {
     position: fixed;
     z-index: 1;
     background-color: white;
@@ -104,4 +104,8 @@ ion-modal>.ion-page {
     font-size: 15px;
     font-weight: 400;
 
+}
+
+.navbar-margin-top {
+    margin-top: 3rem;
 }
