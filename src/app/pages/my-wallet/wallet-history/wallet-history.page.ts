@@ -53,8 +53,8 @@ export class MyWalletPage implements OnInit {
     this.isModalOpen = false;
   }
   onDateTimeChange(event: any, type: 'from' | 'to') {
-    const selectedDate = event.detail.value ? new Date(event.detail.value).toISOString() : null;
-
+    const selectedDate = event.detail.value ? new Date(event.detail.value).toISOString().slice(0, 10) : null;
+    console.log("selectedDate === ", selectedDate);
     if (type === 'from') {
       this.selectedFromDateTime = selectedDate;
       console.log("this.selectedFromDateTime === ", this.selectedFromDateTime);
@@ -74,7 +74,7 @@ export class MyWalletPage implements OnInit {
     console.log(`Filtering from ${fromDate} to ${toDate}`);
 
     this.filteredData = this.originalData.filter(transaction => {
-      const transactionDate = new Date(transaction.date).toISOString(); // Convert to ISO format
+      const transactionDate = new Date(transaction.date).toISOString().slice(0, 10); // Convert to ISO format
       // console.log("transactionDate === ", transactionDate);
 
       // Check if both fromDate and toDate are null
