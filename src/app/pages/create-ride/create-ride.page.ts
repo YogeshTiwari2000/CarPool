@@ -31,55 +31,23 @@ export class CreateRidePage implements OnInit {
   to: string | undefined;
   date: any = '';
   seatAvl: number = 1;
-  price: number = 120;
-  returnTime: string = '';
-  returnFrom: string | undefined;
-  returnTo: string | undefined;
-  returnDate: any = '';
-  returnSeatAvl: number = 2;
-  returnPrice: number = 100;
+  price: number = 0;
+
 
 
   createRideForm: FormGroup;
   minDate: string = '';
 
 
-  returnride: boolean = false;
-
-  // rideDetails = {
-  //   time: '',
-  //   from: '',
-  //   to: '',
-  //   date: '',
-  //   seatAvl: '',
-  //   price: '',
-  // }
-  // returnRideDetails = {
-  //   returnTime: '',
-  //   returnFrom: '',
-  //   returnTo: '',
-  //   returnDate: '',
-  //   returnSeatAvl: '',
-  //   returnPrice: ''
-  // }
-
   ride = {
-    rideDetails: {
-      time: '',
-      from: '',
-      to: '',
-      date: '',
-      seatAvl: '',
-      price: '',
-    },
-    returnRideDetails: {
-      returnTime: '',
-      returnFrom: '',
-      returnTo: '',
-      returnDate: '',
-      returnSeatAvl: '',
-      returnPrice: ''
-    },
+    id: '',
+    rider: '',
+    time: '',
+    from: '',
+    to: '',
+    date: '',
+    seatAvl: '',
+    price: '',
   }
 
 
@@ -92,16 +60,8 @@ export class CreateRidePage implements OnInit {
       date: ['', Validators.required],
       seatAvl: ['', Validators.required],
       price: ['', Validators.required],
-      returnTime: [''],
-      returnFrom: [''],
-      returnTo: [''],
-      returnDate: [''],
-      returnSeatAvl: [''],
-      returnPrice: ['']
 
-    }, {
-      validator: this.validateReturnTime('date', 'time', 'returnDate', 'returnTime')
-    });
+    },)
   }
 
   ngOnInit() {
@@ -120,6 +80,18 @@ export class CreateRidePage implements OnInit {
           this.currentUser = this.handleData.user;
           console.log("currentUser === ", this.currentUser);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+
+          if (this.currentUser.ride.id != undefined) {
+            console.log('ride me id h');
+
+          }
+          else {
+            console.log('ride me id crate krni h');
+            this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
+
+
+          }
+
         } else {
           console.log("User not found");
         }
@@ -140,15 +112,7 @@ export class CreateRidePage implements OnInit {
     });
     console.log('Locations changed:', this.from, this.to);
   }
-  onReturnLocationsChanged(event: { from: string, to: string }) {
-    this.returnFrom = event.from;
-    this.returnTo = event.to;
-    this.createRideForm.patchValue({
-      returnFrom: this.returnFrom,
-      returnTo: this.returnTo
-    });
-    console.log('Locations changed:', this.from, this.to);
-  }
+
 
   setMinDate() {
     const today = new Date();
@@ -172,31 +136,6 @@ export class CreateRidePage implements OnInit {
     this.time = `${hours}:${minutes}`;
   }
 
-  validateReturnTime(dateKey: string, timeKey: string, returnDateKey: string, returnTimeKey: string) {
-    return (formGroup: FormGroup) => {
-      const dateControl = formGroup.controls[dateKey];
-      const timeControl = formGroup.controls[timeKey];
-      const returnDateControl = formGroup.controls[returnDateKey];
-      const returnTimeControl = formGroup.controls[returnTimeKey];
-
-      if (!returnDateControl || !returnTimeControl) {
-        return null;
-      }
-
-      const today = new Date();
-      const currentTime = `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
-
-      if (returnDateControl.value === dateControl.value && returnTimeControl.value <= currentTime) {
-        returnTimeControl.setErrors({ returnTimeInvalid: true });
-      } else {
-        returnTimeControl.setErrors(null);
-      }
-
-      return null;  // Ensure a return value from the function
-    };
-  }
-
-
 
 
   incseatAvl() {
@@ -210,76 +149,27 @@ export class CreateRidePage implements OnInit {
       this.seatAvl--
     }
   }
-  incReturnSeatAvl() {
-    if (this.returnSeatAvl < 7) {
-      this.returnSeatAvl++
-    }
-  }
 
-  decReturnSeatAvl() {
-    if (this.returnSeatAvl > 1) {
-      this.returnSeatAvl--
-    }
-  }
 
-  toggleReturnRide() {
-    this.returnride = !this.returnride;
-  }
 
 
 
   onCreateRide() {
-
-    this.ride.returnRideDetails = {
-      returnTime: this.returnTime,
-      returnFrom: this.returnFrom ?? '',
-      returnTo: this.returnTo ?? '',
-      returnDate: this.returnDate,
-      returnSeatAvl: this.returnSeatAvl.toString(),
-      returnPrice: this.returnPrice.toString()
-
-    };
-
-
     if (this.currentUser) {
 
-      if (this.returnride === true) {
-        this.ride.rideDetails = {
-          time: this.time,
-          from: this.from ?? '',
-          to: this.to ?? '',
-          date: this.date,
-          seatAvl: this.seatAvl.toString(),
-          price: this.price.toString(),
-          // ...this.ride.returnRideDetails
-        }
-        console.log('rideDetails===', this.ride.rideDetails);
 
+      this.currentUser.ride.id = Math.random().toString();
 
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
-        console.log("this.handleData.user === ", this.handleData.user);
+      this.currentUser.ride.rider = this.currentUser.userName
+      this.currentUser.ride.time = this.time
+      this.currentUser.ride.from = this.from ?? ''
+      this.currentUser.ride.to = this.to ?? ''
+      this.currentUser.ride.date = this.date
+      this.currentUser.ride.seatAvl = this.seatAvl.toString()
+      this.currentUser.ride.price = this.price.toString()
+      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
 
-
-      }
-      else {
-        this.ride.rideDetails = {
-          time: this.time,
-          from: this.from ?? '',
-          to: this.to ?? '',
-          date: this.date,
-          seatAvl: this.seatAvl.toString(),
-          price: this.price.toString(),
-        }
-        delete (this.ride as any).returnRideDetails;
-        console.log('rideDetails===', this.ride.rideDetails);
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
-        console.log("this.handleData.user === ", this.handleData.user);
-      }
 
     }
-
-
   }
-
-
 }

@@ -36,46 +36,6 @@
         <span>Rs-</span>
         <input type="number" [(ngModel)]="price" formControlName="price" />
       </ion-col>
-      <ion-col size="12" class="returnRide">
-        <ion-toggle [enableOnOffLabels]="true" (click)="toggleReturnRide()">
-          Publish Return Ride
-        </ion-toggle>
-      </ion-col>
-
-
-
-      <ng-container class="returnRideDetails" *ngIf="returnride">
-        <ion-col size="12" class="tofrom">
-          <p>** Enter Return Ride Details</p>
-          <app-travel-from-to (locationsChanged)="onReturnLocationsChanged($event)"></app-travel-from-to>
-        </ion-col>
-        <ion-col size="12" class="dateTime">
-          <div class="custom-date-container">
-            <input type="date" [(ngModel)]="returnDate" class="date" [min]="date" formControlName="returnDate" />
-          </div>
-          <div class="custom-time-container">
-            <input type="time" [(ngModel)]="returnTime" class="time" formControlName="returnTime" />
-          </div>
-        </ion-col>
-        <div *ngIf="createRideForm.get('returnTime')?.hasError('returnTimeInvalid')" class="error">
-          Return time must be greater than the current time if return date equals the current date.
-        </div>
-        <ion-col size="12" class="seatAvl">
-          <p>Seat Available</p>
-          <input type="number" [(ngModel)]="returnSeatAvl" formControlName="returnSeatAvl" />
-          <div>
-            <ion-button (click)="decReturnSeatAvl()" class="decBtn" [disabled]="seatAvl <= 1">-</ion-button>
-            <ion-button (click)="incReturnSeatAvl()" [disabled]="seatAvl >= 7">+</ion-button>
-          </div>
-        </ion-col>
-        <ion-col size="12" class="price">
-          <p>Price Per Person</p>
-          <span>Rs-</span>
-          <input type="number" [(ngModel)]="returnPrice" formControlName="returnPrice" />
-        </ion-col>
-      </ng-container>
-
-
       <ion-col size="12" class="submit">
         <ion-button expand="block" class="primary" type="submit" [disabled]="createRideForm.invalid">Create
           Ride</ion-button>
