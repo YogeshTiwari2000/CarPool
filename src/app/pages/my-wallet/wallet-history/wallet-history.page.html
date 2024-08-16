@@ -14,7 +14,8 @@
       <ion-col size="12">
         <div class="search-type">
           <ion-toolbar class="search-items">
-            <ion-searchbar placeholder="Search by name or transaction" (ionInput)="filterData($event)"></ion-searchbar>
+            <ion-searchbar placeholder="Search by name or transaction"
+              (ionInput)="filterByName($event)"></ion-searchbar>
           </ion-toolbar>
           <button class="filter-btn" id="click-trigger" (click)="onFilterButtonClicks()">
             <div class="default-btn">
