@@ -7,7 +7,7 @@ export const routes: Routes = [
     title: "Home",
     loadComponent: () =>
       import("./pages/home/home.page").then((p) => p.HomePage),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: "register",
@@ -34,14 +34,14 @@ export const routes: Routes = [
     title: "Profile",
     loadComponent: () =>
       import("./pages/profile/profile.page").then((m) => m.ProfilePage),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: "profile/rating",
     title: "Rating",
     loadComponent: () =>
       import("./pages/rating/rating.page").then((m) => m.RatingPage),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
 
   {
@@ -57,7 +57,7 @@ export const routes: Routes = [
     title: "Feedback",
     loadComponent: () =>
       import("./pages/feedback/feedback.page").then((m) => m.FeedbackPage),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: "myWallet",

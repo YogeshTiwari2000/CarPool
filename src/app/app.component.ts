@@ -23,7 +23,7 @@ export class AppComponent {
   public router = inject(Router)
   private handleData = inject(HandleDataService)
   public appPages = [
-    { title: 'Home', url: '/home', icon: 'home' },
+    { title: 'Home', url: '/welcome', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'Feedback', url: '/feedback', icon: 'chatbubbles' },
@@ -50,8 +50,10 @@ export class AppComponent {
   }
 
   logOut() {
-    this.localStr.clear()
-    this.router.navigate(['/welcome'])
+    this.localStr.clear();
+    this.commonService.isUserLoggedin = false; // Set the login status to false
+    this.router.navigate(['/welcome']);
   }
+
 
 }

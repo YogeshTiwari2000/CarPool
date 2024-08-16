@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +18,9 @@ import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-
 
 })
 export class SearchScreenPage implements OnInit {
+
+  routes = inject(Router)
+
   @ViewChild(IonModal)
   modal!: IonModal;
   constructor() { }
@@ -46,6 +49,8 @@ export class SearchScreenPage implements OnInit {
       passengers: this.passengers
     };
     console.log(searchData);
+
+    this.routes.navigate(['/home'])
   }
 
 

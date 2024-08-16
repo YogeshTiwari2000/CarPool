@@ -21,6 +21,7 @@ export class WelcomePage implements OnInit {
   localStorageService = inject(LocalStorageService);
   commonService = inject(CommonService);
   currentUserData: any;
+  isLoggedIn: boolean = false;
 
   constructor() { }
 
@@ -32,6 +33,8 @@ export class WelcomePage implements OnInit {
 
     this.handleData.userExists(currentUserEmail).then((res) => {
       this.currentUserData = res.data;
+      this.isLoggedIn = this.currentUserData ? true : false; // Set isLoggedIn based on user existence
+      console.log("this.currentUserData.isSocialLogin === ", this.currentUserData.isSocialLogin);
       console.log("this.currentUserData.isSocialLogin === ", this.currentUserData.isSocialLogin);
 
     });
