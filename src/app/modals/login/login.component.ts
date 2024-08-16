@@ -251,7 +251,7 @@ export class LoginComponent implements OnInit {
                   const isUserLoggedIn = this.commonService.isUserLoggedin;
                   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
                   this.close();
-                  this.router.navigate(["/home"]);
+                  this.router.navigate(["/welcome"]);
                 } else {
                   this.userData.email_verified = true;
                   this.userData.isSocialLogin = true;
@@ -264,7 +264,7 @@ export class LoginComponent implements OnInit {
                   this.commonService.currentUserEmail = this.userData.userEmail;
                   const isUserLoggedIn = this.commonService.isUserLoggedin;
                   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-                  this.router.navigate(["/home"]);
+                  this.router.navigate(["/welcome"]);
                   this.close();
                   this.commonService.alertBox(
                     "Account created successfully",
