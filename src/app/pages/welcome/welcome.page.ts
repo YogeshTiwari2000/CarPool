@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, ModalController } from '@ionic/angular/standalone';
 import { LoginComponent } from 'src/app/modals/login/login.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
+import { CommonService } from 'src/app/shared/common.service';
 
 @Component({
   selector: 'app-welcome',
@@ -14,11 +17,24 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class WelcomePage implements OnInit {
   public modalCtl = inject(ModalController)
+  private handleData = inject(HandleDataService);
+  localStorageService = inject(LocalStorageService);
+  commonService = inject(CommonService);
+  currentUserData: any;
 
   constructor() { }
 
   ngOnInit() {
     console.log("welcome page");
+  }
+  ionViewWillEnter() {
+    const currentUserEmail = this.commonService.currentUserEmail;
+
+    this.handleData.userExists(currentUserEmail).then((res) => {
+      this.currentUserData = res.data;
+      console.log("this.currentUserData.isSocialLogin === ", this.currentUserData.isSocialLogin);
+
+    });
   }
   async loginModal() {
     const modal = await this.modalCtl.create({

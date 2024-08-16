@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
     wallet: {},
   };
 
-  constructor() {}
+  constructor() { }
 
   async ngOnInit() {
     this.users = this.handleData.getData();
@@ -105,7 +105,8 @@ export class LoginComponent implements OnInit {
                 const isUserLoggedIn = this.commonService.isUserLoggedin;
                 this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
                 this.close();
-                this.router.navigate(["/home"]);
+                // this.router.navigate(["/home"]);
+                this.router.navigate(["/welcome"]);
               } else {
                 this.userData.email_verified = googleLogin.email_verified;
                 this.userData.profilePicture = googleLogin.picture;
@@ -118,7 +119,8 @@ export class LoginComponent implements OnInit {
                 this.commonService.currentUserEmail = this.userData.userEmail;
                 const isUserLoggedIn = this.commonService.isUserLoggedin;
                 this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-                this.router.navigate(["/home"]);
+                // this.router.navigate(["/home"]);
+                this.router.navigate(["/welcome"]);
                 this.close();
                 this.commonService.alertBox(
                   "Account created successfully",
