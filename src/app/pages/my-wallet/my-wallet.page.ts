@@ -65,24 +65,11 @@ export class MyWalletPage implements OnInit {
       this.currentUserData = res.data;
       // console.log(this.currentUserData);
       console.log("current user data", this.currentUserData);
-
-
-      // console.log("transition list", this.currentUserData.wallet.transactionsList);
-      this.transactionList = this.currentUserData.wallet.transactionsList
-      console.log("transition list", this.transactionList);
-
-
-      this.selectedTransactions = this.transactionList.slice(0, this.numberOfTransactions);
-
-
       // Store the retrieved data in local storage
-      this.localStr.setItem("currentUser", res.data);
-
-
-      // Update the wallet data
-      this.currentUser = this.localStr.getItem("currentUser");
-
-
+      // this.localStr.setItem("currentUser", res.data);
+      // // Update the wallet data
+      // this.currentUser = this.localStr.getItem("currentUser");
+      this.currentUser = res.data
 
       if (this.currentUser) {
         this.userData = this.currentUser;
@@ -130,6 +117,12 @@ export class MyWalletPage implements OnInit {
       } else {
         console.error("Error: currentUser data not found in local storage.");
       }
+
+      this.transactionList = this.currentUserData.wallet.transactionsList
+      console.log("transition list", this.transactionList);
+      this.selectedTransactions = this.transactionList.slice(0, this.numberOfTransactions);
+
+
     }).catch((error) => {
       console.error("Error: ", error);
     });
@@ -147,15 +140,3 @@ export class MyWalletPage implements OnInit {
 
 }
 
-// const currentUserData = this.localStr.getItem('currentUser')
-
-// this.currentUser = currentUserData;
-// console.log("this.currentUser === ", this.currentUser);
-
-// this.walletData = this.currentUser.wallet;
-
-// console.log(" this.walletData === ", this.walletData);
-// console.log(" this.currentUser === ", this.currentUser);
-// console.log(" this.currentUser === ", this.currentUser);
-// Find the user data for the current user
-// console.log("this.mydata.length === ", this.mydata.length);
