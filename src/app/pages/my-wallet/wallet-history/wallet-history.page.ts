@@ -30,6 +30,8 @@ export class MyWalletPage implements OnInit {
   selectedType: TransactionType | null = null;
   isModalOpen = false;
   searchTerm: string = '';
+  amountSearchTerm: string = '';
+
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private commonService: CommonService,
     public localStr: LocalStorageService, private handleData: HandleDataService) { }
@@ -70,37 +72,7 @@ export class MyWalletPage implements OnInit {
   }
 
 
-  // filterByDate(fromDate: string | null, toDate: string | null) {
-  //   console.log(`Filtering from ${fromDate} to ${toDate}`);
-
-  //   this.filteredData = this.originalData.filter(transaction => {
-  //     const transactionDate = new Date(transaction.date).toISOString().slice(0, 10); // Convert to ISO format
-  //     // console.log("transactionDate === ", transactionDate);
-
-  //     // Check if both fromDate and toDate are null
-  //     if (!fromDate && !toDate) {
-  //       return true; // No date filter applied
-  //     }
-
-  //     if (fromDate && !toDate) {
-  //       return new Date(fromDate) <= new Date(transactionDate);
-  //     }
-
-  //     if (!fromDate && toDate) {
-  //       return new Date(toDate) >= new Date(transactionDate);
-  //     }
-
-  //     // Check if both fromDate and toDate are provided
-  //     if (fromDate && toDate) {
-  //       return new Date(fromDate) <= new Date(transactionDate) && new Date(transactionDate) <= new Date(toDate);
-  //     }
-
-  //     return false;
-  //   });
-  //   console.log('Filtered Data:', this.filteredData); // Log the filtered data
-
-  //   this.cdr.detectChanges(); // Manually trigger change detection
-  // }
+  // 
   filterByDate() {
     this.filteredData = this.originalData.filter(transaction => {
       const transactionDate = new Date(transaction.date);
@@ -116,6 +88,11 @@ export class MyWalletPage implements OnInit {
     this.applyFilters();
   }
 
+  filterByAmount(event: any) {
+    this.amountSearchTerm = event.target.value;
+    this.applyFilters();
+  }
+
   applyFilters() {
     this.filteredData = this.originalData.filter(transaction => {
       // Filter by type
@@ -124,10 +101,14 @@ export class MyWalletPage implements OnInit {
 
       // Filter by name
       const isNameMatch = transaction.paidTo.toLowerCase().includes(this.searchTerm.toLowerCase());
+      console.log(this.filteredData);
 
-      return isTypeMatch && isNameMatch;
+      const isAmountMatch = !this.amountSearchTerm || transaction.amount.toString().includes(this.amountSearchTerm);
+
+      return isTypeMatch && isNameMatch && isAmountMatch;
     });
   }
+
 
   filterByName(event: any) {
     this.searchTerm = event.target.value;

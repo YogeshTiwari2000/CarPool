@@ -14,9 +14,11 @@
       <ion-col size="12">
         <div class="search-type">
           <ion-toolbar class="search-items">
-            <ion-searchbar placeholder="Search by name or transaction"
-              (ionInput)="filterByName($event)"></ion-searchbar>
+            <ion-searchbar placeholder="Search by name" (ionInput)="filterByName($event)"></ion-searchbar>
           </ion-toolbar>
+          <!-- <ion-toolbar class="search-items">
+            <ion-searchbar placeholder="Search by amount" (ionInput)="filterByAmount($event)"></ion-searchbar>
+          </ion-toolbar> -->
           <button class="filter-btn" id="click-trigger" (click)="onFilterButtonClicks()">
             <div class="default-btn">
               <!-- SVG icon for filter -->
@@ -28,7 +30,7 @@
               </svg>
 
             </div>
-            <div class="text">Filter</div>
+            <div class="text text-color">Filter</div>
             <ion-popover trigger="click-trigger" triggerAction="click">
               <ng-template>
                 <ion-content class="ion-padding">
@@ -56,7 +58,7 @@
                   </div>
 
                   <!-- Credit/Debit Filter Buttons -->
-                  <div class="cred-debts">
+                  <div class="credit-debits">
                     <button class="credit" (click)="filterByType('credit')">
                       Credited
                     </button>
@@ -64,6 +66,12 @@
                       Debited
                     </button>
                   </div>
+                  <ion-col>
+                    <ion-toolbar class="search-items">
+                      <ion-searchbar placeholder="Search amount" (ionInput)="filterByAmount($event)"
+                        class="searchamount"></ion-searchbar>
+                    </ion-toolbar>
+                  </ion-col>
                 </ion-content>
               </ng-template>
             </ion-popover>

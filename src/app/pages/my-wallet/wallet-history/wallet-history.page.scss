@@ -78,10 +78,11 @@ ion-modal>.ion-page {
     // height: 300px;
 }
 
-.cred-debts {
+.credit-debits {
     display: flex;
     gap: 0.5rem;
     padding-top: 1.5rem;
+    justify-content: space-around;
 }
 
 .credit {
@@ -108,4 +109,21 @@ ion-modal>.ion-page {
 
 .navbar-margin-top {
     margin-top: 3rem;
+}
+
+.text-color {
+    color: black;
+}
+
+ion-popover {
+    --width: 300px;
+    /* Set the desired width */
+    --min-width: 200px;
+    /* Optional: Set a minimum width */
+    --max-width: 500px;
+    /* Optional: Set a maximum width */
+}
+
+::ng-deep .searchamount {
+    padding-right: 0 !important;
 }
