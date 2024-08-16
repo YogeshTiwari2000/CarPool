@@ -28,6 +28,7 @@ export const routes: Routes = [
       import("./pages/search-screen/search-screen.page").then(
         (p) => p.SearchScreenPage
       ),
+
   },
   {
     path: "profile",
