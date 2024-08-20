@@ -24,7 +24,7 @@ export class CreateRidePage implements OnInit {
   users: any[] = [];
   currentUser: any;
   currentUserDocId: any;
-
+  rideCreatedBy: any = 'driver';
 
   time: string = '';
   from: string | undefined;
@@ -32,7 +32,7 @@ export class CreateRidePage implements OnInit {
   date: any = '';
   seatAvl: number = 1;
   price: number = 0;
-
+  companionNames: any = ''
 
 
   createRideForm: FormGroup;
@@ -40,14 +40,19 @@ export class CreateRidePage implements OnInit {
 
 
   ride = {
-    id: '',
-    rider: '',
-    time: '',
-    from: '',
-    to: '',
-    date: '',
-    seatAvl: '',
-    price: '',
+    lastride: {
+      id: '',
+      ridername: '',
+      time: '',
+      type: '',
+      from: '',
+      to: '',
+      date: '',
+      seatAvl: '',
+      price: '',
+      companionNames: '',
+    },
+    rideList: [{}],
   }
 
 
@@ -60,12 +65,21 @@ export class CreateRidePage implements OnInit {
       date: ['', Validators.required],
       seatAvl: ['', Validators.required],
       price: ['', Validators.required],
+      rideType: ['driver'],
+      companionNames: ['']
 
     },)
   }
 
   ngOnInit() {
     console.log();
+    // Listen to rideType changes
+    this.createRideForm.get('rideType')!.valueChanges.subscribe(value => {
+      console.log('Is Driver:', value === 'driver');
+      this.rideCreatedBy = value
+      console.log("this.rideCreatedBy === ", this.rideCreatedBy);
+      console.log('Is Companion:', value === 'companion');
+    });
   }
 
   ionViewWillEnter() {
@@ -80,8 +94,8 @@ export class CreateRidePage implements OnInit {
           this.currentUser = this.handleData.user;
           console.log("currentUser === ", this.currentUser);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
-
-          if (this.currentUser.ride.id != undefined) {
+          console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
+          if (this.currentUser.ride.lastride != undefined) {
             console.log('ride me id h');
 
           }
@@ -158,18 +172,32 @@ export class CreateRidePage implements OnInit {
     if (this.currentUser) {
 
 
-      this.currentUser.ride.id = Math.random().toString();
+      this.currentUser.ride.lastride.id = Math.random().toString();
+      this.currentUser.ride.lastride.ridername = this.currentUser.userName
+      this.currentUser.ride.lastride.type = this.rideCreatedBy
+      this.currentUser.ride.lastride.time = this.time
+      this.currentUser.ride.lastride.from = this.from ?? ''
+      this.currentUser.ride.lastride.to = this.to ?? ''
+      this.currentUser.ride.lastride.date = this.date
+      this.currentUser.ride.lastride.seatAvl = this.seatAvl.toString()
+      this.currentUser.ride.lastride.price = this.price.toString()
+      this.currentUser.ride.lastride.companionNames = this.companionNames
 
-      this.currentUser.ride.rider = this.currentUser.userName
-      this.currentUser.ride.time = this.time
-      this.currentUser.ride.from = this.from ?? ''
-      this.currentUser.ride.to = this.to ?? ''
-      this.currentUser.ride.date = this.date
-      this.currentUser.ride.seatAvl = this.seatAvl.toString()
-      this.currentUser.ride.price = this.price.toString()
-      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
 
+      if (this.rideCreatedBy === 'driver') {
 
+        // const rideDetStore = this.currentUser.ride.lastride
+
+        // delete rideDetStore.companionNames
+
+        // const immutableRide = Object.freeze({ ...rideDetStore }); 
+
+        this.currentUser.ride.rideList.unshift(this.currentUser.ride.lastride);
+        delete this.currentUser.ride.rideList[0].price;
+        delete this.currentUser.ride.rideList[0].companionNames;
+
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+      }
     }
   }
 }
