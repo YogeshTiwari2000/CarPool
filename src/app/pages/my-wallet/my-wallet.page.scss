@@ -158,3 +158,11 @@ ion-item ion-text {
 ::ng-deep .item-inner {
     padding: 0;
 }
+
+.svgbg {
+    background-color: #F6F6F6;
+    border-radius: 1.5rem;
+    display: flex;
+    padding: 0.3rem;
+    align-items: center;
+}

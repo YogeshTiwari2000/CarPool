@@ -94,13 +94,16 @@
 
     <div *ngFor="let transaction of filteredData">
       <ion-row>
-        <ion-col size="12">
-          <ion-list class="ion-no-margin">
+        <ion-col size="12" class="">
+          <ion-list class="ion-no-margin ion-no-padding">
             <ion-item class="ion-no-padding transaction-card">
 
               <!-- Conditional SVG Rendering -->
               <ng-container *ngIf="transaction.type === 'credit'; else debitIcon">
-                <img src="../../../../assets/images/svgs/credit.svg" alt="Credit" class="credit-icon">
+
+                <div class="svgbg">
+                  <img src="../../../../assets/images/svgs/credit.svg" alt="Credit" class="credit-icon">
+                </div>
               </ng-container>
               <ng-template #debitIcon>
                 <img src="../../../../assets/images/svgs/debit.svg" alt="Debit" class="debit-icon">
@@ -111,8 +114,10 @@
                 <h3>{{ transaction.paidTo }}</h3>
                 <p>{{ transaction.date | slice:0:24 }}</p>
               </ion-label>
-              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-no-padding">
-                {{ transaction.type === 'credit' ? '+' : '-' }} ₹{{ transaction.amount.toFixed(2) }}
+              <!-- <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-no-padding"> -->
+              <ion-text class="ion-no-padding">
+                <!-- {{ transaction.type === 'credit' ? '+' : '-' }}  -->
+                ₹ {{ transaction.amount.toFixed(2) }}
               </ion-text>
             </ion-item>
           </ion-list>

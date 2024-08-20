@@ -70,7 +70,8 @@
           <ion-list class="ion-no-margin ion-no-padding">
             <ion-item class="ion-no-padding transaction-card">
               <ng-container *ngIf="transaction.type === 'credit'; else debitIcon">
-                <img src="../../../../assets/images/svgs/credit.svg" alt="Credit" class="credit-icon">
+                <div class="svgbg"> <img src="../../../../assets/images/svgs/credit.svg" alt="Credit"
+                    class="credit-icon"></div>
               </ng-container>
               <ng-template #debitIcon>
                 <img src="../../../../assets/images/svgs/debit.svg" alt="Debit" class="debit-icon">
