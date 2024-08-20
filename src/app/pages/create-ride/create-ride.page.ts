@@ -183,21 +183,18 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.price = this.price.toString()
       this.currentUser.ride.lastride.companionNames = this.companionNames
 
+      // const rideDetStore = this.currentUser.ride.lastride
 
-      if (this.rideCreatedBy === 'driver') {
+      // delete rideDetStore.companionNames
 
-        // const rideDetStore = this.currentUser.ride.lastride
+      // const immutableRide = Object.freeze({ ...rideDetStore }); 
 
-        // delete rideDetStore.companionNames
+      this.currentUser.ride.rideList.unshift(this.currentUser.ride.lastride);
+      // delete this.currentUser.ride.rideList[0].price;
+      // delete this.currentUser.ride.rideList[0].companionNames;
 
-        // const immutableRide = Object.freeze({ ...rideDetStore }); 
+      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
 
-        this.currentUser.ride.rideList.unshift(this.currentUser.ride.lastride);
-        delete this.currentUser.ride.rideList[0].price;
-        delete this.currentUser.ride.rideList[0].companionNames;
-
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
-      }
     }
   }
 }
