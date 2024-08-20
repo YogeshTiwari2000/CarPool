@@ -3,18 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { OverlayEventDetail } from '@ionic/core/components';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg, IonBackButton } from '@ionic/angular/standalone';
 
 import { Router } from '@angular/router';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-search-screen',
   templateUrl: './search-screen.page.html',
   styleUrls: ['./search-screen.page.scss'],
   standalone: true,
-  imports: [IonImg, IonButtons, IonIcon, IonDatetimeButton, IonDatetime, IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton, TravelFromToComponent],
+  imports: [IonBackButton, IonImg, IonButtons, IonIcon, IonDatetimeButton, IonDatetime, IonModal, IonLabel, IonItem, IonButton, IonInput, IonCol, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton, TravelFromToComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
 export class SearchScreenPage implements OnInit {

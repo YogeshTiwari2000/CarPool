@@ -32,6 +32,7 @@
             </div>
             <div class="text text-color">Filter</div>
             <ion-popover trigger="click-trigger" triggerAction="click">
+
               <ng-template>
                 <ion-content class="ion-padding">
                   <!-- Date Range Filter -->
@@ -39,12 +40,16 @@
                     <p class="para-txt">From:</p>
                     <ion-datetime-button class="date" datetime="fromDatetime"></ion-datetime-button>
                     <ion-modal [keepContentsMounted]="true">
+
                       <ng-template>
                         <ion-datetime id="fromDatetime" presentation="date"
                           (ionChange)="onDateTimeChange($event, 'from')"></ion-datetime>
+
                       </ng-template>
-                    </ion-modal>
+
+                    </ion-modal> <ion-icon name="calendar-outline" class="calendar-icon" type="date"></ion-icon>
                   </div>
+
 
                   <div class="filter-box">
                     <p class="para-txt">To:</p>
@@ -54,7 +59,7 @@
                         <ion-datetime id="toDatetime" presentation="date"
                           (ionChange)="onDateTimeChange($event, 'to')"></ion-datetime>
                       </ng-template>
-                    </ion-modal>
+                    </ion-modal><ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
                   </div>
 
                   <!-- Credit/Debit Filter Buttons -->
@@ -66,14 +71,16 @@
                       Debited
                     </button>
                   </div>
+
                   <ion-col>
-                    <ion-toolbar class="search-items">
+                    <ion-toolbar class="search-items inputamount">
                       <ion-searchbar placeholder="Search amount" (ionInput)="filterByAmount($event)"
                         class="searchamount"></ion-searchbar>
                     </ion-toolbar>
                   </ion-col>
                 </ion-content>
               </ng-template>
+
             </ion-popover>
           </button>
         </div>
@@ -90,18 +97,28 @@
         <ion-col size="12">
           <ion-list class="ion-no-margin">
             <ion-item class="ion-no-padding transaction-card">
-              <ion-icon name="cash" class="ion-padding-end"></ion-icon>
-              <ion-label>
+
+              <!-- Conditional SVG Rendering -->
+              <ng-container *ngIf="transaction.type === 'credit'; else debitIcon">
+                <img src="../../../../assets/images/svgs/credit.svg" alt="Credit" class="credit-icon">
+              </ng-container>
+              <ng-template #debitIcon>
+                <img src="../../../../assets/images/svgs/debit.svg" alt="Debit" class="debit-icon">
+              </ng-template>
+
+              <!-- <ion-icon name="cash" class="ion-padding-end"></ion-icon> -->
+              <ion-label class="ion-padding-start">
                 <h3>{{ transaction.paidTo }}</h3>
                 <p>{{ transaction.date | slice:0:24 }}</p>
               </ion-label>
-              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-                {{ transaction.type === 'credit' ? '+' : '-' }}${{ transaction.amount.toFixed(2) }}
+              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-no-padding">
+                {{ transaction.type === 'credit' ? '+' : '-' }} ₹{{ transaction.amount.toFixed(2) }}
               </ion-text>
             </ion-item>
           </ion-list>
         </ion-col>
       </ion-row>
     </div>
+
   </ion-grid>
 </ion-content>

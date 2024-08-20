@@ -40,10 +40,4 @@ export class UserDetailsComponent implements OnInit {
     return `${weekday} ${day} ${month}`;
   }
 
-
-
-
-
-
-
 }

@@ -73,6 +73,7 @@ export const routes: Routes = [
       import("./pages/my-wallet/wallet-history/wallet-history.page").then(
         (m) => m.MyWalletPage
       ),
+    title: "wallet-history",
   },
   {
     path: "top-withdraw",
@@ -80,6 +81,12 @@ export const routes: Routes = [
       import("./pages/top-withdraw/top-withdraw.page").then(
         (m) => m.TopWithdrawPage
       ),
+    title: "top-withdraw",
+  },
+  {
+    path: 'my-update',
+    loadComponent: () => import('./pages/my-update/my-update.page').then(m => m.MyUpdatePage),
+    title: "my-update",
   },
   {
     path: "",
@@ -94,4 +101,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/not-found/not-found.page").then((p) => p.NotFoundPage),
   },
+
 ];

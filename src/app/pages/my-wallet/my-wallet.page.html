@@ -69,13 +69,19 @@
         <ion-col size="12">
           <ion-list class="ion-no-margin ion-no-padding">
             <ion-item class="ion-no-padding transaction-card">
-              <ion-icon name="cash" class="ion-padding-end"></ion-icon>
-              <ion-label class="ion-no-padding">
+              <ng-container *ngIf="transaction.type === 'credit'; else debitIcon">
+                <img src="../../../../assets/images/svgs/credit.svg" alt="Credit" class="credit-icon">
+              </ng-container>
+              <ng-template #debitIcon>
+                <img src="../../../../assets/images/svgs/debit.svg" alt="Debit" class="debit-icon">
+              </ng-template>
+              <!-- <ion-icon name="cash" class="ion-padding-end"></ion-icon> -->
+              <ion-label class="ion-no-padding ion-padding-start">
                 <h3>{{ currentUserData.userName }}</h3>
                 <p>{{ transaction.date | slice:0:24 }}</p>
               </ion-label>
               <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-                {{ transaction.type === 'credit' ? '+' : '-' }}${{
+                {{ transaction.type === 'credit' ? '+ ' : '- ' }}₹{{
                 transaction.amount.toFixed(2) }}
               </ion-text>
               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -73,7 +73,7 @@ export class ProfilePage implements OnInit {
   isPhoneVerified: boolean = false;
   isGovtIdVerified: boolean = false;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     const data: any = localStorage.getItem("currentUser");
