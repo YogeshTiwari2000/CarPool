@@ -52,7 +52,7 @@ export class CreateRidePage implements OnInit {
       price: '',
       companionNames: '',
     },
-    rideList: [{}],
+    rideList: [],
   }
 
 
@@ -172,7 +172,7 @@ export class CreateRidePage implements OnInit {
     if (this.currentUser) {
 
 
-      this.currentUser.ride.lastride.id = Math.random().toString();
+      this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.type = this.rideCreatedBy
       this.currentUser.ride.lastride.time = this.time
@@ -183,17 +183,20 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.price = this.price.toString()
       this.currentUser.ride.lastride.companionNames = this.companionNames
 
-      // const rideDetStore = this.currentUser.ride.lastride
+      if (this.rideCreatedBy === 'driver') {
 
-      // delete rideDetStore.companionNames
+        this.currentUser.ride.lastride.companionNames = 'this is driver ride'
 
-      // const immutableRide = Object.freeze({ ...rideDetStore }); 
+        const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });
+        this.currentUser.ride.rideList.unshift(immutableride);
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+      } else {
+        this.currentUser.ride.lastride.price = '00'
+        const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });
+        this.currentUser.ride.rideList.unshift(immutableride);
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+      }
 
-      this.currentUser.ride.rideList.unshift(this.currentUser.ride.lastride);
-      // delete this.currentUser.ride.rideList[0].price;
-      // delete this.currentUser.ride.rideList[0].companionNames;
-
-      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
 
     }
   }
