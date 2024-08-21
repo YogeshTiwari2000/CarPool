@@ -79,10 +79,12 @@
               <!-- <ion-icon name="cash" class="ion-padding-end"></ion-icon> -->
               <ion-label class="ion-no-padding ion-padding-start">
                 <h3>{{ currentUserData.userName }}</h3>
-                <p>{{ transaction.date | slice:0:24 }}</p>
+                <!-- <p>{{ transaction.date | slice:0:24 }}</p> -->
+                <p>{{ transaction.date | date:'dd MMM, yyyy' }}</p>
               </ion-label>
-              <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-                {{ transaction.type === 'credit' ? '+ ' : '- ' }}₹{{
+              <ion-text class="ion-padding-end">
+                <!-- {{ transaction.type === 'credit' ? '+ ' : '- ' }} -->
+                ₹ {{
                 transaction.amount.toFixed(2) }}
               </ion-text>
               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -112,7 +112,8 @@
               <!-- <ion-icon name="cash" class="ion-padding-end"></ion-icon> -->
               <ion-label class="ion-padding-start">
                 <h3>{{ transaction.paidTo }}</h3>
-                <p>{{ transaction.date | slice:0:24 }}</p>
+                <!-- <p>{{ transaction.date | slice:0:24 }}</p> -->
+                <p>{{ transaction.date | date:'dd MMM, yyyy' }}</p>
               </ion-label>
               <!-- <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-no-padding"> -->
               <ion-text class="ion-no-padding">
