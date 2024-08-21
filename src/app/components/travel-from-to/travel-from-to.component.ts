@@ -55,6 +55,7 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.from = place.formatted_address;
         this.emitLocations();
+        this.calculateDistance();
       });
     }
   }
@@ -69,6 +70,7 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.to = place.formatted_address;
         this.emitLocations();
+        this.calculateDistance();
       });
     }
   }
@@ -76,5 +78,30 @@ export class TravelFromToComponent implements OnInit {
   emitLocations() {
     this.locationsChanged.emit({ from: this.from, to: this.to });
   }
+
+
+  calculateDistance() {
+    if (this.from && this.to) {
+      const service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix({
+        origins: [this.from],
+        destinations: [this.to],
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.METRIC,
+      }, (response: any, status: any) => {
+        if (status === google.maps.DistanceMatrixStatus.OK) {
+          const origin = response.originAddresses[0];
+          const destination = response.destinationAddresses[0];
+          const element = response.rows[0].elements[0];
+          const distance = element.distance.text;
+          const duration = element.duration.text;
+          console.log(`Distance from ${origin} to ${destination} is ${distance} and will take approximately ${duration}.`);
+        } else {
+          console.error('Error fetching distance matrix:', status);
+        }
+      });
+    }
+  }
+
 
 }
