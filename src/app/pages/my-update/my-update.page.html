@@ -5,7 +5,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card *ngFor="let ride of usersList ">
+  <ion-card *ngFor="let ride of rideList;let i = index " (click)="rideDetailView(i)">
     <ion-header>
       <ion-row>
         <ion-col>

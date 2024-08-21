@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonRow, IonCol, IonCardContent, IonAvatar, IonItem, IonBadge, IonLabel, ModalController } from '@ionic/angular/standalone';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
@@ -17,11 +17,14 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 
 
 export class MyUpdatePage implements OnInit {
+
+
+
   journeyDuration: string | null = null;
   currentUserData: any;
   currentUser: any;
   userData: any;
-  usersList: any;
+  rideList: any;
   // userDataLength: number;
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -42,8 +45,8 @@ export class MyUpdatePage implements OnInit {
       console.log("this.currentUserData === ", this.currentUserData);
 
 
-      this.usersList = this.currentUserData.ride.rideList;
-      console.log("this.usersList", this.usersList);
+      this.rideList = this.currentUserData.ride.rideList;
+      console.log("this.rideList", this.rideList);
 
       if (this.currentUserData) {
         const length = Object.keys(this.currentUserData);
@@ -54,8 +57,8 @@ export class MyUpdatePage implements OnInit {
 
   updateRideStatuses() {
     const now = new Date();
-    if (this.usersList) {
-      this.usersList.forEach((ride: any) => {
+    if (this.rideList) {
+      this.rideList.forEach((ride: any) => {
         const [endHours, endMinutes] = ride.journeyEnd.split(':').map(Number);
         const rideDate = new Date(`${ride.date.split('/').reverse().join('-')}T${endHours}:${endMinutes}:00`);
 
@@ -72,9 +75,9 @@ export class MyUpdatePage implements OnInit {
 
 
   // calculateJourneyDuration(index: number) {
-  //   const journeyStart = this.usersList[index].journeyStart;
-  //   const journeyEnd = this.usersList[index].journeyEnd;
-  //   const dateInData = this.usersList[index].date;
+  //   const journeyStart = this.rideList[index].journeyStart;
+  //   const journeyEnd = this.rideList[index].journeyEnd;
+  //   const dateInData = this.rideList[index].date;
 
   //   // Create a Date object from the dateInData
   //   const [day, month, year] = dateInData.split('/').map(Number);
@@ -102,4 +105,19 @@ export class MyUpdatePage implements OnInit {
   //   this.journeyDuration = `${formattedHours}h ${formattedMinutes}m`;
   //   console.log("this.journeyDuration", this.journeyDuration);
   // }
+
+
+
+  // rideDetailView() {
+  //   this.router.navigate(['/ride-detail-view'])
+  // }
+  rideDetailView(index: number) {
+    const selectedRide = this.rideList[index];
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        ride: JSON.stringify(selectedRide)
+      }
+    };
+    this.router.navigate(['/ride-detail-view'], navigationExtras);
+  }
 }
