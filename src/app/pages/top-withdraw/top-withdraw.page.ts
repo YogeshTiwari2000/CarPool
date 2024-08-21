@@ -65,7 +65,8 @@ export class TopWithdrawPage implements OnInit {
       this.userdata.wallet.transactions.id = Math.random().toString();
       this.userdata.wallet.transactions.paidTo = this.userdata.userName
       this.userdata.wallet.transactions.amount = this.amountToAdd
-      this.userdata.wallet.transactions.date = (new Date()).toISOString().slice(0, 10)
+      // this.userdata.wallet.transactions.date = (new Date()).toISOString().slice(0, 10)
+      this.userdata.wallet.transactions.date = (new Date()).toISOString()
       this.userdata.wallet.transactions.status = 'recieve'
       this.userdata.wallet.transactions.type = 'credit'
 

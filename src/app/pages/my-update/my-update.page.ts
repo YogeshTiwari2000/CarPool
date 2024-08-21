@@ -42,6 +42,8 @@ export class MyUpdatePage implements OnInit {
     this.handleData.userExists(currentUserEmail).then((res) => {
       console.log("res.data === ", res.data);
       this.currentUserData = res.data;
+      console.log("this.currentUserData.profile", this.currentUserData['profilePicture']);
+
       console.log("this.currentUserData === ", this.currentUserData);
 
 

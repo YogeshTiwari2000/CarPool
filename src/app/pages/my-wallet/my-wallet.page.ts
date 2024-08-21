@@ -65,10 +65,7 @@ export class MyWalletPage implements OnInit {
       this.currentUserData = res.data;
       // console.log(this.currentUserData);
       console.log("current user data", this.currentUserData);
-      // Store the retrieved data in local storage
-      // this.localStr.setItem("currentUser", res.data);
-      // // Update the wallet data
-      // this.currentUser = this.localStr.getItem("currentUser");
+
       this.currentUser = res.data
 
       if (this.currentUser) {
@@ -102,18 +99,6 @@ export class MyWalletPage implements OnInit {
 
         }
 
-
-        // this.properBalance = this.currentUser.wallet.testbalance
-
-
-        // Update wallet balance and transactions
-        // this.userData.wallet.balance = this.wallet.balance;
-        // console.log("this.userData.wallet === ", this.userData.wallet);
-        // this.transactions = this.userData.wallet.transactions;
-        // this.balance = this.wallet.balance;
-
-        // console.log("Updated Wallet Data: ", this.wallet);
-        // this.balance = this.wallet.balance 
       } else {
         console.error("Error: currentUser data not found in local storage.");
       }

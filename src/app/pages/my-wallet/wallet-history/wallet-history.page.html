@@ -113,7 +113,8 @@
               <ion-label class="ion-padding-start">
                 <h3>{{ transaction.paidTo }}</h3>
                 <!-- <p>{{ transaction.date | slice:0:24 }}</p> -->
-                <p>{{ transaction.date | date:'dd MMM, yyyy' }}</p>
+                <!-- <p>{{ transaction.date | date:'dd MMM, yyyy' }}</p> -->
+                <p>{{ transaction.date | date:'dd MMM, yyyy, h:mm a' }}</p>
               </ion-label>
               <!-- <ion-text [color]="transaction.type === 'credit' ? 'success' : 'danger'" class="ion-no-padding"> -->
               <ion-text class="ion-no-padding">

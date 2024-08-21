@@ -24,15 +24,15 @@
                 </svg>
                 <!--  -->
               </div>
-              <b>{{ ride.source }}</b>
+              <b>{{ ride.from }}</b>
             </div>
-            <p>{{ ride.journeyStart }}</p>
+            <p>{{ ride.time }}</p>
           </div>
         </ion-col>
         <ion-col class="ion-text-center timeSection">
           <div class="totalTimeTakenArea">
             <div class="timeBox">
-              {{ journeyDuration }}
+              <!-- {{ journeyDuration }} -->
             </div>
             <div class="arrowIcon">
               <svg viewBox="0 0 68 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,11 +44,13 @@
         </ion-col>
         <ion-col class="ion-text-end">
           <div class="travelDetails">
+
+            <!--  -->
             <p>Destination</p>
             <p class="location ion-justify-content-end">
-              <b>{{ ride.destination }}</b>
+              <b>{{ ride.to }}</b>
             </p>
-            <p>{{ ride.journeyEnd }}</p>
+            <!-- <p>{{ ride.journeyEnd }}</p> -->
           </div>
         </ion-col>
       </ion-row>
@@ -59,11 +61,11 @@
         <ion-col>
           <div class="usersList">
             <ion-avatar>
-              <img alt="Silhouette of a person's head" [src]="currentUserData['profilePic']" />
+              <img alt="Silhouette of a person's head" [src]="currentUserData['profilePicture']" />
             </ion-avatar>
             <div class="details">
               <p>Offer ride</p>
-              <!-- <div>{{ userInfo["name"] }}</div> -->
+              <div>{{ currentUserData["userName"] }}</div>
             </div>
           </div>
         </ion-col>
