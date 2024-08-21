@@ -21,6 +21,7 @@ export class MyUpdatePage implements OnInit {
   currentUserData: any;
   currentUser: any;
   userData: any;
+  usersList: any;
   // userDataLength: number;
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -34,64 +35,40 @@ export class MyUpdatePage implements OnInit {
 
     const currentUserEmail = this.commonService.currentUserEmail;
 
-
     // Retrieve data from Firebase and store it in local storage
     this.handleData.userExists(currentUserEmail).then((res) => {
       console.log("res.data === ", res.data);
       this.currentUserData = res.data;
-      // console.log(this.currentUserData);
-      console.log("current user data", this.currentUserData);
-      this.currentUser = res.data
+      console.log("this.currentUserData === ", this.currentUserData);
 
-      if (this.currentUser) {
-        this.userData = this.currentUser;
 
-        const length = Object.keys(this.currentUser).length;
-        console.log('currentUser length: ', length);
+      this.usersList = this.currentUserData.ride.rideList;
+      console.log("this.usersList", this.usersList);
 
-        // this.userDataLength = length
-
-        console.log('currentUser: ', this.currentUser);
-
-        const currentUserDocId = this.localStr.getItem("currentUserDocId");
-        console.log("this.currentUser.wallet.balance === ", this.currentUser.wallet.balance);
+      if (this.currentUserData) {
+        const length = Object.keys(this.currentUserData);
+        console.log('currentUserData length: ', length);
       }
     })
   }
+
   updateRideStatuses() {
     const now = new Date();
+    if (this.usersList) {
+      this.usersList.forEach((ride: any) => {
+        const [endHours, endMinutes] = ride.journeyEnd.split(':').map(Number);
+        const rideDate = new Date(`${ride.date.split('/').reverse().join('-')}T${endHours}:${endMinutes}:00`);
 
-    this.usersList.forEach((ride: any) => {
-      const [endHours, endMinutes] = ride.journeyEnd.split(':').map(Number);
-      const rideDate = new Date(`${ride.date.split('/').reverse().join('-')}T${endHours}:${endMinutes}:00`);
-
-      if (rideDate <= now) {
-        ride.rideStatus = 'completed';
-      } else {
-        ride.rideStatus = 'in-progress';
-      }
-    });
+        if (rideDate <= now) {
+          ride.rideStatus = 'completed';
+        } else {
+          ride.rideStatus = 'in-progress';
+        }
+      });
+    }
   }
 
 
-  usersList: any = [
-    {
-      name: 'test1', designation: 'dg1', age: '21', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '1', date: '26/07/2024', journeyStart: '2:40', journeyEnd: '14:00', source: 's1',
-      destination: 'd1', price: '100', seatAvl: '1', rideStatus: 'completed'
-    },
-    {
-      name: 'test2', designation: 'dg2', age: '22', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '2', date: '24/07/2024', journeyStart: '3:25', journeyEnd: '5:00', source: 's2',
-      destination: 'd2', price: '200', seatAvl: '2', rideStatus: 'in-progress'
-    },
-    {
-      name: 'test3', designation: 'dg3', age: '43', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '3', date: '23/07/2024', journeyStart: '14:00', journeyEnd: '18:40', source: 's3',
-      destination: 'd3', price: '300', seatAvl: '3', rideStatus: 'completed'
-    },
-    {
-      name: 'test4', designation: 'dg4', age: '34', profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg', rating: '4', date: '21/07/2024', journeyStart: '17:00', journeyEnd: '22:00', source: 's4',
-      destination: 'd4', price: '400', seatAvl: '4', rideStatus: 'cancel'
-    },
-  ];
 
 
   // calculateJourneyDuration(index: number) {
