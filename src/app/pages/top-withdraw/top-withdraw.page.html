@@ -3,87 +3,42 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Add Money to Wallet</ion-title>
+    <ion-title>
+      {{ operation === 'topUpClicked' ? 'Add Money to Wallet' : 'Withdraw Money From Wallet' }}
+    </ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card class="ion-padding">
-    <!-- <ion-item lines="none">
-      <ion-avatar class="custom-avatar-bg"><img src="../../../assets/images/svgs/left-arrow.svg" alt=""></ion-avatar>
-    </ion-item> -->
-    <ion-card-header>
-      <ion-card-subtitle class="custom-font-subtitle">Add Money to</ion-card-subtitle>
-      <ion-card-title class="custom-font-title">Wallet </ion-card-title>
+  <ng-container>
+    <ion-card class="ion-padding">
+      <ion-card-header>
+        <ion-card-subtitle class="custom-font-subtitle"> {{ operation === 'topUpClicked' ? 'Add Money to' :
+          'Withdraw Money from' }}</ion-card-subtitle>
+        <ion-card-title class="custom-font-title">Wallet</ion-card-title>
 
-      <ion-item lines="none" class="ion-no-padding custom-font-subtitle" color="">
-        <ion-label>Available Balance ₹ {{ userBalance}}</ion-label>
-        <ion-icon name="wallet" slot="end" class="custom-icon-size" color="light"></ion-icon>
-      </ion-item>
-    </ion-card-header>
-
-
-    <ion-card-content>
-      <ion-list>
-        <ion-item lines="none ion-no-padding">
-          <ion-input [(ngModel)]="amountToAdd" type="number" inputmode="numeric" class="input-box ion-no-padding"
-            placeholder="Enter amount" pattern="[0-9]*" required>
-            <img src="../../../assets/images/svgs/rupiya.svg" alt="" slot="start">
-          </ion-input>
+        <ion-item lines="none" class="ion-no-padding custom-font-subtitle" color="">
+          <ion-label>Available Balance ₹ {{ userBalance }}</ion-label>
+          <ion-icon name="wallet" slot="end" class="custom-icon-size" color="light"></ion-icon>
         </ion-item>
-      </ion-list>
+      </ion-card-header>
 
-      <ion-button expand="block" color="primary" class="ion-margin-top next-btn " (click)='addMoney()'>Proceed to Add
-        Money</ion-button>
-
-      <ion-item lines="none" class="ion-margin-top ion-no-padding ">
-        <ion-label>Withdraw Amount</ion-label>
-        <!-- <ion-toggle slot="end"></ion-toggle> -->
-
-        <img src="../../../assets/images/svgs/transfer.svg" alt="">
-      </ion-item>
-
-
-      <!-- <ion-note slot="end" class="ion-padding-top">Available Balance ₹ {{balance}}</ion-note> -->
-    </ion-card-content>
-  </ion-card>
-
-
-  <!-- <ion-row>
-    <ion-col size="12">
-      <ion-list class="ion-padding">
-        <ion-item class="ion-no-padding transaction-card">
-          <ion-icon name="cash" class="ion-padding-end"></ion-icon>
-          <ion-label>
-            <h3>Yogesh</h3>
-            <p>122 Aug 2024</p>
-          </ion-label>
-          <ion-text color="success">150</ion-text>
-        </ion-item>
-      </ion-list>
-    </ion-col>
-  </ion-row>
-  <div *ngFor="let item of transaction_data" class="ion-padding-start">
-    <ion-row>
-      <ion-col size="12">
-        <ion-list class="ion-no-margin ion-no-padding">
-          <ion-item class="ion-no-padding transaction-card">
-            <ion-icon name="cash" class="ion-padding-end"></ion-icon>
-            <ion-label class="ion-no-padding">
-              <h3>{{ item.description }}</h3>
-              <p>{{ item.date }}</p>
-            </ion-label>
-            <ion-text [color]="item.type === 'credit' ? 'success' : 'danger'" class="ion-padding-end">
-              {{ item.type === 'credit' ? '+' : '-' }} ₹ {{ item.amount.toFixed(2) }}
-            </ion-text>
-            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.78132 4.99999L0.481323 1.69999L1.42399 0.757324L5.66666 4.99999L1.42399 9.24266L0.481323 8.29999L3.78132 4.99999Z"
-                fill="#535D66" />
-            </svg>
+      <ion-card-content>
+        <ion-list>
+          <ion-item lines="none ion-no-padding">
+            <ion-input [(ngModel)]="amountToAdd" type="number" inputmode="numeric" class="input-box ion-no-padding"
+              placeholder="Enter amount" pattern="[0-9]*" required>
+              <img src="../../../assets/images/svgs/rupiya.svg" alt="" slot="start">
+            </ion-input>
           </ion-item>
         </ion-list>
-      </ion-col>
-    </ion-row>
-  </div> -->
+
+        <ion-button expand="block" color="primary" class="ion-margin-top next-btn"
+          (click)="operation === 'topUpClicked' ? addMoney() : withdrawMoney()">
+          {{ operation === 'topUpClicked' ? 'Proceed to Add Money' : 'Proceed to Withdraw Money' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

@@ -19,7 +19,6 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class MyUpdatePage implements OnInit {
 
 
-
   journeyDuration: string | null = null;
   currentUserData: any;
   currentUser: any;
@@ -72,8 +71,6 @@ export class MyUpdatePage implements OnInit {
       });
     }
   }
-
-
 
 
   // calculateJourneyDuration(index: number) {

@@ -24,15 +24,20 @@ export class TopWithdrawPage implements OnInit {
   users: any[] = [];
   userdata: any;
   transaction_data: any = [];
-  amountToAdd: number = 0;
+  amountToAdd: any;
   userBalance: any;
+  operation: any;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log();
-
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.operation = navigation.extras.state['operation'];
+      console.log('Operation:', this.operation);
+    }
   }
+
   ionViewWillEnter() {
     const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
     console.log("currentUserDocId === ", currentUserDocId);
@@ -55,9 +60,6 @@ export class TopWithdrawPage implements OnInit {
   }
   @Output() updatedBalance = new EventEmitter<string>();
   addMoney() {
-
-
-
     if (this.amountToAdd > 0) {
       const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
       this.userBalance += this.amountToAdd;
@@ -77,23 +79,51 @@ export class TopWithdrawPage implements OnInit {
 
       this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.userdata.wallet)
 
-      this.amountToAdd = 0;
+      this.amountToAdd = null;
 
 
     } else {
       console.error("Invalid Amount Entered");
     }
 
+  }
+  withdrawMoney() {
+    if (this.amountToAdd > 0) {
+      const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+      this.userBalance -= this.amountToAdd;
+      this.userdata.wallet.balance = this.userBalance;
+      this.userdata.wallet.transactions.id = Math.random().toString();
+      this.userdata.wallet.transactions.paidTo = this.userdata.userName
+      this.userdata.wallet.transactions.amount = this.amountToAdd
+      // this.userdata.wallet.transactions.date = (new Date()).toISOString().slice(0, 10)
+      this.userdata.wallet.transactions.date = (new Date()).toISOString()
+      this.userdata.wallet.transactions.status = 'paid'
+      this.userdata.wallet.transactions.type = 'debit'
+
+      const immutableTransaction = Object.freeze({ ...this.userdata.wallet.transactions });
+
+
+      this.userdata.wallet.transactionsList.unshift(immutableTransaction);
+
+      this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.userdata.wallet)
+
+      this.amountToAdd = null;
+
+
+    } else {
+      console.error("Invalid Amount Entered");
+    }
 
   }
 
   goToWalletHistory() {
     this.router.navigate(['/wallet-history'])
   }
+
+
   // close() {
   //   this.modalCtrl.dismiss()
   // }
-
 
 }
 

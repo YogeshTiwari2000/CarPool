@@ -28,6 +28,9 @@ export class MyWalletPage implements OnInit {
   numberOfTransactions: any = 5;
   latestTransaction: any;
   selectedTransactions: any;
+  operation: any;
+  topUpClicked: any = 'topUpClicked';
+  withdrawClicked: any = 'withdrawClicked';
 
 
   wallet: any = {
@@ -115,13 +118,18 @@ export class MyWalletPage implements OnInit {
   goToWalletHistory() {
     this.router.navigate(['/wallet-history'])
   }
-
   topUp() {
-    this.router.navigate(['/top-withdraw'],
-    )
-
+    this.router.navigate(['/top-withdraw'], { state: { operation: this.topUpClicked } });
   }
 
+  withdraw() {
+    this.router.navigate(['/top-withdraw'], { state: { operation: this.withdrawClicked } });
+  }
+
+  // withdraw() {
+  //   this.router.navigate(['/top-withdraw'])
+  //   this.operation = this.withdrawClicked;
+  // }
 
 }
 
