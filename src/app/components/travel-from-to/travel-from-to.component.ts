@@ -22,8 +22,8 @@ export class TravelFromToComponent implements OnInit {
   toId: any = 'fromlocation' + Math.random()
 
 
-  // @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
-  @Output() locationsChanged = new EventEmitter<{ from: string, to: string, distance?: string, duration?: string }>();
+  @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
+  // @Output() locationsChanged = new EventEmitter<{ from: string, to: string, distance?: string, duration?: string }>();
 
   constructor() {
     this.fromLocation()
@@ -56,7 +56,6 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.from = place.formatted_address;
         this.emitLocations();
-        // this.calculateDistance();
       });
     }
   }
@@ -71,39 +70,12 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.to = place.formatted_address;
         this.emitLocations();
-        // this.calculateDistance();
       });
     }
   }
 
   emitLocations() {
     this.locationsChanged.emit({ from: this.from, to: this.to });
-  }
-
-
-
-  calculateDistance() {
-    if (this.from && this.to) {
-      const service = new google.maps.DistanceMatrixService();
-      service.getDistanceMatrix({
-        origins: [this.from],
-        destinations: [this.to],
-        travelMode: google.maps.TravelMode.DRIVING,
-        unitSystem: google.maps.UnitSystem.METRIC,
-      }, (response: any, status: any) => {
-        if (status === google.maps.DistanceMatrixStatus.OK) {
-          const element = response.rows[0].elements[0];
-          const distance = element.distance.text;
-          const duration = element.duration.text;
-          console.log(`Distance from ${this.from} to ${this.to} is ${distance} and will take approximately ${duration}.`);
-
-          // Emit the locations along with distance and duration
-          this.locationsChanged.emit({ from: this.from, to: this.to, distance: distance, duration: duration });
-        } else {
-          console.error('Error fetching distance matrix:', status);
-        }
-      });
-    }
   }
 
 

@@ -1,3 +1,4 @@
+declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,13 +7,14 @@ import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
-
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 @Component({
   selector: 'app-create-ride',
   templateUrl: './create-ride.page.html',
   styleUrls: ['./create-ride.page.scss'],
   standalone: true,
-  imports: [IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,]
+  imports: [IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,],
+  providers: [GooglePlaceModule]
 })
 export class CreateRidePage implements OnInit {
 
@@ -35,8 +37,8 @@ export class CreateRidePage implements OnInit {
   companionNames: any = ''
 
 
-  distance: string = '';
-  duration: string = '';
+  rideDistance: string = '';
+  rideDuration: string = '';
 
   createRideForm: FormGroup;
   minDate: string = '';
@@ -55,6 +57,8 @@ export class CreateRidePage implements OnInit {
       seatAvl: '',
       price: '',
       companionNames: '',
+      duration: '',
+      distance: '',
     },
     rideList: [],
   }
@@ -121,30 +125,16 @@ export class CreateRidePage implements OnInit {
 
   }
 
-  // onLocationsChanged(event: { from: string, to: string }) {
-  //   this.from = event.from;
-  //   this.to = event.to;
-  //   this.createRideForm.patchValue({
-  //     from: this.from,
-  //     to: this.to
-  //   });
-  //   console.log('Locations changed:', this.from, this.to);
-  // }
-
-  onLocationsChanged(event: { from: string, to: string, distance?: string, duration?: string }) {
+  onLocationsChanged(event: { from: string, to: string }) {
     this.from = event.from;
     this.to = event.to;
-    this.distance = event.distance || '';
-    this.duration = event.duration || '';
-
     this.createRideForm.patchValue({
       from: this.from,
       to: this.to
     });
     console.log('Locations changed:', this.from, this.to);
-    console.log('Distance:', this.distance);
-    console.log('Duration:', this.duration);
   }
+
 
 
   setMinDate() {
@@ -184,13 +174,37 @@ export class CreateRidePage implements OnInit {
   }
 
 
+  async calculateDistance() {
+    if (this.from && this.to) {
+      const service = new google.maps.DistanceMatrixService();
+      await service.getDistanceMatrix({
+        origins: [this.from],
+        destinations: [this.to],
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.METRIC,
+      }, (response: any, status: any) => {
+        if (status === google.maps.DistanceMatrixStatus.OK) {
+          console.log("response === ", response);
+          const element = response.rows[0].elements[0];
+          console.log("element === ", element);
+          this.rideDistance = element.distance.text;
+          this.rideDuration = element.duration.text;
+          console.log('ye distance wala mera h current');
+
+          console.log(`Distance from ${this.from} to ${this.to} is ${this.rideDistance} and will take approximately ${this.rideDuration}.`);
+
+        } else {
+          console.error('Error fetching distance matrix:', status);
+        }
+      });
+    }
+  }
 
 
-
-  onCreateRide() {
+  async onCreateRide() {
     if (this.currentUser) {
-
-
+      await this.calculateDistance()
+      console.log("after calculateDistance === ", this.rideDistance);
       this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
@@ -202,6 +216,8 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.seatAvl = this.seatAvl.toString()
       this.currentUser.ride.lastride.price = this.price.toString()
       this.currentUser.ride.lastride.companionNames = this.companionNames
+      this.currentUser.ride.lastride.duration = this.rideDistance.toString()
+      this.currentUser.ride.lastride.distance = this.rideDuration.toString()
 
       if (this.rideCreatedBy === 'driver') {
 
