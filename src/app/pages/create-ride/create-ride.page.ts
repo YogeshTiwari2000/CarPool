@@ -35,6 +35,9 @@ export class CreateRidePage implements OnInit {
   companionNames: any = ''
 
 
+  distance: string = '';
+  duration: string = '';
+
   createRideForm: FormGroup;
   minDate: string = '';
 
@@ -118,14 +121,29 @@ export class CreateRidePage implements OnInit {
 
   }
 
-  onLocationsChanged(event: { from: string, to: string }) {
+  // onLocationsChanged(event: { from: string, to: string }) {
+  //   this.from = event.from;
+  //   this.to = event.to;
+  //   this.createRideForm.patchValue({
+  //     from: this.from,
+  //     to: this.to
+  //   });
+  //   console.log('Locations changed:', this.from, this.to);
+  // }
+
+  onLocationsChanged(event: { from: string, to: string, distance?: string, duration?: string }) {
     this.from = event.from;
     this.to = event.to;
+    this.distance = event.distance || '';
+    this.duration = event.duration || '';
+
     this.createRideForm.patchValue({
       from: this.from,
       to: this.to
     });
     console.log('Locations changed:', this.from, this.to);
+    console.log('Distance:', this.distance);
+    console.log('Duration:', this.duration);
   }
 
 

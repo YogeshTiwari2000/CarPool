@@ -22,7 +22,8 @@ export class TravelFromToComponent implements OnInit {
   toId: any = 'fromlocation' + Math.random()
 
 
-  @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
+  // @Output() locationsChanged = new EventEmitter<{ from: string, to: string }>();
+  @Output() locationsChanged = new EventEmitter<{ from: string, to: string, distance?: string, duration?: string }>();
 
   constructor() {
     this.fromLocation()
@@ -55,7 +56,7 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.from = place.formatted_address;
         this.emitLocations();
-        this.calculateDistance();
+        // this.calculateDistance();
       });
     }
   }
@@ -70,7 +71,7 @@ export class TravelFromToComponent implements OnInit {
         console.log("google place called", place);
         this.to = place.formatted_address;
         this.emitLocations();
-        this.calculateDistance();
+        // this.calculateDistance();
       });
     }
   }
@@ -78,6 +79,7 @@ export class TravelFromToComponent implements OnInit {
   emitLocations() {
     this.locationsChanged.emit({ from: this.from, to: this.to });
   }
+
 
 
   calculateDistance() {
@@ -90,12 +92,13 @@ export class TravelFromToComponent implements OnInit {
         unitSystem: google.maps.UnitSystem.METRIC,
       }, (response: any, status: any) => {
         if (status === google.maps.DistanceMatrixStatus.OK) {
-          const origin = response.originAddresses[0];
-          const destination = response.destinationAddresses[0];
           const element = response.rows[0].elements[0];
           const distance = element.distance.text;
           const duration = element.duration.text;
-          console.log(`Distance from ${origin} to ${destination} is ${distance} and will take approximately ${duration}.`);
+          console.log(`Distance from ${this.from} to ${this.to} is ${distance} and will take approximately ${duration}.`);
+
+          // Emit the locations along with distance and duration
+          this.locationsChanged.emit({ from: this.from, to: this.to, distance: distance, duration: duration });
         } else {
           console.error('Error fetching distance matrix:', status);
         }
