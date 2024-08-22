@@ -12,24 +12,42 @@
           <div class="travelDetails">
             <!-- <p>Source</p> -->
             <div class="location">
-              <div class="locationIcon">
+              <div class="locationIcon svg-container">
                 <img src="../../../assets/images/svgs/start.svg" alt="" class="pin-img">
+                <img src="../../../assets/images/svgs/route.svg" alt="">
+
               </div>
               <b>{{ ride.from }}</b>
             </div>
           </div>
         </ion-col>
 
-        <ion-col size="12" class="">
+        <ion-col size="12" class="dest-container">
           <div class="travelDetails">
             <!-- <p>Destination</p> -->
             <!--  -->
             <div class="location end">
-              <div class="locationIcon">
+              <div class="locationIcon round">
                 <img src="../../../assets/images/svgs/round.svg" alt="" class="pin-img red-filter ">
               </div>
               <b>{{ ride.to }}</b>
             </div>
+          </div>
+        </ion-col>
+
+        <!--  -->
+        <ion-col size="12" class="ride-detail-container">
+          <div class="ride-detail">
+            <p>Duration</p>
+            <p>answer</p>
+          </div>
+          <div class="ride-detail">
+            <p>Distance</p>
+            <p>answer</p>
+          </div>
+          <div class="ride-detail">
+            <p>Ride Id</p>
+            <p>answer</p>
           </div>
         </ion-col>
       </ion-row>
