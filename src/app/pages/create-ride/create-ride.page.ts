@@ -216,8 +216,8 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.seatAvl = this.seatAvl.toString()
       this.currentUser.ride.lastride.price = this.price.toString()
       this.currentUser.ride.lastride.companionNames = this.companionNames
-      this.currentUser.ride.lastride.duration = this.rideDistance.toString()
-      this.currentUser.ride.lastride.distance = this.rideDuration.toString()
+      this.currentUser.ride.lastride.distance = this.rideDistance.toString()
+      this.currentUser.ride.lastride.duration = this.rideDuration.toString()
 
       if (this.rideCreatedBy === 'driver') {
 
