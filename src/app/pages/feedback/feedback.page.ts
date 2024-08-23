@@ -119,7 +119,7 @@ export class FeedbackPage implements OnInit {
   }
 
   onSkip() {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/welcome'])
   }
 
   // handleChange(event: any) {

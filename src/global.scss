@@ -109,3 +109,13 @@ ion-card {
         padding: 0.5rem;
     }
 }
+
+.warning {
+    --background: var(--warning);
+    --border-radius: 50px;
+    text-transform: capitalize;
+
+    span {
+        padding: 0.5rem;
+    }
+}
