@@ -90,9 +90,6 @@ export class MyWalletPage implements OnInit {
           let formattedBalance = parts.join('.');
           this.mybalance = formattedBalance
           console.log(' this.mybalance', this.mybalance);  // Output: "123,456,789.00"
-
-
-
         }
         else {
           console.log('you have to create it ');
