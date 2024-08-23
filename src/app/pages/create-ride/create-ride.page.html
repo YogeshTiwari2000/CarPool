@@ -30,10 +30,7 @@
           <input type="time" [(ngModel)]="time" class="time formInput" formControlName="time" />
         </div>
       </ion-col>
-      <ion-col size="12" class="distance">
-        <p *ngIf="rideDistance">Distance: {{ rideDistance }}</p>
-        <p *ngIf="rideDuration">Duration: {{ rideDuration }}</p>
-      </ion-col>
+
       <ion-col size="12" class="seatAvl formInput">
         <p *ngIf="rideCreatedBy === 'driver'; else companionText">
           Seat Available
