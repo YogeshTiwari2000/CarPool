@@ -31,7 +31,7 @@ export class MyWalletPage implements OnInit {
   operation: any;
   topUpClicked: any = 'topUpClicked';
   withdrawClicked: any = 'withdrawClicked';
-
+  mybalance: any;
 
   wallet: any = {
     balance: 0,
@@ -79,6 +79,20 @@ export class MyWalletPage implements OnInit {
           this.wallet = {
             balance: this.currentUser.wallet.balance,
           }
+          this.mybalance = this.wallet.balance.toFixed(2).toString();
+          console.log(" this.mybalance === ", this.mybalance);
+          let parts = this.mybalance.split('.');
+          console.log("parts === ", parts);
+          // Add commas to the integer part
+          parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+          // Recombine the integer and decimal parts
+          let formattedBalance = parts.join('.');
+          this.mybalance = formattedBalance
+          console.log(' this.mybalance', this.mybalance);  // Output: "123,456,789.00"
+
+
+
         }
         else {
           console.log('you have to create it ');
