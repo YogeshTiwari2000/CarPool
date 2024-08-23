@@ -49,6 +49,7 @@ export class CreateRidePage implements OnInit {
       id: '',
       ridername: '',
       riderpicture: '',
+      riderEmail: '',
       time: '',
       type: '',
       from: '',
@@ -208,6 +209,7 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
+      this.currentUser.ride.lastride.riderEmail = this.currentUser.userEmail
       this.currentUser.ride.lastride.type = this.rideCreatedBy
       this.currentUser.ride.lastride.time = this.time
       this.currentUser.ride.lastride.from = this.from ?? ''

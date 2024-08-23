@@ -1,9 +1,12 @@
-<ion-content [fullscreen]="true">
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>My Update</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Update</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
 
   <ion-card *ngFor="let ride of rideList;let i = index " (click)="rideDetailView(i)">
     <ion-header>

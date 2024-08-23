@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonRow, IonCol, IonCardContent, IonAvatar, IonItem, IonBadge, IonLabel, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonRow, IonCol, IonCardContent, IonAvatar, IonItem, IonBadge, IonLabel, ModalController, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
 import { NavigationExtras, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
@@ -12,7 +12,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   templateUrl: './my-update.page.html',
   styleUrls: ['./my-update.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonBadge, IonItem, IonAvatar, IonCardContent, IonCol, IonRow, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonButtons, IonLabel, IonBadge, IonMenuButton, IonItem, IonAvatar, IonCardContent, IonCol, IonRow, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 
 
