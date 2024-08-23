@@ -65,8 +65,8 @@
 
     </div>
 
-    <div *ngFor="let transaction of selectedTransactions;let i = index ">
-      <ion-row (click)="recipt()">
+    <div *ngFor="let transaction of selectedTransactions; let i = index" (click)="recipt(i)">
+      <ion-row>
         <ion-col size="12">
           <ion-list class="ion-no-margin ion-no-padding">
             <ion-item class="ion-no-padding transaction-card">

@@ -118,10 +118,12 @@ export class MyWalletPage implements OnInit {
     this.router.navigate(['/top-withdraw'], { state: { operation: this.withdrawClicked } });
   }
 
-  async recipt() {
+  async recipt(index: any) {
+    const selectedPayment = this.selectedTransactions[index];
     const modal = await this.modalCtrl.create({
       component: ReciptComponent,
       cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
+      componentProps: { userpaymentDetails: selectedPayment },
       showBackdrop: true,
     });
     modal.present();
