@@ -47,9 +47,7 @@ export class MyWalletPage implements OnInit {
   }
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
-    public localStr: LocalStorageService, private handleData: HandleDataService) {
-
-  }
+    public localStr: LocalStorageService, private handleData: HandleDataService) { }
 
   currentUser: any = '';
   ngOnInit() {
@@ -60,46 +58,31 @@ export class MyWalletPage implements OnInit {
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
-
-
     // Retrieve data from Firebase and store it in local storage
     this.handleData.userExists(currentUserEmail).then((res) => {
       console.log("res.data === ", res.data);
       this.currentUserData = res.data;
       // console.log(this.currentUserData);
       console.log("current user data", this.currentUserData);
-
       this.currentUser = res.data
-
       if (this.currentUser) {
         this.userData = this.currentUser;
-
         const length = Object.keys(this.currentUser).length;
         console.log('currentUser length: ', length);
-
         this.userDataLength = length
-
         console.log('currentUser: ', this.currentUser);
-
         const currentUserDocId = this.localStr.getItem("currentUserDocId");
         console.log("this.currentUser.wallet.balance === ", this.currentUser.wallet.balance);
-
         if (this.currentUser.wallet.balance != undefined) {
           console.log('yes it has balance ');
           this.wallet.balance = this.currentUser.wallet.balance
-
           this.wallet = {
             balance: this.currentUser.wallet.balance,
           }
-
         }
         else {
-
           console.log('you have to create it ');
-
           this.handleData.updateDocumentField(currentUserDocId, 'wallet', this.wallet)
-
-
         }
 
       } else {
@@ -109,8 +92,6 @@ export class MyWalletPage implements OnInit {
       this.transactionList = this.currentUserData.wallet.transactionsList
       console.log("transition list", this.transactionList);
       this.selectedTransactions = this.transactionList.slice(0, this.numberOfTransactions);
-
-
     }).catch((error) => {
       console.error("Error: ", error);
     });
@@ -121,15 +102,8 @@ export class MyWalletPage implements OnInit {
   topUp() {
     this.router.navigate(['/top-withdraw'], { state: { operation: this.topUpClicked } });
   }
-
   withdraw() {
     this.router.navigate(['/top-withdraw'], { state: { operation: this.withdrawClicked } });
   }
-
-  // withdraw() {
-  //   this.router.navigate(['/top-withdraw'])
-  //   this.operation = this.withdrawClicked;
-  // }
-
 }
 

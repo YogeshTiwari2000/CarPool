@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonIcon, ModalController, IonBackButton, IonAvatar, IonGrid, IonRow, IonCol, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCardContent, IonItem, IonInput, IonToggle, IonNote, IonList, IonListHeader, IonText } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonIcon, ModalController, IonBackButton, IonAvatar, IonGrid, IonRow, IonCol, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCardContent, IonItem, IonInput, IonToggle, IonNote, IonList, IonListHeader, IonText, AlertController } from '@ionic/angular/standalone';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
@@ -28,7 +28,7 @@ export class TopWithdrawPage implements OnInit {
   userBalance: any;
   operation: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
@@ -83,12 +83,12 @@ export class TopWithdrawPage implements OnInit {
 
 
     } else {
-      console.error("Invalid Amount Entered");
+      this.presentInvalidAmountAlert();
     }
 
   }
   withdrawMoney() {
-    if (this.amountToAdd > 0) {
+    if (this.amountToAdd > 0 && this.amountToAdd <= this.userBalance && this.amountToAdd < 20000) {
       const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
       this.userBalance -= this.amountToAdd;
       this.userdata.wallet.balance = this.userBalance;
@@ -111,10 +111,22 @@ export class TopWithdrawPage implements OnInit {
 
 
     } else {
-      console.error("Invalid Amount Entered");
+      this.presentInvalidAmountAlert();
     }
 
   }
+
+
+  async presentInvalidAmountAlert() {
+    const alert = await this.alertController.create({
+      header: 'Invalid Amount',
+      message: 'Please enter a valid amount.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
 
   goToWalletHistory() {
     this.router.navigate(['/wallet-history'])
