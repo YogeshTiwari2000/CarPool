@@ -8,6 +8,7 @@ import { TopWithdrawPage } from '../top-withdraw/top-withdraw.page';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { ReciptComponent } from 'src/app/modals/recipt/recipt.component';
 
 @Component({
   selector: 'app-my-wallet',
@@ -115,6 +116,15 @@ export class MyWalletPage implements OnInit {
   }
   withdraw() {
     this.router.navigate(['/top-withdraw'], { state: { operation: this.withdrawClicked } });
+  }
+
+  async recipt() {
+    const modal = await this.modalCtrl.create({
+      component: ReciptComponent,
+      cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
+      showBackdrop: true,
+    });
+    modal.present();
   }
 }
 
