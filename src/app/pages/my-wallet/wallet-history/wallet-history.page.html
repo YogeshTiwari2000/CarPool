@@ -92,7 +92,7 @@
       <h4>All Transactions</h4>
     </div>
 
-    <div *ngFor="let transaction of filteredData">
+    <div *ngFor="let transaction of filteredData ; let i = index" (click)="walletHistoryToRecipt(i)">
       <ion-row>
         <ion-col size="12" class="">
           <ion-list class="ion-no-margin ion-no-padding">
