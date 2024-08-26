@@ -94,7 +94,39 @@ ion-row.ion-padding-horizontal.md {
     overflow: hidden;
 }
 
+.requestedCss,
+.pendingCss,
+.acceptedCss,
+.ongoingCss,
+.completedCss,
+.canceledCss {
+    color: white;
+    background-color: blue;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 0.2rem 0.6rem;
+    font-weight: bold;
+}
 
+.pendingCss {}
+
+.acceptedCss {}
+
+.ongoingCss {}
+
+.completedCss {}
+
+.canceledCss {}
+
+.cancelBtn {
+    width: 100%;
+}
+
+.rideActivity {
+    ion-buttons {
+        margin: 1rem;
+    }
+}
 
 .ride-detail-container {
     padding-top: 1rem;

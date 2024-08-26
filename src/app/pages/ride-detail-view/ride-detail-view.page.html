@@ -61,6 +61,52 @@
           <b>Companions Name</b>
           <p>{{ ride.companionNames }}</p>
         </div>
+
+        <div class="ride-detail">
+          <b>Ride status</b>
+          <p [ngClass]="{
+            'requestedCss': status === 'requested',
+            'pendingCss': status === 'pending', 
+            'acceptedCss': status === 'accepted',
+            'ongoingCss': status === 'ongoing',
+            'completedCss': status === 'completed',
+            'canceledCss': status === 'canceled'
+          }">
+            <ng-container [ngSwitch]="status" class="statusArea">
+              <ion-label *ngSwitchCase="'requested'">Requested </ion-label>
+              <ion-label *ngSwitchCase="'pending'">Pending Confirmation</ion-label>
+              <ion-label *ngSwitchCase="'accepted'">Accepted</ion-label>
+              <ion-label *ngSwitchCase="'ongoing'">Ongoing</ion-label>
+              <ion-label *ngSwitchCase="'completed'">Completed</ion-label>
+              <ion-label *ngSwitchCase="'canceled'">Canceled</ion-label>
+            </ng-container>
+            <!-- {{ ride.companionNames }} -->
+          </p>
+        </div>
+        <div class="ride-detail">
+          <b>Transaction Status</b>
+          <p>Paid</p>
+        </div>
+        <div class="ride-detail">
+          <b>Total distance traveled</b>
+          <p>custom 25km</p>
+        </div>
+        <div class="ride-detail">
+          <b>Total traveled duration</b>
+          <p>custom 2 hr</p>
+        </div>
+        <div class="ride-detail">
+          <b>Resolution Status</b>
+          <p>Flag raised pending / solved / resolved by admin</p>
+        </div>
+        <div size="12" class=" ">
+          <ion-buttons slot="primary">
+            <ion-button fill="outline">
+              Edit
+              <ion-icon name="create"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -108,5 +154,49 @@
       </ion-col>
     </ion-row>
   </ion-card>
+  <ion-card class="rideActivity">
+    <ion-row class=" ion-padding">
+      <ion-col class="route" size="12">
+        <p>Ride Activity</p>
+      </ion-col>
+      <ion-col class=" " size="12">
+        <div>
+          <ion-buttons slot="primary">
+            <ion-button fill="outline">
+              Start Ride
+              <!-- <ion-icon name="create"></ion-icon> -->
+            </ion-button>
+          </ion-buttons>
+        </div>
+        <div>
+          <ion-buttons slot="primary">
+            <ion-button fill="outline">
+              Stop Ride
+              <!-- <ion-icon name="create"></ion-icon> -->
+            </ion-button>
+          </ion-buttons>
+        </div>
+        <div>
+          <ion-buttons slot="primary">
+            <ion-button fill="outline">
+              Discrepancy Flag
+              <!-- <ion-icon name="create"></ion-icon> -->
+            </ion-button>
+          </ion-buttons>
+        </div>
 
+        <div>
+          <ion-buttons slot="primary">
+            <ion-button fill="outline">
+              Pilot Agreement Companion Agreement
+              <!-- <ion-icon name="create"></ion-icon> -->
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
+    <ion-button expand="block" class="danger"><span>Cancel Ride</span></ion-button>
+  </div>
 </ion-content>
