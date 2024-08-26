@@ -65,7 +65,9 @@ export class RideDetailViewPage implements OnInit {
 
   // }
 
+  editRide() {
 
+  }
 
 
 }
