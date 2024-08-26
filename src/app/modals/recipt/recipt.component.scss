@@ -16,7 +16,7 @@ ion-header {
 
 
 ion-card.transaction-card {
-    margin-top: 2rem;
+    margin: 2rem;
 }
 
 .amount {
@@ -59,4 +59,14 @@ ion-label.photo-container.sc-ion-label-md-h.sc-ion-label-md-s.md {
 
 .success {
     max-width: 3rem;
+}
+
+.dot {
+    font-size: 2rem;
+    margin-top: -0.57rem;
+}
+
+.date {
+    display: flex;
+    gap: 0.5rem;
 }

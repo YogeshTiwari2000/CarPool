@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Transaction Details</ion-title>
+    <ion-title>Transaction </ion-title>
     <ion-button slot="end" color="none" class="shadow-none" (click)="close()">
       <ion-icon name="close" color="dark"></ion-icon>
     </ion-button>
@@ -8,14 +8,22 @@
 </ion-header>
 
 <ion-content class=" ">
+  <p style="text-align: center; font-size: 24px;">Transaction Details</p>
   <ion-card class="transaction-card">
     <ion-card-header>
       <ion-item lines="none">
         <ion-label class="header-sec">
           <p class="success"><img src="../../../assets/images/svgs/success.svg" alt=""></p>
           <h2 class="amount">Rs {{userpaymentDetails.amount}}</h2>
-          <p>You have successfully sent money</p>
-          <p>22 Jun 2023 - 16:08</p>
+          <p>
+            {{ userpaymentDetails.type === "credit" ? 'You have successfully added money' : 'You have successfully
+            withdrawn money' }}
+          </p>
+          <div class="date">
+            <p>{{ userpaymentDetails.date | date:'dd MMM yyyy' }}</p>
+            <p class="dot">.</p>
+            <p>{{ userpaymentDetails.date | date:' HH:mm' }}</p>
+          </div>
         </ion-label>
       </ion-item>
     </ion-card-header>
@@ -24,7 +32,12 @@
       <ion-item lines="none" class="dashed">
         <ion-label class="photo-container " lines="none">
           <p class="ion-no-margin photo"> <img src="../../../../assets/images/svgs/person.svg" alt="User Photo" /></p>
-          <h3>Send Money Rs 1.000.00 to RANGGA MANULLANG - 08385554981</h3>
+
+          <h3>
+            {{userpaymentDetails.type==='credit' ? 'Added Money Rs. ' + userpaymentDetails.amount + ' To ' +
+            userpaymentDetails.paidTo : 'Withdraw Money Rs. ' + userpaymentDetails.amount + ' To ' +
+            userpaymentDetails.paidTo}}
+          </h3>
         </ion-label>
       </ion-item>
 
@@ -37,12 +50,12 @@
       <ion-item lines="none">
         <ion-label>
           <h3>Name</h3>
-          <p>RANGGA MANULLANG</p>
+          <p>{{userpaymentDetails.paidTo}}</p>
         </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          <h3>DANA Account</h3>
+          <h3> Account Number</h3>
           <p>08385554981</p>
         </ion-label>
       </ion-item>
@@ -62,7 +75,7 @@
       <ion-item lines="none">
         <ion-label>
           <h3>Transaction ID</h3>
-          <p>20230618223123234323423432</p>
+          <p>{{formatID(userpaymentDetails.id)}}</p>
         </ion-label>
       </ion-item>
 
