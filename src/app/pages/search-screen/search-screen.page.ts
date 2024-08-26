@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { OverlayEventDetail } from '@ionic/core/components';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg, IonBackButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonInput, IonButton, IonItem, IonLabel, IonModal, IonDatetime, IonDatetimeButton, IonIcon, IonButtons, IonMenuButton, IonImg, IonBackButton, ModalController } from '@ionic/angular/standalone';
 
 import { Router } from '@angular/router';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonService } from 'src/app/shared/common.service';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
 @Component({
   selector: 'app-search-screen',
@@ -24,7 +27,15 @@ export class SearchScreenPage implements OnInit {
 
   @ViewChild(IonModal)
   modal!: IonModal;
-  constructor() { }
+  currentUserData: any;
+  allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
+  constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
+    public localStr: LocalStorageService, private handleData: HandleDataService) {
+
+    this.allUserData = this.handleData.getData();
+    console.log(" this.allUserData === ", this.allUserData);
+
+  }
   time: string = '12:00';
   date: any = ''
   // time:any = ''
@@ -32,14 +43,11 @@ export class SearchScreenPage implements OnInit {
 
   ngOnInit() {
     console.log("search page");
+
+    const currentUserEmail = this.commonService.currentUserEmail;
   }
 
-
-
   isInputRequired: boolean = true;
-
-
-
 
   search() {
     const searchData = {
@@ -120,4 +128,5 @@ export class SearchScreenPage implements OnInit {
       }
     }
   }
+
 }

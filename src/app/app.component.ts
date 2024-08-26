@@ -47,8 +47,6 @@ export class AppComponent {
 
     this.datalist = this.handleData.getData()
 
-
-
   }
 
   logOut() {

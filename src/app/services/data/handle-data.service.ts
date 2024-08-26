@@ -38,6 +38,8 @@ export class HandleDataService {
 
   public uploadedFileUrl: any;
 
+  public userCollection: any;
+
   private firebaseNodes: any = {
     usersNode: "users",
   };
@@ -78,9 +80,65 @@ export class HandleDataService {
         },
       };
     });
-    console.log(data);
+    this.userCollection = data
+    console.log("this.userCollection === ", this.userCollection);
+
+
+    //  ---------------------------------
+
+    // Assuming this.userCollection contains your data
+
+    // // Initialize an empty array to hold all ride lists
+    // const allRideLists: any[] = [];
+
+    // // Iterate over each user in the collection
+    // this.userCollection.forEach((user: { ride: { rideList: any; }; }) => {
+    //   console.log("user ===", user);
+    //   console.log("user.ride.rideList === ", user.ride.rideList);
+    //   // Check if the user object contains rideList
+    //   if (user.ride && user.ride.rideList) {
+    //     console.log("user.ride.rideList === ", user.ride.rideList);
+    //     // Add each ride list item to the allRideLists array
+    //     allRideLists.push(...user.ride.rideList);
+    //   }
+    // });
+
+    // // Log the aggregated ride lists
+    // console.log("All Ride Lists: ", allRideLists);
+
+    // Initialize an empty array to hold all ride lists
+    const allRideLists: any[] = [];
+
+    // Iterate over each user in the collection
+    this.userCollection.forEach((user: any) => {
+      // Log the entire user object to check its structure
+      // console.log("user ===", user);
+      const firstKey = Object.keys(user)[0];
+      const firstValue = user[firstKey];
+      // console.log("firstValue ===", firstValue);
+
+      const firstValueridelist = firstValue?.ride?.rideList
+      console.log("firstValueridelist === ", firstValueridelist);
+
+      if (firstValueridelist != undefined)
+
+        allRideLists.push(...firstValueridelist);
+
+      console.log("All Ride Lists: ", allRideLists);
+    });
+
+    // Log the aggregated ride lists
+
+
+
+
+    //  ---------------------------------
+
     return data;
   }
+
+
+
   //userExists
   async userExists(userEmail: any): Promise<any> {
     if (userEmail) {
@@ -198,4 +256,6 @@ export class HandleDataService {
       return null;
     }
   }
+
+
 }

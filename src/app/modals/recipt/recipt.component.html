@@ -7,8 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class=" ">
-  <p style="text-align: center; font-size: 24px;">Transaction Details</p>
+<ion-content class="transaction-content">
+  <!-- <p style="text-align: center; font-size: 24px; margin: 1rem 0;">Transaction Details</p> -->
+  <div class="transaction-heading">
+    <h1>Transaction Details</h1>
+  </div>
   <ion-card class="transaction-card">
     <ion-card-header>
       <ion-item lines="none">
@@ -17,7 +20,7 @@
           <h2 class="amount">Rs {{userpaymentDetails.amount}}</h2>
           <p>
             {{ userpaymentDetails.type === "credit" ? 'You have successfully added money' : 'You have successfully
-            withdrawn money' }}
+            withdraw' }}
           </p>
           <div class="date">
             <p>{{ userpaymentDetails.date | date:'dd MMM yyyy' }}</p>
@@ -34,8 +37,8 @@
           <p class="ion-no-margin photo"> <img src="../../../../assets/images/svgs/person.svg" alt="User Photo" /></p>
 
           <h3>
-            {{userpaymentDetails.type==='credit' ? 'Added Money Rs. ' + userpaymentDetails.amount + ' To ' +
-            userpaymentDetails.paidTo : 'Withdraw Money Rs. ' + userpaymentDetails.amount + ' To ' +
+            {{userpaymentDetails.type==='credit' ? 'Added Rs. ' + userpaymentDetails.amount + ' To ' +
+            userpaymentDetails.paidTo : 'Withdraw Rs. ' + userpaymentDetails.amount + ' To ' +
             userpaymentDetails.paidTo}}
           </h3>
         </ion-label>
