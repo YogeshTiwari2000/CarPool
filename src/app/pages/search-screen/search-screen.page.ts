@@ -24,16 +24,21 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 export class SearchScreenPage implements OnInit {
 
   routes = inject(Router)
+  allRideLists: any[] = [];
 
   @ViewChild(IonModal)
   modal!: IonModal;
   currentUserData: any;
-  allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
+  // allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
+
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
     public localStr: LocalStorageService, private handleData: HandleDataService) {
 
-    this.allUserData = this.handleData.getData();
-    console.log(" this.allUserData === ", this.allUserData);
+
+
+    // this.allUserData = this.handleData.getData();
+    // console.log(" this.allUserData === ", this.allUserData);
+    console.log(this.allRideLists);
 
   }
   time: string = '12:00';
@@ -45,6 +50,18 @@ export class SearchScreenPage implements OnInit {
     console.log("search page");
 
     const currentUserEmail = this.commonService.currentUserEmail;
+
+    this.fetchAllRideLists()
+  }
+
+  async fetchAllRideLists() {
+    try {
+      const allRideLists = await this.handleData.getData();
+      this.allRideLists = allRideLists;
+      console.log('All Ride Lists:', this.allRideLists);
+    } catch (error) {
+      console.error('Error fetching ride lists:', error);
+    }
   }
 
   isInputRequired: boolean = true;
