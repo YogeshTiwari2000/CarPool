@@ -2,6 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime } from "@ionic/angular/standalone";
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
 @Component({
   selector: 'app-edit-ride',
@@ -13,7 +14,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class EditRideComponent implements OnInit {
 
   private handleData = inject(HandleDataService);
-  // localStorageService = inject(LocalStorageService);
+  localStorageService = inject(LocalStorageService);
   // commonService = inject(CommonService);
 
   @Input() currentRideData: any;
@@ -24,6 +25,7 @@ export class EditRideComponent implements OnInit {
   seatAvl: number | undefined;
   time: string | undefined;
   currentUser: any
+  currentUserDocId: any;
   constructor() { }
   ngOnInit() {
     console.log('currentRideData', this.currentRideData);
@@ -42,6 +44,7 @@ export class EditRideComponent implements OnInit {
         if (result.isExist) {
           this.handleData.user = result.data;
           console.log("this.handleData.user === ", this.handleData.user);
+          this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           this.currentUser = this.handleData.user
         } else {
           console.log("User not found");
@@ -50,21 +53,31 @@ export class EditRideComponent implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
-
-
   }
 
 
 
-  onSubmit(form: NgForm) {
+  updateRide(form: NgForm) {
     if (form.valid) {
+      //  console.log("currentUser === ", this.currentUser.ride.rideList);
+      const userRideList = this.currentUser.ride.rideList
+      const idToFind = this.currentRideData.id;
+      // console.log("idToFind === ", idToFind);
+      const matchedRide = userRideList.find((ride: { id: string; }) => ride.id === idToFind);
+      // console.log(matchedRide);
 
-      console.log("currentUser === ", this.currentUser.ride.rideList);
 
-      console.log("Form Submitted!");
-      console.log("Price: ", this.price);
-      console.log("Seat Availability: ", this.seatAvl);
-      console.log("Time: ", this.time);
+
+      if (matchedRide) {
+        matchedRide.price = this.price;
+        matchedRide.seatAvl = this.seatAvl;
+        matchedRide.time = this.time;
+        // console.log('Updated Element:', matchedRide);
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+        // console.log("this.currentUser.ride === ", this.currentUser.ride);
+      } else {
+        console.log('Element with id' + this.price + 'not found');
+      }
 
     }
 

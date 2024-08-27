@@ -1,5 +1,5 @@
 <ion-content>
-  <form (ngSubmit)="onSubmit(rideForm)" #rideForm="ngForm">
+  <form (ngSubmit)="updateRide(rideForm)" #rideForm="ngForm">
 
     <!-- Price Input -->
     <ion-item>
@@ -20,6 +20,6 @@
     </ion-item>
 
     <!-- Submit Button -->
-    <ion-button expand="full" type="submit" [disabled]="!rideForm.form.valid">Submit</ion-button>
+    <ion-button expand="full" type="submit" class="success" [disabled]="!rideForm.form.valid">Submit</ion-button>
   </form>
 </ion-content>
