@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton, ModalController } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
+import { EditRideComponent } from 'src/app/modals/edit-ride/edit-ride.component';
 
 @Component({
   selector: 'app-ride-detail-view',
@@ -20,6 +21,7 @@ export class RideDetailViewPage implements OnInit {
   private handleData = inject(HandleDataService);
   localStorageService = inject(LocalStorageService);
   commonService = inject(CommonService);
+  modalCtrl = inject(ModalController);
 
 
   ride: any;
@@ -65,8 +67,13 @@ export class RideDetailViewPage implements OnInit {
 
   // }
 
-  editRide() {
-
+  async editRide() {
+    const modal = await this.modalCtrl.create({
+      component: EditRideComponent,
+      cssClass: ["editRideModalCss", "ion-padding-horizontal"],
+      componentProps: { currentRideData: this.ride }
+    })
+    modal.present();
   }
 
 
