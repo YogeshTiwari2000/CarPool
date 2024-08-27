@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon } from '@ionic/angular/standalone';
 
 import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationExtras, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 
 @Component({
@@ -17,6 +17,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class HomePage implements OnInit {
 
   private handleData = inject(HandleDataService);
+  private router = inject(Router);
 
   isLogeedIn: boolean = false;
 
@@ -38,7 +39,7 @@ export class HomePage implements OnInit {
       destination: 'd4', price: '400', seatAvl: '4',
     },
   ];
-  rideLists: any;
+  rideList: any;
 
 
   constructor() { }
@@ -49,9 +50,17 @@ export class HomePage implements OnInit {
   }
   async loadAllRides() {
     await this.handleData.getData();
-    this.rideLists = this.handleData.getAllRideLists();
-    console.log("this.rideLists ", this.rideLists);
+    this.rideList = this.handleData.getAllRideLists();
+    console.log("this.rideLists ", this.rideList);
   }
 
-
+  rideDetailView(index: number) {
+    const selectedRide = this.rideList[index];
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        ride: JSON.stringify(selectedRide)
+      }
+    };
+    this.router.navigate(['/ride-detail-view'], navigationExtras);
+  }
 }

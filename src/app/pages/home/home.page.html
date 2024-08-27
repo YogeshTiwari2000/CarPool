@@ -35,7 +35,11 @@
     </ion-row>
   </ion-card>
 
-  @for (user of rideLists; track $index) {
-  <app-ride-card [userInfo]="user"></app-ride-card>
-  }
+  <!-- @for (user of rideLists; track $index) {
+  <app-ride-card [userInfo]="user" ></app-ride-card>
+  } -->
+
+  <app-ride-card [userInfo]="ride" *ngFor="let ride of rideList;let i = index "
+    (click)="rideDetailView(i)"></app-ride-card>
+
 </ion-content>

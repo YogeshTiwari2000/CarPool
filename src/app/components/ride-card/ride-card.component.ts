@@ -47,6 +47,11 @@ export class RideCardComponent implements OnInit {
 
     modal.present()
   }
+
+
+
+
+
   calculateEndTime(userInfo: any): string {
     const time = userInfo['time']; // e.g., "15:27"
     const duration = userInfo['duration']; // e.g., "1 day 5 hours"
