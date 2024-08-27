@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonLabel, IonItem, IonInput, IonButton } from "@ionic/angular/standalone";
+import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime } from "@ionic/angular/standalone";
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
   templateUrl: './edit-ride.component.html',
   styleUrls: ['./edit-ride.component.scss'],
   standalone: true,
-  imports: [IonButton, IonInput, IonItem, IonLabel, IonContent, FormsModule],
+  imports: [IonDatetime, IonButton, IonInput, IonItem, IonLabel, IonContent, FormsModule],
 })
 export class EditRideComponent implements OnInit {
 
@@ -23,7 +23,7 @@ export class EditRideComponent implements OnInit {
   price: number | undefined;
   seatAvl: number | undefined;
   time: string | undefined;
-
+  currentUser: any
   constructor() { }
   ngOnInit() {
     console.log('currentRideData', this.currentRideData);
@@ -42,6 +42,7 @@ export class EditRideComponent implements OnInit {
         if (result.isExist) {
           this.handleData.user = result.data;
           console.log("this.handleData.user === ", this.handleData.user);
+          this.currentUser = this.handleData.user
         } else {
           console.log("User not found");
         }
@@ -57,6 +58,8 @@ export class EditRideComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.valid) {
+
+      console.log("currentUser === ", this.currentUser.ride.rideList);
 
       console.log("Form Submitted!");
       console.log("Price: ", this.price);
