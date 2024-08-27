@@ -70,7 +70,7 @@ export class RideDetailViewPage implements OnInit {
   async editRide() {
     const modal = await this.modalCtrl.create({
       component: EditRideComponent,
-      cssClass: ["editRideModalCss", "ion-padding-horizontal"],
+      cssClass: ["editRideModalCss",],
       componentProps: { currentRideData: this.ride }
     })
     modal.present();

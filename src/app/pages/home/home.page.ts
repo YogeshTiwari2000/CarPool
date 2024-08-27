@@ -48,7 +48,6 @@ export class HomePage implements OnInit {
     this.loadAllRides();
   }
   async loadAllRides() {
-    console.log("loadAllRides === 11");
     await this.handleData.getData();
     this.rideLists = this.handleData.getAllRideLists();
     console.log("this.rideLists ", this.rideLists);
