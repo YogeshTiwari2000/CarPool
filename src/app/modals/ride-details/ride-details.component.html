@@ -23,8 +23,7 @@
               stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           <p class="startLocation ion-no-margin">
-            SPAZE ITECH PARK, Sector 49, Gurugram, HaryanaSPAZE ITECH PARK,
-            Sector 49, Gurugram, H 122018{{ userData.source }}
+            {{ userData.from }}
           </p>
         </div>
         <div class="ion-flex ion-no-margin ion-align-item-start">
@@ -36,19 +35,18 @@
               d="M9.875 8.375C9.875 9.00489 9.62478 9.60898 9.17938 10.0544C8.73398 10.4998 8.12989 10.75 7.5 10.75C6.87011 10.75 6.26602 10.4998 5.82062 10.0544C5.37522 9.60898 5.125 9.00489 5.125 8.375C5.125 7.74511 5.37522 7.14102 5.82062 6.69562C6.26602 6.25022 6.87011 6 7.5 6C8.12989 6 8.73398 6.25022 9.17938 6.69562C9.62478 7.14102 9.875 7.74511 9.875 8.375Z"
               stroke="#BAD4DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-          <span class="endLocation">SPAZE ITECH PARK, Sector 49, Gurugram, Haryana SPAZE ITECH PARK,
-            Sector 49, Gurugram, H 122018{{ userData.destination }}</span>
+          <span class="endLocation">{{ userData.to }}</span>
         </div>
 
         <div class="journey-time">
           <p>
-            <span class="startTime time">{{ userData.journeyStart }}</span>
+            <span class="startTime time">{{ userData.time }}</span>
           </p>
           <p>
             <ion-col class="ion-text-center timeSection">
               <div class="totalTimeTakloseenArea">
                 <div class="timeBox">
-                  {{ journeyDuration }}
+                  {{ userData.duration }}
                 </div>
 
                 <div class="arrowIcon">
@@ -61,7 +59,7 @@
             </ion-col>
           </p>
           <p>
-            <span class="endTime time">{{ userData.journeyEnd }}</span>
+            <span class="endTime time">{{calculateEndTime(userData) }}</span>
           </p>
         </div>
       </div>

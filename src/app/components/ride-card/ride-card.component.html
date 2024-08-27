@@ -19,7 +19,7 @@
               {{ userInfo["from"] }}
             </b>
           </div>
-          <p>{{ userInfo["journeyStart"] }}</p>
+          <p>{{ userInfo["time"] }}</p>
         </div>
       </ion-col>
       <ion-col class="ion-text-center timeSection">
@@ -45,7 +45,7 @@
               {{ userInfo["to"] }}
             </b>
           </p>
-          <p>{{ userInfo["journeyEnd"] }}</p>
+          <p>{{ calculateEndTime(userInfo)}}</p>
         </div>
       </ion-col>
     </ion-row>

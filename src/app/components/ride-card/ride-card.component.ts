@@ -29,8 +29,12 @@ export class RideCardComponent implements OnInit {
     console.log("it's user card ts working");
     // console.log(this.userInfo);
     this.dateInput = this.userInfo['date'];
-    this.calculateJourneyDuration();
-
+    const journeyStart = this.userInfo['journeyStart'];
+    console.log(this.userInfo['time'])
+    console.log(this.userInfo['duration'])
+    let journeyEnd = this.userInfo['time'] + this.userInfo['duration'];
+    console.log("journeyEnd", journeyEnd);
+    this.calculateEndTime(this.userInfo)
   }
 
 
@@ -38,42 +42,55 @@ export class RideCardComponent implements OnInit {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
       component: UserDetailsComponent,
-      componentProps: { userData: userInfo, journeyDuration: this.journeyDuration }
+      componentProps: { userData: userInfo, }
     })
 
     modal.present()
   }
+  calculateEndTime(userInfo: any): string {
+    const time = userInfo['time']; // e.g., "15:27"
+    const duration = userInfo['duration']; // e.g., "1 day 5 hours"
 
-  calculateJourneyDuration() {
-    const journeyStart = this.userInfo['journeyStart'];
-    const journeyEnd = this.userInfo['journeyEnd'];
-    const dateInData = this.userInfo['date'];
+    // Parse start time
+    const [startHours, startMinutes] = time.split(':').map(Number);
 
-    // Create a Date object from the dateInData
-    const dateParts = dateInData.split('/');
-    const date = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+    // Parse duration
+    const durationDaysMatch = duration.match(/(\d+)\s*day/);
+    const durationHoursMatch = duration.match(/(\d+)\s*hour/);
+    const durationMinsMatch = duration.match(/(\d+)\s*mins/);
 
-    // Set hours and minutes for journeyStart and journeyEnd
-    // const [startHours, startMinutes] = journeyStart.split(':').map(Number);
-    // const [endHours, endMinutes] = journeyEnd.split(':').map(Number);
+    const durationDays = durationDaysMatch ? parseInt(durationDaysMatch[1], 10) : 0;
+    const durationHours = durationHoursMatch ? parseInt(durationHoursMatch[1], 10) : 0;
+    const durationMinutes = durationMinsMatch ? parseInt(durationMinsMatch[1], 10) : 0;
 
-    // const start = new Date(date);
-    // start.setHours(startHours, startMinutes);
+    // Calculate end time
+    let endHours = startHours + durationHours;
+    let endMinutes = startMinutes + durationMinutes;
+    let endDays = durationDays;
 
-    // const end = new Date(date);
-    // end.setHours(endHours, endMinutes);
+    // Handle overflow of minutes
+    if (endMinutes >= 60) {
+      endMinutes -= 60;
+      endHours += 1;
+    }
 
-    // const diffMs = end.getTime() - start.getTime();
+    // Handle overflow of hours
+    if (endHours >= 24) {
+      endHours -= 24;
+      endDays += 1;
+    }
 
-    // const diffHrs = Math.floor(diffMs / 3600000); // 1 hour = 3600000 ms
-    // const diffMins = Math.round((diffMs % 3600000) / 60000); // 1 minute = 60000 ms
+    // Format the final time
+    const formattedEndHours = endHours.toString().padStart(2, '0');
+    const formattedEndMinutes = endMinutes.toString().padStart(2, '0');
 
-    // // Format the duration as HH:MM
-    // const formattedHours = diffHrs.toString().padStart(2, '0');
-    // const formattedMinutes = diffMins.toString().padStart(2, '0');
+    // If days are involved, include them in the output
+    const endTime = endDays > 0
+      ? `${endDays} day(s) ${formattedEndHours}:${formattedEndMinutes}`
+      : `${formattedEndHours}:${formattedEndMinutes}`;
 
-    // this.journeyDuration = `${formattedHours}h ${formattedMinutes}m`;
-    // console.log("this.journeyDuration", this.journeyDuration);
+    return endTime;
   }
+
 
 }
