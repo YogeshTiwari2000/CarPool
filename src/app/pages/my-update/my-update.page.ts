@@ -51,7 +51,7 @@ export class MyUpdatePage implements OnInit {
 
       if (this.currentUserData) {
         const length = Object.keys(this.currentUserData);
-        console.log('currentUserData length: ', length);
+        // console.log('currentUserData length: ', length);
       }
     })
   }

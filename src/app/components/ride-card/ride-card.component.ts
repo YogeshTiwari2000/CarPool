@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IonInput, IonHeader, IonContent, IonCard, IonThumbnail, IonItem, IonLabel, IonCardHeader, IonAvatar, IonCardTitle, IonIcon, IonCardSubtitle, IonCardContent, IonRow, IonButton, IonCol, ModalController, IonItemDivider, IonBadge } from "@ionic/angular/standalone";
 import { UserDetailsComponent } from 'src/app/modals/ride-details/ride-details.component';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { CommonService } from 'src/app/shared/common.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
 @Component({
   selector: 'app-ride-card',
@@ -15,13 +19,20 @@ export class RideCardComponent implements OnInit {
   @Input() userInfo: any;
   dateInput: string | undefined;
   journeyDuration: string | undefined;
-  constructor(public modalCtrl: ModalController) { }
+  constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
+    public localStr: LocalStorageService, private handleData: HandleDataService) {
+
+  }
 
   ngOnInit() {
     console.log("it's user card ts working");
     // console.log(this.userInfo);
     this.dateInput = this.userInfo['date'];
     this.calculateJourneyDuration();
+
+    console.log("this.handleData.getData() === ", this.handleData.getData());
+
+
   }
   async userDetailModal(userInfo: any) {
     console.log("clicked");

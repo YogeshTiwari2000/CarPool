@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="currentUser != undefined">
+<ion-content *ngIf="currentUser !== undefined">
   <ion-card>
     <ion-row class="ion-padding">
       <ion-col class="route" size="12">
@@ -57,7 +57,7 @@
           <b>Price</b>
           <p>{{ ride.price }}</p>
         </div>
-        <div class="ride-detail" *ngIf="ride.companionNames != 'this is driver ride' ">
+        <div class="ride-detail" *ngIf="ride.companionNames !== 'this is driver ride' ">
           <b>Companions Name</b>
           <p>{{ ride.companionNames }}</p>
         </div>
