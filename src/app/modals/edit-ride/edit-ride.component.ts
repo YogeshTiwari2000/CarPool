@@ -45,6 +45,7 @@ export class EditRideComponent implements OnInit {
           this.handleData.user = result.data;
           console.log("this.handleData.user === ", this.handleData.user);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+          // console.log("this.currentUserDocId === ", this.currentUserDocId);
           this.currentUser = this.handleData.user
         } else {
           console.log("User not found");
@@ -64,19 +65,23 @@ export class EditRideComponent implements OnInit {
       const idToFind = this.currentRideData.id;
       // console.log("idToFind === ", idToFind);
       const matchedRide = userRideList.find((ride: { id: string; }) => ride.id === idToFind);
-      // console.log(matchedRide);
-
-
-
-      if (matchedRide) {
-        matchedRide.price = this.price;
-        matchedRide.seatAvl = this.seatAvl;
-        matchedRide.time = this.time;
-        // console.log('Updated Element:', matchedRide);
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
-        // console.log("this.currentUser.ride === ", this.currentUser.ride);
+      // console.log(matchedRide); 
+      console.log("this.currentUser.userEmail === ", this.currentUser.userEmail);
+      console.log("this.email === ", this.email);
+      if (this.currentUser.userEmail === this.email) {
+        if (matchedRide) {
+          matchedRide.price = this.price;
+          matchedRide.seatAvl = this.seatAvl;
+          matchedRide.time = this.time;
+          // console.log('Updated Element:', matchedRide);
+          this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+          // console.log("this.currentUser.ride === ", this.currentUser.ride);
+        } else {
+          console.log('Element with id' + this.price + 'not found');
+        }
       } else {
-        console.log('Element with id' + this.price + 'not found');
+        console.log('id not matched');
+
       }
 
     }
