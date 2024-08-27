@@ -34,7 +34,6 @@ export class RideCardComponent implements OnInit {
   }
 
 
-
   async userDetailModal(userInfo: any) {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
@@ -55,26 +54,26 @@ export class RideCardComponent implements OnInit {
     const date = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
 
     // Set hours and minutes for journeyStart and journeyEnd
-    const [startHours, startMinutes] = journeyStart.split(':').map(Number);
-    const [endHours, endMinutes] = journeyEnd.split(':').map(Number);
+    // const [startHours, startMinutes] = journeyStart.split(':').map(Number);
+    // const [endHours, endMinutes] = journeyEnd.split(':').map(Number);
 
-    const start = new Date(date);
-    start.setHours(startHours, startMinutes);
+    // const start = new Date(date);
+    // start.setHours(startHours, startMinutes);
 
-    const end = new Date(date);
-    end.setHours(endHours, endMinutes);
+    // const end = new Date(date);
+    // end.setHours(endHours, endMinutes);
 
-    const diffMs = end.getTime() - start.getTime();
+    // const diffMs = end.getTime() - start.getTime();
 
-    const diffHrs = Math.floor(diffMs / 3600000); // 1 hour = 3600000 ms
-    const diffMins = Math.round((diffMs % 3600000) / 60000); // 1 minute = 60000 ms
+    // const diffHrs = Math.floor(diffMs / 3600000); // 1 hour = 3600000 ms
+    // const diffMins = Math.round((diffMs % 3600000) / 60000); // 1 minute = 60000 ms
 
-    // Format the duration as HH:MM
-    const formattedHours = diffHrs.toString().padStart(2, '0');
-    const formattedMinutes = diffMins.toString().padStart(2, '0');
+    // // Format the duration as HH:MM
+    // const formattedHours = diffHrs.toString().padStart(2, '0');
+    // const formattedMinutes = diffMins.toString().padStart(2, '0');
 
-    this.journeyDuration = `${formattedHours}h ${formattedMinutes}m`;
-    console.log("this.journeyDuration", this.journeyDuration);
+    // this.journeyDuration = `${formattedHours}h ${formattedMinutes}m`;
+    // console.log("this.journeyDuration", this.journeyDuration);
   }
 
 }

@@ -35,7 +35,7 @@
     </ion-row>
   </ion-card>
 
-  @for (user of usersList; track $index) {
+  @for (user of rideLists; track $index) {
   <app-ride-card [userInfo]="user"></app-ride-card>
   }
 </ion-content>

@@ -16,7 +16,7 @@
               </svg>
             </div>
             <b>
-              {{ userInfo["source"] }}
+              {{ userInfo["from"] }}
             </b>
           </div>
           <p>{{ userInfo["journeyStart"] }}</p>
@@ -25,7 +25,7 @@
       <ion-col class="ion-text-center timeSection">
         <div class="totalTimeTakenArea">
           <div class="timeBox">
-            {{ journeyDuration }}
+            {{ userInfo["duration"] }}
           </div>
 
           <div class="arrowIcon">
@@ -42,7 +42,7 @@
           <p class="location ion-justify-content-end">
             <!-- <ion-icon name="location"></ion-icon> -->
             <b>
-              {{ userInfo["destination"] }}
+              {{ userInfo["to"] }}
             </b>
           </p>
           <p>{{ userInfo["journeyEnd"] }}</p>
@@ -56,11 +56,11 @@
       <ion-col>
         <div class="userInfo">
           <ion-avatar>
-            <img alt="Silhouette of a person's head" [src]="userInfo['profilePic']" />
+            <img alt="Silhouette of a person's head" [src]="userInfo['riderpicture']" />
           </ion-avatar>
           <div class="details">
             <p>Offer ride</p>
-            <div>{{ userInfo["name"] }}</div>
+            <div>{{ userInfo["ridername"] }}</div>
           </div>
         </div>
       </ion-col>
