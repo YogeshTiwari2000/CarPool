@@ -44,6 +44,7 @@ export class HandleDataService {
   private firebaseNodes: any = {
     usersNode: "users",
   };
+  private allRideLists: any[] = [];
   constructor() { }
 
   //encrypt pass
@@ -66,7 +67,7 @@ export class HandleDataService {
       this.localStr.setItem("currentUserDocId", docRef.id);
     }
   }
-  //getData
+  // getData
   async getData() {
     const collectionRef = collection(
       this.agfirestore,
@@ -83,7 +84,7 @@ export class HandleDataService {
     });
     this.userCollection = data
     // console.log("this.userCollection === ", this.userCollection); 
-    const allRideLists: any[] = [];
+    this.allRideLists = [];
     this.userCollection.forEach((user: any) => {
       // console.log("user ===", user);
       const firstKey = Object.keys(user)[0];
@@ -92,12 +93,19 @@ export class HandleDataService {
       const firstValueridelist = firstValue?.ride?.rideList
       // console.log("firstValueridelist === ", firstValueridelist); 
       if (firstValueridelist != undefined)
-        allRideLists.push(...firstValueridelist);
+        this.allRideLists.push(...firstValueridelist);
     });
-    console.log("All Ride Lists: ", allRideLists);
+    // console.log("All Ride Lists: ", this.allRideLists);
     return data;
   }
 
+  async getAllRideLists(): Promise<any[]> {
+    if (!this.userCollection) {
+      await this.getData(); // Ensure data is fetched if not already
+    }
+    // console.log("this.allRideLists === ", this.allRideLists);
+    return this.allRideLists;
+  }
 
 
   //userExists
