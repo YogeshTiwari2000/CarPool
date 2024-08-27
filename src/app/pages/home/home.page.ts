@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon } from '@ionic/angular/standalone';
 
 import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { HandleDataService } from 'src/app/services/data/handle-data.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [IonIcon, IonNav, IonCol, IonRow, IonCard, IonButton, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RideCardComponent, RouterLink, RouterLinkActive]
 })
 export class HomePage implements OnInit {
+
+  private handleData = inject(HandleDataService);
+
   isLogeedIn: boolean = false;
 
   usersList: any = [
@@ -34,14 +38,21 @@ export class HomePage implements OnInit {
       destination: 'd4', price: '400', seatAvl: '4',
     },
   ];
+  rideLists: any;
 
 
   constructor() { }
 
   ngOnInit() {
     console.log("run");
+    this.loadAllRides();
   }
-
+  async loadAllRides() {
+    console.log("loadAllRides === 11");
+    await this.handleData.getData();
+    this.rideLists = this.handleData.getAllRideLists();
+    console.log("this.rideLists ", this.rideLists);
+  }
 
 
 }

@@ -19,7 +19,7 @@ export class RideCardComponent implements OnInit {
   @Input() userInfo: any;
   dateInput: string | undefined;
   journeyDuration: string | undefined;
-  public rideLists: any;
+
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
     public localStr: LocalStorageService, private handleData: HandleDataService) {
 
@@ -30,11 +30,11 @@ export class RideCardComponent implements OnInit {
     // console.log(this.userInfo);
     this.dateInput = this.userInfo['date'];
     this.calculateJourneyDuration();
-    this.rideLists = this.handleData.getAllRideLists();
-    console.log("this.rideLists ", this.rideLists);
-
 
   }
+
+
+
   async userDetailModal(userInfo: any) {
     console.log("clicked");
     const modal = await this.modalCtrl.create({
