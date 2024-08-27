@@ -62,7 +62,7 @@ export class RideDetailViewPage implements OnInit {
       });
   }
 
-  ionViewWillEnter() { }
+
 
   async editRide() {
     const modal = await this.modalCtrl.create({
@@ -72,8 +72,6 @@ export class RideDetailViewPage implements OnInit {
     })
     modal.present();
   }
-
-
 
 
   cancelRide() {
@@ -89,4 +87,90 @@ export class RideDetailViewPage implements OnInit {
     }
     this.modalCtrl.dismiss();
   }
+
+  calculateTotalPrice(): number {
+    console.log("this.ride.price * this.ride.seatAvl === ", this.ride.price * this.ride.seatAvl);
+    return this.ride.price * this.ride.seatAvl;
+  }
+
+
+  ionViewWillEnter() {
+    this.calculateTotalPrice();
+  }
+
+
+
+
+
+
+  // old pages function for future use || start
+
+  dateFormat(dateString: string): string {
+    const date = new Date(dateString);
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const weekday = weekdays[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+
+    return `${weekday} ${day} ${month}`;
+  }
+
+
+
+  calculateEndTime(userInfo: any): string {
+    const time = userInfo['time']; // e.g., "15:27"
+    console.log("time === ", time);
+    const duration = userInfo['duration']; // e.g., "1 day 5 hours"
+    console.log("duration === ", duration);
+
+    // Parse start time
+    const [startHours, startMinutes] = time.split(':').map(Number);
+
+    // Parse duration
+    const durationDaysMatch = duration.match(/(\d+)\s*day/);
+    const durationHoursMatch = duration.match(/(\d+)\s*hour/);
+    const durationMinsMatch = duration.match(/(\d+)\s*mins/);
+
+    const durationDays = durationDaysMatch ? parseInt(durationDaysMatch[1], 10) : 0;
+    const durationHours = durationHoursMatch ? parseInt(durationHoursMatch[1], 10) : 0;
+    const durationMinutes = durationMinsMatch ? parseInt(durationMinsMatch[1], 10) : 0;
+
+    // Calculate end time
+    let endHours = startHours + durationHours;
+    let endMinutes = startMinutes + durationMinutes;
+    let endDays = durationDays;
+
+    // Handle overflow of minutes
+    if (endMinutes >= 60) {
+      endMinutes -= 60;
+      endHours += 1;
+    }
+
+    // Handle overflow of hours
+    if (endHours >= 24) {
+      endHours -= 24;
+      endDays += 1;
+    }
+
+    // Format the final time
+    const formattedEndHours = endHours.toString().padStart(2, '0');
+    const formattedEndMinutes = endMinutes.toString().padStart(2, '0');
+
+    // If days are involved, include them in the output
+    const endTime = endDays > 0
+      ? `${endDays} day(s) ${formattedEndHours}:${formattedEndMinutes}`
+      : `${formattedEndHours}:${formattedEndMinutes}`;
+
+    return endTime;
+  }
+
+
+
+  // old pages function for future use || end
+
 }

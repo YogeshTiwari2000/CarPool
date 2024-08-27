@@ -26,30 +26,16 @@ export class RideCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("it's user card ts working");
+    // console.log("it's user card ts working");
     // console.log(this.userInfo);
     this.dateInput = this.userInfo['date'];
     const journeyStart = this.userInfo['journeyStart'];
-    console.log(this.userInfo['time'])
-    console.log(this.userInfo['duration'])
+    // console.log(this.userInfo['time'])
+    // console.log(this.userInfo['duration'])
     let journeyEnd = this.userInfo['time'] + this.userInfo['duration'];
-    console.log("journeyEnd", journeyEnd);
+    // console.log("journeyEnd", journeyEnd);
     this.calculateEndTime(this.userInfo)
   }
-
-
-  async userDetailModal(userInfo: any) {
-    console.log("clicked");
-    const modal = await this.modalCtrl.create({
-      component: UserDetailsComponent,
-      componentProps: { userData: userInfo, }
-    })
-
-    modal.present()
-  }
-
-
-
 
 
   calculateEndTime(userInfo: any): string {
