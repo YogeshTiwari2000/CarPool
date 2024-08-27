@@ -197,6 +197,31 @@
     </ion-row>
   </ion-card>
   <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
-    <ion-button expand="block" class="danger"><span>Cancel Ride</span></ion-button>
+    <ion-button expand="block" id="open-cancel-dialog" class="danger"><span>Cancel
+        Ride</span></ion-button>
+
+    <ion-modal #modal trigger="open-cancel-dialog" class="cancelModal">
+      <ng-template>
+        <div class="ion-padding-horizontal">
+          <h4>Are you want to cancel the ride, it is not reversible action!!</h4>
+
+          <ion-row>
+            <ion-col>
+              <ion-item class="success ion-text-center" lines="none" button="true" detail="false"
+                (click)="cancelRide()">
+                <ion-label class="ion-padding-horizontal">Confirm</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item class="danger ion-text-center" lines="none" button="true" detail="false"
+                (click)="modal.dismiss()">
+                <ion-label class="ion-padding-horizontal">Cancel</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ng-template>
+    </ion-modal>
+
   </div>
 </ion-content>

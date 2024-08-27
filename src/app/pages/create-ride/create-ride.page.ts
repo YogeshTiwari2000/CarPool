@@ -60,6 +60,7 @@ export class CreateRidePage implements OnInit {
       companionNames: '',
       duration: '',
       distance: '',
+      status: '',
     },
     rideList: [],
   }
@@ -106,13 +107,10 @@ export class CreateRidePage implements OnInit {
           console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
           if (this.currentUser.ride.lastride != undefined) {
             console.log('ride me id h');
-
           }
           else {
             console.log('ride me id crate krni h');
             this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
-
-
           }
 
         } else {
@@ -220,6 +218,7 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.companionNames = this.companionNames
       this.currentUser.ride.lastride.distance = this.rideDistance.toString()
       this.currentUser.ride.lastride.duration = this.rideDuration.toString()
+      this.currentUser.ride.lastride.status = 'created'
 
       if (this.rideCreatedBy === 'driver') {
 

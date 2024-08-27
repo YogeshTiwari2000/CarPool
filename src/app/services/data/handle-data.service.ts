@@ -99,6 +99,7 @@ export class HandleDataService {
     // console.log("All Ride Lists: ", allRideLists);
     this.allRideAvailable = allRideLists
     this.getAllRideLists()
+    console.log("data === ", data);
     return data;
   }
 
