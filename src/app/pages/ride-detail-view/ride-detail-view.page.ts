@@ -31,16 +31,18 @@ export class RideDetailViewPage implements OnInit {
   isPhoneVerified: boolean = false;
   status: any = 'requested';
   currentUserDocId: any;
-
+  userRideList: any;
+  currentRideId: any;
   constructor(private route: ActivatedRoute) { }
-
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
         this.ride = JSON.parse(params['ride']);
         console.log('Ride Data:', this.ride);
         this.email = this.ride.riderEmail
-        console.log("this.email === ", this.email);
+        // console.log("this.email === ", this.email);
+        this.currentRideId = this.ride.id
+        // console.log(" this.currentRideId === ", this.currentRideId);
       }
     });
     this.handleData
@@ -52,7 +54,9 @@ export class RideDetailViewPage implements OnInit {
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           console.log("currentUser === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
-          console.log(" this.isEmailVerified === ", this.isEmailVerified);
+          // console.log(" this.isEmailVerified === ", this.isEmailVerified);
+          this.userRideList = this.currentUser.ride.rideList
+          // console.log("this.userRideList === ", this.userRideList);
         } else {
           console.log("User not found");
         }
@@ -62,16 +66,6 @@ export class RideDetailViewPage implements OnInit {
       });
   }
 
-
-
-  // async editRide() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: EditRideComponent,
-  //     cssClass: ["editRideModalCss",],
-  //     componentProps: { currentRideData: this.ride }
-  //   })
-  //   modal.present();
-  // }
 
   async editRide() {
     const modal = await this.modalCtrl.create({
@@ -98,9 +92,8 @@ export class RideDetailViewPage implements OnInit {
 
 
   cancelRide() {
-    const userRideList = this.currentUser.ride.rideList
-    const currentRideId = this.ride.id
-    const matchedRide = userRideList.find((ride: { id: string; }) => ride.id === currentRideId);
+    const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRide === ", matchedRide);
     if (matchedRide) {
       matchedRide.status = 'canceled'
       console.log(" matchedRide.status === ", matchedRide.status);
@@ -109,6 +102,17 @@ export class RideDetailViewPage implements OnInit {
       console.log('not able to cancel the ride');
     }
     this.modalCtrl.dismiss();
+  }
+
+  bookRide() {
+    const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    if (matchedRide) {
+      matchedRide.status = 'requested'
+      console.log(" matchedRide.status === ", matchedRide.status);
+      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+    } else {
+      console.log('not able to book the ride');
+    }
   }
 
   calculateTotalPrice(): number {

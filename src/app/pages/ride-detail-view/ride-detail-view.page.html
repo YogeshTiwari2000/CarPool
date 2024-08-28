@@ -209,13 +209,13 @@
             <ion-col>
               <ion-item class="success ion-text-center" lines="none" button="true" detail="false"
                 (click)="cancelRide()">
-                <ion-label class="ion-padding-horizontal">Confirm</ion-label>
+                <ion-label class="ion-padding-horizontal">Yes</ion-label>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item class="danger ion-text-center" lines="none" button="true" detail="false"
                 (click)="modal.dismiss()">
-                <ion-label class="ion-padding-horizontal">Cancel</ion-label>
+                <ion-label class="ion-padding-horizontal">No</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -223,5 +223,8 @@
       </ng-template>
     </ion-modal>
 
+  </div>
+  <div class="ion-padding-horizontal ion-padding-bottom">
+    <ion-button expand="block" class="primary" (click)="bookRide()"><span>Book Ride</span></ion-button>
   </div>
 </ion-content>
