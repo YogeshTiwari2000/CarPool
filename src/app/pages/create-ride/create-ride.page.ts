@@ -188,7 +188,6 @@ export class CreateRidePage implements OnInit {
           console.log("element === ", element);
           this.rideDistance = element.distance.text;
           this.rideDuration = element.duration.text;
-          console.log('ye distance wala mera h current');
 
           console.log(`Distance from ${this.from} to ${this.to} is ${this.rideDistance} and will take approximately ${this.rideDuration}.`);
 

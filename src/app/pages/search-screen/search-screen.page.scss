@@ -235,6 +235,66 @@ input[type=number] {
     }
 }
 
+.seatAvl {
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    input {
+        background-color: transparent;
+        text-align: left;
+        max-width: 130px;
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+
+    ion-button {
+        --background: transparent;
+        --box-shadow: none;
+        color: black;
+    }
+
+    .decBtn {
+        border-right: 4px solid white;
+    }
+
+}
+
+.seatAvl {
+    input {
+        max-width: 80px !important;
+    }
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+.formInput {
+    border: 2px solid #BAD4DA;
+    padding: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 15px;
+    color: black;
+    background: rgba(221, 247, 247, 0.7019607843);
+
+    input {
+        background-color: transparent;
+        max-width: -webkit-fill-available;
+        // text-align: end;
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+}
+
 @media (min-width: 768px) {
     .main {
         .btn-box {

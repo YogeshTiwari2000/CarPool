@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
+
   <ion-row>
     <div class="main">
       <div class="para-box">
@@ -16,62 +17,52 @@
       </div>
 
       <div class="main-1">
-        <app-travel-from-to></app-travel-from-to>
+        <form #rideForm="ngForm">
+          <app-travel-from-to></app-travel-from-to>
 
-        <div class="main-2">
-          <div class="custom-date-container">
-            <input type="date" [(ngModel)]="date" class="date" required />
-          </div>
-          <div class="custom-time-container">
-            <input type="time" [(ngModel)]="time" class="time" required />
-          </div>
-
-          <button class="btn-btn">
-            <div class="flex-box">
-              <img src="../../../assets/images/svgs/person.svg" />
-              <div class="counter-input" id="open-modal-addPassanger">
-                2 passengers
-              </div>
-              <div class="counter-input" id="decrement" (click)="decrement()">
-                -
-              </div>
-              <div class="counter-input" id="increment" (click)="increment()">
-                +
+          <div class="main-2">
+            <div class="custom-date-container">
+              <input type="date" [(ngModel)]="date" name="date" class="date" required #dateField="ngModel"
+                [min]="minDate" />
+              <div *ngIf="dateField.invalid && dateField.touched" class="error-message">
+                Date is required.
               </div>
             </div>
-          </button>
-
-          <ion-modal class="addPassanger" trigger="open-modal-addPassanger" (willDismiss)="onWillDismiss($event)">
-            <ng-template>
-              <ion-content class="ion-padding">
-                <div class="modalCont">
-                  <ion-item class="ion-no-padding">
-                    <input label="Enter your name" labelPlacement="stacked" type="number"
-                      placeholder="Add Total Passanger" [(ngModel)]="passanger">
-                  </ion-item>
-                  <p id="errorHere"></p>
-                  <ion-row>
-                    <ion-col>
-                      <ion-button (click)="confirm()" expand="full" [strong]="true">Confirm</ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)="cancel()" expand="full">Cancel</ion-button>
-                    </ion-col>
-                  </ion-row>
-                </div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
 
 
-        </div>
+            <div class="custom-time-container">
+              <input type="time" [(ngModel)]="time" name="time" class="time" required #timeField="ngModel" />
+              <div *ngIf="timeField.invalid && timeField.touched" class="error-message">
+                Time is required.
+              </div>
+            </div>
 
-        <div size="12" sizeLg="6" class="search-box btn-box">
-          <ion-button class="login" expand="block" (click)="search()">
-            Search
-            <img src="../../../assets/images/svgs/arrow.svg" class="icon" />
-          </ion-button>
-        </div>
+
+            <ion-col size="12" class="seatAvl formInput">
+              <p>
+                Passengers
+              </p>
+              <!-- <input type="number" [(ngModel)]="passengers" formControlName="passengers" /> -->
+              <input type="number" [value]="passengers" readonly />
+              <div>
+                <ion-button (click)="decPassengers()" class="decBtn" [disabled]="passengers <= 1">-</ion-button>
+                <ion-button (click)="incPassengers()" [disabled]="passengers >= 7">+</ion-button>
+              </div>
+            </ion-col>
+
+
+          </div>
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+
+          <div size="12" sizeLg="6" class="search-box btn-box">
+            <ion-button class="login" expand="block" (click)="search()" [disabled]="rideForm.invalid">
+              Search
+              <img src="../../../assets/images/svgs/arrow.svg" class="icon" />
+            </ion-button>
+          </div>
+        </form>
       </div>
     </div>
   </ion-row>

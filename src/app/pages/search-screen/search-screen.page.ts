@@ -29,6 +29,10 @@ export class SearchScreenPage implements OnInit {
   @ViewChild(IonModal)
   modal!: IonModal;
   currentUserData: any;
+  minDate: string | undefined;
+  from: any;
+  to: any;
+  errorMessage: string | undefined;
   // allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -41,10 +45,12 @@ export class SearchScreenPage implements OnInit {
     console.log(this.allRideLists);
 
   }
-  time: string = '12:00';
+  time: string = '';
   date: any = ''
   // time:any = ''
-  passengers: number = 2;
+  passengers: number = 1;
+
+
 
   ngOnInit() {
     console.log("search page");
@@ -52,6 +58,7 @@ export class SearchScreenPage implements OnInit {
     const currentUserEmail = this.commonService.currentUserEmail;
 
     this.fetchAllRideLists()
+    this.minDate = new Date().toISOString().split('T')[0];
   }
 
   async fetchAllRideLists() {
@@ -67,83 +74,56 @@ export class SearchScreenPage implements OnInit {
   isInputRequired: boolean = true;
 
   search() {
+    if (!this.date || !this.time || this.passengers <= 0 || !this.from || !this.to) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
     const searchData = {
-      // from: this.from,
-      // to: this.to,
       date: this.date,
       time: this.time,
       passengers: this.passengers
     };
     console.log(searchData);
 
-    this.routes.navigate(['/home'])
+    this.routes.navigate(['/home']);
   }
 
 
-
-
-  increment() {
-    const counterElement = document.getElementById('open-modal-addPassanger');
-    if (counterElement !== null) {
-      let currentValue = parseInt(counterElement.textContent || "0");
-      if (currentValue < 6) {
-        counterElement.textContent = `${currentValue + 1} passenger`;
-        this.passengers++;
-      }
+  incPassengers() {
+    if (this.passengers < 7) {
+      this.passengers++
     }
   }
-  decrement() {
-    const counterElement = document.getElementById('open-modal-addPassanger');
-    if (counterElement !== null) {
-      let currentValue = parseInt(counterElement.textContent || "0");
-      if (currentValue > 0) {
-        counterElement.textContent = `${currentValue - 1} passenger`;
-        this.passengers--;
-      }
+
+  decPassengers() {
+    if (this.passengers > 1) {
+      this.passengers--
     }
   }
-  passanger: Number | undefined;
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
   confirm() {
-    const passengerNumber = Number(this.passanger);
+    const passengersNumber = Number(this.passengers);
     const error = document.getElementById('errorHere');
 
-    if (!isNaN(passengerNumber) && passengerNumber > 0 && passengerNumber <= 6) {
-      this.modal.dismiss(this.passanger, 'confirm');
+    if (!isNaN(passengersNumber) && passengersNumber > 0 && passengersNumber <= 6) {
+      this.modal.dismiss(this.passengers, 'confirm');
     } else {
       if (error) {
-        if (isNaN(passengerNumber)) {
-          error.textContent = `Please enter a valid number of passengers.`;
-        } else if (passengerNumber <= 0) {
-          error.textContent = `The number of passengers must be greater than 0.`;
+        if (isNaN(passengersNumber)) {
+          error.textContent = `Please enter a valid number of passengerss.`;
+        } else if (passengersNumber <= 0) {
+          error.textContent = `The number of passengerss must be greater than 0.`;
         } else {
-          error.textContent = `The number of passengers must be less than or equal to 6.`;
+          error.textContent = `The number of passengerss must be less than or equal to 6.`;
         }
       }
     }
   }
 
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    const counterElement = document.getElementById('open-modal-addPassanger');
-    const error = document.getElementById('errorHere');
-    if (ev.detail.role === 'confirm') {
-      const passengerNumber = Number(this.passanger);
-      console.log("passanger === ", this.passanger);
-      console.log(" counterElement?.textContent === ", counterElement?.textContent);
-      if (!isNaN(passengerNumber)) {
-        error!.textContent = `please enter the number of passanger`;
-      }
-      else if (passengerNumber < 6) {
-        counterElement!.textContent = `${this.passanger} passenger`;
-      } else {
-        error!.textContent = `passanger must be less than 6`;
-      }
-    }
-  }
 
 }
