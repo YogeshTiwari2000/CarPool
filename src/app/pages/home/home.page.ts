@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
   }
 
   rideDetailView(index: number) {
-    const selectedRide = this.rideList[index];
+    const selectedRide = this.filteredRides[index];
     const navigationExtras: NavigationExtras = {
       queryParams: {
         ride: JSON.stringify(selectedRide)
