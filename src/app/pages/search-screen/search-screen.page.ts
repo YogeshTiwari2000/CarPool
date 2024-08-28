@@ -33,42 +33,32 @@ export class SearchScreenPage implements OnInit {
   from: any;
   to: any;
   errorMessage: string | undefined;
+  rideList: any;
+  searchData: any;
+  filteredData: any;
   // allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
     public localStr: LocalStorageService, private handleData: HandleDataService) {
 
-
-
-    // this.allUserData = this.handleData.getData();
-    // console.log(" this.allUserData === ", this.allUserData);
-    console.log(this.allRideLists);
-
   }
   time: string = '';
   date: any = ''
-  // time:any = ''
   passengers: number = 1;
 
 
 
   ngOnInit() {
-    console.log("search page");
 
-    const currentUserEmail = this.commonService.currentUserEmail;
-
-    this.fetchAllRideLists()
+    this.loadAllRides()
     this.minDate = new Date().toISOString().split('T')[0];
-  }
+    this.filteredRides()
 
-  async fetchAllRideLists() {
-    try {
-      const allRideLists = await this.handleData.getData();
-      this.allRideLists = allRideLists;
-      console.log('All Ride Lists:', this.allRideLists);
-    } catch (error) {
-      console.error('Error fetching ride lists:', error);
-    }
+  }
+  async loadAllRides() {
+    await this.handleData.getData();
+    this.rideList = this.handleData.getAllRideLists();
+    console.log("this.rideLists ", this.rideList);
   }
 
   isInputRequired: boolean = true;
@@ -86,16 +76,40 @@ export class SearchScreenPage implements OnInit {
       return;
     }
 
-    const searchData = {
+    this.searchData = {
       date: this.date,
       time: this.time,
       passengers: this.passengers,
       from: this.from,
       to: this.to
     };
-    console.log('searchData===', searchData);
+    console.log('searchData===', this.searchData);
 
+    // 
+
+    // 
     this.routes.navigate(['/home']);
+  }
+
+  filteredRides() {
+    this.filteredData = this.rideList.filter((ride: any) => {
+
+      const rideDateMatches = ride.date === this.searchData.date;
+
+      console.log("rideDateMatches")
+      // Compare time (Optional: you can implement more complex time range comparison)
+      const rideTimeMatches = ride.time >= this.searchData.time;
+
+      // Compare from and to locations
+      const rideFromMatches = ride.from.toLowerCase() === this.searchData.from.toLowerCase();
+      const rideToMatches = ride.to.toLowerCase() === this.searchData.to.toLowerCase();
+
+      // Check passenger availability
+      const rideHasEnoughSeats = ride.passengersAvailable >= this.searchData.passengers;
+
+      // Return true if all conditions match
+      return rideDateMatches && rideTimeMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
+    });
   }
 
 
