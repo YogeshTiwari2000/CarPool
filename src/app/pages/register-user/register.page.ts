@@ -82,7 +82,7 @@ export class RegisterPage implements OnInit {
     wallet: {},
   };
 
-  constructor() {}
+  constructor() { }
 
   async ngOnInit() {
     this.users = this.handleData.getData();
@@ -142,7 +142,7 @@ export class RegisterPage implements OnInit {
             this.commonService.currentUserEmail = email;
             const isUserLoggedIn = this.commonService.isUserLoggedin;
             this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
-            this.router.navigate(["/home"]);
+            this.router.navigate(["/welcome"]);
             this.commonService.alertBox(
               "Registration Successfully",
               "Registration alert",

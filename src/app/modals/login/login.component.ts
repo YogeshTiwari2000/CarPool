@@ -191,7 +191,7 @@ export class LoginComponent implements OnInit {
               const isUserLoggedIn = this.commonService.isUserLoggedin;
               this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
               this.close();
-              this.router.navigate(["/home"]);
+              this.router.navigate(["/welcome"]);
             } else {
               this.commonService.alertBox(
                 "Login credentials invalid",
