@@ -132,6 +132,7 @@ export class CreateRidePage implements OnInit {
       to: this.to
     });
     console.log('Locations changed:', this.from, this.to);
+
   }
 
 
@@ -226,6 +227,17 @@ export class CreateRidePage implements OnInit {
         const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });
         this.currentUser.ride.rideList.unshift(immutableride);
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+
+        // reset the feilds
+        this.time = '';
+        this.from = '';
+        this.to = '';
+        this.date = '';
+        this.seatAvl = 1;
+        this.price = 0;
+        this.companionNames = '';
+
+
       } else {
         this.currentUser.ride.lastride.price = '00'
         const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });

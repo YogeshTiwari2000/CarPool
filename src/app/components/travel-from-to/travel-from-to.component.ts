@@ -1,5 +1,5 @@
 declare var google: any;
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -15,8 +15,8 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
   providers: [GooglePlaceModule]
 })
 export class TravelFromToComponent implements OnInit {
-  to: any
-  from: any
+  @Input() to: any
+  @Input() from: any
   place: any
   fromId: any = 'fromlocation' + Math.random()
   toId: any = 'fromlocation' + Math.random()

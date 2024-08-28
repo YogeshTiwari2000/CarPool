@@ -20,7 +20,8 @@
         </ion-radio-group>
       </ion-col>
       <ion-col size="12" class="tofrom">
-        <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
+        <app-travel-from-to (locationsChanged)="onLocationsChanged($event)" [from]="from"
+          [to]="to"></app-travel-from-to>
       </ion-col>
       <ion-col size="12" class="dateTime">
         <div class="custom-date-container">
