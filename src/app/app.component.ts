@@ -51,6 +51,7 @@ export class AppComponent {
 
   logOut() {
     this.localStr.clear();
+    this.commonService.currentUserEmail = '';
     this.commonService.isUserLoggedin = false; // Set the login status to false
     this.router.navigate(['/welcome']);
   }

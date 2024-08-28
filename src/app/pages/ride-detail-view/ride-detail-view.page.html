@@ -66,7 +66,7 @@
           <b>Ride status</b>
           <p [ngClass]="{
             'requestedCss': status === 'requested',
-            'pendingCss': status === 'pending', 
+            'createdCss': status === 'created', 
             'acceptedCss': status === 'accepted',
             'ongoingCss': status === 'ongoing',
             'completedCss': status === 'completed',
@@ -74,7 +74,7 @@
           }">
             <ng-container [ngSwitch]="status" class="statusArea">
               <ion-label *ngSwitchCase="'requested'">Requested </ion-label>
-              <ion-label *ngSwitchCase="'pending'">Pending Confirmation</ion-label>
+              <ion-label *ngSwitchCase="'created'">created </ion-label>
               <ion-label *ngSwitchCase="'accepted'">Accepted</ion-label>
               <ion-label *ngSwitchCase="'ongoing'">Ongoing</ion-label>
               <ion-label *ngSwitchCase="'completed'">Completed</ion-label>

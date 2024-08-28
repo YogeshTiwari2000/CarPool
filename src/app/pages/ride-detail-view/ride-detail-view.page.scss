@@ -116,7 +116,9 @@ ion-row.ion-padding-horizontal.md {
 
 .completedCss {}
 
-.canceledCss {}
+.canceledCss {
+    background-color: red;
+}
 
 .cancelBtn {
     width: 100%;

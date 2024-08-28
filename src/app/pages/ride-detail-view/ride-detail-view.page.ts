@@ -29,7 +29,7 @@ export class RideDetailViewPage implements OnInit {
   currentUser: any;
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
-  status: any = 'requested';
+  status: any;
   currentUserDocId: any;
   userRideList: any;
   currentRideId: any;
@@ -42,6 +42,8 @@ export class RideDetailViewPage implements OnInit {
         this.email = this.ride.riderEmail
         // console.log("this.email === ", this.email);
         this.currentRideId = this.ride.id
+        this.status = this.ride.status
+        console.log(" this.status === ", this.status);
         // console.log(" this.currentRideId === ", this.currentRideId);
       }
     });
@@ -97,6 +99,7 @@ export class RideDetailViewPage implements OnInit {
     if (matchedRide) {
       matchedRide.status = 'canceled'
       console.log(" matchedRide.status === ", matchedRide.status);
+      this.status = matchedRide.status
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
     } else {
       console.log('not able to cancel the ride');
@@ -109,6 +112,7 @@ export class RideDetailViewPage implements OnInit {
     if (matchedRide) {
       matchedRide.status = 'requested'
       console.log(" matchedRide.status === ", matchedRide.status);
+      this.status = matchedRide.status
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
     } else {
       console.log('not able to book the ride');
