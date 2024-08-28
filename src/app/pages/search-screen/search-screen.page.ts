@@ -85,7 +85,7 @@ export class SearchScreenPage implements OnInit {
 
     this.filteredRides = this.rideList.filter((ride: any) => {
 
-      const rideDateMatches = ride.date === searchData.date;
+      const rideDateMatches = ride.date >= searchData.date;
 
       const rideTimeMatches = ride.time >= searchData.time;
 
@@ -96,7 +96,7 @@ export class SearchScreenPage implements OnInit {
       return rideDateMatches && rideTimeMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
     });
 
-    // console.log("filteredRides === ", this.filteredRides);
+
     this.router.navigate(['/home'], { state: { filteredRides: this.filteredRides } });
 
   }
