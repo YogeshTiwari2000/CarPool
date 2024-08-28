@@ -39,7 +39,7 @@
   <app-ride-card [userInfo]="user" ></app-ride-card>
   } -->
 
-  <app-ride-card [userInfo]="ride" *ngFor="let ride of rideList;let i = index "
+  <app-ride-card [userInfo]="ride" *ngFor="let ride of filteredRides;let i = index "
     (click)="rideDetailView(i)"></app-ride-card>
 
 </ion-content>

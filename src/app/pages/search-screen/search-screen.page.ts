@@ -34,8 +34,7 @@ export class SearchScreenPage implements OnInit {
   to: any;
   errorMessage: string | undefined;
   rideList: any;
-  searchData: any;
-  filteredData: any;
+  filteredRides: any;
   // allUserData: Promise<{ [x: string]: { [x: string]: any; }; }[]>;
 
   constructor(private router: Router, private modalCtrl: ModalController, private commonService: CommonService,
@@ -47,12 +46,10 @@ export class SearchScreenPage implements OnInit {
   passengers: number = 1;
 
 
-
   ngOnInit() {
 
     this.loadAllRides()
     this.minDate = new Date().toISOString().split('T')[0];
-    this.filteredRides()
 
   }
   async loadAllRides() {
@@ -76,40 +73,32 @@ export class SearchScreenPage implements OnInit {
       return;
     }
 
-    this.searchData = {
+    const searchData = {
       date: this.date,
       time: this.time,
       passengers: this.passengers,
       from: this.from,
       to: this.to
     };
-    console.log('searchData===', this.searchData);
 
-    // 
+    console.log('searchData===', searchData);
 
-    // 
-    this.routes.navigate(['/home']);
-  }
+    this.filteredRides = this.rideList.filter((ride: any) => {
 
-  filteredRides() {
-    this.filteredData = this.rideList.filter((ride: any) => {
+      const rideDateMatches = ride.date === searchData.date;
 
-      const rideDateMatches = ride.date === this.searchData.date;
+      const rideTimeMatches = ride.time >= searchData.time;
 
-      console.log("rideDateMatches")
-      // Compare time (Optional: you can implement more complex time range comparison)
-      const rideTimeMatches = ride.time >= this.searchData.time;
+      const rideFromMatches = ride.from.toLowerCase() === searchData.from.toLowerCase();
 
-      // Compare from and to locations
-      const rideFromMatches = ride.from.toLowerCase() === this.searchData.from.toLowerCase();
-      const rideToMatches = ride.to.toLowerCase() === this.searchData.to.toLowerCase();
-
-      // Check passenger availability
-      const rideHasEnoughSeats = ride.passengersAvailable >= this.searchData.passengers;
-
-      // Return true if all conditions match
+      const rideToMatches = ride.to.toLowerCase() === searchData.to.toLowerCase();
+      const rideHasEnoughSeats = ride.seatAvl >= searchData.passengers;
       return rideDateMatches && rideTimeMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
     });
+
+    // console.log("filteredRides === ", this.filteredRides);
+    this.router.navigate(['/home'], { state: { filteredRides: this.filteredRides } });
+
   }
 
 

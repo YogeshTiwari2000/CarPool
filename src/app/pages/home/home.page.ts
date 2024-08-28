@@ -21,20 +21,29 @@ export class HomePage implements OnInit {
 
   isLogeedIn: boolean = false;
 
-
+  filteredRides: any[] = [];
   rideList: any;
 
 
   constructor() { }
 
   ngOnInit() {
+
     console.log("run");
     this.loadAllRides();
   }
   async loadAllRides() {
-    await this.handleData.getData();
-    this.rideList = this.handleData.getAllRideLists();
-    console.log("this.rideLists ", this.rideList);
+    // await this.handleData.getData();
+    // this.rideList = this.handleData.getAllRideLists();
+    // console.log("this.rideLists ", this.rideList);
+
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras.state && navigation.extras.state['filteredRides']) {
+      this.filteredRides = navigation.extras.state['filteredRides'];
+      console.log('Filtered Rides:', this.filteredRides);
+    } else {
+      console.log('No filtered rides data found.');
+    }
   }
 
   rideDetailView(index: number) {
