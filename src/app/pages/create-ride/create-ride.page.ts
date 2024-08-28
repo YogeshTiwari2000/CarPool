@@ -243,6 +243,15 @@ export class CreateRidePage implements OnInit {
         const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });
         this.currentUser.ride.rideList.unshift(immutableride);
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+        this.time = '';
+        this.from = '';
+        this.to = '';
+        this.date = '';
+        this.seatAvl = 1;
+        this.price = 0;
+        this.companionNames = '';
+
+
       }
 
 
