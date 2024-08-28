@@ -69,7 +69,7 @@ export class HandleDataService {
   }
   // getData
   async getData() {
-    console.log("getData === ");
+    // console.log("getData === ");
     const collectionRef = collection(
       this.agfirestore,
       this.firebaseNodes.usersNode

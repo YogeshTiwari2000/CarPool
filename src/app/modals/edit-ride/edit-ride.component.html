@@ -1,6 +1,8 @@
-<button (click)="closeModal()" class="cancelBtn ion-padding">Close</button>
+<ion-button slot="end" color="none" (click)="closeModal()" class="cancelBtn">
+  <ion-icon name="close" color="dark"></ion-icon>
+</ion-button>
 <ion-content>
-  <form (ngSubmit)="updateRide(rideForm)" #rideForm="ngForm">
+  <form (ngSubmit)="updateRide(rideForm)" #rideForm="ngForm" class="ion-padding-top">
 
     <!-- Price Input -->
     <ion-item>

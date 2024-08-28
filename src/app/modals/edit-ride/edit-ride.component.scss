@@ -1,7 +1,15 @@
  .cancelBtn {
-     background: #cc054d;
-     text-transform: uppercase;
-     font-weight: bold;
+     width: fit-content;
+     --box-shadow: none;
+     position: absolute;
+     right: 0.2rem;
+     top: 0.2rem;
+     z-index: 1;
+ }
+
+
+ .cancelBtn:focus-visible {
+     --box-shadow: none;
  }
 
  ::ng-deep {

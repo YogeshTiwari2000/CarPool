@@ -73,7 +73,14 @@ export class SearchScreenPage implements OnInit {
 
   isInputRequired: boolean = true;
 
+  onLocationsChanged(event: { from: string, to: string }) {
+    this.from = event.from;
+    this.to = event.to;
+    // console.log('Locations changed:', this.from, this.to);
+  }
+
   search() {
+    this.onLocationsChanged({ from: this.from, to: this.to });
     if (!this.date || !this.time || this.passengers <= 0 || !this.from || !this.to) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
@@ -82,9 +89,11 @@ export class SearchScreenPage implements OnInit {
     const searchData = {
       date: this.date,
       time: this.time,
-      passengers: this.passengers
+      passengers: this.passengers,
+      from: this.from,
+      to: this.to
     };
-    console.log(searchData);
+    console.log('searchData===', searchData);
 
     this.routes.navigate(['/home']);
   }

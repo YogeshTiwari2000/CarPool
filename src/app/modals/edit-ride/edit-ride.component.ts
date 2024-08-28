@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime, ModalController, AlertController } from "@ionic/angular/standalone";
+import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime, ModalController, AlertController, IonHeader, IonToolbar, IonTitle, IonIcon } from "@ionic/angular/standalone";
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
@@ -9,7 +9,7 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
   templateUrl: './edit-ride.component.html',
   styleUrls: ['./edit-ride.component.scss'],
   standalone: true,
-  imports: [IonDatetime, IonButton, IonInput, IonItem, IonLabel, IonContent, FormsModule],
+  imports: [IonIcon, IonTitle, IonToolbar, IonHeader, IonDatetime, IonButton, IonInput, IonItem, IonLabel, IonContent, FormsModule],
 })
 export class EditRideComponent implements OnInit {
 
