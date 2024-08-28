@@ -1,0 +1,13 @@
+ .cancelBtn {
+     background: #cc054d;
+     text-transform: uppercase;
+     font-weight: bold;
+ }
+
+ ::ng-deep {
+
+     .alertInvalidSeat,
+     .alertNofieldChanged {
+         --max-width: 355px;
+     }
+ }

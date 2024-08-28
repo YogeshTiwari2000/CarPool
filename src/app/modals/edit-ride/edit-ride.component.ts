@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime } from "@ionic/angular/standalone";
+import { IonContent, IonLabel, IonItem, IonInput, IonButton, IonDatetime, ModalController, AlertController } from "@ionic/angular/standalone";
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
@@ -15,6 +15,8 @@ export class EditRideComponent implements OnInit {
 
   private handleData = inject(HandleDataService);
   localStorageService = inject(LocalStorageService);
+  private modalCtrl = inject(ModalController);
+  alertCtrl = inject(AlertController);
   // commonService = inject(CommonService);
 
   @Input() currentRideData: any;
@@ -57,37 +59,68 @@ export class EditRideComponent implements OnInit {
   }
 
 
-
-  updateRide(form: NgForm) {
+  async updateRide(form: NgForm) {
     if (form.valid) {
-      //  console.log("currentUser === ", this.currentUser.ride.rideList);
-      const userRideList = this.currentUser.ride.rideList
+      // Check if at least one field has been updated
+      const isPriceChanged = this.price !== this.currentRideData.price;
+      const isSeatAvlChanged = this.seatAvl !== this.currentRideData.seatAvl;
+      const isTimeChanged = this.time !== this.currentRideData.time;
+
+      if (!isPriceChanged && !isSeatAvlChanged && !isTimeChanged) {
+        const alert = await this.alertCtrl.create({
+          header: 'No Changes Detected',
+          message: 'At least one field must be changed to update the ride.',
+          buttons: ['OK'],
+          cssClass: 'alertNofieldChanged'
+        });
+        await alert.present();
+        return;
+      }
+
+      // Seat availability check
+      if (this.seatAvl && this.seatAvl > 6) {
+        const alert = await this.alertCtrl.create({
+          header: 'Invalid Seat Number',
+          message: 'Seats must be less than 7.',
+          buttons: ['OK'],
+          cssClass: 'alertInvalidSeat'
+        });
+        await alert.present();
+        return;
+      }
+
+      // Proceed with updating the ride
+      const userRideList = this.currentUser.ride.rideList;
       const idToFind = this.currentRideData.id;
-      // console.log("idToFind === ", idToFind);
       const matchedRide = userRideList.find((ride: { id: string; }) => ride.id === idToFind);
-      // console.log(matchedRide); 
-      console.log("this.currentUser.userEmail === ", this.currentUser.userEmail);
-      console.log("this.email === ", this.email);
+
       if (this.currentUser.userEmail === this.email) {
         if (matchedRide) {
           matchedRide.price = this.price;
           matchedRide.seatAvl = this.seatAvl;
           matchedRide.time = this.time;
-          // console.log('Updated Element:', matchedRide);
-          this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
-          // console.log("this.currentUser.ride === ", this.currentUser.ride);
+          try {
+            await this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
+            // Close the modal after a successful update
+            // this.modalCtrl.dismiss();
+            this.modalCtrl.dismiss({
+              updatedRide: matchedRide
+            });
+          } catch (error) {
+            console.error('Error updating document:', error);
+          }
         } else {
-          console.log('Element with id' + this.price + 'not found');
+          console.log('Element with id' + this.price + ' not found');
         }
       } else {
-        console.log('id not matched');
-
+        console.log('ID not matched');
       }
-
     }
-
   }
 
 
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
 
 }

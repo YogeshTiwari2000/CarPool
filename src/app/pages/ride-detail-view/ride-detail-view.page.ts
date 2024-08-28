@@ -64,14 +64,37 @@ export class RideDetailViewPage implements OnInit {
 
 
 
+  // async editRide() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: EditRideComponent,
+  //     cssClass: ["editRideModalCss",],
+  //     componentProps: { currentRideData: this.ride }
+  //   })
+  //   modal.present();
+  // }
+
   async editRide() {
     const modal = await this.modalCtrl.create({
       component: EditRideComponent,
-      cssClass: ["editRideModalCss",],
+      cssClass: ["editRideModalCss"],
       componentProps: { currentRideData: this.ride }
-    })
+    });
+
+    // Handle the data returned from the modal
+    modal.onDidDismiss().then((result) => {
+      if (result.data && result.data.updatedRide) {
+        // Update the ride data with the new values
+        this.ride = result.data.updatedRide;
+        console.log('Updated Ride Data:', this.ride);
+
+        // Update the display or perform any other actions as needed
+        this.calculateTotalPrice();
+      }
+    });
+
     modal.present();
   }
+
 
 
   cancelRide() {
@@ -97,11 +120,6 @@ export class RideDetailViewPage implements OnInit {
   ionViewWillEnter() {
     this.calculateTotalPrice();
   }
-
-
-
-
-
 
   // old pages function for future use || start
 
