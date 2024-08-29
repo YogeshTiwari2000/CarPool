@@ -124,7 +124,7 @@ export class MyWalletPage implements OnInit {
       component: ReciptComponent,
       cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
       componentProps: { userpaymentDetails: selectedPayment },
-      showBackdrop: true,
+      // showBackdrop: true,
     });
     modal.present();
   }

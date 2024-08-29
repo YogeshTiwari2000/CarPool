@@ -61,6 +61,7 @@ export class EditCardComponent implements OnInit {
     vehicleType: "",
     vehicleNumber: "",
     vehicleName: "",
+    vehicleColor: '',
   };
   about: any = {
     miniBio: "",
@@ -74,7 +75,7 @@ export class EditCardComponent implements OnInit {
   // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.handleData

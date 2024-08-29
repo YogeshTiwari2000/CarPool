@@ -2,18 +2,19 @@ declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol, IonRouterLink } from '@ionic/angular/standalone';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-ride',
   templateUrl: './create-ride.page.html',
   styleUrls: ['./create-ride.page.scss'],
   standalone: true,
-  imports: [IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,],
+  imports: [IonRouterLink, IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,],
   providers: [GooglePlaceModule]
 })
 export class CreateRidePage implements OnInit {
@@ -42,6 +43,7 @@ export class CreateRidePage implements OnInit {
 
   createRideForm: FormGroup;
   minDate: string = '';
+  vehiclesDetails: any = null;
 
 
   ride = {
@@ -65,7 +67,7 @@ export class CreateRidePage implements OnInit {
     rideList: [],
   }
 
-
+  router = inject(Router)
 
   constructor(private FormBuilder: FormBuilder) {
     this.createRideForm = this.FormBuilder.group({
@@ -83,6 +85,12 @@ export class CreateRidePage implements OnInit {
 
   ngOnInit() {
     console.log();
+    // this.vehiclesDetails = {
+    //   make: 'Toyota',
+    //   model: 'Corolla',
+    //   year: 2020,
+    //   plateNumber: 'ABC1234'
+    // };
     // Listen to rideType changes
     this.createRideForm.get('rideType')!.valueChanges.subscribe(value => {
       console.log('Is Driver:', value === 'driver');
@@ -134,6 +142,12 @@ export class CreateRidePage implements OnInit {
     console.log('Locations changed:', this.from, this.to);
 
   }
+
+  vehicles() {
+    this.router.navigate(['/profile']);
+  }
+
+
 
 
 

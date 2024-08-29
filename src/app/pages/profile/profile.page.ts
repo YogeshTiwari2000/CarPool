@@ -30,6 +30,7 @@ import {
   RouterOutlet,
 } from "@angular/router";
 import { EditCardComponent } from "src/app/modals/edit-card/edit-card.component";
+import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
 
 @Component({
   selector: "app-profile",
@@ -102,6 +103,16 @@ export class ProfilePage implements OnInit {
       if (dataFromModal !== null) {
         console.log("The result:", dataFromModal.data);
       }
+    });
+
+    return await modal.present();
+  }
+
+  async addVehicleDetails() {
+    const modal = await this.modalCtrl.create({
+      component: VehicleComponent,
+      // cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
+      // componentProps: { userpaymentDetails: selectedPayment },
     });
 
     return await modal.present();
