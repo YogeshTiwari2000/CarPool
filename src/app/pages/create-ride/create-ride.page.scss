@@ -169,6 +169,7 @@ ion-radio.radio-checked::part(mark) {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    border-bottom: 2px solid;
 }
 
 .errorHere span {

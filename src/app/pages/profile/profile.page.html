@@ -122,10 +122,18 @@
             <ion-label color="primary">Vehicle Number : {{vehicle.vehicleNumber}}</ion-label>
             <ion-label color="primary">Vehicle Color : {{vehicle.vehicleColor}}</ion-label>
           </ion-item>
-          <div class="updateBtn"><ion-button class="success" (click)="openEditCard(true)">
-              <ion-icon slot="start" name="create-outline"></ion-icon>
-              <span>Update Vehicle</span>
-            </ion-button></div>
+          <div class="updateBtn">
+            <div><ion-button class="success" (click)="openEditCard(true)">
+                <span>Update Vehicle</span>
+              </ion-button>
+            </div>
+            <!-- <div class=""><ion-button class="danger" (click)="deleteCar()"> -->
+            <div><ion-button class="danger">
+                <span>Delete Vehicle</span>
+              </ion-button>
+            </div>
+          </div>
+
         </ng-container>
       </ng-template>
     </ion-card-content>
