@@ -28,6 +28,7 @@ export class CreateRidePage implements OnInit {
   currentUser: any;
   currentUserDocId: any;
   rideCreatedBy: any = 'driver';
+  carDetails: any;
 
   time: string = '';
   from: string | undefined;
@@ -43,7 +44,6 @@ export class CreateRidePage implements OnInit {
 
   createRideForm: FormGroup;
   minDate: string = '';
-  vehiclesDetails: any = null;
 
 
   ride = {
@@ -84,13 +84,7 @@ export class CreateRidePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log();
-    // this.vehiclesDetails = {
-    //   make: 'Toyota',
-    //   model: 'Corolla',
-    //   year: 2020,
-    //   plateNumber: 'ABC1234'
-    // };
+
     // Listen to rideType changes
     this.createRideForm.get('rideType')!.valueChanges.subscribe(value => {
       console.log('Is Driver:', value === 'driver');
@@ -98,6 +92,8 @@ export class CreateRidePage implements OnInit {
       console.log("this.rideCreatedBy === ", this.rideCreatedBy);
       console.log('Is Companion:', value === 'companion');
     });
+
+
   }
 
   ionViewWillEnter() {
@@ -113,6 +109,9 @@ export class CreateRidePage implements OnInit {
           console.log("currentUser === ", this.currentUser);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
+          this.carDetails = this.currentUser.vehicleDetails
+
+          console.log("this.carDetails === ", this.carDetails);
           if (this.currentUser.ride.lastride != undefined) {
             console.log('ride me id h');
           }
@@ -124,10 +123,13 @@ export class CreateRidePage implements OnInit {
         } else {
           console.log("User not found");
         }
+
+
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+
 
 
   }
@@ -146,10 +148,6 @@ export class CreateRidePage implements OnInit {
   vehicles() {
     this.router.navigate(['/profile']);
   }
-
-
-
-
 
   setMinDate() {
     const today = new Date();

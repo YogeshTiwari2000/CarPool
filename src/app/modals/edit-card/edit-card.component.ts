@@ -49,6 +49,9 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
 })
 export class EditCardComponent implements OnInit {
   @Input() data: any;
+  @Input() addVehicleClicked: any;
+
+
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
   private localStr = inject(LocalStorageService);
@@ -57,12 +60,14 @@ export class EditCardComponent implements OnInit {
   userRole = "passenger";
   // userRole = "driver";
   fileDetails: any;
+
   vehicleDetails: any = {
     vehicleType: "",
     vehicleNumber: "",
     vehicleName: "",
     vehicleColor: '',
   };
+
   about: any = {
     miniBio: "",
     travelPreference: [],
@@ -78,6 +83,7 @@ export class EditCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log("addVehicleClicked === ", this.addVehicleClicked);
     this.handleData
       .userExists(this.data.userEmail)
       .then((res) => {

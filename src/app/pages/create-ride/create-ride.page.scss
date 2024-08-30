@@ -165,4 +165,12 @@ ion-radio.radio-checked::part(mark) {
 .errorHere {
     color: red;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.errorHere span {
+    font-size: 2rem;
 }

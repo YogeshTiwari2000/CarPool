@@ -55,28 +55,21 @@
         <input type="text" placeholder="companion names" [(ngModel)]="companionNames"
           formControlName="companionNames" />
       </ion-col>
-      <!-- <ion-col size="12" class="companionNames"
-        *ngIf="rideCreatedBy === 'driver' && (vehiclesDetails === null || vehiclesDetails === undefined)">
 
-        <p (click)="vehicles()" class="errorHere">Enter car details first in the profile section
-          first</p>
-      </ion-col> -->
 
-      <ion-col size="12" class="companionNames" *ngIf="rideCreatedBy === 'driver'">
-
-        <p (click)="vehicles()" class="errorHere">Enter car details first in the profile section
-          first</p>
+      <!-- <ion-col size="12" class="companionNames" *ngIf="rideCreatedBy === 'driver' && carDetails.length === 0"> -->
+      <ion-col size="12" class="companionNames" *ngIf="rideCreatedBy === 'driver' && !carDetails">
+        <p (click)="vehicles()" class="errorHere">Enter car details first in the profile section <span
+            class="arrow">→</span>
+        </p>
       </ion-col>
 
-      <!-- <ion-col size="12" class="submit">
-        <ion-button expand="block" class="primary" type="submit"
-          [disabled]="createRideForm.invalid || !vehiclesDetails">Create
-          Ride</ion-button>
-      </ion-col> -->
       <ion-col size="12" class="submit">
-        <ion-button expand="block" class="primary" type="submit" [disabled]="createRideForm.invalid ">Create
+        <ion-button expand="block" class="primary" type="submit"
+          [disabled]="createRideForm.invalid || carDetails === 'undefined'">Create
           Ride</ion-button>
       </ion-col>
+
     </ion-row>
   </form>
 </ion-content>

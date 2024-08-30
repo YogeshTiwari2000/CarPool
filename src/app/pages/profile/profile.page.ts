@@ -21,7 +21,7 @@ import {
   IonLabel,
   ModalController,
   IonAvatar,
-  IonCardSubtitle,
+  IonCardSubtitle, IonRow, IonCol
 } from "@ionic/angular/standalone";
 import {
   Router,
@@ -30,14 +30,14 @@ import {
   RouterOutlet,
 } from "@angular/router";
 import { EditCardComponent } from "src/app/modals/edit-card/edit-card.component";
-import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
+// import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"],
   standalone: true,
-  imports: [
+  imports: [IonCol, IonRow,
     IonCardSubtitle,
     IonAvatar,
     IonLabel,
@@ -73,6 +73,7 @@ export class ProfilePage implements OnInit {
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
   isGovtIdVerified: boolean = false;
+  addVehicleClicked: boolean = false;
 
   constructor() { }
 
@@ -93,10 +94,14 @@ export class ProfilePage implements OnInit {
     this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
   }
 
-  async openEditCard() {
+  async openEditCard(isVehicle: boolean = false) {
+
+
+    // console.log("his.addVehicleClicked ", this.addVehicleClicked = true)
     const modal = await this.modalCtrl.create({
       component: EditCardComponent,
-      componentProps: { data: this.currentUser },
+      componentProps: { data: this.currentUser, addVehicleClicked: isVehicle },
+
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
@@ -108,13 +113,14 @@ export class ProfilePage implements OnInit {
     return await modal.present();
   }
 
-  async addVehicleDetails() {
-    const modal = await this.modalCtrl.create({
-      component: VehicleComponent,
-      // cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
-      // componentProps: { userpaymentDetails: selectedPayment },
-    });
 
-    return await modal.present();
-  }
+  // async addVehicleDetails() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: VehicleComponent,
+  //     // cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
+  //     // componentProps: { userpaymentDetails: selectedPayment },
+  //   });
+
+  //   return await modal.present();
+  // }
 }
