@@ -1,5 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 
 import {
   addDoc,
@@ -22,11 +23,13 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
 import { object } from "@angular/fire/database";
 
+
 @Injectable({
   providedIn: "root",
 })
 export class HandleDataService {
   public http = inject(HttpClient);
+  // public afMessaging = inject(AngularFireMessaging);
   private agfirestore: Firestore = inject(Firestore);
   private agFireStorage: Storage = inject(Storage);
 
@@ -45,7 +48,7 @@ export class HandleDataService {
     usersNode: "users",
   };
   public allRideAvailable: any;
-  constructor() { }
+  constructor(public afMessaging: AngularFireMessaging) { }
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -229,4 +232,46 @@ export class HandleDataService {
   }
 
 
+
+  requestPermission() {
+    this.afMessaging.requestToken.subscribe(
+      (token) => {
+        console.log('FCM Token:', token);
+        // Save this token on your server or use it directly to send a notification
+      },
+      (error) => {
+        console.error('Unable to get permission to notify.', error);
+      }
+    );
+  }
+
+
+
+  sendNotification(token: string, title: string, body: string) {
+    const notificationPayload = {
+      notification: {
+        title: title,
+        body: body,
+        click_action: 'FLUTTER_NOTIFICATION_CLICK',
+      },
+      to: token,
+    };
+
+    this.http.post('https://fcm.googleapis.com/fcm/send', notificationPayload, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'key=BAQ3weglGaittzV7fkifl9qAB4Lb3o11qqAvrqaPx90FoPyevsB3lZFUnQS-m9VX5WVYer6pmRH9wVR_d772vz4', // Replace with your FCM server key
+      }),
+    }).subscribe(
+      (response) => {
+        console.log('Notification sent successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending notification:', error);
+      }
+    );
+  }
+
 }
+
+

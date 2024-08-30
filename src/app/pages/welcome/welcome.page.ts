@@ -29,6 +29,7 @@ export class WelcomePage implements OnInit {
 
   ngOnInit() {
     console.log("welcome page");
+    this.handleData.requestPermission(); // Request permission on initialization 
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
@@ -68,5 +69,11 @@ export class WelcomePage implements OnInit {
     console.log("data", data, role);
 
   }
+  sendNotification() {
+    const recipientToken = 'RECIPIENT_DEVICE_FCM_TOKEN'; // Replace with the recipient's token
+    const title = 'Notification Title';
+    const body = 'Notification Body';
 
+    this.handleData.sendNotification(recipientToken, title, body);
+  }
 }

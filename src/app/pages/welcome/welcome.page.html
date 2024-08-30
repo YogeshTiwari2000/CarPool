@@ -13,6 +13,10 @@
       <div class="para-box">
         <h2>UrbanLift</h2>
         <p>Choose Your Ride Option</p>
+        <div class="ion-padding-horizontal ion-padding-bottom">
+          <ion-button expand="block" class="primary"
+            (click)="sendNotification()"><span>sendNotification</span></ion-button>
+        </div>
       </div>
       <div class="ride-box">
         <div class="findRide" [routerLink]="['/search']" routerLinkActive="router-link-active">

@@ -35,6 +35,7 @@ export class RideDetailViewPage implements OnInit {
   currentRideId: any;
   constructor(private route: ActivatedRoute) { }
   ngOnInit() {
+    // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
         this.ride = JSON.parse(params['ride']);
@@ -51,6 +52,7 @@ export class RideDetailViewPage implements OnInit {
       .userExists(this.email)
       .then((result) => {
         if (result.isExist) {
+
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
