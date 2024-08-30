@@ -21,7 +21,7 @@ import {
   IonLabel,
   ModalController,
   IonAvatar,
-  IonCardSubtitle, IonRow, IonCol
+  IonCardSubtitle, IonRow, IonCol, IonButton
 } from "@ionic/angular/standalone";
 import {
   Router,
@@ -30,6 +30,9 @@ import {
   RouterOutlet,
 } from "@angular/router";
 import { EditCardComponent } from "src/app/modals/edit-card/edit-card.component";
+import { CommonService } from "src/app/shared/common.service";
+import { LocalStorageService } from "src/app/shared/local-storage.service";
+import { HandleDataService } from "src/app/services/data/handle-data.service";
 // import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
 
 @Component({
@@ -37,7 +40,7 @@ import { EditCardComponent } from "src/app/modals/edit-card/edit-card.component"
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"],
   standalone: true,
-  imports: [IonCol, IonRow,
+  imports: [IonButton, IonCol, IonRow,
     IonCardSubtitle,
     IonAvatar,
     IonLabel,
@@ -74,10 +77,29 @@ export class ProfilePage implements OnInit {
   isPhoneVerified: boolean = false;
   isGovtIdVerified: boolean = false;
   addVehicleClicked: boolean = false;
+  currentUserData: any;
+  userData: any;
+  vehicle: any;
 
-  constructor() { }
+  constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) { }
 
   ngOnInit() {
+    const currentUserEmail = this.commonService.currentUserEmail;
+    // Retrieve data from Firebase and store it in local storage
+    this.handleData.userExists(currentUserEmail).then((res) => {
+
+      this.currentUserData = res.data;
+      console.log("current user data", this.currentUserData);
+      this.currentUser = res.data
+
+      // this.vehicle = this.currentUser.vehicleDetails
+      console.log("this.vehicle = this.currentUser.vehicleDetails === ", this.vehicle = this.currentUser.vehicleDetails);
+    })
+
+
+    // 
+
+
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);
     console.log("data === ", parsedData);
