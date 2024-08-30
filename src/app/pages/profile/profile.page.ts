@@ -79,7 +79,7 @@ export class ProfilePage implements OnInit {
   addVehicleClicked: boolean = false;
   currentUserData: any;
   userData: any;
-  vehicle: any;
+  vehicle: any[] = [];
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) { }
 
@@ -93,7 +93,7 @@ export class ProfilePage implements OnInit {
       this.currentUser = res.data
 
       // this.vehicle = this.currentUser.vehicleDetails
-      console.log("this.vehicle = this.currentUser.vehicleDetails === ", this.vehicle = this.currentUser.vehicleDetails);
+      this.vehicle = this.currentUserData.vehicleDetails || [];
     })
 
 
@@ -116,33 +116,43 @@ export class ProfilePage implements OnInit {
     this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
   }
 
-  async openEditCard(isVehicle: boolean = false) {
+  // async openEditCard(isVehicle: boolean = false) {
 
+  //   // console.log("his.addVehicleClicked ", this.addVehicleClicked = true)
+  //   const modal = await this.modalCtrl.create({
+  //     component: EditCardComponent,
+  //     componentProps: { data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index },
+  //   });
 
-    // console.log("his.addVehicleClicked ", this.addVehicleClicked = true)
+  //   modal.onDidDismiss().then((dataFromModal) => {
+  //     if (dataFromModal !== null) {
+  //       console.log("The result:", dataFromModal.data);
+  //     }
+  //   });
+
+  //   return await modal.present();
+  // }
+  async openEditCard(isVehicle: boolean = false, index?: number) {
     const modal = await this.modalCtrl.create({
       component: EditCardComponent,
-      componentProps: { data: this.currentUser, addVehicleClicked: isVehicle },
-
+      componentProps: { data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index },
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
-      if (dataFromModal !== null) {
-        console.log("The result:", dataFromModal.data);
+      if (dataFromModal.data) {
+        this.vehicle = dataFromModal.data.vehicles;
       }
     });
 
     return await modal.present();
   }
 
+  deleteVehicle(index: number) {
+    this.vehicle.splice(index, 1);
+    this.updateVehiclesInFirebase();
+  }
 
-  // async addVehicleDetails() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: VehicleComponent,
-  //     // cssClass: ["ReciptComponentCss", "ion-padding-horizontal"],
-  //     // componentProps: { userpaymentDetails: selectedPayment },
-  //   });
-
-  //   return await modal.present();
-  // }
+  updateVehiclesInFirebase() {
+    this.handleData.updateDocument(this.currentUserData, { vehicleDetails: this.vehicle });
+  }
 }

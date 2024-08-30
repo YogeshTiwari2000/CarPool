@@ -28,6 +28,8 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
   styleUrls: ["./edit-card.component.scss"],
   standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
     IonFooter,
     IonToggle,
     IonRow,
@@ -40,8 +42,6 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
     IonToolbar,
     IonIcon,
     IonHeader,
-    CommonModule,
-    FormsModule,
     IonInputPasswordToggle,
     IonSelect,
     IonSelectOption,
@@ -50,72 +50,73 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
 export class EditCardComponent implements OnInit {
   @Input() data: any;
   @Input() addVehicleClicked: any;
-
+  @Input() vehicleIndex: any;
+  vehicle: any[] = [];
 
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
   private localStr = inject(LocalStorageService);
 
-  checkDocs?: boolean = false;
-  userRole = "passenger";
-  // userRole = "driver";
+  checkDocs: boolean = false;
+  userRole: string = "passenger";
   fileDetails: any;
 
-  vehicleDetails: any = {
+  vehicleDetails: any = [{
     vehicleType: "",
     vehicleNumber: "",
     vehicleName: "",
-    vehicleColor: '',
-  };
+    vehicleColor: "",
+  }];
 
   about: any = {
     miniBio: "",
     travelPreference: [],
   };
+
   govtDocs: any = {
     fileDetails: "",
     url: "",
   };
 
-  // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
 
   constructor() { }
 
   ngOnInit() {
     console.log("addVehicleClicked === ", this.addVehicleClicked);
-    this.handleData
-      .userExists(this.data.userEmail)
-      .then((res) => {
-        this.data = res.data;
-        console.log("this.data updated === ", this.data);
-        this.localStr.setItem("currentUser", this.data);
-        if (this.data.vehicleDetails) {
-          this.vehicleDetails = this.data.vehicleDetails;
-        }
-        if (this.data.about) {
-          this.about = this.data.about;
-        }
-        if (this.data.govtDocs) {
-          this.govtDocs = this.data.govtDocs;
-        }
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
-      });
-    console.log("edit modal", this.data);
+
+    this.handleData.userExists(this.data.userEmail).then((res) => {
+      this.data = res.data;
+      this.vehicle = this.data.vehicleDetails || [];
+
+      if (this.vehicleIndex !== undefined) {
+        this.vehicleDetails = this.vehicle[this.vehicleIndex];
+      }
+
+      this.localStr.setItem("currentUser", this.data);
+
+      if (this.data.vehicleDetails) {
+        this.vehicleDetails = this.data.vehicleDetails;
+      }
+      if (this.data.about) {
+        this.about = this.data.about;
+      }
+      if (this.data.govtDocs) {
+        this.govtDocs = this.data.govtDocs;
+      }
+    }).catch((error) => {
+      console.error("Error: ", error);
+    });
   }
 
-  passCheck = false;
+  passCheck: boolean = false;
+
   validatePassword() {
-    if (this.data.password != this.data.cpassword) {
-      this.passCheck = true;
-    } else {
-      this.passCheck = false;
-    }
+    this.passCheck = this.data.password !== this.data.cpassword;
   }
 
-  changePass = false;
+  changePass: boolean = false;
+
   togglePassChange() {
     this.changePass = !this.changePass;
   }
@@ -125,106 +126,65 @@ export class EditCardComponent implements OnInit {
       if (this.data.password) {
         this.data.password = this.handleData.encryptPass(this.data.password);
       }
+
       if (this.file) {
-        const fileUrl = this.handleData
-          .fileUploadToFirebase(this.file)
-          .then((res) => {
-            this.govtDocs = {
-              fileDetails: this.fileDetails,
-              url: res,
-            };
-            this.data.govtDocs = this.govtDocs;
-            // console.log("res === ", res);
-            console.log("Updated File Details with URL:", this.data.govtDocs);
+        try {
+          const fileUrl = await this.handleData.fileUploadToFirebase(this.file);
 
-            //update document
-            this.updateDoc();
-            // let _data = {
-            //   ...this.data,
-            //   vehicleDetails: this.vehicleDetails,
-            //   about: this.about,
-            //   govtDocs: this.govtDocs,
-            // };
-            // if (this.userRole === "driver" && this.checkDocs === true) {
-            //   console.log("edit if modal", _data);
-            // } else {
-            //   console.log("edit else modal", _data);
-            //   const currentUserDocId =
-            //     this.localStr.getItem("currentUserDocId");
-            //   // console.log("data1", this.data);
+          if (this.vehicleIndex !== undefined) {
+            this.vehicle[this.vehicleIndex] = this.vehicleDetails;
+          } else {
+            this.vehicle.push(this.vehicleDetails);
+          }
 
-            //   if (currentUserDocId) {
-            //     this.handleData
-            //       .updateDocument(currentUserDocId, _data)
-            //       .then(() => {
-            //         let updateData = this.handleData
-            //           .userExists(this.data.userEmail)
-            //           .then((res) => {
-            //             this.data = res.data;
-            //             console.log("this.data updated === ", this.data);
-            //             this.localStr.setItem("currentUser", this.data);
-            //             this.localStr.setItem("currentUser", _data);
-            //             // this.close();
-            //           })
-            //           .catch((error) => {
-            //             console.error("Error: ", error);
-            //           });
-            //       });
-            //   } else {
-            //     console.error("Error: currentUserDocId is null or undefined.");
-            //   }
-            // }
-          })
-          .catch((e) => {
-            console.error("Error: ", e);
-          });
+          this.data.vehicleDetails = this.vehicle;
+          this.govtDocs = { fileDetails: this.fileDetails, url: fileUrl };
+          this.data.govtDocs = this.govtDocs;
+
+          console.log("Updated File Details with URL:", this.data.govtDocs);
+
+          this.updateDoc();
+        } catch (error) {
+          console.error("Error uploading file: ", error);
+        }
       } else {
         this.updateDoc();
       }
-      // return;
     } else {
       console.error("Error: this.data is null or undefined.");
     }
   }
 
   updateDoc() {
-    let _data = {
+    let updatedData = {
       ...this.data,
       vehicleDetails: this.vehicleDetails,
       about: this.about,
       govtDocs: this.govtDocs,
     };
-    if (this.userRole === "driver" && this.checkDocs === true) {
-      console.log("edit if modal", _data);
-    } else {
-      console.log("edit else modal", _data);
-      const currentUserDocId = this.localStr.getItem("currentUserDocId");
-      // console.log("data1", this.data);
 
-      if (currentUserDocId) {
-        this.handleData.updateDocument(currentUserDocId, _data).then(() => {
-          let updateData = this.handleData
-            .userExists(this.data.userEmail)
-            .then((res) => {
-              this.data = res.data;
-              console.log("this.data updated === ", this.data);
-              this.localStr.setItem("currentUser", this.data);
-              this.localStr.setItem("currentUser", _data);
-              this.close();
-            })
-            .catch((error) => {
-              console.error("Error: ", error);
-            });
+    const currentUserDocId = this.localStr.getItem("currentUserDocId");
+
+    if (currentUserDocId) {
+      this.handleData.updateDocument(currentUserDocId, updatedData).then(() => {
+        this.handleData.userExists(this.data.userEmail).then((res) => {
+          this.data = res.data;
+          this.localStr.setItem("currentUser", this.data);
+          console.log("User data updated:", this.data);
+          this.close();
+        }).catch((error) => {
+          console.error("Error: ", error);
         });
-      } else {
-        console.error("Error: currentUserDocId is null or undefined.");
-      }
+      }).catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+    } else {
+      console.error("Error: currentUserDocId is null or undefined.");
     }
   }
 
   close() {
-    const data = this.data;
-    this.modalCtrl.dismiss(data, "backdrop");
+    this.modalCtrl.dismiss(this.data, "backdrop");
   }
 
   onFileSelected(event: any) {
