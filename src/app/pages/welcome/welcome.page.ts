@@ -7,6 +7,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
+import { PushNotifications } from '@capacitor/push-notifications';
 
 @Component({
   selector: 'app-welcome',
@@ -25,7 +26,50 @@ export class WelcomePage implements OnInit {
   currentUserData: any;
   isLoggedIn: boolean = false;
 
-  constructor() { }
+  constructor() {
+    this.addListeners();
+    this.registerNotifications();
+    this.getDeliveredNotifications();
+  }
+
+
+  addListeners = async () => {
+    await PushNotifications.addListener('registration', token => {
+      console.info('Registration token: ', token.value);
+    });
+
+    await PushNotifications.addListener('registrationError', err => {
+      console.error('Registration error: ', err.error);
+    });
+
+    await PushNotifications.addListener('pushNotificationReceived', notification => {
+      console.log('Push notification received: ', notification);
+    });
+
+    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+      console.log('Push notification action performed', notification.actionId, notification.inputValue);
+    });
+  }
+
+  registerNotifications = async () => {
+    let permStatus = await PushNotifications.checkPermissions();
+
+    if (permStatus.receive === 'prompt') {
+      permStatus = await PushNotifications.requestPermissions();
+    }
+
+    if (permStatus.receive !== 'granted') {
+      throw new Error('User denied permissions!');
+    }
+
+    await PushNotifications.register();
+  }
+
+  getDeliveredNotifications = async () => {
+    const notificationList = await PushNotifications.getDeliveredNotifications();
+    console.log('delivered notifications', notificationList);
+  }
+
 
   ngOnInit() {
     console.log("welcome page");
@@ -70,10 +114,10 @@ export class WelcomePage implements OnInit {
 
   }
   sendNotification() {
-    const recipientToken = 'RECIPIENT_DEVICE_FCM_TOKEN'; // Replace with the recipient's token
-    const title = 'Notification Title';
-    const body = 'Notification Body';
+    // const recipientToken = 'RECIPIENT_DEVICE_FCM_TOKEN'; // Replace with the recipient's token
+    // const title = 'Notification Title';
+    // const body = 'Notification Body';
 
-    this.handleData.sendNotification(recipientToken, title, body);
+    // this.handleData.sendNotification(recipientToken, title, body);
   }
 }
