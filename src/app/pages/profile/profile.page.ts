@@ -79,7 +79,7 @@ export class ProfilePage implements OnInit {
   addVehicleClicked: boolean = false;
   currentUserData: any;
   userData: any;
-  vehicle: any[] = [];
+  vehicle: any = [];
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) { }
 
@@ -93,12 +93,10 @@ export class ProfilePage implements OnInit {
       this.currentUser = res.data
 
       // this.vehicle = this.currentUser.vehicleDetails
-      this.vehicle = this.currentUserData.vehicleDetails || [];
+      this.vehicle = this.currentUserData.vehicle.vehicleList || [];
+      console.log(" this.vehicle === ", this.vehicle);
+
     })
-
-
-    // 
-
 
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);
@@ -149,10 +147,10 @@ export class ProfilePage implements OnInit {
 
   deleteVehicle(index: number) {
     this.vehicle.splice(index, 1);
-    this.updateVehiclesInFirebase();
+    // this.updateVehiclesInFirebase();
   }
 
-  updateVehiclesInFirebase() {
-    this.handleData.updateDocument(this.currentUserData, { vehicleDetails: this.vehicle });
-  }
+  // updateVehiclesInFirebase() {
+  //   this.handleData.updateDocument(this.currentUserData, { vehicle: this.vehicle });
+  // }
 }

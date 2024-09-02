@@ -82,119 +82,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- <ion-card>
-    <ion-card-header>
-      <ion-card-title>Vehicles</ion-card-title>
-    </ion-card-header>
-    <ion-card-content class="ion-no-padding ion-padding-bottom">
-      <ng-container *ngIf="!vehicle || vehicle.length === 0; else vehicleList">
-        <ion-item lines="none" (click)="openEditCard(true)">
-          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-          <ion-label color="primary">Add vehicle</ion-label>
-        </ion-item>
-      </ng-container>
-
-      <ng-template #vehicleList>
-        <ng-container *ngFor="let item of vehicle; let i = index">
-          <ion-item lines="none">
-            <ion-label color="primary"> Type: {{vehicle.vehicleType}}</ion-label>
-            <ion-label color="primary"> Name: {{vehicle.vehicleName}}</ion-label>
-            <ion-label color="primary"> Type: =</ion-label>
-            <ion-label color="primary"> Name: </ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label color="primary"> Number: {{vehicle.vehicleNumber}}</ion-label>
-            <ion-label color="primary"> Color: {{vehicle.vehicleColor}}</ion-label>
-            <ion-label color="primary"> Number: </ion-label>
-            <ion-label color="primary"> Color:</ion-label>
-          </ion-item>
-          <div class="updateBtn">
-            <ion-button class="success" (click)="openEditCard(true, i)">
-              <span>Update Vehicle</span>
-            </ion-button>
-            <ion-button class="danger">
-              <span>Delete Vehicle</span>
-            </ion-button>
-          </div>
-        </ng-container>
-      </ng-template>
-    </ion-card-content>
-  </ion-card> -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Vehicles</ion-card-title>
-    </ion-card-header>
-    <ion-card-content class="ion-no-padding ion-padding-bottom">
-      <ng-container *ngIf="!vehicle || vehicle.length === 0; else vehicleList">
-        <ion-item lines="none" (click)="openEditCard(true)">
-          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-          <ion-label color="primary">Add vehicle</ion-label>
-        </ion-item>
-      </ng-container>
-
-      <ng-template #vehicleList>
-        <ng-container *ngFor="let item of vehicle; let i = index">
-          <ion-item lines="none">
-            <ion-label color="primary">Type: {{item.vehicleType}}</ion-label>
-            <ion-label color="primary">Name: {{item.vehicleName}}</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label color="primary">Number: {{item.vehicleNumber}}</ion-label>
-            <ion-label color="primary">Color: {{item.vehicleColor}}</ion-label>
-          </ion-item>
-          <div class="updateBtn">
-            <ion-button class="success" (click)="openEditCard(true, i)">
-              <span>Update Vehicle</span>
-            </ion-button>
-            <ion-button class="danger">
-              <span>Delete Vehicle</span>
-            </ion-button>
-          </div>
-        </ng-container>
-      </ng-template>
-    </ion-card-content>
-  </ion-card>
-
-
-  <!-- <ion-card>
-    <ion-card-header>
-      <ion-card-title>Vehicles</ion-card-title>
-    </ion-card-header>
-    <ion-card-content class="ion-no-padding ion-padding-bottom">
-
-      <ng-container *ngIf="vehicle === undefined; else update">
-        <ion-item lines="none" (click)="openEditCard(true)">
-          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-          <ion-label color="primary">Add vehicle</ion-label>
-        </ion-item>
-      </ng-container>
-
-      <ng-template #update>
-        <ng-container>
-          <ion-item lines="none">
-            <ion-label color="primary"> Type : {{vehicle.vehicleType}}</ion-label>
-            <ion-label color="primary"> Name : {{vehicle.vehicleName}}</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label color="primary">Vehicle Number : {{vehicle.vehicleNumber}}</ion-label>
-            <ion-label color="primary">Vehicle Color : {{vehicle.vehicleColor}}</ion-label>
-          </ion-item>
-          <div class="updateBtn">
-            <div><ion-button class="success" (click)="openEditCard(true)">
-                <span>Update Vehicle</span>
-              </ion-button>
-            </div>
-           
-            <div><ion-button class="danger">
-                <span>Delete Vehicle</span>
-              </ion-button>
-            </div>
-          </div>
-
-        </ng-container>
-      </ng-template>
-    </ion-card-content>
-  </ion-card> -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Vehicles</ion-card-title>
@@ -211,7 +98,28 @@
             <ion-label color="primary">Vehicle Color: {{item.vehicleColor}}</ion-label>
           </ion-item>
           <div class="updateBtn">
-            <ion-button class="success" (click)="openEditCard(true, i)">
+            <ion-button class="success">
+              <span>Update Vehicle</span>
+            </ion-button>
+            <ion-button class="danger" (click)="deleteVehicle(i)">
+              <span>Delete Vehicle</span>
+            </ion-button>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <!-- <ng-container *ngIf="vehicle!==undefined else noVehicles">
+        <ng-container>
+          <ion-item lines="none">
+            <ion-label color="primary">Type: {{vehicle.vehicleType}}</ion-label>
+            <ion-label color="primary">Name: {{vehicle.vehicleName}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label color="primary">Vehicle Number: {{vehicle.vehicleNumber}}</ion-label>
+            <ion-label color="primary">Vehicle Color: {{vehicle.vehicleColor}}</ion-label>
+          </ion-item>
+          <div class="updateBtn">
+            <ion-button class="success" (click)="openEditCard(true)">
               <span>Update Vehicle</span>
             </ion-button>
             <ion-button class="danger">
@@ -219,7 +127,13 @@
             </ion-button>
           </div>
         </ng-container>
-      </ng-container>
+        <ng-container>
+          <ion-item lines="none" (click)="openEditCard(true)">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            <ion-label color="primary">Add vehicle</ion-label>
+          </ion-item>
+        </ng-container>
+      </ng-container> -->
 
       <ng-template #noVehicles>
         <ion-item lines="none" (click)="openEditCard(true)">

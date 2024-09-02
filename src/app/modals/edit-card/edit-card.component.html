@@ -189,7 +189,7 @@
     <ion-row>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-select label="Vehicle Type" fill="outline" labelPlacement="stacked" interface="popover"
-          placeholder="Select Vehicle Type" justify="space-between" [(ngModel)]="vehicleDetails.vehicleType"
+          placeholder="Select Vehicle Type" justify="space-between" [(ngModel)]="vehicle.vehicleDetails.vehicleType"
           #vehicleType="ngModel" name="vehicleType" required>
           <ion-select-option value="Car">Car</ion-select-option>
           <ion-select-option value="Bus">Bus</ion-select-option>
@@ -197,18 +197,20 @@
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Vehicle Name" fill="outline" labelPlacement="stacked"
-          placeholder="Enter your vehicle name" [(ngModel)]="vehicleDetails.vehicleName" name="vehicleName" required>
-        </ion-input>
-      </ion-col>
-      <ion-col size="12" class="ion-padding-bottom">
-        <ion-input type="text" label="Vehicle Number" fill="outline" labelPlacement="stacked"
-          placeholder="Enter your vehicle number" [(ngModel)]="vehicleDetails.vehicleNumber" name="vehicleNumber"
+          placeholder="Enter your vehicle name" [(ngModel)]="vehicle.vehicleDetails.vehicleName" name="vehicleName"
           required>
         </ion-input>
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
+        <ion-input type="text" label="Vehicle Number" fill="outline" labelPlacement="stacked"
+          placeholder="Enter your vehicle number" [(ngModel)]="vehicle.vehicleDetails.vehicleNumber"
+          name="vehicleNumber" required>
+        </ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Vehicle Color" fill="outline" labelPlacement="stacked"
-          placeholder="Enter your vehicle Color" [(ngModel)]="vehicleDetails.vehicleColor" name="vehicleColor" required>
+          placeholder="Enter your vehicle Color" [(ngModel)]="vehicle.vehicleDetails.vehicleColor" name="vehicleColor"
+          required>
         </ion-input>
       </ion-col>
     </ion-row>
