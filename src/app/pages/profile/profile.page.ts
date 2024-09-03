@@ -80,6 +80,8 @@ export class ProfilePage implements OnInit {
   currentUserData: any;
   userData: any;
   vehicle: any = [];
+  currentUserDocId: any;
+  addVehicle: boolean = false;
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) { }
 
@@ -95,6 +97,7 @@ export class ProfilePage implements OnInit {
       // this.vehicle = this.currentUser.vehicleDetails
       this.vehicle = this.currentUserData.vehicle.vehicleList || [];
       console.log(" this.vehicle === ", this.vehicle);
+
 
     })
 
@@ -131,9 +134,12 @@ export class ProfilePage implements OnInit {
   //   return await modal.present();
   // }
   async openEditCard(isVehicle: boolean = false, index?: number) {
+
     const modal = await this.modalCtrl.create({
       component: EditCardComponent,
-      componentProps: { data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index },
+      componentProps: {
+        data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index
+      },
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
@@ -146,11 +152,11 @@ export class ProfilePage implements OnInit {
   }
 
   deleteVehicle(index: number) {
-    this.vehicle.splice(index, 1);
-    // this.updateVehiclesInFirebase();
+    this.currentUserDocId = this.localStr.getItem("currentUserDocId");
+
+    this.currentUserData.vehicle.vehicleList.splice(index, 1);
+
+    this.handleData.updateDocumentField(this.currentUserDocId, 'vehicle', this.currentUserData.vehicle);
   }
 
-  // updateVehiclesInFirebase() {
-  //   this.handleData.updateDocument(this.currentUserData, { vehicle: this.vehicle });
-  // }
 }

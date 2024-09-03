@@ -108,11 +108,11 @@ export class CreateRidePage implements OnInit {
           this.currentUser = this.handleData.user;
           console.log("currentUser === ", this.currentUser);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
-          console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
-          this.carDetails = this.currentUser.vehicleDetails
+          // console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
+          this.carDetails = this.currentUser.vehicle.vehicleList
 
           console.log("this.carDetails === ", this.carDetails);
-          if (this.currentUser.ride.lastride != undefined) {
+          if (this.currentUser.ride != undefined) {
             console.log('ride me id h');
           }
           else {
@@ -216,6 +216,7 @@ export class CreateRidePage implements OnInit {
     if (this.currentUser) {
       await this.calculateDistance()
       console.log("after calculateDistance === ", this.rideDistance);
+      // console.log(" this.currentUser.ride.lastride === ", this.currentUser.ride.lastride);
       this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
@@ -237,6 +238,7 @@ export class CreateRidePage implements OnInit {
         this.currentUser.ride.lastride.companionNames = 'this is driver ride'
 
         const immutableride = Object.freeze({ ...this.currentUser.ride.lastride });
+        console.log("immutableride === ", immutableride);
         this.currentUser.ride.rideList.unshift(immutableride);
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
 
