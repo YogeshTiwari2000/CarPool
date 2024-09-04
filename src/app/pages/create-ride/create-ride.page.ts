@@ -9,6 +9,8 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { Router } from '@angular/router';
+import { addIcons } from "ionicons";
+
 @Component({
   selector: 'app-create-ride',
   templateUrl: './create-ride.page.html',

@@ -66,7 +66,8 @@
 
       <ion-col size="12" class="submit">
         <!-- || carDetails === 'undefined' -->
-        <ion-button expand="block" class="primary" type="submit" [disabled]="createRideForm.invalid ">Create
+        <ion-button expand="block" class="primary" type="submit"
+          [disabled]="createRideForm.invalid || carDetails?.length<1">Create
           Ride</ion-button>
       </ion-col>
 
