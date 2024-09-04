@@ -33,6 +33,10 @@ import { EditCardComponent } from "src/app/modals/edit-card/edit-card.component"
 import { CommonService } from "src/app/shared/common.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
+import { addIcons } from "ionicons";
+import { addCircleOutline, create } from "ionicons/icons";
+import { EditVehicleComponent } from "src/app/modals/edit-vehicle/edit-vehicle.component";
+
 // import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
 
 @Component({
@@ -83,7 +87,9 @@ export class ProfilePage implements OnInit {
   currentUserDocId: any;
   addVehicle: boolean = false;
 
-  constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) { }
+  constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) {
+    addIcons({ addCircleOutline, create, });
+  }
 
   ngOnInit() {
     const currentUserEmail = this.commonService.currentUserEmail;
@@ -133,23 +139,68 @@ export class ProfilePage implements OnInit {
 
   //   return await modal.present();
   // }
-  async openEditCard(isVehicle: boolean = false, index?: number) {
+  // async openEditCard(isVehicle: boolean = false, index?: number) {
 
+  //   const modal = await this.modalCtrl.create({
+  //     component: EditCardComponent,
+  //     componentProps: {
+  //       data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index
+  //     },
+  //   });
+
+  //   modal.onDidDismiss().then((dataFromModal) => {
+  //     if (dataFromModal.data) {
+  //       this.vehicle = dataFromModal.data.vehicles;
+  //     }
+  //   });
+
+  //   return await modal.present();
+  // }
+
+
+  async openEditCard(isVehicle: boolean = false, index?: number) {
     const modal = await this.modalCtrl.create({
-      component: EditCardComponent,
+      component: EditCardComponent, // Component for vehicle editing
       componentProps: {
-        data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index
+        data: this.currentUser,
+        addVehicleClicked: isVehicle,
+        // vehicleIndex: index,
+        // vehicle: index !== undefined ? this.vehicle[index] : {} // Pass existing vehicle or empty object for new
       },
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
-      if (dataFromModal.data) {
-        this.vehicle = dataFromModal.data.vehicles;
-      }
+      // if (dataFromModal.data) {
+      //   if (index !== undefined && index !== null) {
+      //     this.vehicle[index] = dataFromModal.data.vehicle;
+      //     console.log(" this.vehicle[index] === ", this.vehicle[index]);
+      //   } else {
+      //     this.vehicle.push(dataFromModal.data.vehicle);
+      //   }
+
+      //   // Update vehicles in Firebase using the updateDocument function
+      //   // this.updateVehiclesInFirebase();
+      // }
     });
 
     return await modal.present();
   }
+  // updateVehiclesInFirebase() {
+  //   const currentUserDocId = this.localStr.getItem("currentUserDocId");
+  //   const updatedVehicleData = { vehicle: { vehicleList: this.vehicle } };
+  //   console.log("updatedVehicleData === ", updatedVehicleData);
+
+  //   // Call the updateDocument function to save changes in Firebase
+  //   this.handleData.updateDocument(currentUserDocId, updatedVehicleData)
+  //     .then(() => {
+  //       console.log("Vehicle data updated in Firebase successfully.");
+  //     })
+  //     .catch(error => {
+  //       console.error("Error updating vehicle data in Firebase:", error);
+  //     });
+  // }
+
+
 
   deleteVehicle(index: number) {
     this.currentUserDocId = this.localStr.getItem("currentUserDocId");
@@ -157,6 +208,22 @@ export class ProfilePage implements OnInit {
     this.currentUserData.vehicle.vehicleList.splice(index, 1);
 
     this.handleData.updateDocumentField(this.currentUserDocId, 'vehicle', this.currentUserData.vehicle);
+  }
+
+
+  async editVehicle(index: number) {
+    const selectedVehicle = this.vehicle[index];
+    const modal = await this.modalCtrl.create({
+      component: EditVehicleComponent,
+      componentProps: { data: this.currentUser, vehicle: selectedVehicle, }
+    });
+
+    // Handle the data returned from the modal
+    modal.onDidDismiss().then((result) => {
+
+    });
+
+    modal.present();
   }
 
 }

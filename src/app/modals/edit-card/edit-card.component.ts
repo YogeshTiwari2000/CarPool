@@ -1,5 +1,3 @@
-
-
 import { CommonModule } from "@angular/common";
 import { Component, inject, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -23,6 +21,8 @@ import {
 } from "@ionic/angular/standalone";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
+import { addIcons } from "ionicons";
+import { close } from "ionicons/icons";
 
 @Component({
   selector: "app-edit-card",
@@ -85,7 +85,9 @@ export class EditCardComponent implements OnInit {
   // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
 
-  constructor() { }
+  constructor() {
+    addIcons({ close });
+  }
 
   ngOnInit() {
 

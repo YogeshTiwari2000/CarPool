@@ -101,7 +101,10 @@
           </ion-item>
 
           <div class="updateBtn">
-            <ion-button class="success">
+            <!-- <ion-button class="success" (click)="openEditCard(true,i)">
+              <span>Edit Vehicle</span>
+            </ion-button> -->
+            <ion-button class="success" (click)="editVehicle(i)">
               <span>Edit Vehicle</span>
             </ion-button>
             <ion-button class="danger" (click)="deleteVehicle(i)">
@@ -109,6 +112,9 @@
             </ion-button>
           </div>
         </ng-container>
+
+
+
       </ng-container>
 
       <!-- <ng-container *ngIf="vehicle!==undefined else noVehicles">
