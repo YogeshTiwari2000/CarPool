@@ -213,9 +213,10 @@ export class ProfilePage implements OnInit {
 
   async editVehicle(index: number) {
     const selectedVehicle = this.vehicle[index];
+    // console.log("selectedVehicle === ", selectedVehicle);
     const modal = await this.modalCtrl.create({
       component: EditVehicleComponent,
-      componentProps: { data: this.currentUser, vehicle: selectedVehicle, }
+      componentProps: { data: this.currentUser, selectedVehicle: selectedVehicle, }
     });
 
     // Handle the data returned from the modal

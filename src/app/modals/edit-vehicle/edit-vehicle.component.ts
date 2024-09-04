@@ -20,6 +20,7 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 export class EditVehicleComponent implements OnInit {
 
   @Input() data: any;
+  @Input() selectedVehicle: any;
 
   vehicle: any = {
     vehicleDetails: {
@@ -39,7 +40,8 @@ export class EditVehicleComponent implements OnInit {
 
   ngOnInit() {
     this.vehicle = this.data.vehicle;
-    console.log("this.data.vehicle === ", this.data.vehicle);
+    // console.log("this.data.vehicle === ", this.data.vehicle);
+    console.log("selectedVehicle === ", this.selectedVehicle);
   }
 
   async updateVehicle() {
@@ -48,6 +50,7 @@ export class EditVehicleComponent implements OnInit {
       ...this.data,
       vehicle: this.vehicle
     }
+
     const currentUserDocId = this.localStr.getItem("currentUserDocId");
     try {
       if (this.data) {

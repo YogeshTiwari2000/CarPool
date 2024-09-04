@@ -216,14 +216,8 @@ export class CreateRidePage implements OnInit {
 
   async onCreateRide() {
     if (this.currentUser) {
-<<<<<<< HEAD
-      await this.calculateDistance()
-      console.log("after calculateDistance === ", this.rideDistance);
-      // console.log(" this.currentUser.ride.lastride === ", this.currentUser.ride.lastride);
-=======
       // await this.calculateDistance()
       // console.log("after calculateDistance === ", this.rideDistance);
->>>>>>> 754aa5d (create ride distance api comment)
       this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
