@@ -22,15 +22,21 @@ export class EditVehicleComponent implements OnInit {
   @Input() data: any;
   @Input() selectedVehicle: any;
 
-  vehicle: any = {
-    vehicleDetails: {
-      vehicleType: "",
-      vehicleNumber: "",
-      vehicleName: "",
-      vehicleColor: '',
-    },
-    vehicleList: []
-  }
+  // vehicle: any = {
+  //   vehicleDetails: {
+  //     vehicleType: "",
+  //     vehicleNumber: "",
+  //     vehicleName: "",
+  //     vehicleColor: '',
+  //   },
+  //   vehicleList: []
+  // }
+
+  vehicleList: any;
+  vehicleType: any = "";
+  vehicleNumber: any = "";
+  vehicleName: any = "";
+  vehicleColor: any = '';
 
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
@@ -39,31 +45,33 @@ export class EditVehicleComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.vehicle = this.data.vehicle;
+    console.log("this.data.vehicle === ", this.data.vehicle);
     // console.log("this.data.vehicle === ", this.data.vehicle);
     console.log("selectedVehicle === ", this.selectedVehicle);
+
+    this.vehicleType = this.selectedVehicle.vehicleType;
+    this.vehicleNumber = this.selectedVehicle.vehicleNumber;
+    this.vehicleName = this.selectedVehicle.vehicleName;
+    this.vehicleColor = this.selectedVehicle.vehicleColor;
+
+    this.vehicleList = this.data.vehicle.vehicleList
+    console.log(" this.vehicleList === ", this.vehicleList);
+
   }
 
   async updateVehicle() {
+    const vehicleToFind = this.selectedVehicle.vehicleNumber;
+    const matchedVehicle = this.vehicleList.find((vehicle: { vehicleNumber: string; }) => vehicle.vehicleNumber === vehicleToFind);
+    console.log("matchedVehicle === ", matchedVehicle);
 
-    let _data = {
-      ...this.data,
-      vehicle: this.vehicle
-    }
+    if (matchedVehicle) {
+      matchedVehicle.vehicleType = this.vehicleType;
+      matchedVehicle.vehicleName = this.vehicleName;
+      matchedVehicle.vehicleColor = this.vehicleColor;
+      const currentUserDocId = this.localStr.getItem("currentUserDocId");
+      this.handleData.updateDocumentField(currentUserDocId, 'vehicle', this.data.vehicle);
 
-    const currentUserDocId = this.localStr.getItem("currentUserDocId");
-    try {
-      if (this.data) {
-        await this.handleData.updateDocument(currentUserDocId, _data);
-
-        // Dismiss the modal after successful update
-        const modal = document.querySelector('ion-modal');
-        if (modal) {
-          modal.dismiss();
-        }
-      }
-    } catch (error) {
-
+      this.modalCtrl.dismiss();
     }
   }
 }
