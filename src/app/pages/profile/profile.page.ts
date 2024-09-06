@@ -36,6 +36,7 @@ import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { addIcons } from "ionicons";
 import { addCircleOutline, create } from "ionicons/icons";
 import { EditVehicleComponent } from "src/app/modals/edit-vehicle/edit-vehicle.component";
+import { LocalNotifications, ScheduleOptions } from "@capacitor/local-notifications";
 
 // import { VehicleComponent } from "src/app/modals/vehicle/vehicle.component";
 
@@ -182,5 +183,36 @@ export class ProfilePage implements OnInit {
 
     modal.present();
   }
+
+
+
+
+  async profileSendNotification() {
+    console.log('sendNotification');
+    let options: ScheduleOptions = {
+      notifications: [
+        {
+          title: 'profile',
+          body: 'this is the profile notification that exist yet',
+          id: 1,
+          // schedule: { at: new Date(Date.now() + 1000 * 5) }, // Trigger after 5 seconds
+          largeBody: "feedback de k aa",
+          summaryText: "aagi",
+          extra: {
+            redirect: '/feedback', // This is the route you want to navigate to
+          },
+        },
+      ],
+    }
+
+    try {
+      await LocalNotifications.schedule(options)
+    } catch (ex) {
+      console.log("ni chala");
+      alert(JSON.stringify(ex));
+    }
+
+  }
+
 
 }

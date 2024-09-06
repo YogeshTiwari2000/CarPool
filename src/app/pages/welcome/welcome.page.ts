@@ -7,7 +7,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
-import { PushNotifications } from '@capacitor/push-notifications';
+import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-welcome',
@@ -27,53 +27,15 @@ export class WelcomePage implements OnInit {
   isLoggedIn: boolean = false;
 
   constructor() {
-    this.addListeners();
-    this.registerNotifications();
-    this.getDeliveredNotifications();
+
   }
 
-
-  addListeners = async () => {
-    await PushNotifications.addListener('registration', token => {
-      console.info('Registration token: ', token.value);
-    });
-
-    await PushNotifications.addListener('registrationError', err => {
-      console.error('Registration error: ', err.error);
-    });
-
-    await PushNotifications.addListener('pushNotificationReceived', notification => {
-      console.log('Push notification received: ', notification);
-    });
-
-    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      console.log('Push notification action performed', notification.actionId, notification.inputValue);
-    });
-  }
-
-  registerNotifications = async () => {
-    let permStatus = await PushNotifications.checkPermissions();
-
-    if (permStatus.receive === 'prompt') {
-      permStatus = await PushNotifications.requestPermissions();
-    }
-
-    if (permStatus.receive !== 'granted') {
-      throw new Error('User denied permissions!');
-    }
-
-    await PushNotifications.register();
-  }
-
-  getDeliveredNotifications = async () => {
-    const notificationList = await PushNotifications.getDeliveredNotifications();
-    console.log('delivered notifications', notificationList);
-  }
 
 
   ngOnInit() {
     console.log("welcome page");
-    this.handleData.requestPermission(); // Request permission on initialization 
+
+
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
@@ -113,11 +75,36 @@ export class WelcomePage implements OnInit {
     console.log("data", data, role);
 
   }
-  sendNotification() {
-    // const recipientToken = 'RECIPIENT_DEVICE_FCM_TOKEN'; // Replace with the recipient's token
-    // const title = 'Notification Title';
-    // const body = 'Notification Body';
 
-    // this.handleData.sendNotification(recipientToken, title, body);
+
+
+
+  async sendNotification() {
+    console.log('sendNotification');
+    let options: ScheduleOptions = {
+      notifications: [
+        {
+          title: 'carpool',
+          body: 'this is the only one notification that exist yet',
+          id: 1,
+          // schedule: { at: new Date(Date.now() + 1000 * 5) }, // Trigger after 5 seconds
+          largeBody: "raji hole",
+          summaryText: "aagi",
+          extra: {
+            redirect: '/profile', // This is the route you want to navigate to
+          },
+        },
+      ],
+    }
+
+    try {
+      await LocalNotifications.schedule(options)
+    } catch (ex) {
+      console.log("ni chala");
+      alert(JSON.stringify(ex));
+    }
+
   }
 }
+
+

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-
+import { LocalNotifications } from '@capacitor/local-notifications';
 import {
   addDoc,
   collection,
@@ -22,6 +22,7 @@ import {
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
 import { object } from "@angular/fire/database";
+import { Router } from "@angular/router";
 
 
 @Injectable({
@@ -29,6 +30,7 @@ import { object } from "@angular/fire/database";
 })
 export class HandleDataService {
   public http = inject(HttpClient);
+  public routes = inject(Router);
   // public afMessaging = inject(AngularFireMessaging);
   private agfirestore: Firestore = inject(Firestore);
   private agFireStorage: Storage = inject(Storage);
@@ -48,7 +50,10 @@ export class HandleDataService {
     usersNode: "users",
   };
   public allRideAvailable: any;
-  constructor(public afMessaging: AngularFireMessaging) { }
+  constructor(public afMessaging: AngularFireMessaging) {
+    this.checkAndRequestNotificationPermission()
+    this.listenToNotificationEvents()
+  }
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -231,45 +236,32 @@ export class HandleDataService {
     }
   }
 
+  async checkAndRequestNotificationPermission() {
+    const permission = await LocalNotifications.checkPermissions();
 
-
-  requestPermission() {
-    this.afMessaging.requestToken.subscribe(
-      (token) => {
-        console.log('FCM Token:', token);
-        // Save this token on your server or use it directly to send a notification
-      },
-      (error) => {
-        console.error('Unable to get permission to notify.', error);
+    if (permission.display === 'granted') {
+      console.log('Notification permission granted.');
+    } else if (permission.display === 'denied') {
+      console.log('Notification permission denied.');
+    } else {
+      const requestPermission = await LocalNotifications.requestPermissions();
+      if (requestPermission.display === 'granted') {
+        console.log('Notification permission granted after request.');
+      } else {
+        console.log('Notification permission denied after request.');
       }
-    );
+    }
   }
+  listenToNotificationEvents() {
+    LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+      console.log('Notification clicked:', notification);
+      const redirectPage = notification.notification.extra?.redirect;
 
-
-
-  sendNotification(token: string, title: string, body: string) {
-    const notificationPayload = {
-      notification: {
-        title: title,
-        body: body,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK',
-      },
-      to: token,
-    };
-
-    this.http.post('https://fcm.googleapis.com/fcm/send', notificationPayload, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'key=BAQ3weglGaittzV7fkifl9qAB4Lb3o11qqAvrqaPx90FoPyevsB3lZFUnQS-m9VX5WVYer6pmRH9wVR_d772vz4', // Replace with your FCM server key
-      }),
-    }).subscribe(
-      (response) => {
-        console.log('Notification sent successfully:', response);
-      },
-      (error) => {
-        console.error('Error sending notification:', error);
+      if (redirectPage) {
+        // Navigate to the specified route
+        this.routes.navigate([redirectPage]);
       }
-    );
+    });
   }
 
 }
