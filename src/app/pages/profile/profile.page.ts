@@ -123,22 +123,6 @@ export class ProfilePage implements OnInit {
     this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
   }
 
-  // async openEditCard(isVehicle: boolean = false) {
-
-  //   // console.log("his.addVehicleClicked ", this.addVehicleClicked = true)
-  //   const modal = await this.modalCtrl.create({
-  //     component: EditCardComponent,
-  //     componentProps: { data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index },
-  //   });
-
-  //   modal.onDidDismiss().then((dataFromModal) => {
-  //     if (dataFromModal !== null) {
-  //       console.log("The result:", dataFromModal.data);
-  //     }
-  //   });
-
-  //   return await modal.present();
-  // }
   // async openEditCard(isVehicle: boolean = false, index?: number) {
 
   //   const modal = await this.modalCtrl.create({
@@ -160,46 +144,18 @@ export class ProfilePage implements OnInit {
 
   async openEditCard(isVehicle: boolean = false, index?: number) {
     const modal = await this.modalCtrl.create({
-      component: EditCardComponent, // Component for vehicle editing
+      component: EditCardComponent,
       componentProps: {
         data: this.currentUser,
         addVehicleClicked: isVehicle,
-        // vehicleIndex: index,
-        // vehicle: index !== undefined ? this.vehicle[index] : {} // Pass existing vehicle or empty object for new
       },
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
-      // if (dataFromModal.data) {
-      //   if (index !== undefined && index !== null) {
-      //     this.vehicle[index] = dataFromModal.data.vehicle;
-      //     console.log(" this.vehicle[index] === ", this.vehicle[index]);
-      //   } else {
-      //     this.vehicle.push(dataFromModal.data.vehicle);
-      //   }
-
-      //   // Update vehicles in Firebase using the updateDocument function
-      //   // this.updateVehiclesInFirebase();
-      // }
     });
 
     return await modal.present();
   }
-  // updateVehiclesInFirebase() {
-  //   const currentUserDocId = this.localStr.getItem("currentUserDocId");
-  //   const updatedVehicleData = { vehicle: { vehicleList: this.vehicle } };
-  //   console.log("updatedVehicleData === ", updatedVehicleData);
-
-  //   // Call the updateDocument function to save changes in Firebase
-  //   this.handleData.updateDocument(currentUserDocId, updatedVehicleData)
-  //     .then(() => {
-  //       console.log("Vehicle data updated in Firebase successfully.");
-  //     })
-  //     .catch(error => {
-  //       console.error("Error updating vehicle data in Firebase:", error);
-  //     });
-  // }
-
 
 
   deleteVehicle(index: number) {
@@ -219,7 +175,7 @@ export class ProfilePage implements OnInit {
       componentProps: { data: this.currentUser, selectedVehicle: selectedVehicle, }
     });
 
-    // Handle the data returned from the modal
+    // Handling the data returned from the modal
     modal.onDidDismiss().then((result) => {
 
     });

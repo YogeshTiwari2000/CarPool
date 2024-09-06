@@ -3,18 +3,19 @@ import { addIcons } from "ionicons";
 import {
   IonCard, IonInput, IonRow, IonCol, IonTitle, IonSelect,
   IonSelectOption, IonButton, IonFooter, IonContent,
-  ModalController
+  ModalController, IonHeader, IonToolbar, IonIcon
 } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
+import { close } from "ionicons/icons";
 
 @Component({
   selector: 'app-edit-vehicle',
   templateUrl: './edit-vehicle.component.html',
   styleUrls: ['./edit-vehicle.component.scss'],
   standalone: true,
-  imports: [IonContent, IonFooter, IonButton, IonTitle, IonCol, IonRow, IonInput, IonCard, IonSelect,
+  imports: [IonIcon, IonToolbar, IonHeader, IonContent, IonFooter, IonButton, IonTitle, IonCol, IonRow, IonInput, IonCard, IonSelect,
     IonSelectOption, FormsModule,]
 })
 export class EditVehicleComponent implements OnInit {
@@ -22,46 +23,35 @@ export class EditVehicleComponent implements OnInit {
   @Input() data: any;
   @Input() selectedVehicle: any;
 
-  // vehicle: any = {
-  //   vehicleDetails: {
-  //     vehicleType: "",
-  //     vehicleNumber: "",
-  //     vehicleName: "",
-  //     vehicleColor: '',
-  //   },
-  //   vehicleList: []
-  // }
-
-  vehicleList: any;
   vehicleType: any = "";
   vehicleNumber: any = "";
   vehicleName: any = "";
   vehicleColor: any = '';
+  vehicleList: any;
 
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
   private localStr = inject(LocalStorageService);
 
-  constructor() { }
+  constructor() {
+    addIcons({ close });
+  }
 
   ngOnInit() {
     console.log("this.data.vehicle === ", this.data.vehicle);
     // console.log("this.data.vehicle === ", this.data.vehicle);
     console.log("selectedVehicle === ", this.selectedVehicle);
 
-    this.vehicleType = this.selectedVehicle.vehicleType;
-    this.vehicleNumber = this.selectedVehicle.vehicleNumber;
-    this.vehicleName = this.selectedVehicle.vehicleName;
-    this.vehicleColor = this.selectedVehicle.vehicleColor;
-
-    this.vehicleList = this.data.vehicle.vehicleList
-    console.log(" this.vehicleList === ", this.vehicleList);
+    // To show the data of selected car in input field we did this or if we want empty fields we can comment/remove these lines
+    this.vehicleType = this.selectedVehicle.vehicleType
+    this.vehicleColor = this.selectedVehicle.vehicleColor
+    this.vehicleName = this.selectedVehicle.vehicleName
+    this.vehicleNumber = this.selectedVehicle.vehicleNumber
 
   }
 
   async updateVehicle() {
-    const vehicleToFind = this.selectedVehicle.vehicleNumber;
-    const matchedVehicle = this.vehicleList.find((vehicle: { vehicleNumber: string; }) => vehicle.vehicleNumber === vehicleToFind);
+    const matchedVehicle = this.selectedVehicle;
     console.log("matchedVehicle === ", matchedVehicle);
 
     if (matchedVehicle) {
@@ -73,5 +63,8 @@ export class EditVehicleComponent implements OnInit {
 
       this.modalCtrl.dismiss();
     }
+  }
+  close() {
+    this.modalCtrl.dismiss();
   }
 }

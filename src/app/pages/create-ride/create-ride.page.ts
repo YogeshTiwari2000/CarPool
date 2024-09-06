@@ -1,8 +1,8 @@
 declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol, IonRouterLink } from '@ionic/angular/standalone';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonDatetimeButton, IonModal, IonDatetime, IonTabButton, IonButton, IonRadioGroup, IonRadio, IonItem, IonLabel, IonButtons, IonMenuButton, IonToggle, IonCol, IonRouterLink, IonSelectOption, IonCard } from '@ionic/angular/standalone';
 import { TravelFromToComponent } from 'src/app/components/travel-from-to/travel-from-to.component';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
@@ -11,12 +11,13 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { Router } from '@angular/router';
 import { addIcons } from "ionicons";
 
+
 @Component({
   selector: 'app-create-ride',
   templateUrl: './create-ride.page.html',
   styleUrls: ['./create-ride.page.scss'],
   standalone: true,
-  imports: [IonRouterLink, IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule,],
+  imports: [IonCard, IonRouterLink, IonCol, IonToggle, IonButtons, IonMenuButton, IonLabel, IonItem, IonRadio, IonRadioGroup, IonButton, IonTabButton, IonDatetime, IonModal, IonDatetimeButton, IonRow, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TravelFromToComponent, ReactiveFormsModule, IonSelectOption,],
   providers: [GooglePlaceModule]
 })
 export class CreateRidePage implements OnInit {
@@ -40,13 +41,11 @@ export class CreateRidePage implements OnInit {
   price: number = 0;
   companionNames: any = ''
 
-
   rideDistance: string = '';
   rideDuration: string = '';
 
   createRideForm: FormGroup;
   minDate: string = '';
-
 
   ride = {
     lastride: {
@@ -65,6 +64,7 @@ export class CreateRidePage implements OnInit {
       duration: '',
       distance: '',
       status: '',
+      vehicle: ''
     },
     rideList: [],
   }
@@ -80,7 +80,8 @@ export class CreateRidePage implements OnInit {
       seatAvl: ['', Validators.required],
       price: ['', Validators.required],
       rideType: ['driver'],
-      companionNames: ['']
+      companionNames: [''],
+      vehicle: ['']
 
     },)
   }
@@ -93,6 +94,7 @@ export class CreateRidePage implements OnInit {
       this.rideCreatedBy = value
       console.log("this.rideCreatedBy === ", this.rideCreatedBy);
       console.log('Is Companion:', value === 'companion');
+
     });
 
 
@@ -126,13 +128,10 @@ export class CreateRidePage implements OnInit {
           console.log("User not found");
         }
 
-
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-
-
 
   }
 
@@ -233,6 +232,8 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.distance = this.rideDistance.toString()
       this.currentUser.ride.lastride.duration = this.rideDuration.toString()
       this.currentUser.ride.lastride.status = 'created'
+      // this.currentUser.
+
 
       if (this.rideCreatedBy === 'driver') {
 
