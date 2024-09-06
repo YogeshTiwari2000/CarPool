@@ -56,14 +56,16 @@
           formControlName="companionNames" />
       </ion-col>
 
-      <ion-col size="12">
-        <select class="dropdown" formControlName="vehicle">
-          <option value="" disabled selected>Select a vehicle</option>
+      <ion-col size="12" *ngIf="rideCreatedBy === 'driver'">
+        <select class="dropdown" [(ngModel)]="vehicle" (ngModelChange)="onVehicleChange($event)"
+          formControlName="vehicle">
           <option *ngFor="let vehicle of carDetails" [value]="vehicle.vehicleName">
             {{ vehicle.vehicleName }}
           </option>
         </select>
       </ion-col>
+
+
 
 
 

@@ -32,7 +32,7 @@ export class CreateRidePage implements OnInit {
   currentUserDocId: any;
   rideCreatedBy: any = 'driver';
   carDetails: any;
-
+  vehicle: any;
   time: string = '';
   from: string | undefined;
   to: string | undefined;
@@ -115,6 +115,8 @@ export class CreateRidePage implements OnInit {
           // console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
           this.carDetails = this.currentUser.vehicle.vehicleList
 
+          this.vehicle = this.carDetails.length ? this.carDetails[0].vehicleName : '';
+
           console.log("this.carDetails === ", this.carDetails);
           if (this.currentUser.ride != undefined) {
             console.log('ride me id h');
@@ -134,6 +136,7 @@ export class CreateRidePage implements OnInit {
       });
 
   }
+
 
   onLocationsChanged(event: { from: string, to: string }) {
     this.from = event.from;
@@ -211,7 +214,10 @@ export class CreateRidePage implements OnInit {
       });
     }
   }
-
+  onVehicleChange(selectedVehicle: string) {
+    console.log('Selected vehicle:', selectedVehicle);
+    this.vehicle = selectedVehicle
+  }
 
   async onCreateRide() {
     if (this.currentUser) {
@@ -232,6 +238,7 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.distance = this.rideDistance.toString()
       this.currentUser.ride.lastride.duration = this.rideDuration.toString()
       this.currentUser.ride.lastride.status = 'created'
+      this.currentUser.ride.lastride.vehicle = this.vehicle
       // this.currentUser.
 
 
