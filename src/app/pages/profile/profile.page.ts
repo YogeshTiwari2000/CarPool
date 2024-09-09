@@ -89,7 +89,7 @@ export class ProfilePage implements OnInit {
   addVehicle: boolean = false;
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) {
-    addIcons({ addCircleOutline, create, });
+    addIcons({ addCircleOutline, create });
   }
 
   ngOnInit() {
@@ -100,7 +100,8 @@ export class ProfilePage implements OnInit {
 
       this.currentUserData = res.data;
       console.log("current user data", this.currentUserData);
-      this.currentUser = res.data
+      this.currentUser = res.data;
+      console.log("this.currentUser === ", this.currentUser);
 
       // this.vehicle = this.currentUser.vehicleDetails
       this.vehicle = this.currentUserData.vehicle.vehicleList || [];

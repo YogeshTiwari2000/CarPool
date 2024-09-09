@@ -186,6 +186,12 @@ export class LoginComponent implements OnInit {
           console.log(res);
           if (res.data) {
             if (res.data.password === this.userData.password) {
+
+              // console.log("res.data === ", res.data);
+
+              // let currentUser = res.data;             
+
+              this.commonService.currentUserEmail = userEmail;
               this.commonService.isUserLoggedin = true;
               this.localStr.setItem("currentUser", res.data);
               const isUserLoggedIn = this.commonService.isUserLoggedin;

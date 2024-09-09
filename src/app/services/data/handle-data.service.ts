@@ -157,6 +157,7 @@ export class HandleDataService {
   //updateDocument
   async updateDocument(docId: string | any, data: any) {
     try {
+      console.log("data === ", data);
       const docRef = doc(this.agfirestore, this.firebaseNodes.usersNode, docId);
       await updateDoc(docRef, data);
       this.commonService.alertBox("Document Updated", "Document update info", [
@@ -183,6 +184,7 @@ export class HandleDataService {
       await updateDoc(docRef, {
         [keyToUpdate]: data,
       });
+      console.log("data123456 === ", data);
       this.commonService.alertBox("Document field Updated", "Document update info", [
         "Ok",
       ]);

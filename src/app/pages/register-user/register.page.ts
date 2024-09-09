@@ -135,6 +135,7 @@ export class RegisterPage implements OnInit {
             const pass = form.value.password;
             this.userData.password = this.handleData.encryptPass(pass);
             delete this.userData["cpassword"];
+            console.log("this.userData === ", this.userData);
             await this.handleData.addUser(this.userData);
             // const data = { [email]: { ...this.userData } };
             this.localStr.setItem("currentUser", this.userData);

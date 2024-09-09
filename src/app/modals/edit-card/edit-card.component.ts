@@ -23,6 +23,7 @@ import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { addIcons } from "ionicons";
 import { close } from "ionicons/icons";
+import { CommonService } from "src/app/shared/common.service";
 
 @Component({
   selector: "app-edit-card",
@@ -56,6 +57,7 @@ export class EditCardComponent implements OnInit {
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
   private localStr = inject(LocalStorageService);
+  private commonService = inject(CommonService);
 
   checkDocs?: boolean = false;
   userRole = "passenger";
@@ -129,9 +131,18 @@ export class EditCardComponent implements OnInit {
 
   async updateData() {
     if (this.data) {
-      if (this.data.password) {
-        this.data.password = this.handleData.encryptPass(this.data.password);
-      }
+
+
+
+      // Check if at least one field has been updated
+      // const isPassChanged = this.changePass !== this.data.cpassword  
+      // console.log("this.data === ", this.data);
+      // console.log("this.changePass === ", this.changePass);
+      // if (this.changePass == true && this.data.cpassword !== undefined && !isPassChanged) {
+      //   this.data.cpassword = this.handleData.encryptPass(this.data.cpassword);
+      // }
+
+
       if (this.file) {
         const fileUrl = this.handleData
           .fileUploadToFirebase(this.file)
@@ -171,7 +182,7 @@ export class EditCardComponent implements OnInit {
       govtDocs: this.govtDocs,
     };
     if (this.userRole === "driver" && this.checkDocs === true) {
-      console.log("edit if modal", _data);
+      console.log("_data : ", _data);
     } else {
       console.log("edit else modal", _data);
       const currentUserDocId = this.localStr.getItem("currentUserDocId");

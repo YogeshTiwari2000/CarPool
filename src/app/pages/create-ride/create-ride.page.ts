@@ -85,7 +85,6 @@ export class CreateRidePage implements OnInit {
 
     },)
   }
-
   ngOnInit() {
 
     // Listen to rideType changes
@@ -99,26 +98,22 @@ export class CreateRidePage implements OnInit {
 
 
   }
-
   ionViewWillEnter() {
     this.setDateToCurrent();
     this.setMinDate();
-
+    console.log("this.email === ", this.email);
     this.handleData
       .userExists(this.email)
       .then((result) => {
+        console.log("result === ", result);
         if (result.isExist) {
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           console.log("currentUser === ", this.currentUser);
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           // console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
-          this.carDetails = this.currentUser.vehicle.vehicleList
 
-          this.vehicle = this.carDetails.length ? this.carDetails[0].vehicleName : '';
-
-          console.log("this.carDetails === ", this.carDetails);
-          if (this.currentUser.ride != undefined) {
+          if (this.currentUser.ride.lastride != undefined) {
             console.log('ride me id h');
           }
           else {
@@ -130,14 +125,28 @@ export class CreateRidePage implements OnInit {
           console.log("User not found");
         }
 
+        if (this.currentUser.vehicle == undefined) {
+          this.commonService.alertBox(
+            "Please create vehicle first",
+            "Vehicle error.",
+            ["Ok"]
+          );
+          return;
+        } else {
+          this.carDetails = this.currentUser.vehicle.vehicleList
+          console.log("this.carDetails === ", this.carDetails);
+
+          this.vehicle = this.carDetails.length ? this.carDetails[0].vehicleName : '';
+
+        }
+
+
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
   }
-
-
   onLocationsChanged(event: { from: string, to: string }) {
     this.from = event.from;
     this.to = event.to;
@@ -148,11 +157,9 @@ export class CreateRidePage implements OnInit {
     console.log('Locations changed:', this.from, this.to);
 
   }
-
   vehicles() {
     this.router.navigate(['/profile']);
   }
-
   setMinDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -161,7 +168,6 @@ export class CreateRidePage implements OnInit {
 
     this.minDate = `${yyyy}-${mm}-${dd}`;
   }
-
   setDateToCurrent() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -174,22 +180,16 @@ export class CreateRidePage implements OnInit {
     const minutes = String(today.getMinutes()).padStart(2, '0');
     this.time = `${hours}:${minutes}`;
   }
-
-
-
   incseatAvl() {
     if (this.seatAvl < 7) {
       this.seatAvl++
     }
   }
-
   decseatAvl() {
     if (this.seatAvl > 1) {
       this.seatAvl--
     }
   }
-
-
   async calculateDistance() {
     if (this.from && this.to) {
       const service = new google.maps.DistanceMatrixService();
@@ -218,11 +218,11 @@ export class CreateRidePage implements OnInit {
     console.log('Selected vehicle:', selectedVehicle);
     this.vehicle = selectedVehicle
   }
-
   async onCreateRide() {
     if (this.currentUser) {
       // await this.calculateDistance()
       // console.log("after calculateDistance === ", this.rideDistance);
+      console.log("onCreateRide === ",);
       this.currentUser.ride.lastride.id = (Math.floor(Math.random() * 900000) + 100000).toString();
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
