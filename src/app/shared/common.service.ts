@@ -1,14 +1,20 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { AlertController } from "@ionic/angular/standalone";
 
 @Injectable({
   providedIn: "root",
 })
-export class CommonService {
+export class CommonService implements OnInit {
   public isUserLoggedin: boolean = false;
   public currentUserEmail: string = "";
 
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController) { }
+  ngOnInit(): void {
+    const data: any = localStorage.getItem("currentUser");
+    const parsedData: any = JSON.parse(data);
+    this.currentUserEmail = parsedData.userEmail
+
+  }
 
   async alertBox(
     message: string,

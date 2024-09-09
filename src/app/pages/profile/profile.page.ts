@@ -94,6 +94,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     const currentUserEmail = this.commonService.currentUserEmail;
+    console.log("currentUserEmail === ", currentUserEmail);
     // Retrieve data from Firebase and store it in local storage
     this.handleData.userExists(currentUserEmail).then((res) => {
 
@@ -110,7 +111,7 @@ export class ProfilePage implements OnInit {
 
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);
-    console.log("data === ", parsedData);
+    // console.log("data === ", parsedData);
 
     const keys = Object.keys(parsedData);
     // console.log("keys === ", keys);

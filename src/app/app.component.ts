@@ -37,9 +37,18 @@ export class AppComponent {
 
   constructor() {
     addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline });
+    // console.log("localStorage.getItem(currentUser) === ", localStorage.getItem("currentUser"));
+    const data: any = localStorage.getItem("currentUser");
+    const parsedData: any = JSON.parse(data);
+    // console.log("data === ", parsedData);
+
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")
       this.commonService.currentUserEmail = user.email
+    }
+    else if (parsedData) {
+      const user = parsedData
+      this.commonService.currentUserEmail = user.userEmail
     }
     else {
       this.commonService.currentUserEmail = "Your@email.com"

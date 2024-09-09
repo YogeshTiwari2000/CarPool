@@ -39,11 +39,12 @@ export class WelcomePage implements OnInit {
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
-
+    console.log("currentUserEmail === ", currentUserEmail);
     this.handleData.userExists(currentUserEmail).then((res) => {
       this.currentUserData = res.data;
       console.log(" this.currentUserData === ", this.currentUserData);
       this.isLoggedIn = this.currentUserData ? true : false; // Set isLoggedIn based on user existence 
+      console.log(" this.isLoggedIn === ", this.isLoggedIn);
 
     });
   }
