@@ -126,24 +126,6 @@ export class ProfilePage implements OnInit {
     this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
   }
 
-  // async openEditCard(isVehicle: boolean = false, index?: number) {
-
-  //   const modal = await this.modalCtrl.create({
-  //     component: EditCardComponent,
-  //     componentProps: {
-  //       data: this.currentUser, addVehicleClicked: isVehicle, vehicleIndex: index
-  //     },
-  //   });
-
-  //   modal.onDidDismiss().then((dataFromModal) => {
-  //     if (dataFromModal.data) {
-  //       this.vehicle = dataFromModal.data.vehicles;
-  //     }
-  //   });
-
-  //   return await modal.present();
-  // }
-
 
   async openEditCard(isVehicle: boolean = false, index?: number) {
     const modal = await this.modalCtrl.create({
@@ -151,10 +133,14 @@ export class ProfilePage implements OnInit {
       componentProps: {
         data: this.currentUser,
         addVehicleClicked: isVehicle,
+
       },
     });
 
     modal.onDidDismiss().then((dataFromModal) => {
+      if (dataFromModal.data) {
+        this.vehicle = dataFromModal.data; // This is the updated vehicle list
+      }
     });
 
     return await modal.present();
@@ -190,30 +176,7 @@ export class ProfilePage implements OnInit {
 
 
   async profileSendNotification() {
-    console.log('sendNotification');
-    let options: ScheduleOptions = {
-      notifications: [
-        {
-          title: 'profile',
-          body: 'this is the profile notification that exist yet',
-          id: 1,
-          // schedule: { at: new Date(Date.now() + 1000 * 5) }, // Trigger after 5 seconds
-          largeBody: "feedback de k aa",
-          summaryText: "aagi",
-          extra: {
-            redirect: '/feedback', // This is the route you want to navigate to
-          },
-        },
-      ],
-    }
-
-    try {
-      await LocalNotifications.schedule(options)
-    } catch (ex) {
-      console.log("ni chala");
-      alert(JSON.stringify(ex));
-    }
-
+    this.commonService.sendNotification('profile', 'this is the profile notification that exist yet', '/feedback', "feedback de k aa", "aagi");
   }
 
 

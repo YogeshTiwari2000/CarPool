@@ -28,6 +28,7 @@
           <input type="date" [(ngModel)]="date" [min]="minDate" class="date formInput" formControlName="date" />
         </div>
         <div class="custom-time-container">
+
           <input type="time" [(ngModel)]="time" class="time formInput" formControlName="time" />
         </div>
       </ion-col>
@@ -56,7 +57,7 @@
           formControlName="companionNames" />
       </ion-col>
 
-      <ion-col size="12" *ngIf="rideCreatedBy === 'driver'">
+      <ion-col size="12" *ngIf="rideCreatedBy === 'driver' && carDetails?.length>0">
         <select class="dropdown" [(ngModel)]="vehicle" (ngModelChange)="onVehicleChange($event)"
           formControlName="vehicle">
           <option *ngFor="let vehicle of carDetails" [value]="vehicle.vehicleName">

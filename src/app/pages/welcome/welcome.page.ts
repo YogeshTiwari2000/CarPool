@@ -81,31 +81,11 @@ export class WelcomePage implements OnInit {
 
 
   async sendNotification() {
-    console.log('sendNotification');
-    let options: ScheduleOptions = {
-      notifications: [
-        {
-          title: 'carpool',
-          body: 'this is the only one notification that exist yet',
-          id: 1,
-          // schedule: { at: new Date(Date.now() + 1000 * 5) }, // Trigger after 5 seconds
-          largeBody: "raji hole",
-          summaryText: "aagi",
-          extra: {
-            redirect: '/profile', // This is the route you want to navigate to
-          },
-        },
-      ],
-    }
 
-    try {
-      await LocalNotifications.schedule(options)
-    } catch (ex) {
-      console.log("ni chala");
-      alert(JSON.stringify(ex));
-    }
+    this.commonService.sendNotification('carpool', 'his is the only one notification that exist yet', '/profile', "raji hole", "aagi");
+  };
 
-  }
+
 }
 
 

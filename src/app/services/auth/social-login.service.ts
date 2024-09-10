@@ -24,6 +24,7 @@ export class SocialLoginService {
   // google login
   googleLogin(tagId: string): Promise<any> {
     return new Promise((resolve, reject) => {
+      console.log("google.accounts === ", google.accounts);
       google.accounts.id.initialize({
         client_id: this.client_id,
         callback: (res: any) => {

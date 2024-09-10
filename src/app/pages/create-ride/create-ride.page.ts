@@ -174,12 +174,13 @@ export class CreateRidePage implements OnInit {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
     const yyyy = today.getFullYear();
 
-    // this.date = `${dd}-${mm}-${yyyy}`;
+    this.date = `${dd}-${mm}-${yyyy}`;
     this.date = `${yyyy}-${mm}-${dd}`;
     const hours = String(today.getHours()).padStart(2, '0');
     const minutes = String(today.getMinutes()).padStart(2, '0');
     this.time = `${hours}:${minutes}`;
   }
+
   incseatAvl() {
     if (this.seatAvl < 7) {
       this.seatAvl++

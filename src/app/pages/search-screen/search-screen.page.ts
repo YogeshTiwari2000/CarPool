@@ -44,14 +44,25 @@ export class SearchScreenPage implements OnInit {
   time: string = '';
   date: any = ''
   passengers: number = 1;
+  currentDate: any;
+  currentTime: any;
 
 
   ngOnInit() {
 
     this.loadAllRides()
-    this.minDate = new Date().toISOString().split('T')[0];
+    const today = new Date();
+    this.currentDate = today.toISOString().split('T')[0];
+    this.currentTime = today.toISOString().split('T')[1];
+    this.minDate = this.currentDate;
+    this.date = this.minDate;
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    this.time = `${hours}:${minutes}`;
 
+    console.log("this.time === ", this.time);
   }
+
   async loadAllRides() {
     await this.handleData.getData();
     this.rideList = this.handleData.getAllRideLists();
@@ -82,24 +93,27 @@ export class SearchScreenPage implements OnInit {
     };
 
     console.log('searchData===', searchData);
+    console.log("this.time === ", this.time);
 
     this.filteredRides = this.rideList.filter((ride: any) => {
 
       const rideDateMatches = ride.date >= searchData.date;
 
-      const rideTimeMatches = ride.time >= searchData.time;
+      // const rideTimeMatches = ride.time >= searchData.time;
 
       const rideFromMatches = ride.from.toLowerCase() === searchData.from.toLowerCase();
 
       const rideToMatches = ride.to.toLowerCase() === searchData.to.toLowerCase();
       const rideHasEnoughSeats = ride.seatAvl >= searchData.passengers;
-      return rideDateMatches && rideTimeMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
+      // return rideDateMatches && rideTimeMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
+      return rideDateMatches && rideFromMatches && rideToMatches && rideHasEnoughSeats;
     });
 
 
     this.router.navigate(['/home'], { state: { filteredRides: this.filteredRides } });
 
   }
+
 
 
   incPassengers() {

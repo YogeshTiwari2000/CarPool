@@ -59,12 +59,15 @@ export class EditVehicleComponent implements OnInit {
       matchedVehicle.vehicleName = this.vehicleName;
       matchedVehicle.vehicleColor = this.vehicleColor;
       const currentUserDocId = this.localStr.getItem("currentUserDocId");
-      this.handleData.updateDocumentField(currentUserDocId, 'vehicle', this.data.vehicle);
+      await this.handleData.updateDocumentField(currentUserDocId, 'vehicle', this.data.vehicle);
 
-      this.modalCtrl.dismiss();
+      // Pass the updated vehicle back to the parent component
+      this.modalCtrl.dismiss(this.data.vehicle); // Passing the updated data
     }
   }
+
   close() {
     this.modalCtrl.dismiss();
   }
+
 }

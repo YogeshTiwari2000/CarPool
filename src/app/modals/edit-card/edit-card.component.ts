@@ -134,13 +134,13 @@ export class EditCardComponent implements OnInit {
 
 
 
-      // Check if at least one field has been updated
-      // const isPassChanged = this.changePass !== this.data.cpassword  
-      // console.log("this.data === ", this.data);
-      // console.log("this.changePass === ", this.changePass);
-      // if (this.changePass == true && this.data.cpassword !== undefined && !isPassChanged) {
-      //   this.data.cpassword = this.handleData.encryptPass(this.data.cpassword);
-      // }
+      // Check if at least pass field has been updated
+      const isPassChanged = this.changePass !== this.data.cpassword
+      console.log("this.data === ", this.data);
+      console.log("this.changePass === ", this.changePass);
+      if (this.changePass == true && this.data.cpassword !== undefined && !isPassChanged) {
+        this.data.cpassword = this.handleData.encryptPass(this.data.cpassword);
+      }
 
 
       if (this.file) {
@@ -172,8 +172,10 @@ export class EditCardComponent implements OnInit {
   }
 
   updateDoc() {
+    if (this.addVehicleClicked) {
 
-    this.vehicle.vehicleList.unshift(this.vehicle.vehicleDetails);
+      this.vehicle.vehicleList.unshift(this.vehicle.vehicleDetails);
+    }
 
     let _data = {
       ...this.data,
@@ -197,6 +199,10 @@ export class EditCardComponent implements OnInit {
               console.log("this.data updated === ", this.data);
               this.localStr.setItem("currentUser", this.data);
               this.localStr.setItem("currentUser", _data);
+
+
+              this.modalCtrl.dismiss(_data.vehicle.vehicleList);
+
               this.close();
             })
             .catch((error) => {
