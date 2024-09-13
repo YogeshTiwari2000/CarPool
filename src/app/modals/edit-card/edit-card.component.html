@@ -58,7 +58,7 @@
         </ion-toggle>
       </ion-col>
       @if (changePass) { @if (data.isSocialLogin === false) {
-      <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
+      <!-- <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input type="password" fill="outline" label="Current Password" labelPlacement="stacked"
           [(ngModel)]="data.password" #password="ngModel" name="password" placeholder="Enter your password" required
           minlength="6">
@@ -72,7 +72,7 @@
             Minimum length is 6 characters.
           </div>
         </div>
-      </ion-col>
+      </ion-col> -->
       }
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input type="password" fill="outline" label="Password" labelPlacement="stacked" [(ngModel)]="data.password"

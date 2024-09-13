@@ -21,7 +21,7 @@ import {
   IonLabel,
   ModalController,
   IonAvatar,
-  IonCardSubtitle, IonRow, IonCol, IonButton
+  IonCardSubtitle, IonRow, IonCol, IonButton, IonInput
 } from "@ionic/angular/standalone";
 import {
   Router,
@@ -45,7 +45,7 @@ import { LocalNotifications, ScheduleOptions } from "@capacitor/local-notificati
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"],
   standalone: true,
-  imports: [IonButton, IonCol, IonRow,
+  imports: [IonInput, IonButton, IonCol, IonRow,
     IonCardSubtitle,
     IonAvatar,
     IonLabel,
@@ -87,12 +87,18 @@ export class ProfilePage implements OnInit {
   vehicle: any = [];
   currentUserDocId: any;
   addVehicle: boolean = false;
+  selectedFile: File | null = null;
+  uploadedFileUrl: string | null = null;
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) {
     addIcons({ addCircleOutline, create });
   }
 
   ngOnInit() {
+    this.currentUserDocId = this.localStr.getItem("currentUserDocId");
+
+    console.log("uploadedFileUrl", this.uploadedFileUrl);
+
     const currentUserEmail = this.commonService.currentUserEmail;
     console.log("currentUserEmail === ", currentUserEmail);
     // Retrieve data from Firebase and store it in local storage
@@ -126,14 +132,12 @@ export class ProfilePage implements OnInit {
     this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
   }
 
-
-  async openEditCard(isVehicle: boolean = false, index?: number) {
+  async openEditCard(isVehicle: boolean = false) {
     const modal = await this.modalCtrl.create({
       component: EditCardComponent,
       componentProps: {
         data: this.currentUser,
         addVehicleClicked: isVehicle,
-
       },
     });
 
@@ -147,8 +151,28 @@ export class ProfilePage implements OnInit {
   }
 
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  async uploadFile() {
+    if (this.selectedFile) {
+      this.uploadedFileUrl = await this.handleData.fileUploadToFirebase(this.selectedFile);
+      console.log("Uploaded file URL: ", this.uploadedFileUrl);
+      this.currentUserData.profilePicture = this.uploadedFileUrl
+      console.log("currentUser.profilePicture === ", this.currentUserData.profilePicture);
+      this.handleData.updateDocumentField(this.currentUserDocId, 'profilePicture', this.currentUserData.profilePicture);
+      console.log("currentUserData === ", this.currentUserData);
+    } else {
+      console.log('No file selected');
+    }
+  }
+
+
   deleteVehicle(index: number) {
-    this.currentUserDocId = this.localStr.getItem("currentUserDocId");
 
     this.currentUserData.vehicle.vehicleList.splice(index, 1);
 
@@ -171,8 +195,6 @@ export class ProfilePage implements OnInit {
 
     modal.present();
   }
-
-
 
 
   async profileSendNotification() {

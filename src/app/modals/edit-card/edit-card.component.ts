@@ -83,6 +83,18 @@ export class EditCardComponent implements OnInit {
     url: "",
   };
 
+  resetVehicleForm() {
+    this.vehicle = {
+      vehicleDetails: {
+        vehicleType: "",
+        vehicleNumber: "",
+        vehicleName: "",
+        vehicleColor: '',
+      },
+      vehicleList: []
+    };
+  }
+
 
   // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
@@ -91,7 +103,11 @@ export class EditCardComponent implements OnInit {
     addIcons({ close });
   }
 
+
   ngOnInit() {
+    console.log("addVehicleClicked === ", this.addVehicleClicked);
+
+    console.log("this.data.cpassword === ", this.data.cpassword);
 
     this.handleData
       .userExists(this.data.userEmail)
@@ -100,7 +116,15 @@ export class EditCardComponent implements OnInit {
         console.log("this.data updated === ", this.data);
         this.localStr.setItem("currentUser", this.data);
         if (this.data.vehicle) {
-          this.vehicle = this.data.vehicle;
+          if (this.addVehicleClicked) {
+
+
+            this.vehicle = this.data.vehicle;
+            // this.resetVehicleForm()
+          } else {
+            console.log("hero");
+
+          }
         }
         if (this.data.about) {
           this.about = this.data.about;
@@ -132,14 +156,19 @@ export class EditCardComponent implements OnInit {
   async updateData() {
     if (this.data) {
 
-
-
       // Check if at least pass field has been updated
-      const isPassChanged = this.changePass !== this.data.cpassword
+      // const isPassChanged = this.changePass !== this.data.cpassword
       console.log("this.data === ", this.data);
       console.log("this.changePass === ", this.changePass);
-      if (this.changePass == true && this.data.cpassword !== undefined && !isPassChanged) {
-        this.data.cpassword = this.handleData.encryptPass(this.data.cpassword);
+
+      if (this.changePass == true && this.data.cpassword === undefined) {
+        this.data.cpassword = this.handleData.encryptPass(this.data.password);
+        this.data.password = this.data.cpassword;
+      }
+
+      if (this.changePass == true && this.data.cpassword !== undefined) {
+        this.data.cpassword = this.handleData.encryptPass(this.data.password);
+        this.data.password = this.data.cpassword;
       }
 
 
