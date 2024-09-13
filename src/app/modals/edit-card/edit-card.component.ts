@@ -83,17 +83,17 @@ export class EditCardComponent implements OnInit {
     url: "",
   };
 
-  resetVehicleForm() {
-    this.vehicle = {
-      vehicleDetails: {
-        vehicleType: "",
-        vehicleNumber: "",
-        vehicleName: "",
-        vehicleColor: '',
-      },
-      vehicleList: []
-    };
-  }
+  // resetVehicleForm() {
+  //   this.vehicle = {
+  //     vehicleDetails: {
+  //       vehicleType: "",
+  //       vehicleNumber: "",
+  //       vehicleName: "",
+  //       vehicleColor: '',
+  //     },
+  //     vehicleList: []
+  //   };
+  // }
 
 
   // fileContent: string | ArrayBuffer | null | any = null;
@@ -105,6 +105,8 @@ export class EditCardComponent implements OnInit {
 
 
   ngOnInit() {
+
+    // this.resetVehicleForm()
     console.log("addVehicleClicked === ", this.addVehicleClicked);
 
     console.log("this.data.cpassword === ", this.data.cpassword);
@@ -119,8 +121,9 @@ export class EditCardComponent implements OnInit {
           if (this.addVehicleClicked) {
 
 
-            this.vehicle = this.data.vehicle;
-            // this.resetVehicleForm()
+            // this.vehicle = this.data.vehicle;
+            this.vehicle.vehicleList = this.data.vehicle.vehicleList;
+
           } else {
             console.log("hero");
 
@@ -201,9 +204,11 @@ export class EditCardComponent implements OnInit {
   }
 
   updateDoc() {
+
     if (this.addVehicleClicked) {
 
       this.vehicle.vehicleList.unshift(this.vehicle.vehicleDetails);
+
     }
 
     let _data = {
@@ -212,6 +217,7 @@ export class EditCardComponent implements OnInit {
       about: this.about,
       govtDocs: this.govtDocs,
     };
+
     if (this.userRole === "driver" && this.checkDocs === true) {
       console.log("_data : ", _data);
     } else {
