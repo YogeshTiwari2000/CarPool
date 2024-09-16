@@ -198,19 +198,19 @@
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Vehicle Name" fill="outline" labelPlacement="stacked"
           placeholder="Enter your vehicle name" [(ngModel)]="vehicle.vehicleDetails.vehicleName" name="vehicleName"
-          required>
+          (ngModelChange)="vehicle.vehicleDetails.vehicleName = $event.toUpperCase()" required>
         </ion-input>
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Vehicle Number" fill="outline" labelPlacement="stacked"
           placeholder="Enter your vehicle number" [(ngModel)]="vehicle.vehicleDetails.vehicleNumber"
-          name="vehicleNumber" required>
+          (ngModelChange)="vehicle.vehicleDetails.vehicleNumber = $event.toUpperCase()" name="vehicleNumber" required>
         </ion-input>
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Vehicle Color" fill="outline" labelPlacement="stacked"
           placeholder="Enter your vehicle Color" [(ngModel)]="vehicle.vehicleDetails.vehicleColor" name="vehicleColor"
-          required>
+          (ngModelChange)="vehicle.vehicleDetails.vehicleColor = capitalizeFirstLetter($event)" required>
         </ion-input>
       </ion-col>
     </ion-row>
