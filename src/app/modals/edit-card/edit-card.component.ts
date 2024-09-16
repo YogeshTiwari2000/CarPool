@@ -83,18 +83,10 @@ export class EditCardComponent implements OnInit {
     url: "",
   };
 
-  // resetVehicleForm() {
-  //   this.vehicle = {
-  //     vehicleDetails: {
-  //       vehicleType: "",
-  //       vehicleNumber: "",
-  //       vehicleName: "",
-  //       vehicleColor: '',
-  //     },
-  //     vehicleList: []
-  //   };
-  // }
-
+  vehicleDetailsAuth(): boolean {
+    const { vehicleType, vehicleName, vehicleNumber, vehicleColor } = this.vehicle.vehicleDetails;
+    return vehicleType && vehicleName && vehicleNumber && vehicleColor ? true : false;
+  }
 
   // fileContent: string | ArrayBuffer | null | any = null;
   file: any;
@@ -106,7 +98,6 @@ export class EditCardComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.resetVehicleForm()
     console.log("addVehicleClicked === ", this.addVehicleClicked);
 
     console.log("this.data.cpassword === ", this.data.cpassword);
@@ -156,7 +147,10 @@ export class EditCardComponent implements OnInit {
     this.changePass = !this.changePass;
   }
 
+
+
   async updateData() {
+
     if (this.data) {
 
       // Check if at least pass field has been updated
@@ -197,6 +191,8 @@ export class EditCardComponent implements OnInit {
       } else {
         this.updateDoc();
       }
+
+
       // return;
     } else {
       console.error("Error: this.data is null or undefined.");

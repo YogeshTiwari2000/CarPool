@@ -246,8 +246,10 @@
 <ion-footer class="ion-padding-horizontal">
   <ion-row class="py-4">
     <ion-col>
-      <ion-button class="success" expand="block" (click)="updateData()">
+      <!-- <ion-button class="success" expand="block" (click)="updateData()" [disabled]="vehicleType && vehicleName && vehicleNumber && vehicleColor ? true : false"> -->
+      <ion-button class="success" expand="block" (click)="updateData()" [disabled]="!vehicleDetailsAuth()">
         <span> {{addVehicleClicked ? "Add " : "Update"}} </span>
+
       </ion-button>
     </ion-col>
     <ion-col>
