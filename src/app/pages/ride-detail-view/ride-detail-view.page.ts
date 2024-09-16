@@ -199,6 +199,8 @@ export class RideDetailViewPage implements OnInit {
 
 
 
-  // old pages function for future use || end
+  async startRideNotification() {
+    this.commonService.sendNotification('carpool', '', '/ride-detail-view', "driver start the ride", "start hogi");
+  };
 
 }

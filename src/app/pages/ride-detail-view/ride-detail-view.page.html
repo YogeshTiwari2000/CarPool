@@ -142,10 +142,10 @@
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
 
-          <ion-label *ngIf="!currentUser.feedback.star" color="primary">
+          <ion-label *ngIf="!currentUser?.feedback?.star" color="primary">
             No Rating
           </ion-label>
-          <ion-label *ngIf="currentUser.feedback.star" color="primary">
+          <ion-label *ngIf="currentUser?.feedback?.star" color="primary">
             <ion-icon class="ion-padding-end" *ngFor="let star of [].constructor(5); let i = index"
               [name]="i < currentUser.feedback.star ? 'star' : 'star-outline'" color="warning">
             </ion-icon>
@@ -162,7 +162,7 @@
       <ion-col class=" " size="12">
         <div>
           <ion-buttons slot="primary">
-            <ion-button fill="outline">
+            <ion-button fill="outline" (click)="startRideNotification()">
               Start Ride
               <!-- <ion-icon name="create"></ion-icon> -->
             </ion-button>
