@@ -8,6 +8,9 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-welcome',
@@ -23,6 +26,7 @@ export class WelcomePage implements OnInit {
   commonService = inject(CommonService);
   routes = inject(Router);
   toastController = inject(ToastController);
+  private firestore: Firestore = inject(Firestore);
   currentUserData: any;
   isLoggedIn: boolean = false;
 
@@ -30,11 +34,17 @@ export class WelcomePage implements OnInit {
 
   }
 
-
+  users: any[] = [];
+  subscription: Subscription | undefined;
 
   ngOnInit() {
     console.log("welcome page");
 
+    this.subscription = this.handleData.subscribeToWallet("6vimrX6rgOinwgmBj7BY").subscribe((data) => {
+      console.log("Changes detected:", data);
+      this.users = data;
+      this.onNodesChanged(data);  // Trigger a function when nodes change
+    });
 
   }
   ionViewWillEnter() {
@@ -49,6 +59,10 @@ export class WelcomePage implements OnInit {
     });
   }
 
+  onNodesChanged(data: any[]): void {
+    // Do something with the updated nodes
+    console.log("Updated node data:", data);
+  }
 
   async reqRide() {
     if (this.isLoggedIn) {

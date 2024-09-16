@@ -10,6 +10,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  onSnapshot,
   where,
 } from "@angular/fire/firestore";
 import {
@@ -23,6 +24,7 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
 import { object } from "@angular/fire/database";
 import { Router } from "@angular/router";
+import { Observable } from "rxjs";
 
 
 @Injectable({
@@ -54,6 +56,8 @@ export class HandleDataService {
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
   }
+
+
 
   //encrypt pass
   encryptPass(getPass: string) {
@@ -91,6 +95,7 @@ export class HandleDataService {
         },
       };
     });
+
     this.userCollection = data
     // console.log("this.userCollection === ", this.userCollection); 
     const allRideLists: any[] = [];
@@ -265,6 +270,54 @@ export class HandleDataService {
         // Navigate to the specified route
         this.routes.navigate([redirectPage]);
       }
+    });
+  }
+
+
+  subscribeToAllNodes(): Observable<any[]> {
+    const collectionRef = collection(
+      this.agfirestore,  // this.agfirestore.firestore in v9+
+      'users'                    // your collection reference (use 'this.firebaseNodes.usersNode' if necessary)
+    );
+
+    return new Observable((observer) => {
+      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+        const data = snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data()
+          };
+        });
+        observer.next(data);
+      }, (error) => {
+        observer.error(error);
+      });
+
+      // Cleanup function when unsubscribing
+      return { unsubscribe };
+    });
+  }
+
+  subscribeToWallet(userId: string): Observable<any> {
+    // Reference to the specific user document
+    const userDocRef = doc(this.agfirestore, 'users', userId);
+
+    return new Observable((observer) => {
+      // Subscribe to the specific user document
+      const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
+        const userData = snapshot.data();
+        console.log("userData === ", userData);
+        if (userData && userData) {
+          observer.next(userData);
+        } else {
+          observer.next(null); // or handle the case where `wallet` does not exist
+        }
+      }, (error) => {
+        observer.error(error);
+      });
+
+      // Cleanup function when unsubscribing
+      return { unsubscribe };
     });
   }
 
