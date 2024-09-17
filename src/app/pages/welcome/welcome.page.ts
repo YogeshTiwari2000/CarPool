@@ -42,6 +42,7 @@ export class WelcomePage implements OnInit {
 
     this.subscription = this.handleData.subscribeToWallet("6vimrX6rgOinwgmBj7BY").subscribe((data) => {
       console.log("Changes detected:", data);
+      this.sendNotification()
       this.users = data;
       this.onNodesChanged(data);  // Trigger a function when nodes change
     });
