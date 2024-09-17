@@ -154,6 +154,29 @@
       </ion-col>
     </ion-row>
   </ion-card>
+
+
+
+  <ion-card>
+    <ion-col class="route" size="12">
+      <p>Passanger request list</p>
+    </ion-col>
+    <ion-row class=" ion-padding" *ngFor="let Passanger of selectedRidePassengerList">
+      <ion-col size="4" class="">
+        <p>{{Passanger.passName}}</p>
+      </ion-col>
+      <ion-col size="4" class="">
+        <ion-button expand="block" class="primary" (click)="acceptRequest()"><span>Accept</span></ion-button>
+      </ion-col>
+      <ion-col size="4" class="">
+        <ion-button expand="block" class="danger" (click)="rejectRequest()"><span>Reject</span></ion-button>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-card>
+
+
   <ion-card class="rideActivity">
     <ion-row class=" ion-padding">
       <ion-col class="route" size="12">

@@ -190,7 +190,7 @@ export class HandleDataService {
       await updateDoc(docRef, {
         [keyToUpdate]: data,
       });
-      // console.log("data123456 === ", data);
+      console.log("data123456 === ", data);
       this.commonService.alertBox("Document field Updated", "Document update info", [
         "Ok",
       ]);
@@ -330,12 +330,15 @@ export class HandleDataService {
       'users'            // Reference to the 'users' collection
     );
 
+    console.log('ye chl gya');
+
+
     return new Observable((observer) => {
       const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
         const data = snapshot.docs.map((doc) => {
-          console.log('ye nhi chl rha ');
-
           // Extract rideList for each user
+          console.log('yha tk aa gya ');
+
           const docData = doc.data();
           const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
 

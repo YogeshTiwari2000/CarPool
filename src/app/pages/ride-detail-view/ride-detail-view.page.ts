@@ -7,6 +7,7 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { EditRideComponent } from 'src/app/modals/edit-ride/edit-ride.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ride-detail-view',
@@ -36,7 +37,15 @@ export class RideDetailViewPage implements OnInit {
   currentUserDocId: any;
   userRideList: any;
   currentRideId: any;
+
+  selectedRidePassengerList: any;
+
   constructor(private route: ActivatedRoute) { }
+
+  subscription: Subscription | undefined;
+  users: any[] = [];
+
+
   ngOnInit() {
     // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
@@ -97,10 +106,45 @@ export class RideDetailViewPage implements OnInit {
       });
 
 
+
+    // // change detech code 
+
+
+    this.subscription = this.handleData.subscribeToAllRideLists("vkOkXi5KrdBHdhDJ8IjZ").subscribe((data) => {
+      console.log("Changes detected for all users:", data);
+
+      // Filter the data to get only the document with the specific ID
+      const userWithSpecificId = data.find((user: any) => user.id === "vkOkXi5KrdBHdhDJ8IjZ");
+
+      if (userWithSpecificId) {
+        console.log("Changes detected for user with ID vkOkXi5KrdBHdhDJ8IjZ:", userWithSpecificId);
+        console.log("userWithSpecificId.ride === ", userWithSpecificId.ride);
+        console.log("userWithSpecificId.ride.rideList === ", userWithSpecificId.ride.rideList);
+
+        const matchedRideDetect = userWithSpecificId.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+        console.log("matchedRideDetect.passengerList00 === ", matchedRideDetect.passengerList);
+        this.selectedRidePassengerList = matchedRideDetect.passengerList
+        // if (matchedRideDetect.passengerList) {
+        //   console.log('passengerList me change hua h '); 
+
+        //   this.sendNotification();
+        // }
+
+      } else {
+        console.log("No changes detected for user with ID vkOkXi5KrdBHdhDJ8IjZ.");
+      }
+
+      this.users = data;  // Update the users with the current data
+      // this.onNodesChanged(data);  // Trigger a function when nodes change
+    });
+
+
+
   }
 
 
   async editRide() {
+
     const modal = await this.modalCtrl.create({
       component: EditRideComponent,
       cssClass: ["editRideModalCss"],
@@ -122,6 +166,20 @@ export class RideDetailViewPage implements OnInit {
     modal.present();
   }
 
+  async acceptRequest() {
+    this.acceptNotification()
+
+  }
+  async rejectRequest() {
+    this.rejectNotification()
+  }
+
+  async acceptNotification() {
+    this.commonService.sendNotification('carpool', 'noti', '/profile', "accept ride notification", "krle");
+  };
+  async rejectNotification() {
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', "reject ride notification", "mt kr");
+  };
 
 
   cancelRide() {
