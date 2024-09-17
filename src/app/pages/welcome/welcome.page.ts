@@ -56,45 +56,45 @@ export class WelcomePage implements OnInit {
 
   ngOnInit() {
     // Subscribe to ride list changes
-    // this.subscription = this.handleData.subscribeToAllRideLists("vkOkXi5KrdBHdhDJ8IjZ").subscribe((data) => {
-    //   console.log("Changes detected:", data);
-    //   console.log('ye bhi na chl rha');
+    this.subscription = this.handleData.subscribeToAllRideLists("vkOkXi5KrdBHdhDJ8IjZ").subscribe((data) => {
+      console.log("Changes detected:", data);
+      console.log('ye bhi na chl rha');
 
 
-    //   if (this.previousData) {
-    //     // Detect changes in the rideList field (or any other field you want to track)
-    //     data.forEach((userData: any, index: number) => {
-    //       const prevUserData = this.previousData[index];
+      if (this.previousData) {
+        // Detect changes in the rideList field (or any other field you want to track)
+        data.forEach((userData: any, index: number) => {
+          const prevUserData = this.previousData[index];
 
-    //       // Check if rideList has changed
-    //       const prevRideList = prevUserData?.ride?.rideList || [];
-    //       const currentRideList = userData?.ride?.rideList || [];
+          // Check if rideList has changed
+          const prevRideList = prevUserData?.ride?.rideList || [];
+          const currentRideList = userData?.ride?.rideList || [];
 
-    //       if (JSON.stringify(prevRideList) !== JSON.stringify(currentRideList)) {
-    //         console.log(`Changes detected in rideList for user: ${userData.id}`);
-    //         console.log("Previous rideList:", prevRideList);
-    //         console.log("Current rideList:", currentRideList);
+          if (JSON.stringify(prevRideList) !== JSON.stringify(currentRideList)) {
+            console.log(`Changes detected in rideList for user: ${userData.id}`);
+            console.log("Previous rideList:", prevRideList);
+            console.log("Current rideList:", currentRideList);
 
-    //         // You can also determine the added/removed rides if needed
-    //         const addedRides = currentRideList.filter((ride: any) => !prevRideList.includes(ride));
-    //         const removedRides = prevRideList.filter((ride: any) => !currentRideList.includes(ride));
+            // You can also determine the added/removed rides if needed
+            const addedRides = currentRideList.filter((ride: any) => !prevRideList.includes(ride));
+            const removedRides = prevRideList.filter((ride: any) => !currentRideList.includes(ride));
 
-    //         console.log("Added rides:", addedRides);
-    //         console.log("Removed rides:", removedRides);
-    //       }
-    //     });
-    //   }
+            console.log("Added rides:", addedRides);
+            console.log("Removed rides:", removedRides);
+          }
+        });
+      }
 
-    //   // Store the current data as the previous state for future comparisons
-    //   this.previousData = data;
+      // Store the current data as the previous state for future comparisons
+      this.previousData = data;
 
-    //   // Update the users and trigger any further actions
-    //   this.users = data;
-    //   this.onNodesChanged(data);
+      // Update the users and trigger any further actions
+      this.users = data;
+      this.onNodesChanged(data);
 
-    //   // Send a notification if needed
-    //   this.sendNotification();
-    // });
+      // Send a notification if needed
+      this.sendNotification();
+    });
   }
 
 
@@ -121,10 +121,10 @@ export class WelcomePage implements OnInit {
     });
   }
 
-  // onNodesChanged(data: any[]): void {
-  //   // Do something with the updated nodes
-  //   console.log("Updated node data:", data);
-  // }
+  onNodesChanged(data: any[]): void {
+    // Do something with the updated nodes
+    console.log("Updated node data:", data);
+  }
 
   async reqRide() {
     if (this.isLoggedIn) {
