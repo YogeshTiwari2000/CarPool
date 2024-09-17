@@ -321,6 +321,45 @@ export class HandleDataService {
     });
   }
 
+
+
+
+  subscribeToAllRideLists(p0: string): Observable<any[]> {
+    const collectionRef = collection(
+      this.agfirestore,  // Firestore instance
+      'users'            // Reference to the 'users' collection
+    );
+
+    return new Observable((observer) => {
+      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+        const data = snapshot.docs.map((doc) => {
+          // Extract rideList for each user
+          const docData = doc.data();
+          const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
+
+          return {
+            id: doc.id,
+            rideList: rideList,  // Include the rideList in the returned data
+            ...docData,          // Spread the rest of the user data
+          };
+        });
+
+        observer.next(data);  // Send the data to subscribers
+      }, (error) => {
+        observer.error(error);
+      });
+
+      // Cleanup function when unsubscribing
+      return { unsubscribe };
+    });
+  }
+
+
+
+
+
+
+
 }
 
 

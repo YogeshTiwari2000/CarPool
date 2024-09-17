@@ -40,11 +40,11 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
     console.log("welcome page");
 
-    this.subscription = this.handleData.subscribeToWallet("rtMHkP0Z2e0dYsMk3QJQ").subscribe((data) => {
+    this.subscription = this.handleData.subscribeToAllRideLists("PwGNVpPvdO39GJUvWURG").subscribe((data) => {
       console.log("Changes detected:", data);
-      this.sendNotification()
       this.users = data;
       this.onNodesChanged(data);  // Trigger a function when nodes change
+      this.sendNotification()
     });
 
   }

@@ -156,6 +156,7 @@ export class RideDetailViewPage implements OnInit {
       // for notification 
 
       if (this.ride.passengerList != undefined) {
+
         console.log('passenger h ');
         const passenger = {
           passName: this.currentUser.userName,
@@ -173,7 +174,6 @@ export class RideDetailViewPage implements OnInit {
 
         if (rideIndex !== -1) {
           this.rideCreator.ride.rideList[rideIndex] = matchedRide;
-          // Update the document with the modified ride
           this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
         } else {
           console.log("Ride to replace not found!");
