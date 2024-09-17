@@ -37,7 +37,7 @@ export class RideDetailViewPage implements OnInit {
   currentUserDocId: any;
   userRideList: any;
   currentRideId: any;
-
+  bookRideBtn: boolean = false;
   selectedRidePassengerList: any;
 
   constructor(private route: ActivatedRoute) { }
@@ -194,6 +194,7 @@ export class RideDetailViewPage implements OnInit {
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide);
     if (matchedRide) {
+      this.bookRideBtn = false;
       matchedRide.status = 'canceled'
       console.log(" matchedRide.status === ", matchedRide.status);
       this.status = matchedRide.status
@@ -205,6 +206,7 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async bookRide() {
+
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide)
     if (matchedRide) {
@@ -218,8 +220,11 @@ export class RideDetailViewPage implements OnInit {
       console.log("immutableride === ", immutableride);
       this.currentUser.ride.rideList.unshift(immutableride);
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
-
+      this.bookRideBtn = true;
       // for notification 
+
+      // for btn
+
 
       if (this.ride.passengerList != undefined) {
 
