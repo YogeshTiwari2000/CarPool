@@ -26,10 +26,13 @@ export class RideDetailViewPage implements OnInit {
 
   ride: any;
   email: any;
+  rideremail: any;
   currentUser: any;
+  rideCreator: any;
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
   status: any;
+
   currentUserDocId: any;
   userRideList: any;
   currentRideId: any;
@@ -40,14 +43,20 @@ export class RideDetailViewPage implements OnInit {
       if (params['ride']) {
         this.ride = JSON.parse(params['ride']);
         console.log('Ride Data:', this.ride);
-        this.email = this.ride.riderEmail
+        this.rideremail = this.ride.riderEmail
         // console.log("this.email === ", this.email);
         this.currentRideId = this.ride.id
         this.status = this.ride.status
+
         console.log(" this.status === ", this.status);
+        console.log(" this.this.ride.currentUserDocId === ", this.ride.riderUserId);
         // console.log(" this.currentRideId === ", this.currentRideId);
       }
     });
+
+
+    this.email = this.commonService.currentUserEmail;
+
     this.handleData
       .userExists(this.email)
       .then((result) => {
@@ -56,10 +65,11 @@ export class RideDetailViewPage implements OnInit {
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
-          console.log("currentUser === ", this.currentUser);
+          console.log("currentUser hero === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
           // console.log(" this.isEmailVerified === ", this.isEmailVerified);
-          this.userRideList = this.currentUser.ride.rideList
+          this.userRideList = this.handleData.getAllRideLists()
+          // this.userRideList = this.currentUser.ride.rideList
           // console.log("this.userRideList === ", this.userRideList);
         } else {
           console.log("User not found");
@@ -68,6 +78,25 @@ export class RideDetailViewPage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
+
+    // for ride creater
+    this.handleData
+      .userExists(this.rideremail)
+      .then((result) => {
+        if (result.isExist) {
+
+          this.handleData.user = result.data;
+          this.rideCreator = this.handleData.user;
+          console.log(" this.rideCreator sholet === ", this.rideCreator);
+        } else {
+          console.log("User not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+
   }
 
 
@@ -111,11 +140,51 @@ export class RideDetailViewPage implements OnInit {
 
   bookRide() {
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRide === ", matchedRide)
     if (matchedRide) {
-      matchedRide.status = 'requested'
-      console.log(" matchedRide.status === ", matchedRide.status);
-      this.status = matchedRide.status
+      // matchedRide.status = 'requested'
+      // console.log(" matchedRide.status === ", matchedRide.status);
+      // this.status = matchedRide.status
+      // this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+
+      // to move ride to my updates 
+      const immutableride = Object.freeze({ ...matchedRide });
+      console.log("immutableride === ", immutableride);
+      this.currentUser.ride.rideList.unshift(immutableride);
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+
+      // for notification 
+
+      if (this.ride.passengerList != undefined) {
+        console.log('passenger h ');
+        const passenger = {
+          passName: this.currentUser.userName,
+          passId: this.currentUserDocId,
+          passEmail: this.currentUser.userEmail,
+          passStatus: 'Requested',
+        }
+
+
+        const immutablePassenger = Object.freeze({ ...passenger });
+        matchedRide.passengerList.unshift(immutablePassenger);
+
+        // Find the index of the ride to replace
+        const rideIndex = this.rideCreator.ride.rideList.findIndex((ride: { id: string; }) => ride.id === this.currentRideId);
+
+        if (rideIndex !== -1) {
+          this.rideCreator.ride.rideList[rideIndex] = matchedRide;
+          // Update the document with the modified ride
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+        } else {
+          console.log("Ride to replace not found!");
+        }
+
+
+      } else {
+        console.log('koi nhi h create kro');
+      }
+
+
     } else {
       console.log('not able to book the ride');
     }

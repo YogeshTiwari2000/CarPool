@@ -53,6 +53,7 @@ export class CreateRidePage implements OnInit {
       ridername: '',
       riderpicture: '',
       riderEmail: '',
+      riderUserId: '',
       time: '',
       type: '',
       from: '',
@@ -64,7 +65,8 @@ export class CreateRidePage implements OnInit {
       duration: '',
       distance: '',
       status: '',
-      vehicle: ''
+      vehicle: '',
+      passengerList: [],
     },
     rideList: [],
   }
@@ -228,6 +230,7 @@ export class CreateRidePage implements OnInit {
       this.currentUser.ride.lastride.ridername = this.currentUser.userName
       this.currentUser.ride.lastride.riderpicture = this.currentUser.profilePicture
       this.currentUser.ride.lastride.riderEmail = this.currentUser.userEmail
+      this.currentUser.ride.lastride.riderUserId = this.currentUserDocId
       this.currentUser.ride.lastride.type = this.rideCreatedBy
       this.currentUser.ride.lastride.time = this.time
       this.currentUser.ride.lastride.from = this.from ?? ''

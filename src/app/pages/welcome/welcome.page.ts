@@ -40,7 +40,7 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
     console.log("welcome page");
 
-    this.subscription = this.handleData.subscribeToWallet("6vimrX6rgOinwgmBj7BY").subscribe((data) => {
+    this.subscription = this.handleData.subscribeToWallet("rtMHkP0Z2e0dYsMk3QJQ").subscribe((data) => {
       console.log("Changes detected:", data);
       this.sendNotification()
       this.users = data;
@@ -70,8 +70,6 @@ export class WelcomePage implements OnInit {
       this.routes.navigate(['/create-ride'])
     }
     else {
-
-
       const toast = await this.toastController.create({
         message: 'login before request a ride',
         duration: 1500,
@@ -96,8 +94,7 @@ export class WelcomePage implements OnInit {
 
 
   async sendNotification() {
-
-    this.commonService.sendNotification('carpool', 'his is the only one notification that exist yet', '/profile', "raji hole", "aagi");
+    this.commonService.sendNotification('carpool', 'his is the only one notification that exist yet', '/profile', "hero notification check", "aagi");
   };
 
 
