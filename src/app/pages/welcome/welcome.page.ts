@@ -55,6 +55,8 @@ export class WelcomePage implements OnInit {
   previousData: any = null;  // Store the previous state
 
   ngOnInit() {
+    console.log();
+
     // Subscribe to ride list changes
     this.subscription = this.handleData.subscribeToAllRideLists("vkOkXi5KrdBHdhDJ8IjZ").subscribe((data) => {
       console.log("Changes detected:", data);
