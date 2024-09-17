@@ -190,7 +190,7 @@ export class HandleDataService {
       await updateDoc(docRef, {
         [keyToUpdate]: data,
       });
-      console.log("data123456 === ", data);
+      // console.log("data123456 === ", data);
       this.commonService.alertBox("Document field Updated", "Document update info", [
         "Ok",
       ]);
@@ -274,85 +274,87 @@ export class HandleDataService {
   }
 
 
-  subscribeToAllNodes(): Observable<any[]> {
-    const collectionRef = collection(
-      this.agfirestore,  // this.agfirestore.firestore in v9+
-      'users'                    // your collection reference (use 'this.firebaseNodes.usersNode' if necessary)
-    );
+  // subscribeToAllNodes(): Observable<any[]> {
+  //   const collectionRef = collection(
+  //     this.agfirestore,  // this.agfirestore.firestore in v9+
+  //     'users'                    // your collection reference (use 'this.firebaseNodes.usersNode' if necessary)
+  //   );
 
-    return new Observable((observer) => {
-      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data()
-          };
-        });
-        observer.next(data);
-      }, (error) => {
-        observer.error(error);
-      });
+  //   return new Observable((observer) => {
+  //     const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+  //       const data = snapshot.docs.map((doc) => {
+  //         return {
+  //           id: doc.id,
+  //           ...doc.data()
+  //         };
+  //       });
+  //       observer.next(data);
+  //     }, (error) => {
+  //       observer.error(error);
+  //     });
 
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
+  //     // Cleanup function when unsubscribing
+  //     return { unsubscribe };
+  //   });
+  // }
 
-  subscribeToWallet(userId: string): Observable<any> {
-    // Reference to the specific user document
-    const userDocRef = doc(this.agfirestore, 'users', userId);
+  // subscribeToWallet(userId: string): Observable<any> {
+  //   // Reference to the specific user document
+  //   const userDocRef = doc(this.agfirestore, 'users', userId);
 
-    return new Observable((observer) => {
-      // Subscribe to the specific user document
-      const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
-        const userData = snapshot.data();
-        console.log("userData === ", userData);
-        if (userData && userData) {
-          observer.next(userData);
-        } else {
-          observer.next(null); // or handle the case where `wallet` does not exist
-        }
-      }, (error) => {
-        observer.error(error);
-      });
+  //   return new Observable((observer) => {
+  //     // Subscribe to the specific user document
+  //     const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
+  //       const userData = snapshot.data();
+  //       console.log("userData === ", userData);
+  //       if (userData && userData) {
+  //         observer.next(userData);
+  //       } else {
+  //         observer.next(null); // or handle the case where `wallet` does not exist
+  //       }
+  //     }, (error) => {
+  //       observer.error(error);
+  //     });
 
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
-
-
+  //     // Cleanup function when unsubscribing
+  //     return { unsubscribe };
+  //   });
+  // }
 
 
-  subscribeToAllRideLists(p0: string): Observable<any[]> {
-    const collectionRef = collection(
-      this.agfirestore,  // Firestore instance
-      'users'            // Reference to the 'users' collection
-    );
 
-    return new Observable((observer) => {
-      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          // Extract rideList for each user
-          const docData = doc.data();
-          const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
 
-          return {
-            id: doc.id,
-            rideList: rideList,  // Include the rideList in the returned data
-            ...docData,          // Spread the rest of the user data
-          };
-        });
+  // subscribeToAllRideLists(p0: string): Observable<any[]> {
+  //   const collectionRef = collection(
+  //     this.agfirestore,  // Firestore instance
+  //     'users'            // Reference to the 'users' collection
+  //   );
 
-        observer.next(data);  // Send the data to subscribers
-      }, (error) => {
-        observer.error(error);
-      });
+  //   return new Observable((observer) => {
+  //     const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+  //       const data = snapshot.docs.map((doc) => {
+  //         console.log('ye nhi chl rha ');
 
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
+  //         // Extract rideList for each user
+  //         const docData = doc.data();
+  //         const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
+
+  //         return {
+  //           id: doc.id,
+  //           rideList: rideList,  // Include the rideList in the returned data
+  //           ...docData,          // Spread the rest of the user data
+  //         };
+  //       });
+
+  //       observer.next(data);  // Send the data to subscribers
+  //     }, (error) => {
+  //       observer.error(error);
+  //     });
+
+  //     // Cleanup function when unsubscribing
+  //     return { unsubscribe };
+  //   });
+  // }
 
 
 
