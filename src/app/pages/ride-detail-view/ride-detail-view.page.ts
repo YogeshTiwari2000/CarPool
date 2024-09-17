@@ -33,7 +33,7 @@ export class RideDetailViewPage implements OnInit {
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
   status: any;
-
+  passName: any
   currentUserDocId: any;
   userRideList: any;
   currentRideId: any;
@@ -166,20 +166,16 @@ export class RideDetailViewPage implements OnInit {
     modal.present();
   }
 
-  passName: any
+
 
   async acceptRequest(index: any) {
-    console.log(" this.selectedRidePassengerList[index] === ", this.selectedRidePassengerList[index]);
     const selectedPass = this.selectedRidePassengerList[index]
-    console.log("index === ", index);
     this.passName = selectedPass.passName
     this.acceptNotification()
 
   }
   async rejectRequest(index: any) {
-    console.log(" this.selectedRidePassengerList[index] === ", this.selectedRidePassengerList[index]);
     const selectedPass = this.selectedRidePassengerList[index]
-    console.log("index === ", index);
     this.passName = selectedPass.passName
     console.log("index === ", index);
     this.rejectNotification()
@@ -194,7 +190,7 @@ export class RideDetailViewPage implements OnInit {
   };
 
 
-  cancelRide() {
+  async cancelRide() {
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide);
     if (matchedRide) {
@@ -208,7 +204,7 @@ export class RideDetailViewPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  bookRide() {
+  async bookRide() {
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide)
     if (matchedRide) {
