@@ -166,19 +166,31 @@ export class RideDetailViewPage implements OnInit {
     modal.present();
   }
 
-  async acceptRequest() {
+  passName: any
+
+  async acceptRequest(index: any) {
+    console.log(" this.selectedRidePassengerList[index] === ", this.selectedRidePassengerList[index]);
+    const selectedPass = this.selectedRidePassengerList[index]
+    console.log("index === ", index);
+    this.passName = selectedPass.passName
     this.acceptNotification()
 
   }
-  async rejectRequest() {
+  async rejectRequest(index: any) {
+    console.log(" this.selectedRidePassengerList[index] === ", this.selectedRidePassengerList[index]);
+    const selectedPass = this.selectedRidePassengerList[index]
+    console.log("index === ", index);
+    this.passName = selectedPass.passName
+    console.log("index === ", index);
     this.rejectNotification()
   }
 
   async acceptNotification() {
-    this.commonService.sendNotification('carpool', 'noti', '/profile', "accept ride notification", "krle");
+    this.commonService.sendNotification('carpool', 'noti', '/profile', 'accept ride of ' + this.passName, "krle");
+
   };
   async rejectNotification() {
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', "reject ride notification", "mt kr");
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', 'reject ride of ' + this.passName, "mt kr");
   };
 
 
