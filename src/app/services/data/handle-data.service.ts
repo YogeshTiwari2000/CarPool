@@ -52,6 +52,7 @@ export class HandleDataService {
     usersNode: "users",
   };
   public allRideAvailable: any;
+  targetUserId: any;
   constructor(public afMessaging: AngularFireMessaging) {
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
@@ -361,6 +362,33 @@ export class HandleDataService {
 
 
 
+  subscribeToUserRideList(userId: string): Observable<any> {
+    // Reference to the specific user document
+    const docRef = doc(this.agfirestore, 'users', userId);
+
+    return new Observable((observer) => {
+      const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const docData = docSnapshot.data();
+          const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
+
+          // Return the specific user's data
+          observer.next({
+            id: docSnapshot.id,
+            rideList: rideList,  // Include the rideList in the returned data
+            ...docData,          // Spread the rest of the user data
+          });
+        } else {
+          observer.next(null);  // Handle case where document does not exist
+        }
+      }, (error) => {
+        observer.error(error);
+      });
+
+      // Cleanup function when unsubscribing
+      return { unsubscribe };
+    });
+  }
 
 
 

@@ -74,6 +74,7 @@ export class RideDetailViewPage implements OnInit {
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+          console.log("this.currentUserDocId === ", this.currentUserDocId);
           console.log("currentUser hero === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
           // console.log(" this.isEmailVerified === ", this.isEmailVerified);
@@ -194,10 +195,6 @@ export class RideDetailViewPage implements OnInit {
       this.currentUser.ride.rideList.unshift(immutableride);
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
       this.bookRideBtn = true;
-      // for notification 
-
-      // for btn
-
 
       if (this.ride.passengerList != undefined) {
 
@@ -208,8 +205,6 @@ export class RideDetailViewPage implements OnInit {
           passEmail: this.currentUser.userEmail,
           passStatus: 'Requested',
         }
-
-
         const immutablePassenger = Object.freeze({ ...passenger });
         matchedRide.passengerList.unshift(immutablePassenger);
 
@@ -223,37 +218,6 @@ export class RideDetailViewPage implements OnInit {
           console.log("Ride to replace not found!");
         }
 
-
-
-        // this.subscription = this.handleData.subscribeToAllRideLists("wlohopM9s6VFE91hh9Sj").subscribe((data) => {
-        //   console.log("Changes detected for all users:", data);
-
-        //   // Filter the data to get only the document with the specific ID
-        //   const userWithSpecificId = data.find((user: any) => user.id === "wlohopM9s6VFE91hh9Sj");
-
-        //   if (userWithSpecificId) {
-        //     console.log("Changes detected for user with ID wlohopM9s6VFE91hh9Sj:", userWithSpecificId);
-        //     console.log("userWithSpecificId.ride === ", userWithSpecificId.ride);
-        //     console.log("userWithSpecificId.ride.rideList === ", userWithSpecificId.ride.rideList);
-
-        //     const matchedRideDetect = userWithSpecificId.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-        //     console.log("matchedRideDetect.passengerList00 === ", matchedRideDetect.passengerList);
-        //     this.selectedRidePassengerList = matchedRideDetect.passengerList
-        //     // if (matchedRideDetect.passengerList) {
-        //     //   console.log('passengerList me change hua h '); 
-
-        //     this.requestNotification();
-        //     // }
-
-        //   } else {
-        //     console.log("No changes detected for user with ID wlohopM9s6VFE91hh9Sj.");
-        //   }
-
-        //   this.users = data;  // Update the users with the current data
-        //   // this.onNodesChanged(data);  // Trigger a function when nodes change
-        // });
-
-
       } else {
         console.log('koi nhi h create kro');
       }
@@ -266,34 +230,65 @@ export class RideDetailViewPage implements OnInit {
 
 
 
+
+
+
+
+  // subscribeToRideUpdates(targetUserId: string) {
+  //   this.subscription = this.handleData.subscribeToAllRideLists(targetUserId).subscribe((data) => {
+  //     console.log("Changes detected for all users:", data);
+
+  //     // Find the specific user in the ride list
+  //     const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
+  //     if (userWithSpecificId) {
+  //       console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
+
+  //       const matchedRideDetect = userWithSpecificId.ride.rideList.find(
+  //         (ride: { id: string }) => ride.id === this.currentRideId
+  //       );
+  //       if (matchedRideDetect) {
+  //         console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
+  //         this.selectedRidePassengerList = matchedRideDetect.passengerList;
+  //         console.log('requestNotification kha chla');
+
+  //         if (targetUserId == this.currentUserDocId) {
+
+  //           this.requestNotification();  // Trigger notification on detecting change
+  //         }
+
+  //       }
+  //     } else {
+  //       console.log(`No changes detected for user with ID ${targetUserId}.`);
+  //     }
+  //   });
+  // }
+
   subscribeToRideUpdates(targetUserId: string) {
-    this.subscription = this.handleData.subscribeToAllRideLists(targetUserId).subscribe((data) => {
-      console.log("Changes detected for all users:", data);
+    this.subscription = this.handleData.subscribeToUserRideList(targetUserId).subscribe((userData) => {
+      if (userData) {
+        console.log(`Changes detected for user with ID ${targetUserId}:`, userData.rideList);
 
-      // Find the specific user in the ride list
-      const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
-      if (userWithSpecificId) {
-        console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
-
-        const matchedRideDetect = userWithSpecificId.ride.rideList.find(
+        // Find the specific ride in the user's ride list
+        const matchedRideDetect = userData.rideList.find(
           (ride: { id: string }) => ride.id === this.currentRideId
         );
+
         if (matchedRideDetect) {
           console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
           this.selectedRidePassengerList = matchedRideDetect.passengerList;
-          console.log('requestNotification kha chla');
 
-          if (targetUserId == this.currentUserDocId) {
+          if (targetUserId === this.currentUserDocId) {
+
 
             this.requestNotification();  // Trigger notification on detecting change
           }
-
         }
       } else {
         console.log(`No changes detected for user with ID ${targetUserId}.`);
       }
     });
   }
+
 
 
 
