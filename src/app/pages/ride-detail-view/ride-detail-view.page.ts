@@ -110,14 +110,14 @@ export class RideDetailViewPage implements OnInit {
     // // change detech code 
 
 
-    this.subscription = this.handleData.subscribeToAllRideLists("vkOkXi5KrdBHdhDJ8IjZ").subscribe((data) => {
+    this.subscription = this.handleData.subscribeToAllRideLists("wlohopM9s6VFE91hh9Sj").subscribe((data) => {
       console.log("Changes detected for all users:", data);
 
       // Filter the data to get only the document with the specific ID
-      const userWithSpecificId = data.find((user: any) => user.id === "vkOkXi5KrdBHdhDJ8IjZ");
+      const userWithSpecificId = data.find((user: any) => user.id === "wlohopM9s6VFE91hh9Sj");
 
       if (userWithSpecificId) {
-        console.log("Changes detected for user with ID vkOkXi5KrdBHdhDJ8IjZ:", userWithSpecificId);
+        console.log("Changes detected for user with ID wlohopM9s6VFE91hh9Sj:", userWithSpecificId);
         console.log("userWithSpecificId.ride === ", userWithSpecificId.ride);
         console.log("userWithSpecificId.ride.rideList === ", userWithSpecificId.ride.rideList);
 
@@ -131,7 +131,7 @@ export class RideDetailViewPage implements OnInit {
         // }
 
       } else {
-        console.log("No changes detected for user with ID vkOkXi5KrdBHdhDJ8IjZ.");
+        console.log("No changes detected for user with ID wlohopM9s6VFE91hh9Sj.");
       }
 
       this.users = data;  // Update the users with the current data
