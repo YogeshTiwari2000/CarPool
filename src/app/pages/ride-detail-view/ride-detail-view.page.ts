@@ -127,7 +127,7 @@ export class RideDetailViewPage implements OnInit {
         // if (matchedRideDetect.passengerList) {
         //   console.log('passengerList me change hua h '); 
 
-        //   this.sendNotification();
+        this.requestNotification();
         // }
 
       } else {
@@ -187,6 +187,9 @@ export class RideDetailViewPage implements OnInit {
   };
   async rejectNotification() {
     this.commonService.sendNotification('carpool', 'noti ', '/profile', 'reject ride of ' + this.passName, "mt kr");
+  };
+  async requestNotification() {
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.passName, "mt kr");
   };
 
 
