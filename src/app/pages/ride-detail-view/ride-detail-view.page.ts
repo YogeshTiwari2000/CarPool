@@ -108,7 +108,7 @@ export class RideDetailViewPage implements OnInit {
 
 
     // // change detech code 
-
+    this.subscribeToRideUpdates("wlohopM9s6VFE91hh9Sj");
 
   }
 
@@ -222,7 +222,7 @@ export class RideDetailViewPage implements OnInit {
         } else {
           console.log("Ride to replace not found!");
         }
-        this.subscribeToRideUpdates("wlohopM9s6VFE91hh9Sj");
+
 
 
         // this.subscription = this.handleData.subscribeToAllRideLists("wlohopM9s6VFE91hh9Sj").subscribe((data) => {
