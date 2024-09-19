@@ -74,7 +74,11 @@ export class RideDetailViewPage implements OnInit {
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+<<<<<<< HEAD
           console.log("this.currentUserDocId === ", this.currentUserDocId);
+=======
+          console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
+>>>>>>> 314f8f9 (notification/handledata/commonservice)
           console.log("currentUser hero === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
           // console.log(" this.isEmailVerified === ", this.isEmailVerified);
@@ -106,11 +110,25 @@ export class RideDetailViewPage implements OnInit {
         console.error("Error:", error);
       });
 
+    // // change detech code  
+    this.subscribeToRideUpdatesWithDocId()
+  }
+  async waitForCurrentUserDocId() {
+    while (this.currentUserDocId === undefined) {
+      await new Promise(resolve => setTimeout(resolve, 100)); // Wait 100ms before checking again
+      console.log("this.currentUserDocId1111111111 === ", this.currentUserDocId);
+    }
+  }
 
+  async subscribeToRideUpdatesWithDocId() {
+    await this.waitForCurrentUserDocId();
 
-    // // change detech code 
-    this.subscribeToRideUpdates("wlohopM9s6VFE91hh9Sj");
-
+    // Once this.currentUserDocId is not undefined, proceed with the subscription
+    this.handleData.subscribeToRideUpdates(
+      "wlohopM9s6VFE91hh9Sj",
+      this.currentRideId,
+      this.currentUserDocId
+    );
   }
 
 
@@ -159,9 +177,9 @@ export class RideDetailViewPage implements OnInit {
   async rejectNotification() {
     this.commonService.sendNotification('carpool', 'noti ', '/profile', 'reject ride of ' + this.passName, "mt kr");
   };
-  async requestNotification() {
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.passName, "mt kr");
-  };
+  // async requestNotification() {
+  //   this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.passName, "mt kr");
+  // };
 
 
   async cancelRide() {
@@ -230,6 +248,7 @@ export class RideDetailViewPage implements OnInit {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -288,6 +307,36 @@ export class RideDetailViewPage implements OnInit {
       }
     });
   }
+=======
+  // subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
+  //   this.subscription = this.handleData.subscribeToAllRideLists(targetUserId).subscribe((data) => {
+  //     console.log("Changes detected for all users:", data);
+
+  //     // Find the specific user in the ride list
+  //     const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
+  //     if (userWithSpecificId) {
+  //       console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
+
+  //       const matchedRideDetect = userWithSpecificId.ride.rideList.find(
+  //         (ride: { id: string }) => ride.id === this.currentRideId
+  //       );
+  //       if (matchedRideDetect) {
+  //         console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
+  //         this.selectedRidePassengerList = matchedRideDetect.passengerList;
+  //         console.log('requestNotification kha chla');
+
+  //         if (targetUserId == this.currentUserDocId) {
+
+  //           this.requestNotification();  // Trigger notification on detecting change
+  //         }
+
+  //       }
+  //     } else {
+  //       console.log(`No changes detected for user with ID ${targetUserId}.`);
+  //     }
+  //   });
+  // }
+>>>>>>> 314f8f9 (notification/handledata/commonservice)
 
 
 
