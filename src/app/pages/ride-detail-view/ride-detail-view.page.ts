@@ -107,7 +107,7 @@ export class RideDetailViewPage implements OnInit {
       });
 
     // // change detech code  
-    this.subscribeToRideUpdatesWithDocId()
+    // this.subscribeToRideUpdatesWithDocId()
   }
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
@@ -190,6 +190,7 @@ export class RideDetailViewPage implements OnInit {
     } else {
       console.log('not able to cancel the ride');
     }
+    this.subscribeToRideUpdatesWithDocId()
     this.modalCtrl.dismiss();
   }
 
@@ -240,6 +241,7 @@ export class RideDetailViewPage implements OnInit {
     } else {
       console.log('not able to book the ride');
     }
+    this.subscribeToRideUpdatesWithDocId()
   }
 
 
