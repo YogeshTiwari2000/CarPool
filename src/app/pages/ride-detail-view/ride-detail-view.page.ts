@@ -74,11 +74,7 @@ export class RideDetailViewPage implements OnInit {
           this.handleData.user = result.data;
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
-<<<<<<< HEAD
-          console.log("this.currentUserDocId === ", this.currentUserDocId);
-=======
           console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
->>>>>>> 314f8f9 (notification/handledata/commonservice)
           console.log("currentUser hero === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
           // console.log(" this.isEmailVerified === ", this.isEmailVerified);
@@ -248,66 +244,6 @@ export class RideDetailViewPage implements OnInit {
 
 
 
-<<<<<<< HEAD
-
-
-
-
-  // subscribeToRideUpdates(targetUserId: string) {
-  //   this.subscription = this.handleData.subscribeToAllRideLists(targetUserId).subscribe((data) => {
-  //     console.log("Changes detected for all users:", data);
-
-  //     // Find the specific user in the ride list
-  //     const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
-  //     if (userWithSpecificId) {
-  //       console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
-
-  //       const matchedRideDetect = userWithSpecificId.ride.rideList.find(
-  //         (ride: { id: string }) => ride.id === this.currentRideId
-  //       );
-  //       if (matchedRideDetect) {
-  //         console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
-  //         this.selectedRidePassengerList = matchedRideDetect.passengerList;
-  //         console.log('requestNotification kha chla');
-
-  //         if (targetUserId == this.currentUserDocId) {
-
-  //           this.requestNotification();  // Trigger notification on detecting change
-  //         }
-
-  //       }
-  //     } else {
-  //       console.log(`No changes detected for user with ID ${targetUserId}.`);
-  //     }
-  //   });
-  // }
-
-  subscribeToRideUpdates(targetUserId: string) {
-    this.subscription = this.handleData.subscribeToUserRideList(targetUserId).subscribe((userData) => {
-      if (userData) {
-        console.log(`Changes detected for user with ID ${targetUserId}:`, userData.rideList);
-
-        // Find the specific ride in the user's ride list
-        const matchedRideDetect = userData.rideList.find(
-          (ride: { id: string }) => ride.id === this.currentRideId
-        );
-
-        if (matchedRideDetect) {
-          console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
-          this.selectedRidePassengerList = matchedRideDetect.passengerList;
-
-          if (targetUserId === this.currentUserDocId) {
-
-
-            this.requestNotification();  // Trigger notification on detecting change
-          }
-        }
-      } else {
-        console.log(`No changes detected for user with ID ${targetUserId}.`);
-      }
-    });
-  }
-=======
   // subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
   //   this.subscription = this.handleData.subscribeToAllRideLists(targetUserId).subscribe((data) => {
   //     console.log("Changes detected for all users:", data);
@@ -336,7 +272,6 @@ export class RideDetailViewPage implements OnInit {
   //     }
   //   });
   // }
->>>>>>> 314f8f9 (notification/handledata/commonservice)
 
 
 

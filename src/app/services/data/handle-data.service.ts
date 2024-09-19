@@ -52,11 +52,7 @@ export class HandleDataService {
     usersNode: "users",
   };
   public allRideAvailable: any;
-<<<<<<< HEAD
-  targetUserId: any;
-=======
   selectedRidePassengerList: any;
->>>>>>> 314f8f9 (notification/handledata/commonservice)
   constructor(public afMessaging: AngularFireMessaging) {
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
@@ -369,52 +365,21 @@ export class HandleDataService {
     this.subscription = this.subscribeToAllRideLists(targetUserId).subscribe((data) => {
       console.log("Changes detected for all users:", data);
 
-<<<<<<< HEAD
-  subscribeToUserRideList(userId: string): Observable<any> {
-    // Reference to the specific user document
-    const docRef = doc(this.agfirestore, 'users', userId);
-
-    return new Observable((observer) => {
-      const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const docData = docSnapshot.data();
-          const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
-
-          // Return the specific user's data
-          observer.next({
-            id: docSnapshot.id,
-            rideList: rideList,  // Include the rideList in the returned data
-            ...docData,          // Spread the rest of the user data
-          });
-        } else {
-          observer.next(null);  // Handle case where document does not exist
-        }
-      }, (error) => {
-        observer.error(error);
-      });
-
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
-=======
       // Find the specific user in the ride list
       const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
       if (userWithSpecificId) {
         console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
-
         const matchedRideDetect = userWithSpecificId.ride.rideList.find(
           (ride: { id: string }) => ride.id === rideId
         );
         if (matchedRideDetect) {
-          console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
+          // console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
           this.selectedRidePassengerList = matchedRideDetect.passengerList;
-          console.log('requestNotification kha chla');
-          console.log("targetUserId ===", targetUserId);
-          console.log("currentUserDocId === ", currentUserDocId);
-          console.log("rideId === ", rideId);
+          // console.log('requestNotification kha chla');
+          // console.log("targetUserId ===", targetUserId);
+          // console.log("currentUserDocId === ", currentUserDocId);
+          // console.log("rideId === ", rideId);
           if (targetUserId == currentUserDocId) {
-
             this.requestNotification();  // Trigger notification on detecting change
           }
 
@@ -430,7 +395,6 @@ export class HandleDataService {
 
     this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ', "mt kr");
   };
->>>>>>> 314f8f9 (notification/handledata/commonservice)
 
 
 
