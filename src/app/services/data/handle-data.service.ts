@@ -53,6 +53,8 @@ export class HandleDataService {
   };
   public allRideAvailable: any;
   selectedRidePassengerList: any;
+  currentUsername: any
+  previousPassengerList: any;
   constructor(public afMessaging: AngularFireMessaging) {
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
@@ -101,14 +103,14 @@ export class HandleDataService {
     // console.log("this.userCollection === ", this.userCollection); 
     const allRideLists: any[] = [];
     this.userCollection.forEach((user: any) => {
-      // console.log("user ===", user);
+      console.log("user ===", user);
       const firstKey = Object.keys(user)[0];
       const firstValue = user[firstKey];
-      // console.log("firstValue ===", firstValue); 
+      console.log("firstValue ===", firstValue);
       const firstValueridelist = firstValue?.ride?.rideList
       // console.log("firstValueridelist === ", firstValueridelist); 
       if (firstValueridelist != undefined)
-        allRideLists.push(...firstValueridelist);
+        allRideLists.push(...firstValueridelist);//
     });
     // console.log("All Ride Lists: ", allRideLists);
     this.allRideAvailable = allRideLists
@@ -118,7 +120,12 @@ export class HandleDataService {
   }
 
   getAllRideLists() {
-    // console.log(" this.allRideAvailable === ", this.allRideAvailable);
+    const map = new Map<string, any>();
+    this.allRideAvailable.forEach((obj: { id: string; }) => {
+      map.set(obj.id, obj);
+    });
+    this.allRideAvailable = Array.from(map.values());
+    // console.log(" this.allRideAvailable    === ", this.allRideAvailable);
     return this.allRideAvailable
   }
 
@@ -361,6 +368,61 @@ export class HandleDataService {
   }
 
 
+  // subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
+  //   this.subscription = this.subscribeToAllRideLists(targetUserId).subscribe((data) => {
+  //     console.log("Changes detected for all users:", data);
+
+  //     // Find the specific user in the ride list
+  //     const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
+  //     if (userWithSpecificId) {
+  //       console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
+  //       const matchedRideDetect = userWithSpecificId.ride.rideList.find(
+  //         (ride: { id: string }) => ride.id === rideId
+  //       );
+  //       console.log("matchedRideDetect === ", matchedRideDetect);
+  //       if (matchedRideDetect) {
+  //         // console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
+  //         this.selectedRidePassengerList = matchedRideDetect.passengerList;
+  //         // console.log('requestNotification kha chla');
+  //         // console.log("targetUserId ===", targetUserId);
+  //         // console.log("currentUserDocId === ", currentUserDocId);
+  //         // console.log("rideId === ", rideId); 
+
+
+  //         const foundPassenger = this.selectedRidePassengerList.find((passenger: { passId: any; }) => passenger.passId === currentUserDocId);
+  //         console.log("foundPassenger === ", foundPassenger);
+  //         this.currentUsername = foundPassenger.passName
+
+  //         if (foundPassenger.passStatus == "Requested") {
+  //           console.log('requ kiya h');
+
+  //           if (targetUserId == currentUserDocId) {
+  //             console.log(" requ targetUserId === ", targetUserId);
+  //             console.log(" requ currentUserDocId === ", currentUserDocId);
+  //             this.requestNotification();
+  //           }
+  //         }
+  //         else if (foundPassenger.passStatus == "canceled") {
+  //           console.log('cancel kiya h');
+  //           if (targetUserId == currentUserDocId) {
+  //             console.log(" cancel targetUserId === ", targetUserId);
+  //             console.log(" reqcancelu currentUserDocId === ", currentUserDocId);
+  //             this.cancelNotification();
+  //           }
+  //         }
+
+
+
+  //       }
+  //     } else {
+  //       console.log(`No changes detected for user with ID ${targetUserId}.`);
+  //     }
+  //   });
+  // }
+
+
+
+
   subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
     this.subscription = this.subscribeToAllRideLists(targetUserId).subscribe((data) => {
       console.log("Changes detected for all users:", data);
@@ -369,20 +431,59 @@ export class HandleDataService {
       const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
       if (userWithSpecificId) {
         console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
+        console.log("rideId === ", rideId);
+        // Find the specific ride for the user
         const matchedRideDetect = userWithSpecificId.ride.rideList.find(
           (ride: { id: string }) => ride.id === rideId
         );
+        console.log("matchedRideDetect === ", matchedRideDetect);
+
         if (matchedRideDetect) {
-          // console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
-          this.selectedRidePassengerList = matchedRideDetect.passengerList;
-          // console.log('requestNotification kha chla');
-          // console.log("targetUserId ===", targetUserId);
-          // console.log("currentUserDocId === ", currentUserDocId);
-          // console.log("rideId === ", rideId);
-          if (targetUserId == currentUserDocId) {
-            this.requestNotification();  // Trigger notification on detecting change
+          const currentPassengerList = matchedRideDetect.passengerList;
+          console.log("this.previousPassengerList === ", this.previousPassengerList);
+          // Compare the new passenger list with the previously stored one to detect changes
+          if (!this.previousPassengerList) {
+            this.previousPassengerList = currentPassengerList;
           }
 
+          // Check for differences between current and previous passenger list
+          currentPassengerList.forEach((currentPassenger: any, index: number) => {
+            const previousPassenger = this.previousPassengerList[index];
+            console.log("previousPassenger === ", previousPassenger);
+            // If the passenger exists in both lists, compare their details
+            if (previousPassenger) {
+              console.log("previousPassenger yha bhi aa gya === ", previousPassenger);
+              // Detect changes in passenger details (e.g., passStatus)
+              console.log("currentPassenger === ", currentPassenger);
+              if (JSON.stringify(currentPassenger) !== JSON.stringify(previousPassenger)) {
+                console.log("Passenger details have changed:", currentPassenger);
+
+                // Store the updated passenger list for future comparison
+                this.previousPassengerList = currentPassengerList;
+
+                // You can now find the passenger based on the changes in their details
+                // if (currentPassenger.passId === currentUserDocId) {
+                this.currentUsername = currentPassenger.passName;
+
+                if (currentPassenger.passStatus === "Requested") {
+                  console.log('Passenger made a request.');
+
+                  if (targetUserId === currentUserDocId) {
+                    console.log("Request notification for targetUserId:", targetUserId);
+                    this.requestNotification();
+                  }
+                } else if (currentPassenger.passStatus === "canceled") {
+                  console.log('Passenger canceled the request.');
+
+                  if (targetUserId === currentUserDocId) {
+                    console.log("Cancel notification for targetUserId:", targetUserId);
+                    this.cancelNotification();
+                  }
+                }
+                // }
+              }
+            }
+          });
         }
       } else {
         console.log(`No changes detected for user with ID ${targetUserId}.`);
@@ -390,10 +491,16 @@ export class HandleDataService {
     });
   }
 
+
   async requestNotification() {
     console.log('request notification function clicked');
 
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ', "mt kr");
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.currentUsername, "mt kr");
+  };
+  async cancelNotification() {
+    console.log('cancel notification function clicked');
+
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride cancel send by ' + this.currentUsername, "mt kr");
   };
 
 

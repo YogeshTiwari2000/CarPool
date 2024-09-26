@@ -57,6 +57,7 @@ export class RideDetailViewPage implements OnInit {
         this.currentRideId = this.ride.id
         this.status = this.ride.status
 
+        this.selectedRidePassengerList = this.ride.passengerList;
         console.log(" this.status === ", this.status);
         console.log(" this.this.ride.currentUserDocId === ", this.ride.riderUserId);
         // console.log(" this.currentRideId === ", this.currentRideId);
@@ -98,6 +99,7 @@ export class RideDetailViewPage implements OnInit {
           this.handleData.user = result.data;
           this.rideCreator = this.handleData.user;
           console.log(" this.rideCreator sholet === ", this.rideCreator);
+
         } else {
           console.log("User not found");
         }
@@ -108,11 +110,13 @@ export class RideDetailViewPage implements OnInit {
 
     // // change detech code  
     this.subscribeToRideUpdatesWithDocId()
+
   }
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
       await new Promise(resolve => setTimeout(resolve, 100)); // Wait 100ms before checking again
       console.log("this.currentUserDocId1111111111 === ", this.currentUserDocId);
+      console.log("selectedRidePassengerList === ", this.selectedRidePassengerList);
     }
   }
 
@@ -180,18 +184,47 @@ export class RideDetailViewPage implements OnInit {
 
   async cancelRide() {
     const matchedRide = this.userRideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRide === ", matchedRide);
+    console.log("matchedRide cancel wali === ", matchedRide);
     if (matchedRide) {
+      const foundPassenger = matchedRide.passengerList.find((passenger: { passId: any; }) => passenger.passId === this.currentUserDocId);
       this.bookRideBtn = false;
-      matchedRide.status = 'canceled'
-      console.log(" matchedRide.status === ", matchedRide.status);
-      this.status = matchedRide.status
-      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+      const foundPassengerIndex = matchedRide.passengerList.findIndex(
+        (passenger: { passId: any }) => passenger.passId === this.currentUserDocId
+      );
+      console.log("foundPassengerIndex === ", foundPassengerIndex);
+
+      const updatedPassengerList = [...matchedRide.passengerList];
+      updatedPassengerList[foundPassengerIndex] = {
+        ...updatedPassengerList[foundPassengerIndex],
+        passStatus: "canceled"
+      };
+      console.log("updatedPassengerList cancekl update k baad === ", updatedPassengerList);
+      const updatedRide = {
+        ...matchedRide,
+        passengerList: updatedPassengerList
+      };
+      console.log("updatedRide hjjdsgfjuger=== ", updatedRide);
+
+      const currentUserMatchRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+      console.log("currentUserMatchRide === ", currentUserMatchRide);
+      this.currentUser.ride.rideList = this.currentUser.ride.rideList.map((ride: any) =>
+        ride.id === this.currentRideId ? updatedRide : ride
+      );
+      this.userRideList = this.userRideList.filter(
+        (passenger: { passId: string }) => passenger.passId !== this.ride.id
+      );
+      console.log(" this.userRideList yysdfgdsuyfgdfugfugsgfdgsf === ", this.userRideList);
+
+      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
+      console.log("this.currentUser.ride === ", this.currentUser.ride);
+      console.log("Ride and passenger status updated successfully");
     } else {
       console.log('not able to cancel the ride');
     }
     this.modalCtrl.dismiss();
   }
+
+
 
   async bookRide() {
 
@@ -206,8 +239,9 @@ export class RideDetailViewPage implements OnInit {
       // to move ride to my updates 
       const immutableride = Object.freeze({ ...matchedRide });
       console.log("immutableride === ", immutableride);
+      console.log(" this.currentUser.ride.rideList === ", this.currentUser.ride.rideList);
       this.currentUser.ride.rideList.unshift(immutableride);
-      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+      // this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
       this.bookRideBtn = true;
 
       if (this.ride.passengerList != undefined) {
@@ -224,8 +258,8 @@ export class RideDetailViewPage implements OnInit {
 
         // Find the index of the ride to replace
         const rideIndex = this.rideCreator.ride.rideList.findIndex((ride: { id: string; }) => ride.id === this.currentRideId);
-
-        if (rideIndex !== -1) {
+        console.log("rideIndex === ", rideIndex);
+        if (rideIndex == -1) {
           this.rideCreator.ride.rideList[rideIndex] = matchedRide;
           this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
         } else {

@@ -67,6 +67,7 @@ export class SearchScreenPage implements OnInit {
     await this.handleData.getData();
     this.rideList = this.handleData.getAllRideLists();
     console.log("this.rideLists ", this.rideList);
+
   }
 
   isInputRequired: boolean = true;
