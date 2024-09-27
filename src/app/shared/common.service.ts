@@ -65,13 +65,5 @@ export class CommonService {
     } else {
       this.alertBox('No specific plateform found. ', 'Notification Error.', ["Ok"])
     }
-
-
-
-
   }
-
-
-
-
 }
