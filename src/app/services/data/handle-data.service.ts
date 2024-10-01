@@ -53,7 +53,8 @@ export class HandleDataService {
   };
   public allRideAvailable: any;
   selectedRidePassengerList: any;
-  currentUsername: any
+  currentUsername: any;
+  notificationSenderName: any;
   previousPassengerList: any;
   constructor(public afMessaging: AngularFireMessaging) {
     this.checkAndRequestNotificationPermission()
@@ -392,28 +393,26 @@ export class HandleDataService {
 
           const foundPassenger = this.selectedRidePassengerList.find((passenger: { passId: any; }) => passenger.passId === currentUserDocId);
           console.log("foundPassenger === ", foundPassenger);
-          this.currentUsername = foundPassenger?.passName
+
+          this.notificationSenderName = foundPassenger?.passName
 
           if (foundPassenger?.passStatus == "Requested") {
             console.log('requ kiya h');
 
+            console.log(" requ targetUserId === ", targetUserId);
+            console.log(" requ currentUserDocId === ", currentUserDocId);
             if (targetUserId == currentUserDocId) {
-              console.log(" requ targetUserId === ", targetUserId);
-              console.log(" requ currentUserDocId === ", currentUserDocId);
               this.requestNotification();
             }
           }
           else if (foundPassenger?.passStatus == "cancelled") {
-            console.log('cancel kiya h');
+            console.log('cancel kiya h isne');
+            console.log(" cancel targetUserId === ", targetUserId);
+            console.log(" cancel currentUserDocId === ", currentUserDocId);
             if (targetUserId == currentUserDocId) {
-              console.log(" cancel targetUserId === ", targetUserId);
-              console.log(" reqcancelu currentUserDocId === ", currentUserDocId);
               this.cancelNotification();
             }
           }
-
-
-
         }
       } else {
         console.log(`No changes detected for user with ID ${targetUserId}.`);
@@ -496,12 +495,12 @@ export class HandleDataService {
   async requestNotification() {
     console.log('request notification function clicked');
 
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.currentUsername, "mt kr");
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.notificationSenderName, "mt kr");
   };
   async cancelNotification() {
     console.log('cancel notification function clicked');
 
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride cancel send by ' + this.currentUsername, "mt kr");
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride cancel send by ' + this.notificationSenderName, "mt kr");
   };
 
 

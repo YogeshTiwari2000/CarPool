@@ -76,7 +76,7 @@ export class RideDetailViewPage implements OnInit {
           this.currentUser = this.handleData.user;
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
-          console.log("currentUser hero === ", this.currentUser);
+          console.log("currentUser   === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
           // console.log(" this.isEmailVerified === ", this.isEmailVerified);
           this.userRideList = this.handleData.getAllRideLists()
@@ -98,7 +98,7 @@ export class RideDetailViewPage implements OnInit {
 
           this.handleData.user = result.data;
           this.rideCreator = this.handleData.user;
-          console.log(" this.rideCreator sholet === ", this.rideCreator);
+          console.log(" this.rideCreator   === ", this.rideCreator);
 
         } else {
           console.log("User not found");
@@ -123,7 +123,7 @@ export class RideDetailViewPage implements OnInit {
 
     // Once this.currentUserDocId is not undefined, proceed with the subscription
     this.handleData.subscribeToRideUpdates(
-      "wlohopM9s6VFE91hh9Sj",
+      this.ride.riderUserId,
       this.currentRideId,
       this.currentUserDocId
     );
