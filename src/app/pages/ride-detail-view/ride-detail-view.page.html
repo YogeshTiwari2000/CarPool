@@ -219,7 +219,7 @@
       </ion-col>
     </ion-row>
   </ion-card>
-  <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
+  <!-- <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
     <ion-button expand="block" id="open-cancel-dialog" class="danger"><span>Cancel
         Ride</span></ion-button>
 
@@ -249,6 +249,14 @@
   </div>
   <div class="ion-padding-horizontal ion-padding-bottom">
     <ion-button expand="block" class="primary" [disabled]="bookRideBtn" (click)="bookRide()"><span>Book
+        Ride</span></ion-button>
+  </div> -->
+  <div class="ion-padding-horizontal ion-padding-bottom">
+    <ion-button expand="block" class="primary" [disabled]="bookRideBtn" (click)="bookTestRide()"><span> Book test
+        Ride</span></ion-button>
+  </div>
+  <div class="ion-padding-horizontal ion-padding-bottom">
+    <ion-button expand="block" class="danger" [disabled]="bookRideBtn" (click)="cancelTestRide()"><span>cancel test
         Ride</span></ion-button>
   </div>
 

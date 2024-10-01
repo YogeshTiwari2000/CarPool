@@ -74,12 +74,14 @@ export class RegisterPage implements OnInit {
     password: "",
     cpassword: "",
     phone: "",
-    pickUpLocation: "",
-    dropLocation: "",
+    // pickUpLocation: "",
+    // dropLocation: "",
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified,
     ride: {},
     wallet: {},
+    isNotification: false,
+    notificationList: []
   };
 
   constructor() { }

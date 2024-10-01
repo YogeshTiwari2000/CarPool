@@ -308,119 +308,44 @@ export class HandleDataService {
     });
   }
 
-  subscribeToWallet(userId: string): Observable<any> {
-    // Reference to the specific user document
-    const userDocRef = doc(this.agfirestore, 'users', userId);
-
-    return new Observable((observer) => {
-      // Subscribe to the specific user document
-      const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
-        const userData = snapshot.data();
-        console.log("userData === ", userData);
-        if (userData && userData) {
-          observer.next(userData);
-        } else {
-          observer.next(null); // or handle the case where `wallet` does not exist
-        }
-      }, (error) => {
-        observer.error(error);
-      });
-
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
 
 
 
 
-  subscribeToAllRideLists(p0: string): Observable<any[]> {
-    const collectionRef = collection(
-      this.agfirestore,  // Firestore instance
-      'users'            // Reference to the 'users' collection
-    );
+  // subscribeToAllRideLists(p0: string): Observable<any[]> {
+  //   const collectionRef = collection(
+  //     this.agfirestore,  // Firestore instance
+  //     'users'            // Reference to the 'users' collection
+  //   );
 
-    console.log('ye chl gya');
-
-
-    return new Observable((observer) => {
-      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          // Extract rideList for each user
-          console.log('yha tk aa gya ');
-
-          const docData = doc.data();
-          const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
-
-          return {
-            id: doc.id,
-            rideList: rideList,  // Include the rideList in the returned data
-            ...docData,          // Spread the rest of the user data
-          };
-        });
-
-        observer.next(data);  // Send the data to subscribers
-      }, (error) => {
-        observer.error(error);
-      });
-
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
+  //   console.log('ye chl gya');
 
 
-  subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
-    this.subscription = this.subscribeToAllRideLists(targetUserId).subscribe((data) => {
-      console.log("Changes detected for all users:", data);
+  //   return new Observable((observer) => {
+  //     const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+  //       const data = snapshot.docs.map((doc) => {
+  //         // Extract rideList for each user
+  //         console.log('yha tk aa gya ');
 
-      // Find the specific user in the ride list
-      const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
-      if (userWithSpecificId) {
-        console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
-        const matchedRideDetect = userWithSpecificId.ride.rideList.find(
-          (ride: { id: string }) => ride.id === rideId
-        );
-        console.log("matchedRideDetect === ", matchedRideDetect);
-        if (matchedRideDetect) {
-          // console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
-          this.selectedRidePassengerList = matchedRideDetect.passengerList;
-          // console.log('requestNotification kha chla');
-          // console.log("targetUserId ===", targetUserId);
-          // console.log("currentUserDocId === ", currentUserDocId);
-          // console.log("rideId === ", rideId); 
+  //         const docData = doc.data();
+  //         const rideList = docData?.["ride"]?.rideList || [];  // Default to empty array if rideList is not present
 
+  //         return {
+  //           id: doc.id,
+  //           rideList: rideList,  // Include the rideList in the returned data
+  //           ...docData,          // Spread the rest of the user data
+  //         };
+  //       });
 
-          const foundPassenger = this.selectedRidePassengerList.find((passenger: { passId: any; }) => passenger.passId === currentUserDocId);
-          console.log("foundPassenger === ", foundPassenger);
+  //       observer.next(data);  // Send the data to subscribers
+  //     }, (error) => {
+  //       observer.error(error);
+  //     });
 
-          this.notificationSenderName = foundPassenger?.passName
-
-          if (foundPassenger?.passStatus == "Requested") {
-            console.log('requ kiya h');
-
-            console.log(" requ targetUserId === ", targetUserId);
-            console.log(" requ currentUserDocId === ", currentUserDocId);
-            if (targetUserId == currentUserDocId) {
-              this.requestNotification();
-            }
-          }
-          else if (foundPassenger?.passStatus == "cancelled") {
-            console.log('cancel kiya h isne');
-            console.log(" cancel targetUserId === ", targetUserId);
-            console.log(" cancel currentUserDocId === ", currentUserDocId);
-            if (targetUserId == currentUserDocId) {
-              this.cancelNotification();
-            }
-          }
-        }
-      } else {
-        console.log(`No changes detected for user with ID ${targetUserId}.`);
-      }
-    });
-  }
-
-
+  //     // Cleanup function when unsubscribing
+  //     return { unsubscribe };
+  //   });
+  // }
 
 
   // subscribeToRideUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
@@ -431,65 +356,87 @@ export class HandleDataService {
   //     const userWithSpecificId = data.find((user: any) => user.id === targetUserId);
   //     if (userWithSpecificId) {
   //       console.log(`Changes detected for user with ID ${targetUserId}:`, userWithSpecificId.ride.rideList);
-  //       console.log("rideId === ", rideId);
-  //       // Find the specific ride for the user
   //       const matchedRideDetect = userWithSpecificId.ride.rideList.find(
   //         (ride: { id: string }) => ride.id === rideId
   //       );
   //       console.log("matchedRideDetect === ", matchedRideDetect);
-
   //       if (matchedRideDetect) {
-  //         const currentPassengerList = matchedRideDetect.passengerList;
-  //         console.log("this.previousPassengerList === ", this.previousPassengerList);
-  //         // Compare the new passenger list with the previously stored one to detect changes
-  //         if (!this.previousPassengerList) {
-  //           this.previousPassengerList = currentPassengerList;
-  //         }
+  //         // console.log("Passenger list for matched ride:", matchedRideDetect.passengerList);
+  //         this.selectedRidePassengerList = matchedRideDetect.passengerList;
+  //         // console.log('requestNotification kha chla');
+  //         // console.log("targetUserId ===", targetUserId);
+  //         // console.log("currentUserDocId === ", currentUserDocId);
+  //         // console.log("rideId === ", rideId); 
 
-  //         // Check for differences between current and previous passenger list
-  //         currentPassengerList.forEach((currentPassenger: any, index: number) => {
-  //           const previousPassenger = this.previousPassengerList[index];
-  //           console.log("previousPassenger === ", previousPassenger);
-  //           // If the passenger exists in both lists, compare their details
-  //           if (previousPassenger) {
-  //             console.log("previousPassenger yha bhi aa gya === ", previousPassenger);
-  //             // Detect changes in passenger details (e.g., passStatus)
-  //             console.log("currentPassenger === ", currentPassenger);
-  //             if (JSON.stringify(currentPassenger) !== JSON.stringify(previousPassenger)) {
-  //               console.log("Passenger details have changed:", currentPassenger);
 
-  //               // Store the updated passenger list for future comparison
-  //               this.previousPassengerList = currentPassengerList;
+  //         const foundPassenger = this.selectedRidePassengerList.find((passenger: { passId: any; }) => passenger.passId === currentUserDocId);
+  //         console.log("foundPassenger === ", foundPassenger);
 
-  //               // You can now find the passenger based on the changes in their details
-  //               // if (currentPassenger.passId === currentUserDocId) {
-  //               this.currentUsername = currentPassenger.passName;
+  //         this.notificationSenderName = foundPassenger?.passName
 
-  //               if (currentPassenger.passStatus === "Requested") {
-  //                 console.log('Passenger made a request.');
+  //         if (foundPassenger?.passStatus == "Requested") {
+  //           console.log('requ kiya h');
 
-  //                 if (targetUserId === currentUserDocId) {
-  //                   console.log("Request notification for targetUserId:", targetUserId);
-  //                   this.requestNotification();
-  //                 }
-  //               } else if (currentPassenger.passStatus === "canceled") {
-  //                 console.log('Passenger canceled the request.');
-
-  //                 if (targetUserId === currentUserDocId) {
-  //                   console.log("Cancel notification for targetUserId:", targetUserId);
-  //                   this.cancelNotification();
-  //                 }
-  //               }
-  //               // }
-  //             }
+  //           console.log(" requ targetUserId === ", targetUserId);
+  //           console.log(" requ currentUserDocId === ", currentUserDocId);
+  //           if (targetUserId == currentUserDocId) {
+  //             this.requestNotification();
   //           }
-  //         });
+  //         }
+  //         else if (foundPassenger?.passStatus == "cancelled") {
+  //           console.log('cancel kiya h isne');
+  //           console.log(" cancel targetUserId === ", targetUserId);
+  //           console.log(" cancel currentUserDocId === ", currentUserDocId);
+  //           if (targetUserId == currentUserDocId) {
+  //             this.cancelNotification();
+  //           }
+  //         }
   //       }
   //     } else {
   //       console.log(`No changes detected for user with ID ${targetUserId}.`);
   //     }
   //   });
   // }
+
+  subscribeToisNotification(targetUserId: string): Observable<any[]> {
+    const collectionRef = collection(this.agfirestore, 'users');
+
+    // You can add a 'where' clause to filter the results
+    const queryRef = query(collectionRef, where('isNotification', '==', true));
+
+    return new Observable((observer) => {
+      const unsubscribe = onSnapshot(queryRef, (snapshot) => {
+        const data = snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data()
+          };
+        });
+        observer.next(data);
+      }, (error) => {
+        observer.error(error);
+      });
+
+      // Cleanup function when unsubscribing
+      return { unsubscribe };
+    });
+  }
+
+  subscribeToNotificationUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
+    this.subscription = this.subscribeToisNotification(targetUserId).subscribe((data: any) => {
+      console.log("Changes detected for all users respect to notification:", data);
+
+
+      console.log("targetUserId === ", targetUserId);
+      console.log("currentUserDocId === ", currentUserDocId);
+
+      if (targetUserId == currentUserDocId && Array.isArray(data) && data.length > 0 && data[0]['isNotification']) {
+        this.requestNotification()
+        data[0]['isNotification'] = false;
+        this.updateDocumentField(targetUserId, 'isNotification', data[0]['isNotification']);
+      }
+    })
+  }
 
 
   async requestNotification() {
