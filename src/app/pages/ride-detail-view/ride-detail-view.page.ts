@@ -171,6 +171,7 @@ export class RideDetailViewPage implements OnInit {
           // Find the index of the ride to replace
 
           // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+
           if (rideIndex !== -1) {
             this.rideCreator.ride.rideList[rideIndex] = matchedRide;
             this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -292,6 +293,7 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async acceptNotification() {
+
     this.commonService.sendNotification('carpool', 'noti', '/profile', 'accept ride of ' + this.passName, "krle");
 
   };

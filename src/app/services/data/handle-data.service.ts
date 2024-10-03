@@ -334,66 +334,17 @@ export class HandleDataService {
     });
   }
 
-  // subscribeToNotificationUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
-  //   this.subscription = this.subscribeToisNotification(targetUserId).subscribe((data: any) => {
-  //     console.log("Changes detected for all users respect to notification:", data);
-  //     if (Array.isArray(data) && data.length > 0) {
-  //       const targetRideList = data[0].ride.rideList
-  //       console.log("targetRideList === ", targetRideList);
-  //       const matchedRide = targetRideList.find((ride: { id: string; }) => ride.id === rideId);
-  //       console.log("matchedRide === ", matchedRide);
 
-  //     }
-  //     if (targetUserId == currentUserDocId && Array.isArray(data) && data.length > 0 && data[0]['isNotification']) {
-  //       this.requestNotification()
-  //       data[0]['isNotification'] = false;
-  //       this.updateDocumentField(targetUserId, 'isNotification', data[0]['isNotification']);
-  //     }
-  //   })
-  // }
 
 
   subscribeToNotificationUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
     let previousPassengerList: any[] = [];
-
+    console.log("targetUserId ===", targetUserId);
+    console.log("rideId ===", rideId);
+    console.log("currentUserDocId ===", currentUserDocId);
     this.subscription = this.subscribeToisNotification(targetUserId).subscribe((data: any) => {
       console.log("Changes detected for all users respect to notification:", data);
-      // if (Array.isArray(data) && data.length > 0) {
-      //   const targetRideList = data[0].ride.rideList;
-      //   console.log("targetRideList === ", targetRideList);
 
-      //   const matchedRide = targetRideList.find((ride: { id: string; }) => ride.id === rideId);
-      //   console.log("matchedRide === ", matchedRide);
-
-      //   if (matchedRide) {
-      //     const currentPassengerList = matchedRide.passengerList;
-      //     console.log("currentPassengerList === ", currentPassengerList);
-
-      //     if (previousPassengerList.length > 0) {
-      //       currentPassengerList.forEach((currentPassenger: any) => {
-      //         // Find the corresponding passenger in the previous list by passId
-      //         const previousPassenger = previousPassengerList.find((prev: any) => prev.passId === currentPassenger.passId);
-
-      //         if (previousPassenger) {
-      //           // Compare passStatus only if passId is the same
-      //           if (currentPassenger.passStatus !== previousPassenger.passStatus) {
-      //             console.log(`Passenger with passId ${currentPassenger.passId} has a different passStatus:`, {
-      //               oldStatus: previousPassenger.passStatus,
-      //               newStatus: currentPassenger.passStatus
-      //             });
-      //           }
-      //         } else {
-      //           // If no corresponding passenger found in previous list, this is a new element
-      //           console.log(`New passenger added with passId ${currentPassenger.passId} and passStatus:`, currentPassenger.passStatus);
-      //         }
-      //       });
-      //     } 
-      //     // Update the previous list for the next comparison
-      //     previousPassengerList = [...currentPassengerList];
-      //   }
-      // }
-
-      // Handle notification trigger for current user
       if (targetUserId === currentUserDocId && Array.isArray(data) && data.length > 0 && data[0]['isNotification']) {
 
         const targetRideList = data[0].ride.rideList;
