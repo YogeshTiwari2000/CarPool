@@ -121,9 +121,7 @@ export class RideDetailViewPage implements OnInit {
 
   }
 
-  async bookTestRide() {
-
-
+  async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide)
     const rideinCurrentUserRideList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -197,20 +195,31 @@ export class RideDetailViewPage implements OnInit {
 
   }
 
+  async cancelRide() {
+    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRide cancel wali === ", matchedRide);
 
+    if (matchedRide) {
+      const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
+      console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
+      const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
+      console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
 
+      if (currentUserExistInPassList) {
+        const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
+          if (obj.passId === this.currentUserDocId) {
+            return { ...obj, passStatus: "cancelled" };
+          }
+          return obj;
+        });
+        console.log("updatedPassengerList === ", updatedPassengerList);
+        matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+      }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    this.modalCtrl.dismiss();
+  }
 
 
 
@@ -291,101 +300,6 @@ export class RideDetailViewPage implements OnInit {
   //   this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.passName, "mt kr");
   // };
 
-  async cancelRide() {
-    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRide cancel wali === ", matchedRide);
-
-    if (matchedRide) {
-      const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
-      console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
-      const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-      console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
-
-      if (currentUserExistInPassList) {
-        const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
-          if (obj.passId === this.currentUserDocId) {
-            return { ...obj, passStatus: "cancelled" };
-          }
-          return obj;
-        });
-        console.log("updatedPassengerList === ", updatedPassengerList);
-        matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-      }
-    }
-
-    this.modalCtrl.dismiss();
-  }
-
-
-  async bookRide() {
-
-    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRide === ", matchedRide)
-    const rideinCurrentUserRideList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("rideinCurrentUserRideList === ", rideinCurrentUserRideList);
-    if (matchedRide) {
-      // to move ride to my updates 
-      if (rideinCurrentUserRideList == undefined) {
-        console.log('current user ki ridelist me ride nhi thi, add ho gyii');
-
-        this.currentUser.ride.rideList.unshift(this.handleData.clone(matchedRide));
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
-      }
-
-      this.bookRideBtn = true;
-
-      if (this.ride.passengerList != undefined) {
-
-        console.log('passenger h ');
-
-        const rideIndex = this.rideCreator.ride.rideList.findIndex((ride: { id: string; }) => ride.id === this.currentRideId);
-        console.log("rideIndex === ", rideIndex);
-        console.log("current ride === ", this.rideCreator.ride.rideList[rideIndex]);
-
-        const currentRidePassangerList = this.rideCreator.ride.rideList[rideIndex].passengerList
-        console.log("currentRidePassangerList === ", currentRidePassangerList);
-
-        let currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-        console.log("currentUserExistInPassList === ", currentUserExistInPassList);
-
-        if (currentUserExistInPassList != undefined) {
-
-          currentUserExistInPassList.passStatus = "Requested"
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-
-        } else {
-          const passenger = {
-            passName: this.currentUser.userName,
-            passId: this.currentUserDocId,
-            passEmail: this.currentUser.userEmail,
-            passStatus: "Requested",
-          }
-          const immutablePassenger = Object.freeze({ ...passenger });
-          console.log("immutablePassenger === ", immutablePassenger);
-          matchedRide.passengerList.unshift(immutablePassenger);
-          console.log(" matchedRide.passengerList === ", matchedRide.passengerList);
-          console.log("currentRidePassangerList  === ", currentRidePassangerList);
-          // Find the index of the ride to replace
-
-          // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-          if (rideIndex !== -1) {
-            this.rideCreator.ride.rideList[rideIndex] = matchedRide;
-            this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-          } else {
-            console.log("Ride to replace not found!");
-          }
-        }
-
-      } else {
-        console.log('koi nhi h create kro');
-      }
-
-
-    } else {
-      console.log('not able to book the ride');
-    }
-  }
 
 
   calculateTotalPrice(): number {
