@@ -215,6 +215,8 @@ export class RideDetailViewPage implements OnInit {
         console.log("updatedPassengerList === ", updatedPassengerList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+        this.rideCreator.isNotification = true
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', this.rideCreator.isNotification);
       }
     }
 
