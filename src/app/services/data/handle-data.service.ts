@@ -393,6 +393,12 @@ export class HandleDataService {
         else if (this.currentUserRideStatus == 'cancelled') {
           this.cancelNotification();
         }
+        else if (this.currentUserRideStatus == 'accepted') {
+          this.acceptNotification();
+        }
+        else if (this.currentUserRideStatus == 'rejected') {
+          this.rejectNotification();
+        }
 
         data[0]['isNotification'] = false;
         this.updateDocumentField(targetUserId, 'isNotification', data[0]['isNotification']);
@@ -411,6 +417,15 @@ export class HandleDataService {
     console.log('cancel notification function clicked');
 
     this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride cancel send by ' + this.notiSenderName, "mt kr");
+  };
+
+  async acceptNotification() {
+
+    this.commonService.sendNotification('carpool', 'noti', '/profile', 'accept ride of ' + this.notiSenderName, "krle");
+
+  };
+  async rejectNotification() {
+    this.commonService.sendNotification('carpool', 'noti ', '/profile', 'reject ride of ' + this.notiSenderName, "mt kr");
   };
 }
 
