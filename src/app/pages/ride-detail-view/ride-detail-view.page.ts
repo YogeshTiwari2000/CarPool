@@ -18,7 +18,6 @@ import { Subscription } from 'rxjs';
 })
 export class RideDetailViewPage implements OnInit {
 
-
   private handleData = inject(HandleDataService);
   localStorageService = inject(LocalStorageService);
   commonService = inject(CommonService);
@@ -83,7 +82,6 @@ export class RideDetailViewPage implements OnInit {
           console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
           console.log("currentUser   === ", this.currentUser);
           this.isEmailVerified = this.currentUser.email_verified
-          // console.log(" this.isEmailVerified === ", this.isEmailVerified);
           this.userRideList = this.handleData.getAllRideLists()
           // this.userRideList = this.currentUser.ride.rideList
           // console.log("this.userRideList === ", this.userRideList);
@@ -113,38 +111,12 @@ export class RideDetailViewPage implements OnInit {
         console.error("Error:", error);
       });
 
-    // for passanger
-    // this.handleData
-    //   .userExists(this.passEmail)
-    //   .then((result) => {
-    //     if (result.isExist) {
-
-    //       this.handleData.user = result.data;
-    //       this.passData = this.handleData.user;
-    //       console.log(" this.rideCreator   === ", this.passData);
-
-    //     } else {
-    //       console.log("User not found");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
-
-
-
-
-
-    // // change detech code  
-    // this.subscribeToRideUpdatesWithDocId()
+    // // change detech code   
     this.subscribeToNotificationUpdatesWithDocId()
 
-  }
-
-
-  async cancelTestRide() {
 
   }
+
 
   async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -160,6 +132,9 @@ export class RideDetailViewPage implements OnInit {
       }
 
       this.bookRideBtn = true;
+
+
+
 
       if (this.ride.passengerList != undefined) {
 
@@ -218,6 +193,11 @@ export class RideDetailViewPage implements OnInit {
     } else {
       console.log('not able to book the ride');
     }
+    this.currentUser.notificationButtonClicked = 'book'
+    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
+    this.rideCreator.notificationButtonClicked = 'book'
+    this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
+    this.ngOnInit()
 
   }
 
@@ -230,6 +210,8 @@ export class RideDetailViewPage implements OnInit {
       console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
       const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
       console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
+
+
 
       if (currentUserExistInPassList) {
         const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
@@ -246,10 +228,14 @@ export class RideDetailViewPage implements OnInit {
       }
     }
 
+    this.currentUser.notificationButtonClicked = 'cancel'
+    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
+    this.rideCreator.notificationButtonClicked = 'cancel'
+    this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
+    this.ngOnInit()
+
     this.modalCtrl.dismiss();
   }
-
-
 
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
@@ -257,27 +243,70 @@ export class RideDetailViewPage implements OnInit {
     }
   }
 
-  // async subscribeToRideUpdatesWithDocId() {
-  //   await this.waitForCurrentUserDocId();
-
-  //   // Once this.currentUserDocId is not undefined, proceed with the subscription
-  //   this.handleData.subscribeToRideUpdates(
-  //     this.ride.riderUserId,
-  //     this.currentRideId,
-  //     this.currentUserDocId
-  //   );
-  // }
   async subscribeToNotificationUpdatesWithDocId() {
     await this.waitForCurrentUserDocId();
+    console.log('subscribeToNotificationUpdatesWithDocId chla');
 
     // Once this.currentUserDocId is not undefined, proceed with the subscription
+    // this.handleData.subscribeToNotificationUpdates(
+    //   this.ride.riderUserId,
+    //   this.currentRideId,
+    //   this.currentUserDocId
+    // );  
+
+    this.condition()
+  }
+
+  condition() {
+    console.log("this.currentUser 789789=== ", this.currentUser);
+    if (this.currentUser.notificationButtonClicked == 'book') {
+      console.log(' ngonit wala book chla');
+      this.booktes()
+    }
+    else if (this.currentUser.notificationButtonClicked == 'reject') {
+      console.log(' ngonit wala reject chla h');
+      this.rejecttest()
+    }
+    else if (this.currentUser.notificationButtonClicked == 'accept') {
+      console.log(' ngonit wala accept chla ');
+      this.accepttes()
+    }
+    else if (this.currentUser.notificationButtonClicked == 'cancel') {
+      console.log(' ngonit wala cancel chla ');
+      this.canceltes()
+    }
+  }
+
+  booktes() {
     this.handleData.subscribeToNotificationUpdates(
       this.ride.riderUserId,
       this.currentRideId,
       this.currentUserDocId
     );
   }
-
+  rejecttest() {
+    this.handleData.subscribeToNotificationUpdates(
+      this.passId,
+      this.currentRideId,
+      this.currentUserDocId
+    );
+  }
+  accepttes() {
+    console.log(" this.passId0000, ====", this.passId);
+    this.handleData.subscribeToNotificationUpdates(
+      this.passId,
+      // 'We1CzRAZDpLgPnws48ti',
+      this.currentRideId,
+      this.currentUserDocId
+    );
+  }
+  canceltes() {
+    this.handleData.subscribeToNotificationUpdates(
+      this.ride.riderUserId,
+      this.currentRideId,
+      this.currentUserDocId
+    );
+  }
 
   async editRide() {
 
@@ -303,96 +332,11 @@ export class RideDetailViewPage implements OnInit {
   }
 
 
-
-  // async acceptRequest(index: any) {
-  //   const selectedPass = this.selectedRidePassengerList[index]
-  //   console.log("selectedPass === ", selectedPass);
-  //   this.passId = selectedPass.passId
-  //   this.passEmail = selectedPass.passEmail
-
-  //   this.handleData.subscribeToNotificationUpdates(
-  //     this.passId,
-  //     this.currentRideId,
-  //     this.currentUserDocId
-  //   );
-
-
-  //   if (this.passData == undefined) {
-  //     setTimeout(() => {
-  //        this.handleData
-  //         .userExists(this.passEmail)
-  //         .then((result) => {
-  //           if (result.isExist) {
-
-  //             this.handleData.user = result.data;
-  //             this.passData = this.handleData.user;
-  //             console.log(" this.passData   === ", this.passData);
-
-  //           } else {
-  //             console.log("User not found");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error:", error);
-  //         });
-
-  //     }, 100);
-  //   }
-
-
-  //   // update k liye 
-
-  //   console.log("this.passData === ", this.passData);
-  //   this.passData.isNotification = true
-  //   this.handleData.updateDocumentField(this.passId, 'isNotification', this.passData.isNotification);
-
-  //   const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-  //   console.log("matchedRide cancel wali === ", matchedRide);
-
-  //   if (matchedRide) {
-  //     const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
-  //     console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
-  //     const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-  //     console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
-
-  //     if (currentUserExistInPassList) {
-  //       const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
-  //         if (obj.passId === this.currentUserDocId) {
-  //           return { ...obj, passStatus: "accepted" };
-  //         }
-  //         return obj;
-  //       });
-  //       console.log("updatedPassengerList === ", updatedPassengerList);
-  //       matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
-  //       this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-  //       console.log("this.passData === ", this.passData);
-  //       this.passData.isNotification = true
-  //       this.handleData.updateDocumentField(this.passId, 'isNotification', this.passData.isNotification);
-  //     }
-  //   }
-
-
-
-
-
-
-
-
-  // }
-
-
   async acceptRequest(index: any) {
     const selectedPass = this.selectedRidePassengerList[index];
     console.log("selectedPass === ", selectedPass);
     this.passId = selectedPass.passId;
     this.passEmail = selectedPass.passEmail;
-
-    // Subscribe to notification updates for the selected passenger
-    this.handleData.subscribeToNotificationUpdates(
-      this.passId,
-      this.currentRideId,
-      this.currentUserDocId
-    );
 
     // Wait for passData if it is undefined
     if (!this.passData) {
@@ -444,6 +388,16 @@ export class RideDetailViewPage implements OnInit {
         await this.handleData.updateDocumentField(this.passId, 'isNotification', this.passData.isNotification); // Wait for the update to complete
       }
     }
+
+    console.log("this.passId 456 === ", this.passId);
+
+    this.handleData.updateDocumentField(this.passId, 'notificationButtonClicked', 'accept')
+    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', 'accept')
+    this.currentUser.notificationButtonClicked = "accept";
+    this.subscribeToNotificationUpdatesWithDocId()
+    // this.ngOnInit()
+
+
   }
 
 
@@ -452,13 +406,6 @@ export class RideDetailViewPage implements OnInit {
     this.passName = selectedPass.passName
     console.log("index === ", index);
   }
-
-
-  // async requestNotification() {
-  //   this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.passName, "mt kr");
-  // };
-
-
 
   calculateTotalPrice(): number {
     console.log("this.ride.price * this.ride.seatAvl === ", this.ride.price * this.ride.seatAvl);
@@ -486,8 +433,6 @@ export class RideDetailViewPage implements OnInit {
 
     return `${weekday} ${day} ${month}`;
   }
-
-
 
   calculateEndTime(userInfo: any): string {
     const time = userInfo['time']; // e.g., "15:27"
@@ -535,8 +480,6 @@ export class RideDetailViewPage implements OnInit {
 
     return endTime;
   }
-
-
 
   async startRideNotification() {
     this.commonService.sendNotification('carpool', '', '/ride-detail-view', "driver start the ride", "start hogi");

@@ -333,16 +333,18 @@ export class HandleDataService {
       return { unsubscribe };
     });
   }
-
-
-
-
   subscribeToNotificationUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
     let previousPassengerList: any[] = [];
-    console.log("targetUserId ===", targetUserId);
+    console.log("targetUserId ===11", targetUserId);
     console.log("rideId ===", rideId);
     console.log("currentUserDocId ===", currentUserDocId);
+    if (targetUserId == undefined || targetUserId == "undefined") {
+      alert("target id is undefined");
+    }
     this.subscription = this.subscribeToisNotification(targetUserId).subscribe((data: any) => {
+      console.log("targetUserId ===22", targetUserId);
+      console.log("rideId ===", rideId);
+      console.log("currentUserDocId ===", currentUserDocId);
       console.log("Changes detected for all users respect to notification:", data);
 
       if (targetUserId === currentUserDocId && Array.isArray(data) && data.length > 0 && data[0]['isNotification']) {
