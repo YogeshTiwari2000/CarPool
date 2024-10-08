@@ -149,7 +149,12 @@ export class RideDetailViewPage implements OnInit {
         }
 
         if (currentUserExistInPassList != undefined) {
-          this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          // this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          if (this.rideCreator.isNotification == true) {
+            this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          } else {
+            this.rideCreator.notificationList = [notificationMessage]
+          }
           this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
           currentUserExistInPassList.passStatus = "Requested"
           this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -170,9 +175,12 @@ export class RideDetailViewPage implements OnInit {
           // Find the index of the ride to replace 
           // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); 
           if (rideIndex !== -1) {
-            console.log("this.rideCreator.notificationList11 === ", this.rideCreator.notificationList);
-            this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
-            console.log("this.rideCreator.notificationList22 === ", this.rideCreator.notificationList);
+
+            if (this.rideCreator.isNotification == true) {
+              this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+            } else {
+              this.rideCreator.notificationList = [notificationMessage]
+            }
             this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
             this.rideCreator.ride.rideList[rideIndex] = matchedRide;
             this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -216,7 +224,14 @@ export class RideDetailViewPage implements OnInit {
           }
           return obj;
         });
-        this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+        // this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+
+        if (this.rideCreator.isNotification == true) {
+          this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+        } else {
+          this.rideCreator.notificationList = [notificationMessage]
+        }
+
         this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -268,8 +283,10 @@ export class RideDetailViewPage implements OnInit {
     // Wait for passData if it is undefined
     if (!this.passData) {
       try {
-        const result = await this.handleData.userExists(this.passEmail); // Wait for userExists to resolve
-        if (result.isExist, false) {
+        const result = await this.handleData.userExists(this.passEmail, false); // Wait for userExists to resolve
+        console.log("result === ", result);
+        if (result.isExist) {
+          console.log("this.handleData.user === ", this.handleData.user);
           this.handleData.user = result.data;
           this.passData = this.handleData.user;
           console.log("this.passData === ", this.passData);
@@ -313,13 +330,16 @@ export class RideDetailViewPage implements OnInit {
 
         const notificationMessage = {
           senderName: this.currentUser.userName,
-          status: 'cancelled',
-          message: 'cancelled a Ride',
+          status: 'accepted',
+          message: 'accepted a Ride',
           rideid: this.currentRideId,
           url: 'profile'
         }
-
-        this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
+        if (this.passData.isNotification == true) {
+          this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
+        } else {
+          this.passData.notificationList = [notificationMessage]
+        }
         await this.handleData.updateDocumentField(this.passId, 'notificationList', this.passData.notificationList);
         await this.handleData.updateDocumentField(this.passId, 'isNotification', true); // Wait for the update to complete
       }

@@ -71,7 +71,11 @@ export class HandleDataService {
       console.warn("currentUserDocId === ", currentUserDocId);
       console.warn("data ===999 ", data);
       if (data.isNotification === true) {
-        this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
+        if (data.notificationList.length > 1) {
+          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
+        } else {
+          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, '');
+        }
         this.updateDocumentField(currentUserDocId, 'isNotification', false);
         this.updateDocumentField(currentUserDocId, 'notificationList', []);
         console.log("data.notificationList === ", data.notificationList);

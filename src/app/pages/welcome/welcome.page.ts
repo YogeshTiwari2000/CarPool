@@ -34,12 +34,8 @@ export class WelcomePage implements OnInit {
 
   }
 
-
-
-
   ngOnInit() {
     console.log("welcome page");
-
   }
   ionViewWillEnter() {
     const currentUserEmail = this.commonService.currentUserEmail;
