@@ -57,9 +57,25 @@ export class HandleDataService {
   previousPassengerList: any;
   currentUserRideStatus: any
   notiSenderName: any
+
+
   constructor(public afMessaging: AngularFireMessaging) {
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
+
+
+    const currentUserDocId = this.localStr.getItem("currentUserDocId")
+    // here we subscribe the currentUserNode
+    this.subscribeToCurrentUser(currentUserDocId).subscribe((data: any) => {
+      console.warn("data ===999 ", data);
+      if (data.isNotification == true) {
+        for (let i = 0; i < data.notificationList.length; i++) {
+          this.commonService.sendNotification('carpool', 'notify ', '/profile', ' ride request send by ' + this.notiSenderName, "mt kr");
+        }
+        this.updateDocumentField(currentUserDocId, 'isNotification', false);
+      }
+    })
+
   }
 
   subscription: Subscription | undefined;
@@ -285,150 +301,26 @@ export class HandleDataService {
   }
 
 
-  subscribeToAllNodes(): Observable<any[]> {
-    const collectionRef = collection(
-      this.agfirestore,  // this.agfirestore.firestore in v9+
-      'users'                    // your collection reference (use 'this.firebaseNodes.usersNode' if necessary)
-    );
+  subscribeToCurrentUser(targetUserId: string): Observable<any> {
+    const docRef = doc(this.agfirestore, `users/${targetUserId}`);
 
     return new Observable((observer) => {
-      const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data()
-          };
-        });
-        observer.next(data);
+      const unsubscribe = onSnapshot(docRef, (doc) => {
+        if (doc.exists()) {
+          observer.next({ id: doc.id, ...doc.data() });
+        } else {
+          observer.error(new Error('User not found'));
+        }
       }, (error) => {
         observer.error(error);
       });
 
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
+      // Correct return for the cleanup
+      return () => unsubscribe(); // Proper cleanup when Observable is unsubscribed
     });
   }
 
 
-  subscribeToisNotification(targetUserId: string): Observable<any[]> {
-    const collectionRef = collection(this.agfirestore, 'users');
-
-    // You can add a 'where' clause to filter the results
-    const queryRef = query(collectionRef, where('isNotification', '==', true));
-
-    return new Observable((observer) => {
-      const unsubscribe = onSnapshot(queryRef, (snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data()
-          };
-        });
-        observer.next(data);
-      }, (error) => {
-        observer.error(error);
-      });
-
-      // Cleanup function when unsubscribing
-      return { unsubscribe };
-    });
-  }
-  subscribeToNotificationUpdates(targetUserId: string, rideId: any, currentUserDocId: any) {
-    let previousPassengerList: any[] = [];
-    console.log("targetUserId ===11", targetUserId);
-    console.log("rideId ===", rideId);
-    console.log("currentUserDocId ===", currentUserDocId);
-    if (targetUserId == undefined || targetUserId == "undefined") {
-      alert("target id is undefined");
-    }
-    this.subscription = this.subscribeToisNotification(targetUserId).subscribe((data: any) => {
-      console.log("targetUserId ===22", targetUserId);
-      console.log("rideId ===", rideId);
-      console.log("currentUserDocId ===", currentUserDocId);
-      console.log("Changes detected for all users respect to notification:", data);
-
-      if (targetUserId === currentUserDocId && Array.isArray(data) && data.length > 0 && data[0]['isNotification']) {
-
-        const targetRideList = data[0].ride.rideList;
-        console.log("targetRideList === ", targetRideList);
-
-        const matchedRide = targetRideList.find((ride: { id: string; }) => ride.id === rideId);
-        console.log("matchedRide === ", matchedRide);
-
-        if (matchedRide) {
-          const currentPassengerList = matchedRide.passengerList;
-          console.log("currentPassengerList === ", currentPassengerList);
-
-
-          if (previousPassengerList.length > 0) {
-            currentPassengerList.forEach((currentPassenger: any) => {
-              // Find the corresponding passenger in the previous list by passId
-              const previousPassenger = previousPassengerList.find((prev: any) => prev.passId === currentPassenger.passId);
-
-              if (previousPassenger) {
-                // Compare passStatus only if passId is the same
-                if (currentPassenger.passStatus !== previousPassenger.passStatus) {
-                  console.log(`Passenger with passId ${currentPassenger.passId} has a different passStatus:`, {
-                    oldStatus: previousPassenger.passStatus,
-                    newStatus: currentPassenger.passStatus
-                  });
-
-                  this.currentUserRideStatus = currentPassenger.passStatus
-                  this.notiSenderName = currentPassenger.passName
-                }
-              } else {
-                // If no corresponding passenger found in previous list, this is a new element
-                console.log(`New passenger added with passId ${currentPassenger.passId} and passStatus:`, currentPassenger.passStatus);
-                this.currentUserRideStatus = currentPassenger.passStatus
-                this.notiSenderName = currentPassenger.passName
-              }
-            });
-          }
-          // Update the previous list for the next comparison
-          previousPassengerList = [...currentPassengerList];
-        }
-
-
-        if (this.currentUserRideStatus == 'Requested') {
-          this.requestNotification();
-        }
-        else if (this.currentUserRideStatus == 'cancelled') {
-          this.cancelNotification();
-        }
-        else if (this.currentUserRideStatus == 'accepted') {
-          this.acceptNotification();
-        }
-        else if (this.currentUserRideStatus == 'rejected') {
-          this.rejectNotification();
-        }
-
-        data[0]['isNotification'] = false;
-        this.updateDocumentField(targetUserId, 'isNotification', data[0]['isNotification']);
-      }
-    });
-  }
-
-
-
-  async requestNotification() {
-    console.log('request notification function clicked');
-
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride request send by ' + this.notiSenderName, "mt kr");
-  };
-  async cancelNotification() {
-    console.log('cancel notification function clicked');
-
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', ' ride cancel send by ' + this.notiSenderName, "mt kr");
-  };
-
-  async acceptNotification() {
-
-    this.commonService.sendNotification('carpool', 'noti', '/profile', 'accept ride of ' + this.notiSenderName, "krle");
-
-  };
-  async rejectNotification() {
-    this.commonService.sendNotification('carpool', 'noti ', '/profile', 'reject ride of ' + this.notiSenderName, "mt kr");
-  };
 }
 
 

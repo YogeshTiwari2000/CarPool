@@ -111,10 +111,6 @@ export class RideDetailViewPage implements OnInit {
         console.error("Error:", error);
       });
 
-    // // change detech code   
-    this.subscribeToNotificationUpdatesWithDocId()
-
-
   }
 
 
@@ -197,7 +193,7 @@ export class RideDetailViewPage implements OnInit {
     this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
     this.rideCreator.notificationButtonClicked = 'book'
     this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
-    this.ngOnInit()
+    // this.ngOnInit()
 
   }
 
@@ -232,7 +228,7 @@ export class RideDetailViewPage implements OnInit {
     this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
     this.rideCreator.notificationButtonClicked = 'cancel'
     this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
-    this.ngOnInit()
+    // this.ngOnInit()
 
     this.modalCtrl.dismiss();
   }
@@ -247,66 +243,8 @@ export class RideDetailViewPage implements OnInit {
     await this.waitForCurrentUserDocId();
     console.log('subscribeToNotificationUpdatesWithDocId chla');
 
-    // Once this.currentUserDocId is not undefined, proceed with the subscription
-    // this.handleData.subscribeToNotificationUpdates(
-    //   this.ride.riderUserId,
-    //   this.currentRideId,
-    //   this.currentUserDocId
-    // );  
-
-    this.condition()
   }
 
-  condition() {
-    console.log("this.currentUser 789789=== ", this.currentUser);
-    if (this.currentUser.notificationButtonClicked == 'book') {
-      console.log(' ngonit wala book chla');
-      this.booktes()
-    }
-    else if (this.currentUser.notificationButtonClicked == 'reject') {
-      console.log(' ngonit wala reject chla h');
-      this.rejecttest()
-    }
-    else if (this.currentUser.notificationButtonClicked == 'accept') {
-      console.log(' ngonit wala accept chla ');
-      this.accepttes()
-    }
-    else if (this.currentUser.notificationButtonClicked == 'cancel') {
-      console.log(' ngonit wala cancel chla ');
-      this.canceltes()
-    }
-  }
-
-  booktes() {
-    this.handleData.subscribeToNotificationUpdates(
-      this.ride.riderUserId,
-      this.currentRideId,
-      this.currentUserDocId
-    );
-  }
-  rejecttest() {
-    this.handleData.subscribeToNotificationUpdates(
-      this.passId,
-      this.currentRideId,
-      this.currentUserDocId
-    );
-  }
-  accepttes() {
-    console.log(" this.passId0000, ====", this.passId);
-    this.handleData.subscribeToNotificationUpdates(
-      this.passId,
-      // 'We1CzRAZDpLgPnws48ti',
-      this.currentRideId,
-      this.currentUserDocId
-    );
-  }
-  canceltes() {
-    this.handleData.subscribeToNotificationUpdates(
-      this.ride.riderUserId,
-      this.currentRideId,
-      this.currentUserDocId
-    );
-  }
 
   async editRide() {
 
@@ -394,7 +332,7 @@ export class RideDetailViewPage implements OnInit {
     this.handleData.updateDocumentField(this.passId, 'notificationButtonClicked', 'accept')
     this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', 'accept')
     this.currentUser.notificationButtonClicked = "accept";
-    this.subscribeToNotificationUpdatesWithDocId()
+    // this.subscribeToNotificationUpdatesWithDocId()
     // this.ngOnInit()
 
 
