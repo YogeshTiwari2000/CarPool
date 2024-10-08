@@ -50,6 +50,7 @@ export class RideDetailViewPage implements OnInit {
 
 
   ngOnInit() {
+    console.log("  this.handleData === ", this.handleData);
     // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
@@ -63,8 +64,7 @@ export class RideDetailViewPage implements OnInit {
 
         this.selectedRidePassengerList = this.ride.passengerList;
         console.log(" this.status === ", this.status);
-        console.log(" this.this.ride.currentUserDocId === ", this.ride.riderUserId);
-        // console.log(" this.currentRideId === ", this.currentRideId);
+        console.log("this.ride.riderUserId === ", this.ride.riderUserId);
       }
     });
 
@@ -171,8 +171,9 @@ export class RideDetailViewPage implements OnInit {
           // Find the index of the ride to replace 
           // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); 
           if (rideIndex !== -1) {
-
+            console.log("this.rideCreator.notificationList11 === ", this.rideCreator.notificationList);
             this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+            console.log("this.rideCreator.notificationList22 === ", this.rideCreator.notificationList);
             this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
             this.rideCreator.ride.rideList[rideIndex] = matchedRide;
             this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -216,7 +217,6 @@ export class RideDetailViewPage implements OnInit {
           }
           return obj;
         });
-        console.log("updatedPassengerList === ", updatedPassengerList);
         this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
         this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
@@ -231,14 +231,9 @@ export class RideDetailViewPage implements OnInit {
 
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
+      console.log("this.currentUserDocId 5555=== ", this.currentUserDocId);
       await new Promise(resolve => setTimeout(resolve, 100));
     }
-  }
-
-  async subscribeToNotificationUpdatesWithDocId() {
-    await this.waitForCurrentUserDocId();
-    console.log('subscribeToNotificationUpdatesWithDocId chla');
-
   }
 
 

@@ -65,15 +65,17 @@ export class HandleDataService {
 
 
     const currentUserDocId = this.localStr.getItem("currentUserDocId")
+    console.log("currentUserDocId === ", currentUserDocId);
     // here we subscribe the currentUserNode
     this.subscribeToCurrentUser(currentUserDocId).subscribe((data: any) => {
+      console.warn("currentUserDocId === ", currentUserDocId);
       console.warn("data ===999 ", data);
-      if (data.isNotification == true) {
-        for (let i = 0; i < data.notificationList.length; i++) {
-          this.commonService.sendNotification('carpool', 'notify ', '/' + data.notificationList[i].url, 'ride ' + data.notificationList[i].status + ' by ' + data.notificationList[i].senderName, "mt kr");
-        }
+      if (data.isNotification === true) {
+        this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
+
         this.updateDocumentField(currentUserDocId, 'isNotification', false);
         this.updateDocumentField(currentUserDocId, 'notificationList', []);
+        console.log("data.notificationList === ", data.notificationList);
       }
     })
 
@@ -219,9 +221,9 @@ export class HandleDataService {
       await updateDoc(docRef, {
         [keyToUpdate]: data,
       });
-      this.commonService.alertBox("Document field Updated", "Document update info", [
-        "Ok",
-      ]);
+      // this.commonService.alertBox("Document field Updated", "Document update info", [
+      //   "Ok",
+      // ]);
     } catch (error: any) {
       console.log("error === ", error);
       this.commonService.alertBox(
