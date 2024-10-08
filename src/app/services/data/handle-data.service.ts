@@ -70,9 +70,10 @@ export class HandleDataService {
       console.warn("data ===999 ", data);
       if (data.isNotification == true) {
         for (let i = 0; i < data.notificationList.length; i++) {
-          this.commonService.sendNotification('carpool', 'notify ', '/profile', ' ride request send by ' + this.notiSenderName, "mt kr");
+          this.commonService.sendNotification('carpool', 'notify ', '/' + data.notificationList[i].url, 'ride ' + data.notificationList[i].status + ' by ' + data.notificationList[i].senderName, "mt kr");
         }
         this.updateDocumentField(currentUserDocId, 'isNotification', false);
+        this.updateDocumentField(currentUserDocId, 'notificationList', []);
       }
     })
 
@@ -303,7 +304,7 @@ export class HandleDataService {
 
   subscribeToCurrentUser(targetUserId: string): Observable<any> {
     const docRef = doc(this.agfirestore, `users/${targetUserId}`);
-
+    console.log("subscribeToCurrentUser === fired ");
     return new Observable((observer) => {
       const unsubscribe = onSnapshot(docRef, (doc) => {
         if (doc.exists()) {

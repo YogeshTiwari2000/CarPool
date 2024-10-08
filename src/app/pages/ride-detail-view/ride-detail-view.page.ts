@@ -110,9 +110,7 @@ export class RideDetailViewPage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
-
   }
-
 
   async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -126,12 +124,7 @@ export class RideDetailViewPage implements OnInit {
         this.currentUser.ride.rideList.unshift(this.handleData.clone(matchedRide));
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
       }
-
       this.bookRideBtn = true;
-
-
-
-
       if (this.ride.passengerList != undefined) {
 
         console.log('passenger h ');
@@ -146,12 +139,23 @@ export class RideDetailViewPage implements OnInit {
         let currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
         console.log("currentUserExistInPassList === ", currentUserExistInPassList);
 
-        if (currentUserExistInPassList != undefined) {
+        console.log("this.rideCreator.notificationList === ", this.rideCreator.notificationList);
 
+        const notificationMessage = {
+          senderName: this.currentUser.userName,
+          status: 'Requested',
+          message: 'Requested a Ride',
+          rideid: this.currentRideId,
+          url: 'profile'
+        }
+
+        if (currentUserExistInPassList != undefined) {
+          this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
           currentUserExistInPassList.passStatus = "Requested"
           this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-          this.rideCreator.isNotification = true
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', this.rideCreator.isNotification);
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
+
         } else {
           const passenger = {
             passName: this.currentUser.userName,
@@ -164,50 +168,46 @@ export class RideDetailViewPage implements OnInit {
           matchedRide.passengerList.unshift(immutablePassenger);
           console.log(" matchedRide.passengerList === ", matchedRide.passengerList);
           console.log("currentRidePassangerList  === ", currentRidePassangerList);
-          // Find the index of the ride to replace
-
-          // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-
+          // Find the index of the ride to replace 
+          // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); 
           if (rideIndex !== -1) {
+
+            this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
             this.rideCreator.ride.rideList[rideIndex] = matchedRide;
             this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-
-            this.rideCreator.isNotification = true
-            this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', this.rideCreator.isNotification);
-
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
 
           } else {
             console.log("Ride to replace not found!");
           }
         }
-
       } else {
         console.log('koi nhi h create kro');
       }
 
-
     } else {
       console.log('not able to book the ride');
     }
-    this.currentUser.notificationButtonClicked = 'book'
-    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
-    this.rideCreator.notificationButtonClicked = 'book'
-    this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
-    // this.ngOnInit()
-
   }
 
   async cancelRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide cancel wali === ", matchedRide);
 
+    const notificationMessage = {
+      senderName: this.currentUser.userName,
+      status: 'cancelled',
+      message: 'cancelled a Ride',
+      rideid: this.currentRideId,
+      url: 'profile'
+    }
+
     if (matchedRide) {
       const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
       console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
       const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
       console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
-
-
 
       if (currentUserExistInPassList) {
         const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
@@ -217,18 +217,14 @@ export class RideDetailViewPage implements OnInit {
           return obj;
         });
         console.log("updatedPassengerList === ", updatedPassengerList);
+        this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-        this.rideCreator.isNotification = true
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', this.rideCreator.isNotification);
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
       }
     }
 
-    this.currentUser.notificationButtonClicked = 'cancel'
-    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', this.currentUser.notificationButtonClicked);
-    this.rideCreator.notificationButtonClicked = 'cancel'
-    this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationButtonClicked', this.rideCreator.notificationButtonClicked);
-    // this.ngOnInit()
 
     this.modalCtrl.dismiss();
   }
@@ -322,20 +318,19 @@ export class RideDetailViewPage implements OnInit {
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); // Wait for the ride update
 
-        this.passData.isNotification = true;
-        await this.handleData.updateDocumentField(this.passId, 'isNotification', this.passData.isNotification); // Wait for the update to complete
+        const notificationMessage = {
+          senderName: this.currentUser.userName,
+          status: 'cancelled',
+          message: 'cancelled a Ride',
+          rideid: this.currentRideId,
+          url: 'profile'
+        }
+
+        this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
+        await this.handleData.updateDocumentField(this.passId, 'notificationList', this.passData.notificationList);
+        await this.handleData.updateDocumentField(this.passId, 'isNotification', true); // Wait for the update to complete
       }
     }
-
-    console.log("this.passId 456 === ", this.passId);
-
-    this.handleData.updateDocumentField(this.passId, 'notificationButtonClicked', 'accept')
-    this.handleData.updateDocumentField(this.currentUserDocId, 'notificationButtonClicked', 'accept')
-    this.currentUser.notificationButtonClicked = "accept";
-    // this.subscribeToNotificationUpdatesWithDocId()
-    // this.ngOnInit()
-
-
   }
 
 
