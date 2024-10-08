@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
   imports: [IonList, IonModal, IonTabButton, IonButtons, IonIcon, IonItem, IonLabel, IonButton, IonRow, IonCol, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton]
 })
 export class RideDetailViewPage implements OnInit {
+  [x: string]: any;
 
   private handleData = inject(HandleDataService);
   localStorageService = inject(LocalStorageService);
@@ -274,12 +275,14 @@ export class RideDetailViewPage implements OnInit {
   }
 
 
-  async acceptRequest(index: any) {
+  async acceptRejectRequest(index: any, btn: any) {
     const selectedPass = this.selectedRidePassengerList[index];
     console.log("selectedPass === ", selectedPass);
     this.passId = selectedPass.passId;
     this.passEmail = selectedPass.passEmail;
 
+    const buttonType = btn[0]
+    console.log("buttonType === ", buttonType);
     // Wait for passData if it is undefined
     if (!this.passData) {
       try {
@@ -319,7 +322,14 @@ export class RideDetailViewPage implements OnInit {
         const updatedPassengerList = currentRidePassengerList.map((obj: { passId: any; passStatus: string }) => {
 
           if (obj.passId === this.passId) {
-            return { ...obj, passStatus: "accepted" }; // Update status to "accepted"
+
+            if (buttonType == 'accept') {
+              return { ...obj, passStatus: "accepted" }; // Update status to "accepted"
+            }
+            else if (buttonType == 'reject') {
+              return { ...obj, passStatus: "rejected" }; // Update status to "reject"
+            }
+
           }
           return obj;
         });
@@ -328,17 +338,34 @@ export class RideDetailViewPage implements OnInit {
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); // Wait for the ride update
 
-        const notificationMessage = {
-          senderName: this.currentUser.userName,
-          status: 'accepted',
-          message: 'accepted a Ride',
-          rideid: this.currentRideId,
-          url: 'profile'
+        if (buttonType == 'accept') {
+          const notificationMessage = {
+            senderName: this.currentUser.userName,
+            status: 'accepted',
+            message: 'accepted a Ride',
+            rideid: this.currentRideId,
+            url: 'profile'
+          }
+
+          if (this.passData.isNotification == true) {
+            this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
+          } else {
+            this.passData.notificationList = [notificationMessage]
+          }
         }
-        if (this.passData.isNotification == true) {
-          this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
-        } else {
-          this.passData.notificationList = [notificationMessage]
+        else if (buttonType == 'reject') {
+          const notificationMessage = {
+            senderName: this.currentUser.userName,
+            status: 'rejected',
+            message: 'rejected a Ride',
+            rideid: this.currentRideId,
+            url: 'profile'
+          }
+          if (this.passData.isNotification == true) {
+            this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));
+          } else {
+            this.passData.notificationList = [notificationMessage]
+          }
         }
         await this.handleData.updateDocumentField(this.passId, 'notificationList', this.passData.notificationList);
         await this.handleData.updateDocumentField(this.passId, 'isNotification', true); // Wait for the update to complete
@@ -347,11 +374,7 @@ export class RideDetailViewPage implements OnInit {
   }
 
 
-  async rejectRequest(index: any) {
-    const selectedPass = this.selectedRidePassengerList[index]
-    this.passName = selectedPass.passName
-    console.log("index === ", index);
-  }
+
 
   calculateTotalPrice(): number {
     console.log("this.ride.price * this.ride.seatAvl === ", this.ride.price * this.ride.seatAvl);

@@ -166,10 +166,12 @@
         <p>{{Passanger.passName}}</p>
       </ion-col>
       <ion-col size="4" class="">
-        <ion-button expand="block" class="primary" (click)="acceptRequest(i)"><span>Accept</span></ion-button>
+        <ion-button expand="block" class="primary"
+          (click)="acceptRejectRequest(i,['accept'])"><span>Accept</span></ion-button>
       </ion-col>
       <ion-col size="4" class="">
-        <ion-button expand="block" class="danger" (click)="rejectRequest(i)"><span>Reject</span></ion-button>
+        <ion-button expand="block" class="danger"
+          (click)="acceptRejectRequest(i,['reject'])"><span>Reject</span></ion-button>
       </ion-col>
 
 
