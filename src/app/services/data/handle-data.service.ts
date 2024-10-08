@@ -72,7 +72,6 @@ export class HandleDataService {
       console.warn("data ===999 ", data);
       if (data.isNotification === true) {
         this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
-
         this.updateDocumentField(currentUserDocId, 'isNotification', false);
         this.updateDocumentField(currentUserDocId, 'notificationList', []);
         console.log("data.notificationList === ", data.notificationList);
@@ -155,7 +154,7 @@ export class HandleDataService {
 
 
   //userExists
-  async userExists(userEmail: any): Promise<any> {
+  async userExists(userEmail: any, updateinLocal: boolean = true): Promise<any> {
     if (userEmail) {
       const collectionRef = collection(
         this.agfirestore,
@@ -168,7 +167,9 @@ export class HandleDataService {
       // console.log("querySnapshot.docs === ", querySnapshot.docs);
       if (querySnapshot.docs.length > 0) {
         let _data = querySnapshot.forEach((doc) => {
-          this.localStr.setItem("currentUserDocId", doc.id);
+          if (updateinLocal) {
+            this.localStr.setItem("currentUserDocId", doc.id);
+          }
           this.data = doc.data();
           return this.data;
         });

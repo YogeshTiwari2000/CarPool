@@ -50,7 +50,6 @@ export class RideDetailViewPage implements OnInit {
 
 
   ngOnInit() {
-    console.log("  this.handleData === ", this.handleData);
     // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
@@ -95,7 +94,7 @@ export class RideDetailViewPage implements OnInit {
 
     // for ride creater
     this.handleData
-      .userExists(this.rideremail)
+      .userExists(this.rideremail, false)
       .then((result) => {
         if (result.isExist) {
 
@@ -231,7 +230,6 @@ export class RideDetailViewPage implements OnInit {
 
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
-      console.log("this.currentUserDocId 5555=== ", this.currentUserDocId);
       await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
@@ -271,7 +269,7 @@ export class RideDetailViewPage implements OnInit {
     if (!this.passData) {
       try {
         const result = await this.handleData.userExists(this.passEmail); // Wait for userExists to resolve
-        if (result.isExist) {
+        if (result.isExist, false) {
           this.handleData.user = result.data;
           this.passData = this.handleData.user;
           console.log("this.passData === ", this.passData);
