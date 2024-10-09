@@ -66,10 +66,6 @@
         </select>
       </ion-col>
 
-
-
-
-
       <!-- <ion-col size="12" class="companionNames" *ngIf="rideCreatedBy === 'driver' && carDetails.length === 0"> -->
       <ion-col size="12" class="companionNames" *ngIf="rideCreatedBy === 'driver' && carDetails?.length<1">
         <p (click)="vehicles()" class="errorHere">Enter car details first in the profile section <span
@@ -77,10 +73,13 @@
         </p>
       </ion-col>
 
-      <ion-col size="12" class="submit">
-        <!-- || carDetails === 'undefined' -->
+      <!-- <ion-col size="12" class="submit"> 
         <ion-button expand="block" class="primary" type="submit"
           [disabled]="createRideForm.invalid || carDetails?.length<1">Create
+          Ride</ion-button>
+      </ion-col> -->
+      <ion-col size="12" class="submit">
+        <ion-button expand="block" class="primary" type="submit" [disabled]="createRideForm.invalid  ">Create
           Ride</ion-button>
       </ion-col>
 

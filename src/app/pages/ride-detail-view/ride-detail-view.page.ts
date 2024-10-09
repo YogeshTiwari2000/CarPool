@@ -121,6 +121,8 @@ export class RideDetailViewPage implements OnInit {
       // to move ride to my updates 
       if (rideinCurrentUserRideList == undefined) {
         console.log('current user ki ridelist me ride nhi thi, add ho gyii');
+        matchedRide.status = 'Requested'
+        matchedRide.passengerList = []
         this.currentUser.ride.rideList.unshift(this.handleData.clone(matchedRide));
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
       }
@@ -203,7 +205,6 @@ export class RideDetailViewPage implements OnInit {
   async cancelRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide cancel wali === ", matchedRide);
-
     const notificationMessage = {
       senderName: this.currentUser.userName,
       status: 'cancelled',
@@ -211,7 +212,6 @@ export class RideDetailViewPage implements OnInit {
       rideid: this.currentRideId,
       url: 'profile'
     }
-
     if (matchedRide) {
       const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
       console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
@@ -372,8 +372,6 @@ export class RideDetailViewPage implements OnInit {
       }
     }
   }
-
-
 
 
   calculateTotalPrice(): number {

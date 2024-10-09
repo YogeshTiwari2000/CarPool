@@ -46,31 +46,6 @@ export class CreateRidePage implements OnInit {
 
   createRideForm: FormGroup;
   minDate: string = '';
-
-  ride = {
-    lastride: {
-      id: '',
-      ridername: '',
-      riderpicture: '',
-      riderEmail: '',
-      riderUserId: '',
-      time: '',
-      type: '',
-      from: '',
-      to: '',
-      date: '',
-      seatAvl: '',
-      price: '',
-      companionNames: '',
-      duration: '',
-      distance: '',
-      status: '',
-      vehicle: '',
-      passengerList: [],
-    },
-    rideList: [],
-  }
-
   router = inject(Router)
 
   constructor(private FormBuilder: FormBuilder) {
@@ -115,13 +90,13 @@ export class CreateRidePage implements OnInit {
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           // console.log("this.currentUser.ride.lastride.id === ", this.currentUser.ride.lastride);
 
-          if (this.currentUser.ride.lastride != undefined) {
-            console.log('ride me id h');
-          }
-          else {
-            console.log('ride me id crate krni h');
-            this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
-          }
+          // if (this.currentUser.ride.lastride != undefined) {
+          //   console.log('ride me id h');
+          // }
+          // else {
+          //   console.log('ride me id crate krni h');
+          //   this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.ride)
+          // }
 
         } else {
           console.log("User not found");
