@@ -121,10 +121,14 @@ export class RideDetailViewPage implements OnInit {
       // to move ride to my updates 
       if (rideinCurrentUserRideList == undefined) {
         console.log('current user ki ridelist me ride nhi thi, add ho gyii');
+        const privousPassengerList = matchedRide.passengerList
+        const privousStatus = matchedRide.status
         matchedRide.status = 'Requested'
         matchedRide.passengerList = []
         this.currentUser.ride.rideList.unshift(this.handleData.clone(matchedRide));
         this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride)
+        matchedRide.status = privousStatus
+        matchedRide.passengerList = privousPassengerList
       }
       this.bookRideBtn = true;
       if (this.ride.passengerList != undefined) {
@@ -205,6 +209,12 @@ export class RideDetailViewPage implements OnInit {
   async cancelRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide cancel wali === ", matchedRide);
+    const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
+    if (matchedRideInCurrentUserList != undefined) {
+      matchedRideInCurrentUserList.status = 'cancelled'
+      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
+    }
     const notificationMessage = {
       senderName: this.currentUser.userName,
       status: 'cancelled',
@@ -239,8 +249,6 @@ export class RideDetailViewPage implements OnInit {
         this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
       }
     }
-
-
     this.modalCtrl.dismiss();
   }
 
@@ -311,6 +319,7 @@ export class RideDetailViewPage implements OnInit {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string }) => ride.id === this.currentRideId);
     console.log("matchedRide === ", matchedRide);
 
+
     if (matchedRide) {
       const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
       console.log("currentRidePassengerList === ", currentRidePassengerList);
@@ -322,15 +331,24 @@ export class RideDetailViewPage implements OnInit {
         const updatedPassengerList = currentRidePassengerList.map((obj: { passId: any; passStatus: string }) => {
 
           if (obj.passId === this.passId) {
-
             if (buttonType == 'accept') {
+              const matchedRideOfPerticularPassenger = this.passData.ride.rideList.find((ride: { id: string }) => ride.id === this.currentRideId);
+              console.log("matchedRideOfPerticularPassenger privous=== ", matchedRideOfPerticularPassenger);
+              matchedRideOfPerticularPassenger.status = 'accepted'
+              console.log("matchedRideOfPerticularPassenger === ", matchedRideOfPerticularPassenger);
+              this.handleData.updateDocumentField(this.passId, 'ride', this.passData.ride);
               return { ...obj, passStatus: "accepted" }; // Update status to "accepted"
             }
             else if (buttonType == 'reject') {
+              const matchedRideOfPerticularPassenger = this.passData.ride.rideList.find((ride: { id: string }) => ride.id === this.currentRideId);
+              console.log("matchedRideOfPerticularPassenger privous=== ", matchedRideOfPerticularPassenger);
+              matchedRideOfPerticularPassenger.status = 'rejected'
+              console.log("matchedRideOfPerticularPassenger === ", matchedRideOfPerticularPassenger);
+              this.handleData.updateDocumentField(this.passId, 'ride', this.passData.ride);
               return { ...obj, passStatus: "rejected" }; // Update status to "reject"
             }
-
           }
+
           return obj;
         });
         console.log("updatedPassengerList === ", updatedPassengerList);
