@@ -221,19 +221,22 @@
       </ion-col>
     </ion-row>
   </ion-card>
+
   <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
-    <ion-button expand="block" id="open-cancel-dialog" class="danger"><span>Cancel
-        Ride</span></ion-button>
+    <ion-button *ngIf="ride.type === 'driver' || ride.type === 'companion'" expand="block" id="open-cancel-dialog"
+      class="danger">
+      <span>Cancel Ride</span>
+    </ion-button>
 
     <ion-modal #modal trigger="open-cancel-dialog" class="cancelModal">
       <ng-template>
         <div class="ion-padding-horizontal">
-          <h4>Are you want to cancel the ride, it is not reversible action!!</h4>
+          <h4>Are you sure you want to cancel the ride? This action is not reversible!</h4>
 
           <ion-row>
             <ion-col>
               <ion-item class="success ion-text-center" lines="none" button="true" detail="false"
-                (click)="cancelRide()">
+                (click)="ride.type === 'driver' ? cancelRide() : cancelByDriver()">
                 <ion-label class="ion-padding-horizontal">Yes</ion-label>
               </ion-item>
             </ion-col>
@@ -247,11 +250,14 @@
         </div>
       </ng-template>
     </ion-modal>
-
   </div>
-  <div class="ion-padding-horizontal ion-padding-bottom">
+
+
+  <div *ngIf="ride.type === 'companion'" class="ion-padding-horizontal ion-padding-bottom">
     <ion-button expand="block" class="primary" [disabled]="bookRideBtn" (click)="bookRide()"><span>Book
         Ride</span></ion-button>
   </div>
+
+
 
 </ion-content>

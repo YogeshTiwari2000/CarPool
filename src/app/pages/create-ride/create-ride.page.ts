@@ -40,14 +40,11 @@ export class CreateRidePage implements OnInit {
   seatAvl: number = 1;
   price: number = 0;
   companionNames: any = ''
-
   rideDistance: string = '';
   rideDuration: string = '';
-
   createRideForm: FormGroup;
   minDate: string = '';
   router = inject(Router)
-
   constructor(private FormBuilder: FormBuilder) {
     this.createRideForm = this.FormBuilder.group({
       from: ['', Validators.required],
@@ -59,7 +56,6 @@ export class CreateRidePage implements OnInit {
       rideType: ['driver'],
       companionNames: [''],
       vehicle: ['']
-
     },)
   }
   ngOnInit() {

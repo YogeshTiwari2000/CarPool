@@ -43,7 +43,7 @@ export class RideDetailViewPage implements OnInit {
   bookRideBtn: boolean = false;
   selectedRidePassengerList: any;
   passData: any;
-
+  passengerData: any
   constructor(private route: ActivatedRoute) { }
 
   subscription: Subscription | undefined;
@@ -111,6 +111,8 @@ export class RideDetailViewPage implements OnInit {
         console.error("Error:", error);
       });
   }
+
+
 
   async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -205,6 +207,50 @@ export class RideDetailViewPage implements OnInit {
       console.log('not able to book the ride');
     }
   }
+
+
+  async cancelByDriver() {
+    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRide cancelByDriver wali === ", matchedRide);
+
+    if (matchedRide != undefined) {
+      matchedRide.status = 'RideCancelledByDriver';
+      await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+      const requestedPassengerList = matchedRide.passengerList;
+      console.log("requestedPassengerList === ", requestedPassengerList);
+
+      for (let index = 0; index < requestedPassengerList.length; index++) {
+        const passengerDocId = requestedPassengerList[index].passId;
+        const passengerEmail = requestedPassengerList[index].passEmail;
+        const previousPassengerData = this.passengerData;
+
+        try {
+          const result = await this.handleData.userExists(passengerEmail, false);
+          if (result.isExist) {
+            this.handleData.user = result.data;
+            this.passengerData = this.handleData.user;
+            console.log("passengerData === " + index, this.passengerData);
+            if (this.passengerData != undefined) {
+              const passengerMatchedRide = this.passengerData.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+              console.log("passengerMatchedRide cancelByDriver wali === ", passengerMatchedRide);
+
+              if (passengerMatchedRide != undefined) {
+                passengerMatchedRide.status = 'RideCancelledByDriver';
+                await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
+              }
+            }
+          } else {
+            console.log("User not found");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+        // Reset passengerData after each iteration
+        this.passengerData = previousPassengerData;
+      }
+    }
+  }
+
 
   async cancelRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
