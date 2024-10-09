@@ -69,8 +69,32 @@ export class LoginComponent implements OnInit {
     dropLocation: "",
     isSocialLogin: this.isSocialLogin,
     email_verified: this.email_verified,
-    ride: {},
+    ride: {
+      lastride: {
+        id: '',
+        ridername: '',
+        riderpicture: '',
+        riderEmail: '',
+        riderUserId: '',
+        time: '',
+        type: '',
+        from: '',
+        to: '',
+        date: '',
+        seatAvl: '',
+        price: '',
+        companionNames: '',
+        duration: '',
+        distance: '',
+        status: '',
+        vehicle: '',
+        passengerList: [],
+      },
+      rideList: [],
+    },
     wallet: {},
+    isNotification: false,
+    notificationList: [],
   };
 
   constructor() { }
