@@ -60,27 +60,11 @@ export class HandleDataService {
 
 
   constructor(public afMessaging: AngularFireMessaging) {
+    console.log("handle data chl gya  h");
     this.checkAndRequestNotificationPermission()
     this.listenToNotificationEvents()
+    this.functionToSubscribeUser()
 
-
-    const currentUserDocId = this.localStr.getItem("currentUserDocId")
-    console.log("currentUserDocId === ", currentUserDocId);
-    // here we subscribe the currentUserNode
-    this.subscribeToCurrentUser(currentUserDocId).subscribe((data: any) => {
-      console.warn("currentUserDocId === ", currentUserDocId);
-      console.warn("data ===999 ", data);
-      if (data.isNotification === true) {
-        if (data.notificationList.length > 1) {
-          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
-        } else {
-          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, '');
-        }
-        this.updateDocumentField(currentUserDocId, 'isNotification', false);
-        this.updateDocumentField(currentUserDocId, 'notificationList', []);
-        console.log("data.notificationList === ", data.notificationList);
-      }
-    })
 
   }
 
@@ -328,6 +312,27 @@ export class HandleDataService {
     });
   }
 
+  functionToSubscribeUser() {
+    const currentUserDocId = this.localStr.getItem("currentUserDocId")
+    console.log("currentUserDocId === ", currentUserDocId);
+    console.log("subscribeToCurrentUser === handle data upper");
+    // here we subscribe the currentUserNode
+    this.subscribeToCurrentUser(currentUserDocId).subscribe((data: any) => {
+      console.log("subscribeToCurrentUser === handle data worked");
+      console.warn("currentUserDocId === ", currentUserDocId);
+      console.warn("data ===999 ", data);
+      if (data.isNotification === true) {
+        if (data.notificationList.length > 1) {
+          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
+        } else {
+          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, '');
+        }
+        this.updateDocumentField(currentUserDocId, 'isNotification', false);
+        this.updateDocumentField(currentUserDocId, 'notificationList', []);
+        console.log("data.notificationList === ", data.notificationList);
+      }
+    })
+  }
 
 }
 

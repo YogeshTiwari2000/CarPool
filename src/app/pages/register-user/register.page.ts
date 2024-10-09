@@ -152,6 +152,7 @@ export class RegisterPage implements OnInit {
               ["Ok"]
             );
             form.reset();
+            this.handleData.functionToSubscribeUser()
           }
         })
         .catch((e) => {

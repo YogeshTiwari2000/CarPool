@@ -107,6 +107,7 @@ export class LoginComponent implements OnInit {
                 this.close();
                 // this.router.navigate(["/home"]);
                 this.router.navigate(["/welcome"]);
+                this.handleData.functionToSubscribeUser()
               } else {
                 this.userData.email_verified = googleLogin.email_verified;
                 this.userData.profilePicture = googleLogin.picture;
@@ -127,6 +128,7 @@ export class LoginComponent implements OnInit {
                   "Log in",
                   ["Ok"]
                 );
+                this.handleData.functionToSubscribeUser()
               }
             })
             .catch((error) => console.log(error));
@@ -198,6 +200,7 @@ export class LoginComponent implements OnInit {
               this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
               this.close();
               this.router.navigate(["/welcome"]);
+              this.handleData.functionToSubscribeUser()
             } else {
               this.commonService.alertBox(
                 "Login credentials invalid",
@@ -258,6 +261,7 @@ export class LoginComponent implements OnInit {
                   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
                   this.close();
                   this.router.navigate(["/welcome"]);
+                  this.handleData.functionToSubscribeUser()
                 } else {
                   this.userData.email_verified = true;
                   this.userData.isSocialLogin = true;
@@ -277,6 +281,7 @@ export class LoginComponent implements OnInit {
                     "Log in",
                     ["Ok"]
                   );
+                  this.handleData.functionToSubscribeUser()
                 }
               })
               .catch((error) => console.log(error));
