@@ -94,6 +94,11 @@ export const routes: Routes = [
     title: "Ride Detail View",
   },
   {
+    path: 'notification',
+    loadComponent: () => import('./pages/notification/notification.page').then(m => m.NotificationPage),
+    title: "Notifications",
+  },
+  {
     path: "",
     redirectTo: "welcome",
     pathMatch: "full",
@@ -106,6 +111,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/not-found/not-found.page").then((p) => p.NotFoundPage),
   },
+
 
 
 ];
