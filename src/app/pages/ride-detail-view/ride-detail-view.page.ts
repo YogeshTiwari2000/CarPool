@@ -211,6 +211,10 @@ export class RideDetailViewPage implements OnInit {
           matchedRide.passengerList.unshift(immutablePassenger);
           console.log(" matchedRide.passengerList === ", matchedRide.passengerList);
           console.log("currentRidePassangerList  === ", currentRidePassangerList);
+
+          const matchedRideInPassangerRidelist = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+          matchedRideInPassangerRidelist.status = 'Requested'
+          this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
           // Find the index of the ride to replace 
           // this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride); 
           if (rideIndex !== -1) {
@@ -296,54 +300,60 @@ export class RideDetailViewPage implements OnInit {
     }
   }
 
-
   async cancelRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide cancel wali === ", matchedRide);
     const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
+
+    // Update the status of the current user's ride if it exists
     if (matchedRideInCurrentUserList != undefined) {
-      matchedRideInCurrentUserList.status = 'cancelled'
+      matchedRideInCurrentUserList.status = 'cancelled';
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
     }
+
     const notificationMessage = {
       senderName: this.currentUser.userName,
       status: 'cancelled',
       message: 'cancelled a Ride',
       rideid: this.currentRideId,
       url: 'profile'
-    }
+    };
+
     if (matchedRide) {
       const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
       console.log("matchRidePassList cancel wali === ", currentRidePassangerList);
       const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
       console.log("currentUserExistInPassList cancel wali === ", currentUserExistInPassList);
 
+      // If the user exists in the passenger list, remove them from the list
       if (currentUserExistInPassList) {
-        const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
-          if (obj.passId === this.currentUserDocId) {
-            return { ...obj, passStatus: "cancelled" };
-          }
-          return obj;
-        });
-        // this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+        const updatedPassengerList = currentRidePassangerList.filter((obj: { passId: any; }) => obj.passId !== this.currentUserDocId);
+        // const updatedPassengerList = currentRidePassangerList.map((obj: { passId: any; passStatus: string; }) => {
+        //         if (obj.passId === this.currentUserDocId) {
+        //           return { ...obj, passStatus: "cancelled" };
+        //         }
+        //         return obj;
+        //       });
 
+        // Handle notifications
         if (this.rideCreator.isNotification == true) {
           this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
         } else {
-          this.rideCreator.notificationList = [notificationMessage]
+          this.rideCreator.notificationList = [notificationMessage];
         }
 
+        // Update fields in the database
         this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
       }
     }
+
+    // Dismiss the modal after the operation is complete
     this.modalCtrl.dismiss();
   }
-
-
 
 
   async editRide() {
