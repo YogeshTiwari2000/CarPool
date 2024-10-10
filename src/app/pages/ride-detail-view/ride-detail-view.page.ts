@@ -196,6 +196,8 @@ export class RideDetailViewPage implements OnInit {
             this.rideCreator.notificationList = [notificationMessage]
           }
           this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
+          this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
           currentUserExistInPassList.passStatus = "Requested"
           this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
           this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
@@ -225,6 +227,8 @@ export class RideDetailViewPage implements OnInit {
             } else {
               this.rideCreator.notificationList = [notificationMessage]
             }
+            this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
             this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
             this.rideCreator.ride.rideList[rideIndex] = matchedRide;
             this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -286,6 +290,8 @@ export class RideDetailViewPage implements OnInit {
                 } else {
                   this.passengerData.notificationList = [notificationMessage]
                 }
+                this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
+                this.handleData.updateDocumentField(passengerDocId, 'allNotification', this.passengerData.allNotification);
                 this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
                 this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
               }
@@ -345,7 +351,8 @@ export class RideDetailViewPage implements OnInit {
         } else {
           this.rideCreator.notificationList = [notificationMessage];
         }
-
+        this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
         // Update fields in the database
         this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         matchedRide.passengerList = this.handleData.clone(updatedPassengerList);
@@ -470,6 +477,8 @@ export class RideDetailViewPage implements OnInit {
           } else {
             this.passData.notificationList = [notificationMessage]
           }
+          this.passData.allNotification.unshift(this.handleData.clone(notificationMessage));
+          this.handleData.updateDocumentField(this.passId, 'allNotification', this.passData.allNotification);
         }
         else if (buttonType == 'reject') {
           const notificationMessage = {
@@ -485,6 +494,8 @@ export class RideDetailViewPage implements OnInit {
           } else {
             this.passData.notificationList = [notificationMessage]
           }
+          this.passData.allNotification.unshift(this.handleData.clone(notificationMessage));
+          this.handleData.updateDocumentField(this.passId, 'allNotification', this.passData.allNotification);
         }
         await this.handleData.updateDocumentField(this.passId, 'notificationList', this.passData.notificationList);
         await this.handleData.updateDocumentField(this.passId, 'isNotification', true); // Wait for the update to complete

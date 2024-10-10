@@ -294,7 +294,6 @@ export class HandleDataService {
       if (redirectPage) {
         // Navigate to the specified route and pass the data
         this.routes.navigate([redirectPage], { queryParams: { ride: JSON.stringify(data) } });
-        console.log("data redirectPage 1111=== ", data);
       }
     });
   }

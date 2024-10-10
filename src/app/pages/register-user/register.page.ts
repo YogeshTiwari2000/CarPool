@@ -104,6 +104,7 @@ export class RegisterPage implements OnInit {
     wallet: {},
     isNotification: false,
     notificationList: [],
+    allNotification: []
   };
 
   constructor() { }

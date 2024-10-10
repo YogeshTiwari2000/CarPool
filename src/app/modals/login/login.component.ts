@@ -95,6 +95,7 @@ export class LoginComponent implements OnInit {
     wallet: {},
     isNotification: false,
     notificationList: [],
+    allNotification: []
   };
 
   constructor() { }
