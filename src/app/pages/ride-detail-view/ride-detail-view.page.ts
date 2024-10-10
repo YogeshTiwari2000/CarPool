@@ -184,7 +184,8 @@ export class RideDetailViewPage implements OnInit {
           status: 'Requested',
           message: 'Requested a Ride',
           rideid: this.currentRideId,
-          url: 'profile'
+          url: 'ride-detail-view',
+          Ridedata: this.ride
         }
 
         if (currentUserExistInPassList != undefined) {
@@ -277,7 +278,8 @@ export class RideDetailViewPage implements OnInit {
                   status: 'cancelled',
                   message: 'cancelled a Ride',
                   rideid: this.currentRideId,
-                  url: 'profile'
+                  url: 'ride-detail-view',
+                  Ridedata: this.ride
                 }
                 if (this.passengerData.isNotification == true) {
                   this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
@@ -317,7 +319,8 @@ export class RideDetailViewPage implements OnInit {
       status: 'cancelled',
       message: 'cancelled a Ride',
       rideid: this.currentRideId,
-      url: 'profile'
+      url: 'ride-detail-view',
+      Ridedata: this.ride
     };
 
     if (matchedRide) {
@@ -391,7 +394,7 @@ export class RideDetailViewPage implements OnInit {
     if (!this.passData) {
       try {
         const result = await this.handleData.userExists(this.passEmail, false); // Wait for userExists to resolve
-        console.log("result === ", result);
+        console.log("result=== ", result);
         if (result.isExist) {
           console.log("this.handleData.user === ", this.handleData.user);
           this.handleData.user = result.data;
@@ -458,7 +461,8 @@ export class RideDetailViewPage implements OnInit {
             status: 'accepted',
             message: 'accepted a Ride',
             rideid: this.currentRideId,
-            url: 'profile'
+            url: 'ride-detail-view',
+            Ridedata: this.ride
           }
 
           if (this.passData.isNotification == true) {
@@ -473,7 +477,8 @@ export class RideDetailViewPage implements OnInit {
             status: 'rejected',
             message: 'rejected a Ride',
             rideid: this.currentRideId,
-            url: 'profile'
+            url: 'ride-detail-view',
+            Ridedata: this.ride
           }
           if (this.passData.isNotification == true) {
             this.passData.notificationList.unshift(this.handleData.clone(notificationMessage));

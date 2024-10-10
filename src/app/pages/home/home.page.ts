@@ -6,6 +6,8 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,
 import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
 import { NavigationExtras, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
+import { CommonService } from 'src/app/shared/common.service';
 
 @Component({
   selector: 'app-home',
@@ -17,19 +19,21 @@ import { HandleDataService } from 'src/app/services/data/handle-data.service';
 export class HomePage implements OnInit {
 
   private handleData = inject(HandleDataService);
+  private LocalStr = inject(LocalStorageService);
+  private commonService = inject(CommonService);
   private router = inject(Router);
 
   isLogeedIn: boolean = false;
 
   filteredRides: any[] = [];
   rideList: any;
+  currentUserDocId: any;
 
 
   constructor() { }
 
   ngOnInit() {
-
-    console.log("run");
+    this.currentUserDocId = this.LocalStr.getItem("currentUserDocId");
     this.loadAllRides();
   }
   async loadAllRides() {
@@ -47,12 +51,22 @@ export class HomePage implements OnInit {
   }
 
   rideDetailView(index: number) {
-    const selectedRide = this.filteredRides[index];
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        ride: JSON.stringify(selectedRide)
-      }
-    };
-    this.router.navigate(['/ride-detail-view'], navigationExtras);
+    if (this.currentUserDocId != undefined) {
+      const selectedRide = this.filteredRides[index];
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          ride: JSON.stringify(selectedRide)
+        }
+      };
+      this.router.navigate(['/ride-detail-view'], navigationExtras);
+    }
+    else {
+      this.commonService.alertBox(
+        "Please Login First to check the details",
+        "Login error.",
+        ["Ok"]
+      );
+      return;
+    }
   }
 }

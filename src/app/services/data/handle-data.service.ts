@@ -274,17 +274,31 @@ export class HandleDataService {
       }
     }
   }
+  // listenToNotificationEvents() {
+  //   LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+  //     console.log('Notification clicked:', notification);
+  //     const redirectPage = notification.notification.extra?.redirect;
+
+  //     if (redirectPage) {
+  //       // Navigate to the specified route
+  //       this.routes.navigate([redirectPage]);
+  //     }
+  //   });
+  // }
   listenToNotificationEvents() {
     LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
       console.log('Notification clicked:', notification);
       const redirectPage = notification.notification.extra?.redirect;
+      const data = notification.notification.extra?.data;  // Access the data here
 
       if (redirectPage) {
-        // Navigate to the specified route
-        this.routes.navigate([redirectPage]);
+        // Navigate to the specified route and pass the data
+        this.routes.navigate([redirectPage], { queryParams: { ride: JSON.stringify(data) } });
+        console.log("data redirectPage 1111=== ", data);
       }
     });
   }
+
 
 
   subscribeToCurrentUser(targetUserId: string): Observable<any> {
@@ -319,7 +333,7 @@ export class HandleDataService {
         if (data.notificationList.length > 1) {
           this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, data.notificationList.length);
         } else {
-          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, '');
+          this.commonService.sendNotification('carpool', ' notify ', '/' + data.notificationList[0]?.url, data.notificationList[0]?.Ridedata, 'ride ' + data.notificationList[0]?.status + ' by ' + data.notificationList[0]?.senderName, '');
         }
         this.updateDocumentField(currentUserDocId, 'isNotification', false);
         this.updateDocumentField(currentUserDocId, 'notificationList', []);

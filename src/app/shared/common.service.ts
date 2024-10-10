@@ -37,7 +37,7 @@ export class CommonService {
   }
 
 
-  async sendNotification(title: string, body: string, redirect: string, largBody: string = '', summaryText: string = '') {
+  async sendNotification(title: string, body: string, redirect: string, data: any, largBody: string = '', summaryText: string = '') {
     console.log('sendNotification');
 
     if (this.platform.is('android') || this.platform.is('ios')) {
@@ -51,7 +51,8 @@ export class CommonService {
             largeBody: largBody,
             summaryText: summaryText,
             extra: {
-              redirect: redirect // This is the route you want to navigate to
+              redirect: redirect,
+              data: data
             },
           },
         ],
@@ -66,4 +67,33 @@ export class CommonService {
       this.alertBox('No specific plateform found. ', 'Notification Error.', ["Ok"])
     }
   }
+  // async sendNotification(title: string, body: string, redirect: string, largBody: string = '', summaryText: string = '') {
+  //   console.log('sendNotification');
+
+  //   if (this.platform.is('android') || this.platform.is('ios')) {
+  //     let options: ScheduleOptions = {
+  //       notifications: [
+  //         {
+  //           title: title,
+  //           body: body,
+  //           id: 1,
+  //           // schedule: { at: new Date(Date.now() + 1000 * 5) }, // Trigger after 5 seconds
+  //           largeBody: largBody,
+  //           summaryText: summaryText,
+  //           extra: {
+  //             redirect: redirect  
+  //           },
+  //         },
+  //       ],
+  //     }
+  //     try {
+  //       await LocalNotifications.schedule(options)
+  //     } catch (ex) {
+  //       console.log("ni chala");
+  //       alert(JSON.stringify(ex));
+  //     }
+  //   } else {
+  //     this.alertBox('No specific plateform found. ', 'Notification Error.', ["Ok"])
+  //   }
+  // }
 }
