@@ -99,9 +99,9 @@
           <b>Resolution Status</b>
           <p>Flag raised pending / solved / resolved by admin</p>
         </div>
-        <div size="12" class=" ">
+        <div size="12" class=" " *ngIf="showpassengerList">
           <ion-buttons slot="primary" (click)="editRide()">
-            <ion-button fill="outline">
+            <ion-button fill="outline" [disabled]="showEditBtn">
               Edit
               <ion-icon name="create"></ion-icon>
             </ion-button>
@@ -110,7 +110,7 @@
       </ion-col>
     </ion-row>
   </ion-card>
-  <ion-card>
+  <ion-card *ngIf="showpassengerList == false">
     <ion-row class=" ion-padding">
       <ion-col class="route" size="12">
         <p>Driver Details</p>
@@ -249,10 +249,8 @@
       </ng-template>
     </ion-modal>
   </div>
-
-
   <div class="ion-padding-horizontal ion-padding-bottom" *ngIf="showpassengerList === false">
-    <ion-button expand="block" class="primary" [disabled]="bookRideBtn" (click)="bookRide()"><span>Book
+    <ion-button expand="block" class="primary" (click)="bookRide()"><span>Book
         Ride</span></ion-button>
   </div>
 </ion-content>

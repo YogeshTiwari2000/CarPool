@@ -45,10 +45,7 @@ export class RideDetailViewPage implements OnInit {
   passData: any;
   passengerData: any
   showpassengerList: boolean = false;
-
-
-
-
+  showEditBtn: boolean = false
   constructor(private route: ActivatedRoute) { }
 
   subscription: Subscription | undefined;
@@ -123,12 +120,29 @@ export class RideDetailViewPage implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     this.checkshowpassengerList()
+    this.disableEditBtn()
   }
   checkshowpassengerList() {
     if (this.currentUserDocId === this.ride.riderUserId) {
       this.showpassengerList = true
     }
   }
+  disableEditBtn() {
+    if (this.currentUserDocId === this.ride.riderUserId) {
+      // Check if any passenger has passStatus set to "accepted"
+      const passengerList = this.ride.passengerList
+      const hasAcceptedPassenger = passengerList.some((passenger: { passStatus: string; }) => passenger.passStatus === 'accepted');
+
+      if (hasAcceptedPassenger) {
+        this.showEditBtn = true;
+      } else {
+        this.showEditBtn = false;
+      }
+    } else {
+      this.showEditBtn = false;
+    }
+  }
+
 
   async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -351,7 +365,6 @@ export class RideDetailViewPage implements OnInit {
         this.calculateTotalPrice();
       }
     });
-
     modal.present();
   }
 
