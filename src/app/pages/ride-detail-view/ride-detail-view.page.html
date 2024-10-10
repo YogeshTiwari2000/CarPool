@@ -161,19 +161,21 @@
     <ion-col class="route" size="12">
       <p>Passanger request list</p>
     </ion-col>
-    <ion-row class=" ion-padding" *ngFor="let Passanger of selectedRidePassengerList let i = index ">
-      <ion-col size="4" class="">
-        <p>{{Passanger.passName}}</p>
-      </ion-col>
-      <ion-col size="4" class="">
-        <ion-button expand="block" class="primary"
-          (click)="acceptRejectRequest(i,['accept'])"><span>Accept</span></ion-button>
-      </ion-col>
-      <ion-col size="4" class="">
-        <ion-button expand="block" class="danger"
-          (click)="acceptRejectRequest(i,['reject'])"><span>Reject</span></ion-button>
-      </ion-col>
-    </ion-row>
+    <div *ngFor="let Passanger of selectedRidePassengerList let i = index ">
+      <ion-row class="ion-padding" *ngIf="Passanger.passStatus !== 'accepted' && Passanger.passStatus !== 'rejected'">
+        <ion-col size="4" class="">
+          <p>{{Passanger.passName}}</p>
+        </ion-col>
+        <ion-col size="4" class="">
+          <ion-button expand="block" class="primary"
+            (click)="acceptRejectRequest(i,['accept'])"><span>Accept</span></ion-button>
+        </ion-col>
+        <ion-col size="4" class="">
+          <ion-button expand="block" class="danger"
+            (click)="acceptRejectRequest(i,['reject'])"><span>Reject</span></ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
   </ion-card>
 
 
