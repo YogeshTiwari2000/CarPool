@@ -157,7 +157,7 @@
 
 
 
-  <ion-card>
+  <ion-card *ngIf="showpassengerList">
     <ion-col class="route" size="12">
       <p>Passanger request list</p>
     </ion-col>
@@ -173,8 +173,6 @@
         <ion-button expand="block" class="danger"
           (click)="acceptRejectRequest(i,['reject'])"><span>Reject</span></ion-button>
       </ion-col>
-
-
     </ion-row>
   </ion-card>
 
@@ -223,7 +221,7 @@
   </ion-card>
 
   <div class="cancelBtn ion-padding-horizontal ion-padding-bottom">
-    <ion-button *ngIf="ride.type === 'driver' || ride.type === 'companion'" expand="block" id="open-cancel-dialog"
+    <ion-button *ngIf="showpassengerList === true || showpassengerList === false" expand="block" id="open-cancel-dialog"
       class="danger">
       <span>Cancel Ride</span>
     </ion-button>
@@ -236,7 +234,7 @@
           <ion-row>
             <ion-col>
               <ion-item class="success ion-text-center" lines="none" button="true" detail="false"
-                (click)="ride.type === 'driver' ? cancelRide() : cancelByDriver()">
+                (click)="showpassengerList === false ? cancelRide() : cancelByDriver()">
                 <ion-label class="ion-padding-horizontal">Yes</ion-label>
               </ion-item>
             </ion-col>
@@ -253,11 +251,8 @@
   </div>
 
 
-  <div *ngIf="ride.type === 'companion'" class="ion-padding-horizontal ion-padding-bottom">
+  <div class="ion-padding-horizontal ion-padding-bottom" *ngIf="showpassengerList === false">
     <ion-button expand="block" class="primary" [disabled]="bookRideBtn" (click)="bookRide()"><span>Book
         Ride</span></ion-button>
   </div>
-
-
-
 </ion-content>

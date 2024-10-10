@@ -44,6 +44,11 @@ export class RideDetailViewPage implements OnInit {
   selectedRidePassengerList: any;
   passData: any;
   passengerData: any
+  showpassengerList: boolean = false;
+
+
+
+
   constructor(private route: ActivatedRoute) { }
 
   subscription: Subscription | undefined;
@@ -110,9 +115,20 @@ export class RideDetailViewPage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
+
+    this.waitForCurrentUserDocId()
   }
-
-
+  async waitForCurrentUserDocId() {
+    while (this.currentUserDocId === undefined) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    this.checkshowpassengerList()
+  }
+  checkshowpassengerList() {
+    if (this.currentUserDocId === this.ride.riderUserId) {
+      this.showpassengerList = true
+    }
+  }
 
   async bookRide() {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -237,6 +253,21 @@ export class RideDetailViewPage implements OnInit {
               if (passengerMatchedRide != undefined) {
                 passengerMatchedRide.status = 'RideCancelledByDriver';
                 await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
+
+                const notificationMessage = {
+                  senderName: this.currentUser.userName,
+                  status: 'cancelled',
+                  message: 'cancelled a Ride',
+                  rideid: this.currentRideId,
+                  url: 'profile'
+                }
+                if (this.passengerData.isNotification == true) {
+                  this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                } else {
+                  this.passengerData.notificationList = [notificationMessage]
+                }
+                this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
+                this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
               }
             }
           } else {
@@ -298,11 +329,7 @@ export class RideDetailViewPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  async waitForCurrentUserDocId() {
-    while (this.currentUserDocId === undefined) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-  }
+
 
 
   async editRide() {
