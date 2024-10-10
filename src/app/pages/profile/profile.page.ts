@@ -197,9 +197,7 @@ export class ProfilePage implements OnInit {
   }
 
 
-  async profileSendNotification() {
-    this.commonService.sendNotification('profile', 'this is the profile notification that exist yet', '/feedback', "feedback de k aa", "aagi");
-  }
+
 
 
 }

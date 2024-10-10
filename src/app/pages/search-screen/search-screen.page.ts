@@ -65,9 +65,10 @@ export class SearchScreenPage implements OnInit {
 
   async loadAllRides() {
     await this.handleData.getData();
-    this.rideList = this.handleData.getAllRideLists();
+    const allRideData = this.handleData.getAllRideLists()
+    const filteredRides = allRideData.filter((ride: { status: string; }) => ride.status === "created");
+    this.rideList = filteredRides;
     console.log("this.rideLists ", this.rideList);
-
   }
 
   isInputRequired: boolean = true;

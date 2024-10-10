@@ -130,12 +130,6 @@ export class HandleDataService {
   }
 
   getAllRideLists() {
-    // const map = new Map<string, any>();
-    // this.allRideAvailable.forEach((obj: { id: string; }) => {
-    //   map.set(obj.id, obj);
-    // });
-    // this.allRideAvailable = Array.from(map.values());
-    // console.log(" this.allRideAvailable    === ", this.allRideAvailable);
     return this.allRideAvailable
   }
 
