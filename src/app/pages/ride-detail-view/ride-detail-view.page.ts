@@ -45,7 +45,8 @@ export class RideDetailViewPage implements OnInit {
   passData: any;
   passengerData: any
   showpassengerList: boolean = false;
-  showEditBtn: boolean = false
+  showEditBtn: boolean = false;
+  matchedRideToDisplay: any
   constructor(private route: ActivatedRoute) { }
 
   subscription: Subscription | undefined;
@@ -121,6 +122,7 @@ export class RideDetailViewPage implements OnInit {
     }
     this.checkshowpassengerList()
     this.disableEditBtn()
+    this.findMatchedRideToDisplay()
   }
   checkshowpassengerList() {
     if (this.currentUserDocId === this.ride.riderUserId) {
@@ -142,6 +144,13 @@ export class RideDetailViewPage implements OnInit {
       this.showEditBtn = false;
     }
   }
+
+  findMatchedRideToDisplay() {
+    const displayMatchedRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("displayMatchedRide === ", displayMatchedRide)
+    this.matchedRideToDisplay = displayMatchedRide
+  }
+
 
 
   async bookRide() {
