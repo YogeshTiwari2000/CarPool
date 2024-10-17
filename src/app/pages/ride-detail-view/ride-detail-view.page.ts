@@ -148,7 +148,12 @@ export class RideDetailViewPage implements OnInit {
   findMatchedRideToDisplay() {
     const displayMatchedRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("displayMatchedRide === ", displayMatchedRide)
-    this.matchedRideToDisplay = displayMatchedRide
+    if (displayMatchedRide != undefined) {
+      this.matchedRideToDisplay = displayMatchedRide
+    }
+    else {
+      this.matchedRideToDisplay = this.ride
+    }
   }
 
 
