@@ -189,7 +189,7 @@
       <ion-col class=" " size="12">
         <div>
           <ion-buttons slot="primary">
-            <ion-button fill="outline" (click)="startRideNotification()">
+            <ion-button fill="outline" (click)="startStopRideByDriverNotification(['start'])">
               Start Ride
               <!-- <ion-icon name="create"></ion-icon> -->
             </ion-button>
@@ -197,7 +197,7 @@
         </div>
         <div>
           <ion-buttons slot="primary">
-            <ion-button fill="outline">
+            <ion-button fill="outline" (click)="startStopRideByDriverNotification(['stop'])">
               Stop Ride
               <!-- <ion-icon name="create"></ion-icon> -->
             </ion-button>

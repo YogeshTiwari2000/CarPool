@@ -592,12 +592,17 @@ export class RideDetailViewPage implements OnInit {
     return endTime;
   }
 
-  async startRideNotification() {
+  async startStopRideByDriverNotification(btn: any) {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide started  === ", matchedRide);
-
+    const buttonType = btn[0]
+    console.log("buttonType === ", buttonType);
     if (matchedRide != undefined) {
-      matchedRide.status = 'Ride has Started';
+      if (buttonType === 'start') {
+        matchedRide.status = 'RideStarted';
+      } else {
+        matchedRide.status = 'RideStoped';
+      }
       await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
       const requestedPassengerList = matchedRide.passengerList;
       console.log("requestedPassengerList === ", requestedPassengerList);
@@ -606,6 +611,14 @@ export class RideDetailViewPage implements OnInit {
         const passengerDocId = requestedPassengerList[index].passId;
         const passengerEmail = requestedPassengerList[index].passEmail;
         const previousPassengerData = this.passengerData;
+
+        if (buttonType === 'start') {
+          requestedPassengerList[index].passStatus = 'RideStarted'
+        }
+        else {
+          requestedPassengerList[index].passStatus = 'RideStoped'
+        }
+        this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
 
         try {
           const result = await this.handleData.userExists(passengerEmail, false);
@@ -618,23 +631,45 @@ export class RideDetailViewPage implements OnInit {
               console.log("passengerMatchedRide cancelByDriver wali === ", passengerMatchedRide);
 
               if (passengerMatchedRide != undefined) {
-                passengerMatchedRide.status = 'Ride Started';
+                if (buttonType === 'start') {
+                  passengerMatchedRide.status = 'RideStarted';
+                }
+                else {
+                  passengerMatchedRide.status = 'RideStoped';
+                }
                 await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
-
-                const notificationMessage = {
-                  senderName: this.currentUser.userName,
-                  status: 'Ride Started',
-                  message: 'Ride has begun so, sit back and relax, enjoy your ride',
-                  rideid: this.currentRideId,
-                  url: 'ride-detail-view',
-                  Ridedata: this.ride
-                }
-                if (this.passengerData.isNotification == true) {
-                  this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                if (buttonType === 'start') {
+                  const notificationMessage = {
+                    senderName: this.currentUser.userName,
+                    status: 'Ride has Started',
+                    message: 'Ride has begun so, sit back and relax, enjoy your ride',
+                    rideid: this.currentRideId,
+                    url: 'ride-detail-view',
+                    Ridedata: this.ride
+                  }
+                  if (this.passengerData.isNotification == true) {
+                    this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                  } else {
+                    this.passengerData.notificationList = [notificationMessage]
+                  }
+                  this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
                 } else {
-                  this.passengerData.notificationList = [notificationMessage]
+                  const notificationMessage = {
+                    senderName: this.currentUser.userName,
+                    status: 'Ride has Stoped',
+                    message: 'Ride is completed',
+                    rideid: this.currentRideId,
+                    url: 'ride-detail-view',
+                    Ridedata: this.ride
+                  }
+                  if (this.passengerData.isNotification == true) {
+                    this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                  } else {
+                    this.passengerData.notificationList = [notificationMessage]
+                  }
+                  this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
                 }
-                this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
+
                 this.handleData.updateDocumentField(passengerDocId, 'allNotification', this.passengerData.allNotification);
                 this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
                 this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
