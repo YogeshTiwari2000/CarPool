@@ -593,7 +593,63 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async startRideNotification() {
+    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+    console.log("matchedRide started  === ", matchedRide);
 
-  };
+    if (matchedRide != undefined) {
+      matchedRide.status = 'Ride has Started';
+      await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+      const requestedPassengerList = matchedRide.passengerList;
+      console.log("requestedPassengerList === ", requestedPassengerList);
+
+      for (let index = 0; index < requestedPassengerList.length; index++) {
+        const passengerDocId = requestedPassengerList[index].passId;
+        const passengerEmail = requestedPassengerList[index].passEmail;
+        const previousPassengerData = this.passengerData;
+
+        try {
+          const result = await this.handleData.userExists(passengerEmail, false);
+          if (result.isExist) {
+            this.handleData.user = result.data;
+            this.passengerData = this.handleData.user;
+            console.log("passengerData === " + index, this.passengerData);
+            if (this.passengerData != undefined) {
+              const passengerMatchedRide = this.passengerData.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+              console.log("passengerMatchedRide cancelByDriver wali === ", passengerMatchedRide);
+
+              if (passengerMatchedRide != undefined) {
+                passengerMatchedRide.status = 'Ride Started';
+                await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
+
+                const notificationMessage = {
+                  senderName: this.currentUser.userName,
+                  status: 'Ride Started',
+                  message: 'Ride has begun so, sit back and relax, enjoy your ride',
+                  rideid: this.currentRideId,
+                  url: 'ride-detail-view',
+                  Ridedata: this.ride
+                }
+                if (this.passengerData.isNotification == true) {
+                  this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                } else {
+                  this.passengerData.notificationList = [notificationMessage]
+                }
+                this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
+                this.handleData.updateDocumentField(passengerDocId, 'allNotification', this.passengerData.allNotification);
+                this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
+                this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
+              }
+            }
+          } else {
+            console.log("User not found");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+        // Reset passengerData after each iteration
+        this.passengerData = previousPassengerData;
+      }
+    }
+  }
 
 }

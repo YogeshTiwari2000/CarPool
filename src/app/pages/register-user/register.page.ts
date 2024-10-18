@@ -98,6 +98,16 @@ export class RegisterPage implements OnInit {
         status: '',
         vehicle: '',
         passengerList: [],
+        travelDetails: {
+          startlocation: '',
+          endlocation: '',
+          startTime: '',
+          endTime: '',
+          distanceTravelled: '',
+          traveledTime: '',
+          discripencyFlag: false,
+          agreement: false
+        }
       },
       rideList: [],
     },
