@@ -189,7 +189,8 @@
       <ion-col class=" " size="12">
         <div>
           <ion-buttons slot="primary">
-            <ion-button fill="outline" (click)="startStopRideByDriverNotification(['start'])">
+            <ion-button fill="outline"
+              (click)="showpassengerList === false ? startStopByPassNotification(['start']) : startStopRideByDriverNotification(['start'])">
               Start Ride
               <!-- <ion-icon name="create"></ion-icon> -->
             </ion-button>
@@ -197,7 +198,8 @@
         </div>
         <div>
           <ion-buttons slot="primary">
-            <ion-button fill="outline" (click)="startStopRideByDriverNotification(['stop'])">
+            <ion-button fill="outline"
+              (click)="showpassengerList === false ? startStopByPassNotification(['stop']) : startStopRideByDriverNotification(['stop'])">
               Stop Ride
               <!-- <ion-icon name="create"></ion-icon> -->
             </ion-button>
