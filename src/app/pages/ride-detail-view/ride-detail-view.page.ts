@@ -1,3 +1,4 @@
+declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -598,6 +599,7 @@ export class RideDetailViewPage implements OnInit {
     const buttonType = btn[0]
     console.log("buttonType === ", buttonType);
     if (matchedRide != undefined) {
+
       if (buttonType === 'start') {
         matchedRide.status = 'RideStarted';
       } else {
@@ -750,5 +752,78 @@ export class RideDetailViewPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
+
+  // getCurrentLocation() {
+  //   console.log("getCurrentLocation === ",);
+  //   console.log("navigator.geolocation.getCurrentPosition === ", navigator.geolocation.getCurrentPosition);
+  //   navigator.geolocation.getCurrentPosition
+  //   // if (navigator.geolocation) {
+  //   //   // Get current location when the button is clicked
+  //   //   navigator.geolocation.getCurrentPosition(
+  //   //     (position) => {
+  //   //       const latitude = position.coords.latitude;
+  //   //       const longitude = position.coords.longitude;
+  //   //       console.log("Current position: ", latitude, longitude);
+
+  //   //       // Use Google Maps Geocoder to get the address from the latitude and longitude
+  //   //       const geocoder = new google.maps.Geocoder();
+  //   //       const latlng = { lat: latitude, lng: longitude };
+
+  //   //       geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
+  //   //         if (status === "OK") {
+  //   //           if (results && results[0]) {
+  //   //             const from = results[0].formatted_address;
+  //   //             console.log("Formatted Address (Current Location): ", from);
+  //   //           } else {
+  //   //             console.log("No results found");
+  //   //           }
+  //   //         } else {
+  //   //           console.log("Geocoder failed due to: " + status);
+  //   //         }
+  //   //       });
+  //   //     },
+  //   //     (error) => {
+  //   //       // Handle geolocation errors
+  //   //       switch (error.code) {
+  //   //         case error.PERMISSION_DENIED:
+  //   //           console.log("User denied the request for Geolocation.");
+  //   //           break;
+  //   //         case error.POSITION_UNAVAILABLE:
+  //   //           console.log("Location information is unavailable.");
+  //   //           break;
+  //   //         case error.TIMEOUT:
+  //   //           console.log("The request to get user location timed out.");
+  //   //           break;
+  //   //         // case error.UNKNOWN_ERROR:
+  //   //         //   console.log("An unknown error occurred.");
+  //   //         //   break;
+  //   //       }
+  //   //     },
+  //   //     {
+  //   //       // Optional: Configure options for geolocation
+  //   //       enableHighAccuracy: true,
+  //   //       timeout: 10000,  // 10 seconds timeout
+  //   //       maximumAge: 0,  // Do not cache location
+  //   //     }
+  //   //   );
+  //   // } else {
+  //   //   console.log("Geolocation is not supported by this browser.");
+  //   // }
+  // }
+
+  getCurrentLoc() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Location retrieved successfully");
+        },
+        (error) => {
+          console.error("Error retrieving location", error);
+        }
+      )
+    } else {
+      alert('Geo not supported')
+    }
+  }
 
 }
