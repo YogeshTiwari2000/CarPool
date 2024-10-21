@@ -689,50 +689,66 @@ export class RideDetailViewPage implements OnInit {
 
   async startStopByPassNotification(btn: any) {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRide started one === ", matchedRide);
     const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
+
+    const passButtonType = btn[0];
+    console.log("matchedRide is === ", matchedRide);
 
     // Update the status of the current user's ride if it exists
     if (matchedRideInCurrentUserList != undefined) {
-      matchedRideInCurrentUserList.status = 'RideStarted';
+      if (passButtonType === 'start') {
+        matchedRideInCurrentUserList.status = 'RideStarted';
+      } else {
+        matchedRideInCurrentUserList.status = 'RideStopped';
+      }
+
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
     }
 
-    const notificationMessage = {
-      senderName: this.currentUser.userName,
-      status: 'RideStarted',
-      message: 'Ride has Started',
-      rideid: this.currentRideId,
-      url: 'ride-detail-view',
-      Ridedata: this.ride
-    };
+    let notificationMessage;
+    if (passButtonType === 'start') {
+      notificationMessage = {
+        senderName: this.currentUser.userName,
+        status: 'RideStarted',
+        message: 'Ride has Started',
+        rideid: this.currentRideId,
+        url: 'ride-detail-view',
+        Ridedata: this.ride
+      };
+    } else {
+      notificationMessage = {
+        senderName: this.currentUser.userName,
+        status: 'RideStopped',
+        message: 'Ride is completed',
+        rideid: this.currentRideId,
+        url: 'ride-detail-view',
+        Ridedata: this.ride
+      };
+    }
 
     if (matchedRide) {
-      const currentRidePassangerList = this.handleData.clone(matchedRide.passengerList);
-      console.log("matchRidePassList started one === ", currentRidePassangerList);
-      const currentUserExistInPassList = currentRidePassangerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-      console.log("currentUserExistInPassList started wali === ", currentUserExistInPassList);
+      const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
+      const currentUserExistInPassengerList = currentRidePassengerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
 
       // If the user exists in the passenger list, remove them from the list
-      if (currentUserExistInPassList) {
-
-        if (this.rideCreator.isNotification == true) {
+      if (currentUserExistInPassengerList) {
+        if (this.rideCreator.isNotification === true) {
           this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
         } else {
           this.rideCreator.notificationList = [notificationMessage];
         }
+
         this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+
         this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
-        // Update fields in the database
         this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
         this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
       }
     }
 
-    // Dismiss the modal after the operation is complete
     this.modalCtrl.dismiss();
-
   }
+
+
 }
