@@ -1,6 +1,6 @@
 declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton, ModalController, IonModal, IonList } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
@@ -15,7 +15,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './ride-detail-view.page.html',
   styleUrls: ['./ride-detail-view.page.scss'],
   standalone: true,
-  imports: [IonList, IonModal, IonTabButton, IonButtons, IonIcon, IonItem, IonLabel, IonButton, IonRow, IonCol, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton]
+  imports: [IonList, IonModal, IonTabButton, IonButtons, IonIcon, IonItem, IonLabel, IonButton, IonRow, IonCol, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton],
+  providers: [DatePipe]
 })
 export class RideDetailViewPage implements OnInit {
   [x: string]: any;
@@ -48,13 +49,15 @@ export class RideDetailViewPage implements OnInit {
   showpassengerList: boolean = false;
   showEditBtn: boolean = false;
   matchedRideToDisplay: any
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private datePipe: DatePipe) { }
 
   subscription: Subscription | undefined;
   users: any[] = [];
 
 
   ngOnInit() {
+
+    console.log("navigator.geolocation === ", navigator.geolocation);
     // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
@@ -148,7 +151,7 @@ export class RideDetailViewPage implements OnInit {
 
   findMatchedRideToDisplay() {
     const displayMatchedRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("displayMatchedRide === ", displayMatchedRide)
+    // console.log("displayMatchedRide === ", displayMatchedRide)
     if (displayMatchedRide != undefined) {
       this.matchedRideToDisplay = displayMatchedRide
     }
@@ -600,10 +603,22 @@ export class RideDetailViewPage implements OnInit {
     console.log("buttonType === ", buttonType);
     if (matchedRide != undefined) {
 
+      const now = new Date();
+
+      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+
       if (buttonType === 'start') {
+
         matchedRide.status = 'RideStarted';
+        matchedRide.travelDetails.startlocation = matchedRide.from;
+        matchedRide.travelDetails.startTime = currentTime;
+        matchedRide.travelDetails.startDate = currentDate;
+        console.log("matchedRide123 === ", matchedRide);
       } else {
         matchedRide.status = 'RideStoped';
+        matchedRide.travelDetails.endTime = currentTime;
+        console.log("matchedRide123 === ", matchedRide);
       }
       await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
       const requestedPassengerList = matchedRide.passengerList;
@@ -811,19 +826,19 @@ export class RideDetailViewPage implements OnInit {
   //   // }
   // }
 
-  getCurrentLoc() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log("Location retrieved successfully");
-        },
-        (error) => {
-          console.error("Error retrieving location", error);
-        }
-      )
-    } else {
-      alert('Geo not supported')
-    }
-  }
+  // getCurrentLoc() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         console.log("Location retrieved successfully");
+  //       },
+  //       (error) => {
+  //         console.error("Error retrieving location", error);
+  //       }
+  //     )
+  //   } else {
+  //     alert('Geo not supported')
+  //   }
+  // }
 
 }
