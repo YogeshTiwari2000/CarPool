@@ -56,8 +56,6 @@ export class RideDetailViewPage implements OnInit {
 
 
   ngOnInit() {
-
-    console.log("navigator.geolocation === ", navigator.geolocation);
     // Optional: Listen for incoming messages
     this.route.queryParams.subscribe(params => {
       if (params['ride']) {
@@ -69,7 +67,7 @@ export class RideDetailViewPage implements OnInit {
         this.currentRideId = this.ride.id
         this.status = this.ride.status
 
-        this.selectedRidePassengerList = this.ride.passengerList;
+        // this.selectedRidePassengerList = this.ride.passengerList;
         console.log(" this.status === ", this.status);
         console.log("this.ride.riderUserId === ", this.ride.riderUserId);
       }
@@ -151,12 +149,16 @@ export class RideDetailViewPage implements OnInit {
 
   findMatchedRideToDisplay() {
     const displayMatchedRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    // console.log("displayMatchedRide === ", displayMatchedRide)
+    console.log("displayMatchedRide === ", displayMatchedRide)
     if (displayMatchedRide != undefined) {
       this.matchedRideToDisplay = displayMatchedRide
+      console.log("this.matchedRideToDisplay === ", this.matchedRideToDisplay);
+      this.selectedRidePassengerList = this.matchedRideToDisplay.passengerList
     }
     else {
       this.matchedRideToDisplay = this.ride
+      console.log("this.matchedRideToDisplay === ", this.matchedRideToDisplay);
+      this.selectedRidePassengerList = this.matchedRideToDisplay.passengerList
     }
   }
 
@@ -872,19 +874,19 @@ export class RideDetailViewPage implements OnInit {
   //   // }
   // }
 
-  // getCurrentLoc() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         console.log("Location retrieved successfully");
-  //       },
-  //       (error) => {
-  //         console.error("Error retrieving location", error);
-  //       }
-  //     )
-  //   } else {
-  //     alert('Geo not supported')
-  //   }
-  // }
+  getCurrentLoc() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Location retrieved successfully");
+        },
+        (error) => {
+          console.error("Error retrieving location", error);
+        }
+      )
+    } else {
+      alert('Geo not supported')
+    }
+  }
 
 }
