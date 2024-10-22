@@ -596,30 +596,53 @@ export class RideDetailViewPage implements OnInit {
     return endTime;
   }
 
+  // Helper function to convert 'HH:mm:ss' to a Date object
+
+  timeStringToDate(time: string): Date {
+    const now = new Date();
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+
+    now.setHours(hours, minutes, seconds, 0);
+    return now;
+  }
+
   async startStopRideByDriverNotification(btn: any) {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide started  === ", matchedRide);
     const buttonType = btn[0]
     console.log("buttonType === ", buttonType);
+
     if (matchedRide != undefined) {
-
       const now = new Date();
-
       const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
       const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
 
       if (buttonType === 'start') {
-
         matchedRide.status = 'RideStarted';
         matchedRide.travelDetails.startlocation = matchedRide.from;
         matchedRide.travelDetails.startTime = currentTime;
         matchedRide.travelDetails.startDate = currentDate;
-        console.log("matchedRide123 === ", matchedRide);
-      } else {
-        matchedRide.status = 'RideStoped';
-        matchedRide.travelDetails.endTime = currentTime;
-        console.log("matchedRide123 === ", matchedRide);
+
+        console.log("matchedRide123 (Ride Started): ", matchedRide);
+
       }
+      else {
+        matchedRide.status = 'RideStopped';
+
+        matchedRide.travelDetails.endTime = currentTime;
+
+        const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
+        const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+
+        const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+
+        const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+        const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+        console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
+        matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+      }
+
       await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
       const requestedPassengerList = matchedRide.passengerList;
       console.log("requestedPassengerList === ", requestedPassengerList);
@@ -713,10 +736,33 @@ export class RideDetailViewPage implements OnInit {
 
     // Update the status of the current user's ride if it exists
     if (matchedRideInCurrentUserList != undefined) {
+
+      const now = new Date();
+      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+
       if (passButtonType === 'start') {
         matchedRideInCurrentUserList.status = 'RideStarted';
+        matchedRide.travelDetails.startlocation = matchedRide.from;
+        matchedRide.travelDetails.startTime = currentTime;
+        matchedRide.travelDetails.startDate = currentDate;
       } else {
         matchedRideInCurrentUserList.status = 'RideStopped';
+
+        matchedRide.travelDetails.endTime = currentTime;
+
+        const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
+        const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+
+        const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+
+        const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+        const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+        console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
+        matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+
+
       }
 
       this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
