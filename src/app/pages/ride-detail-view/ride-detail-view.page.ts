@@ -733,6 +733,8 @@ export class RideDetailViewPage implements OnInit {
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
 
+    console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
+
     const passButtonType = btn[0];
     console.log("matchedRide is === ", matchedRide);
 
@@ -745,16 +747,16 @@ export class RideDetailViewPage implements OnInit {
 
       if (passButtonType === 'start') {
         matchedRideInCurrentUserList.status = 'RideStarted';
-        matchedRide.travelDetails.startlocation = matchedRide.from;
-        matchedRide.travelDetails.startTime = currentTime;
-        matchedRide.travelDetails.startDate = currentDate;
+        matchedRideInCurrentUserList.travelDetails.startlocation = matchedRide.from;
+        matchedRideInCurrentUserList.travelDetails.startTime = currentTime;
+        matchedRideInCurrentUserList.travelDetails.startDate = currentDate;
       } else {
         matchedRideInCurrentUserList.status = 'RideStopped';
 
-        matchedRide.travelDetails.endTime = currentTime;
+        matchedRideInCurrentUserList.travelDetails.endTime = currentTime;
 
-        const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
-        const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+        const startTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.startTime);
+        const endTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.endTime);
 
         const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
 
@@ -762,8 +764,7 @@ export class RideDetailViewPage implements OnInit {
         const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
 
         console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
-        matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
-
+        matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
 
       }
 
