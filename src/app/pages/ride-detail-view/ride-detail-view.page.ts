@@ -615,23 +615,15 @@ export class RideDetailViewPage implements OnInit {
     console.log("buttonType === ", buttonType);
 
     if (matchedRide != undefined) {
-      const now = new Date();
-      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
-      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
-
       if (buttonType === 'start') {
         matchedRide.status = 'RideStarted';
-        matchedRide.travelDetails.startlocation = matchedRide.from;
-        matchedRide.travelDetails.startTime = currentTime;
-        matchedRide.travelDetails.startDate = currentDate;
 
-        console.log("matchedRide123 (Ride Started): ", matchedRide);
+        console.log("matchedRide123 === ", matchedRide);
 
       }
       else {
         matchedRide.status = 'RideStopped';
 
-        matchedRide.travelDetails.endTime = currentTime;
 
         const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
         const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
