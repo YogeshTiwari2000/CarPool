@@ -27,7 +27,7 @@ export class RideDetailViewPage implements OnInit {
   commonService = inject(CommonService);
   modalCtrl = inject(ModalController);
 
-
+  currentLoc: any;
   ride: any;
   email: any;
   rideremail: any;
@@ -610,21 +610,29 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async startStopRideByDriverNotification(btn: any) {
+
+    this.getCurrentLoc()
+    console.log("this.getCurrentLoc() === ", this.getCurrentLoc());
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     console.log("matchedRide started  === ", matchedRide);
     const buttonType = btn[0]
     console.log("buttonType === ", buttonType);
 
     if (matchedRide != undefined) {
+
+      const now = new Date();
+      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+
       if (buttonType === 'start') {
         matchedRide.status = 'RideStarted';
-
-        console.log("matchedRide123 === ", matchedRide);
-
-      }
-      else {
+        matchedRide.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
+        matchedRide.travelDetails.startTime = currentTime;
+        matchedRide.travelDetails.startDate = currentDate;
+      } else {
         matchedRide.status = 'RideStopped';
 
+        matchedRide.travelDetails.endTime = currentTime;
 
         const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
         const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
@@ -648,10 +656,29 @@ export class RideDetailViewPage implements OnInit {
         const previousPassengerData = this.passengerData;
 
         if (buttonType === 'start') {
+          matchedRide.status = 'RideStarted';
+          matchedRide.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
+          matchedRide.travelDetails.startTime = currentTime;
+          matchedRide.travelDetails.startDate = currentDate;
+
+
           requestedPassengerList[index].passStatus = 'RideStarted'
         }
         else {
-          requestedPassengerList[index].passStatus = 'RideStoped'
+          requestedPassengerList[index].passStatus = 'RideStoped',
+            matchedRide.travelDetails.endTime = currentTime;
+          matchedRide.travelDetails.endlocation = matchedRide.currentLoc ?? 'Unknown Location';;
+          const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
+          const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+
+          const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+
+          const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+          const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+          console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
+          matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+
         }
         this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
 
@@ -723,6 +750,10 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async startStopByPassNotification(btn: any) {
+
+    this.getCurrentLoc();
+    console.log("this.getCurrentLoc() === ", this.getCurrentLoc());
+
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
 
@@ -734,81 +765,81 @@ export class RideDetailViewPage implements OnInit {
     // Update the status of the current user's ride if it exists
     if (matchedRideInCurrentUserList != undefined) {
 
-      const now = new Date();
-      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
-      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+      const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
 
-      if (passButtonType === 'start') {
-        matchedRideInCurrentUserList.status = 'RideStarted';
-        matchedRideInCurrentUserList.travelDetails.startlocation = matchedRide.from;
-        matchedRideInCurrentUserList.travelDetails.startTime = currentTime;
-        matchedRideInCurrentUserList.travelDetails.startDate = currentDate;
-      } else {
-        matchedRideInCurrentUserList.status = 'RideStopped';
+      if (matchedRideInCurrentUserList != undefined) {
+        const now = new Date();
+        const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+        const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
 
-        matchedRideInCurrentUserList.travelDetails.endTime = currentTime;
-
-        const startTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.startTime);
-        const endTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.endTime);
-
-        const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
-
-        const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
-        const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
-
-        console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
-        matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
-
-      }
-
-      this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
-    }
-
-    let notificationMessage;
-    if (passButtonType === 'start') {
-      notificationMessage = {
-        senderName: this.currentUser.userName,
-        status: 'RideStarted',
-        message: 'Ride has Started',
-        rideid: this.currentRideId,
-        url: 'ride-detail-view',
-        Ridedata: this.ride
-      };
-    } else {
-      notificationMessage = {
-        senderName: this.currentUser.userName,
-        status: 'RideStopped',
-        message: 'Ride is completed',
-        rideid: this.currentRideId,
-        url: 'ride-detail-view',
-        Ridedata: this.ride
-      };
-    }
-
-    if (matchedRide) {
-      const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
-      const currentUserExistInPassengerList = currentRidePassengerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-
-      // If the user exists in the passenger list, remove them from the list
-      if (currentUserExistInPassengerList) {
-        if (this.rideCreator.isNotification === true) {
-          this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+        if (btn[0] === 'start') {
+          matchedRideInCurrentUserList.status = 'RideStarted';
+          matchedRideInCurrentUserList.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
+          matchedRideInCurrentUserList.travelDetails.startTime = currentTime;
+          matchedRideInCurrentUserList.travelDetails.startDate = currentDate;
         } else {
-          this.rideCreator.notificationList = [notificationMessage];
+          matchedRideInCurrentUserList.status = 'RideStopped';
+          matchedRideInCurrentUserList.travelDetails.endTime = currentTime;
+          matchedRideInCurrentUserList.travelDetails.endlocation = matchedRide.currentLoc ?? 'Unknown Location';
+
+          const startTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.startTime);
+          const endTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.endTime);
+
+          const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+          const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+          const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+          matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
         }
 
-        this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
-
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
+        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
       }
+
+      let notificationMessage;
+      if (passButtonType === 'start') {
+        notificationMessage = {
+          senderName: this.currentUser.userName,
+          status: 'RideStarted',
+          message: 'Ride has Started',
+          rideid: this.currentRideId,
+          url: 'ride-detail-view',
+          Ridedata: this.ride
+        };
+      } else {
+        notificationMessage = {
+          senderName: this.currentUser.userName,
+          status: 'RideStopped',
+          message: 'Ride is completed',
+          rideid: this.currentRideId,
+          url: 'ride-detail-view',
+          Ridedata: this.ride
+        };
+      }
+
+      if (matchedRide) {
+        const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
+        const currentUserExistInPassengerList = currentRidePassengerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
+
+        // If the user exists in the passenger list, remove them from the list
+        if (currentUserExistInPassengerList) {
+          if (this.rideCreator.isNotification === true) {
+            this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          } else {
+            this.rideCreator.notificationList = [notificationMessage];
+          }
+
+          this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
+        }
+      }
+
+      this.modalCtrl.dismiss();
     }
-
-    this.modalCtrl.dismiss();
   }
-
 
   async getCurrentLoc() {
     try {
@@ -828,8 +859,8 @@ export class RideDetailViewPage implements OnInit {
       geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
         if (status === "OK") {
           if (results && results[0]) {
-            const from = results[0].formatted_address;
-            console.log("Formatted Address (Current Location): ", from);
+            this.currentLoc = results[0].formatted_address;
+            console.log("Formatted Address (Current Location): ", this.currentLoc);
           } else {
             console.log("No results found");
           }
