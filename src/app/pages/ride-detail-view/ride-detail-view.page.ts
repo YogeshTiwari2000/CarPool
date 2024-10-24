@@ -647,9 +647,6 @@ export class RideDetailViewPage implements OnInit {
     }
   }
 
-
-
-
   async startStopRideByDriverNotification(btn: any) {
     try {
       // Wait for getCurrentLoc to finish
@@ -664,7 +661,7 @@ export class RideDetailViewPage implements OnInit {
         const now = new Date();
         const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
         const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
-        console.log("matchedRide.currentLoc === ", matchedRide.currentLoc);
+        console.log("this.currentLoc === ", this.currentLoc);
         console.log("this.currentLoc === ", this.currentLoc);
         if (buttonType === 'start') {
           matchedRide.status = 'RideStarted';
@@ -791,96 +788,98 @@ export class RideDetailViewPage implements OnInit {
   }
 
   async startStopByPassNotification(btn: any) {
+    try {
+      // Wait for getCurrentLoc to finish
+      await this.getCurrentLoc();
 
-    this.getCurrentLoc();
-
-    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-
-    console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
-
-    const passButtonType = btn[0];
-    console.log("matchedRide is === ", matchedRide);
-
-    // Update the status of the current user's ride if it exists
-    if (matchedRideInCurrentUserList != undefined) {
-
+      const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
       const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
 
+      console.log("matchedRideInCurrentUserList === ", matchedRideInCurrentUserList);
+
+      const passButtonType = btn[0];
+      console.log("matchedRide is === ", matchedRide);
+
+      // Update the status of the current user's ride if it exists
       if (matchedRideInCurrentUserList != undefined) {
-        const now = new Date();
-        const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
-        const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
 
-        if (btn[0] === 'start') {
-          matchedRideInCurrentUserList.status = 'RideStarted';
-          matchedRideInCurrentUserList.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
-          matchedRideInCurrentUserList.travelDetails.startTime = currentTime;
-          matchedRideInCurrentUserList.travelDetails.startDate = currentDate;
-        } else {
-          matchedRideInCurrentUserList.status = 'RideStopped';
-          matchedRideInCurrentUserList.travelDetails.endTime = currentTime;
-          matchedRideInCurrentUserList.travelDetails.endlocation = matchedRide.currentLoc ?? 'Unknown Location';
+        const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
 
-          const startTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.startTime);
-          const endTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.endTime);
+        if (matchedRideInCurrentUserList != undefined) {
+          const now = new Date();
+          const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+          const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
 
-          const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
-          const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
-          const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
-
-          matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
-        }
-
-        this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
-      }
-
-      let notificationMessage;
-      if (passButtonType === 'start') {
-        notificationMessage = {
-          senderName: this.currentUser.userName,
-          status: 'RideStarted',
-          message: 'Ride has Started',
-          rideid: this.currentRideId,
-          url: 'ride-detail-view',
-          Ridedata: this.ride
-        };
-      } else {
-        notificationMessage = {
-          senderName: this.currentUser.userName,
-          status: 'RideStopped',
-          message: 'Ride is completed',
-          rideid: this.currentRideId,
-          url: 'ride-detail-view',
-          Ridedata: this.ride
-        };
-      }
-
-      if (matchedRide) {
-        const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
-        const currentUserExistInPassengerList = currentRidePassengerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
-
-        // If the user exists in the passenger list, remove them from the list
-        if (currentUserExistInPassengerList) {
-          if (this.rideCreator.isNotification === true) {
-            this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+          if (btn[0] === 'start') {
+            matchedRideInCurrentUserList.status = 'RideStarted';
+            matchedRideInCurrentUserList.travelDetails.startlocation = this.currentLoc ?? 'Unknown Location';
+            matchedRideInCurrentUserList.travelDetails.startTime = currentTime;
+            matchedRideInCurrentUserList.travelDetails.startDate = currentDate;
           } else {
-            this.rideCreator.notificationList = [notificationMessage];
+            matchedRideInCurrentUserList.status = 'RideStopped';
+            matchedRideInCurrentUserList.travelDetails.endTime = currentTime;
+            matchedRideInCurrentUserList.travelDetails.endlocation = this.currentLoc ?? 'Unknown Location';
+
+            const startTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.startTime);
+            const endTimeDate = this.timeStringToDate(matchedRideInCurrentUserList.travelDetails.endTime);
+
+            const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+            const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+            const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+            matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
           }
 
-          this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
-
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-          this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
+          this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);
         }
-      }
 
-      // this.modalCtrl.dismiss();
+        let notificationMessage;
+        if (passButtonType === 'start') {
+          notificationMessage = {
+            senderName: this.currentUser.userName,
+            status: 'RideStarted',
+            message: 'Ride has Started',
+            rideid: this.currentRideId,
+            url: 'ride-detail-view',
+            Ridedata: this.ride
+          };
+        } else {
+          notificationMessage = {
+            senderName: this.currentUser.userName,
+            status: 'RideStopped',
+            message: 'Ride is completed',
+            rideid: this.currentRideId,
+            url: 'ride-detail-view',
+            Ridedata: this.ride
+          };
+        }
+
+        if (matchedRide) {
+          const currentRidePassengerList = this.handleData.clone(matchedRide.passengerList);
+          const currentUserExistInPassengerList = currentRidePassengerList.find((obj: { passId: any; }) => obj.passId === this.currentUserDocId);
+
+          // If the user exists in the passenger list, remove them from the list
+          if (currentUserExistInPassengerList) {
+            if (this.rideCreator.isNotification === true) {
+              this.rideCreator.notificationList.unshift(this.handleData.clone(notificationMessage));
+            } else {
+              this.rideCreator.notificationList = [notificationMessage];
+            }
+
+            this.rideCreator.allNotification.unshift(this.handleData.clone(notificationMessage));
+
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'allNotification', this.rideCreator.allNotification);
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'notificationList', this.rideCreator.notificationList);
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+            this.handleData.updateDocumentField(this.ride.riderUserId, 'isNotification', true);
+          }
+        }
+
+        // this.modalCtrl.dismiss();
+      }
+    } catch (error) {
+      console.error('Error in startStopRideByDriverNotification:', error);
     }
   }
-
-
 
 }
