@@ -609,150 +609,190 @@ export class RideDetailViewPage implements OnInit {
     return now;
   }
 
-  async startStopRideByDriverNotification(btn: any) {
 
-    this.getCurrentLoc()
-    console.log("this.getCurrentLoc() === ", this.getCurrentLoc());
-    const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-    console.log("matchedRide started  === ", matchedRide);
-    const buttonType = btn[0]
-    console.log("buttonType === ", buttonType);
+  async getCurrentLoc(): Promise<void> {
+    try {
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true
+      });
 
-    if (matchedRide != undefined) {
+      console.log('Location retrieved successfully', position);
+      console.log('Latitude:', position.coords.latitude);
+      console.log('Longitude:', position.coords.longitude);
 
-      const now = new Date();
-      const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
-      const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+      // Use Google Maps Geocoder to get the address from the latitude and longitude
+      const geocoder = new google.maps.Geocoder();
+      const latlng = { lat: position.coords.latitude, lng: position.coords.longitude };
 
-      if (buttonType === 'start') {
-        matchedRide.status = 'RideStarted';
-        matchedRide.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
-        matchedRide.travelDetails.startTime = currentTime;
-        matchedRide.travelDetails.startDate = currentDate;
-      } else {
-        matchedRide.status = 'RideStopped';
-
-        matchedRide.travelDetails.endTime = currentTime;
-
-        const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
-        const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
-
-        const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
-
-        const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
-        const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
-
-        console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
-        matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
-      }
-
-      await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-      const requestedPassengerList = matchedRide.passengerList;
-      console.log("requestedPassengerList === ", requestedPassengerList);
-
-      for (let index = 0; index < requestedPassengerList.length; index++) {
-        const passengerDocId = requestedPassengerList[index].passId;
-        const passengerEmail = requestedPassengerList[index].passEmail;
-        const previousPassengerData = this.passengerData;
-
-        if (buttonType === 'start') {
-          matchedRide.status = 'RideStarted';
-          matchedRide.travelDetails.startlocation = matchedRide.currentLoc ?? 'Unknown Location';
-          matchedRide.travelDetails.startTime = currentTime;
-          matchedRide.travelDetails.startDate = currentDate;
-
-
-          requestedPassengerList[index].passStatus = 'RideStarted'
-        }
-        else {
-          requestedPassengerList[index].passStatus = 'RideStoped',
-            matchedRide.travelDetails.endTime = currentTime;
-          matchedRide.travelDetails.endlocation = matchedRide.currentLoc ?? 'Unknown Location';;
-          const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
-          const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
-
-          const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
-
-          const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
-          const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
-
-          console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
-          matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
-
-        }
-        this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
-
-        try {
-          const result = await this.handleData.userExists(passengerEmail, false);
-          if (result.isExist) {
-            this.handleData.user = result.data;
-            this.passengerData = this.handleData.user;
-            console.log("passengerData === " + index, this.passengerData);
-            if (this.passengerData != undefined) {
-              const passengerMatchedRide = this.passengerData.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
-              console.log("passengerMatchedRide cancelByDriver wali === ", passengerMatchedRide);
-
-              if (passengerMatchedRide != undefined) {
-                if (buttonType === 'start') {
-                  passengerMatchedRide.status = 'RideStarted';
-                }
-                else {
-                  passengerMatchedRide.status = 'RideStoped';
-                }
-                await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
-                if (buttonType === 'start') {
-                  const notificationMessage = {
-                    senderName: this.currentUser.userName,
-                    status: 'Ride has Started',
-                    message: 'Ride has begun so, sit back and relax, enjoy your ride',
-                    rideid: this.currentRideId,
-                    url: 'ride-detail-view',
-                    Ridedata: this.ride
-                  }
-                  if (this.passengerData.isNotification == true) {
-                    this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
-                  } else {
-                    this.passengerData.notificationList = [notificationMessage]
-                  }
-                  this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
-                } else {
-                  const notificationMessage = {
-                    senderName: this.currentUser.userName,
-                    status: 'Ride has Stoped',
-                    message: 'Ride is completed',
-                    rideid: this.currentRideId,
-                    url: 'ride-detail-view',
-                    Ridedata: this.ride
-                  }
-                  if (this.passengerData.isNotification == true) {
-                    this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
-                  } else {
-                    this.passengerData.notificationList = [notificationMessage]
-                  }
-                  this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
-                }
-
-                this.handleData.updateDocumentField(passengerDocId, 'allNotification', this.passengerData.allNotification);
-                this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
-                this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
-              }
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
+          if (status === "OK") {
+            if (results && results[0]) {
+              this.currentLoc = results[0].formatted_address;
+              console.log("Formatted Address (Current Location): ", this.currentLoc);
+              resolve(); // Resolve the promise when location is set
+            } else {
+              console.log("No results found");
+              reject("No results found");
             }
           } else {
-            console.log("User not found");
+            console.log("Geocoder failed due to: " + status);
+            reject("Geocoder failed due to: " + status);
           }
-        } catch (error) {
-          console.error("Error:", error);
+        });
+      });
+    } catch (error) {
+      console.error('Error retrieving location', error);
+      return Promise.reject(error); // Reject promise on error
+    }
+  }
+
+
+
+
+  async startStopRideByDriverNotification(btn: any) {
+    try {
+      // Wait for getCurrentLoc to finish
+      await this.getCurrentLoc();
+      const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+      console.log("matchedRide started  === ", matchedRide);
+      const buttonType = btn[0]
+      console.log("buttonType === ", buttonType);
+
+      if (matchedRide != undefined) {
+
+        const now = new Date();
+        const currentTime = this.datePipe.transform(now, 'HH:mm:ss') ?? '';
+        const currentDate = this.datePipe.transform(now, 'yyyy-MM-dd') ?? '';
+        console.log("matchedRide.currentLoc === ", matchedRide.currentLoc);
+        console.log("this.currentLoc === ", this.currentLoc);
+        if (buttonType === 'start') {
+          matchedRide.status = 'RideStarted';
+          matchedRide.travelDetails.startlocation = this.currentLoc;
+          console.log(" matchedRide.travelDetails.startlocation === ", matchedRide.travelDetails.startlocation);
+          matchedRide.travelDetails.startTime = currentTime;
+          matchedRide.travelDetails.startDate = currentDate;
+        } else {
+          matchedRide.status = 'RideStopped';
+          matchedRide.travelDetails.endTime = currentTime;
+          const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
+          const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+          const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+          const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+          const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+          console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
+          matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
         }
-        // Reset passengerData after each iteration
-        this.passengerData = previousPassengerData;
+
+        await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+        const requestedPassengerList = matchedRide.passengerList;
+        console.log("requestedPassengerList === ", requestedPassengerList);
+
+        for (let index = 0; index < requestedPassengerList.length; index++) {
+          const passengerDocId = requestedPassengerList[index].passId;
+          const passengerEmail = requestedPassengerList[index].passEmail;
+          const previousPassengerData = this.passengerData;
+
+          if (buttonType === 'start') {
+            matchedRide.status = 'RideStarted';
+            matchedRide.travelDetails.startlocation = this.currentLoc ?? 'Unknown Location';
+            matchedRide.travelDetails.startTime = currentTime;
+            matchedRide.travelDetails.startDate = currentDate;
+
+
+            requestedPassengerList[index].passStatus = 'RideStarted'
+          }
+          else {
+            requestedPassengerList[index].passStatus = 'RideStoped',
+              matchedRide.travelDetails.endTime = currentTime;
+            matchedRide.travelDetails.endlocation = this.currentLoc ?? 'Unknown Location';;
+            const startTimeDate = this.timeStringToDate(matchedRide.travelDetails.startTime);
+            const endTimeDate = this.timeStringToDate(matchedRide.travelDetails.endTime);
+
+            const timeTraveled = endTimeDate.getTime() - startTimeDate.getTime();
+
+            const hoursTraveled = Math.floor(timeTraveled / (1000 * 60 * 60));
+            const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
+
+            console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
+            matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+
+          }
+          this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
+
+          try {
+            const result = await this.handleData.userExists(passengerEmail, false);
+            if (result.isExist) {
+              this.handleData.user = result.data;
+              this.passengerData = this.handleData.user;
+              console.log("passengerData === " + index, this.passengerData);
+              if (this.passengerData != undefined) {
+                const passengerMatchedRide = this.passengerData.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
+                console.log("passengerMatchedRide cancelByDriver wali === ", passengerMatchedRide);
+
+                if (passengerMatchedRide != undefined) {
+                  if (buttonType === 'start') {
+                    passengerMatchedRide.status = 'RideStarted';
+                  }
+                  else {
+                    passengerMatchedRide.status = 'RideStoped';
+                  }
+                  await this.handleData.updateDocumentField(passengerDocId, 'ride', this.passengerData.ride);
+                  if (buttonType === 'start') {
+                    const notificationMessage = {
+                      senderName: this.currentUser.userName,
+                      status: 'Ride has Started',
+                      message: 'Ride has begun so, sit back and relax, enjoy your ride',
+                      rideid: this.currentRideId,
+                      url: 'ride-detail-view',
+                      Ridedata: this.ride
+                    }
+                    if (this.passengerData.isNotification == true) {
+                      this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                    } else {
+                      this.passengerData.notificationList = [notificationMessage]
+                    }
+                    this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
+                  } else {
+                    const notificationMessage = {
+                      senderName: this.currentUser.userName,
+                      status: 'Ride has Stoped',
+                      message: 'Ride is completed',
+                      rideid: this.currentRideId,
+                      url: 'ride-detail-view',
+                      Ridedata: this.ride
+                    }
+                    if (this.passengerData.isNotification == true) {
+                      this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
+                    } else {
+                      this.passengerData.notificationList = [notificationMessage]
+                    }
+                    this.passengerData.allNotification.unshift(this.handleData.clone(notificationMessage));
+                  }
+
+                  this.handleData.updateDocumentField(passengerDocId, 'allNotification', this.passengerData.allNotification);
+                  this.handleData.updateDocumentField(passengerDocId, 'notificationList', this.passengerData.notificationList);
+                  this.handleData.updateDocumentField(passengerDocId, 'isNotification', true);
+                }
+              }
+            } else {
+              console.log("User not found");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+          // Reset passengerData after each iteration
+          this.passengerData = previousPassengerData;
+        }
       }
+    } catch (error) {
+      console.error('Error in startStopRideByDriverNotification:', error);
     }
   }
 
   async startStopByPassNotification(btn: any) {
 
     this.getCurrentLoc();
-    console.log("this.getCurrentLoc() === ", this.getCurrentLoc());
 
     const matchedRide = this.rideCreator.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
     const matchedRideInCurrentUserList = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);
@@ -837,42 +877,10 @@ export class RideDetailViewPage implements OnInit {
         }
       }
 
-      this.modalCtrl.dismiss();
+      // this.modalCtrl.dismiss();
     }
   }
 
-  async getCurrentLoc() {
-    try {
-      const position = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true
-      });
 
-      console.log('Location retrieved successfully', position);
-      console.log('Latitude:', position.coords.latitude);
-      console.log('Longitude:', position.coords.longitude);
-
-
-      // Use Google Maps Geocoder to get the address from the latitude and longitude
-      const geocoder = new google.maps.Geocoder();
-      const latlng = { lat: position.coords.latitude, lng: position.coords.longitude };
-
-      geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
-        if (status === "OK") {
-          if (results && results[0]) {
-            this.currentLoc = results[0].formatted_address;
-            console.log("Formatted Address (Current Location): ", this.currentLoc);
-          } else {
-            console.log("No results found");
-          }
-        } else {
-          console.log("Geocoder failed due to: " + status);
-        }
-      });
-
-
-    } catch (error) {
-      console.error('Error retrieving location', error);
-    }
-  }
 
 }
