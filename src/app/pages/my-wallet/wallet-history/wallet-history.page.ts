@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { HandleDataService } from '../../../services/data/handle-data.service';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons, IonMenuButton, IonButton, IonPopover, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCardHeader, IonAvatar, IonCardSubtitle, IonCardTitle, IonCard, IonItem, IonText, IonLabel, IonIcon, IonCol, IonRow, IonGrid, IonList, IonImg, IonSearchbar, IonDatetimeButton, IonDatetime, IonModal, IonButtons, IonMenuButton, IonButton, IonPopover, ModalController, IonTabButton, PopoverController } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
 import { CommonService } from 'src/app/shared/common.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
@@ -17,11 +17,10 @@ type TransactionType = 'credit' | 'debit';
   templateUrl: './wallet-history.page.html',
   styleUrls: ['./wallet-history.page.scss'],
   standalone: true,
-  imports: [IonPopover, IonButton, IonButtons, IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton]
+  imports: [IonTabButton, IonPopover, IonButton, IonButtons, IonModal, IonDatetime, IonDatetimeButton, IonSearchbar, IonImg, IonList, IonGrid, IonRow, IonCol, IonIcon, IonLabel, IonText, IonItem, IonCard, IonCardTitle, IonCardSubtitle, IonAvatar, IonCardHeader, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonMenuButton]
 })
 export class MyWalletPage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
-
   currentUserData: any;
   transactionList: any[] = [];
   filteredData: any[] = [];
@@ -35,7 +34,7 @@ export class MyWalletPage implements OnInit {
 
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private commonService: CommonService,
-    public localStr: LocalStorageService, private handleData: HandleDataService, private modalCtrl: ModalController) { }
+    public localStr: LocalStorageService, private handleData: HandleDataService, private modalCtrl: ModalController, private popoverController: PopoverController) { }
 
   ngOnInit() {
     const currentUserEmail = this.commonService.currentUserEmail;
@@ -47,15 +46,12 @@ export class MyWalletPage implements OnInit {
       this.filteredData = [...this.transactionList];
 
     });
+
+
   }
 
-  onFilterButtonClicks() {
-    this.isModalOpen = true;
-  }
 
-  onModalDismiss() {
-    this.isModalOpen = false;
-  }
+
   onDateTimeChange(event: any, type: 'from' | 'to') {
     const selectedDate = event.detail.value ? new Date(event.detail.value).toISOString().slice(0, 10) : null;
     console.log("selectedDate === ", selectedDate);
@@ -88,11 +84,15 @@ export class MyWalletPage implements OnInit {
     this.selectedType = type;
     this.applyFilters();
   }
-
   filterByAmount(event: any) {
     this.amountSearchTerm = event.target.value;
-    this.applyFilters();
+    // this.applyFilters(); 
   }
+  filterAmount() {
+    this.applyFilters();
+    this.popoverController.dismiss();
+  }
+
 
   applyFilters() {
     this.filteredData = this.originalData.filter(transaction => {

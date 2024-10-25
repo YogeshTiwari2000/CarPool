@@ -19,7 +19,7 @@
           <!-- <ion-toolbar class="search-items">
             <ion-searchbar placeholder="Search by amount" (ionInput)="filterByAmount($event)"></ion-searchbar>
           </ion-toolbar> -->
-          <button class="filter-btn" id="click-trigger" (click)="onFilterButtonClicks()">
+          <button class="filter-btn" id="click-trigger">
             <div class="default-btn">
               <!-- SVG icon for filter -->
 
@@ -36,6 +36,7 @@
               <ng-template>
                 <ion-content class="ion-padding">
                   <!-- Date Range Filter -->
+                  <p>Filter by Date</p>
                   <div class="filter-box">
                     <p class="para-txt">From:</p>
                     <ion-datetime-button class="date" datetime="fromDatetime"></ion-datetime-button>
@@ -63,6 +64,7 @@
                   </div>
 
                   <!-- Credit/Debit Filter Buttons -->
+                  <p>Filter by Type</p>
                   <div class="credit-debits">
                     <button class="credit" (click)="filterByType('credit')">
                       Credited
@@ -73,9 +75,11 @@
                   </div>
 
                   <ion-col>
+                    <p>Filter by Amount</p>
                     <ion-toolbar class="search-items inputamount">
                       <ion-searchbar placeholder="Search amount" (ionInput)="filterByAmount($event)"
                         class="searchamount"></ion-searchbar>
+                      <ion-button (click)="filterAmount()">search</ion-button>
                     </ion-toolbar>
                   </ion-col>
                 </ion-content>
