@@ -34,12 +34,12 @@
       </div>
     </ion-card-header>
     <ion-card-content class="ion-no-padding ion-padding-bottom">
-      @if (!currentUser.profilePicture) {
-      <ion-item lines="none">
+      <!-- @if (!currentUser.profilePicture) { -->
+      <ion-item lines="none" (click)="toggleUploadOption()">
         <ion-icon slot="start" name="add-circle-outline"></ion-icon>
         <ion-label color="primary">Change profile picture</ion-label>
-
       </ion-item>
+      @if (showUploadOption) {
       <ion-item lines="none">
         <ion-input type="file" fill="outline" placeholder="Upload now" name="profilePicture" required
           (input)="onFileSelected($event) ">

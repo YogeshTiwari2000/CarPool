@@ -78,6 +78,7 @@ export class ProfilePage implements OnInit {
   public modalCtrl = inject(ModalController);
 
   currentUser: any = "";
+  showUploadOption = false;
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
   isGovtIdVerified: boolean = false;
@@ -141,6 +142,7 @@ export class ProfilePage implements OnInit {
       },
     });
 
+
     modal.onDidDismiss().then((dataFromModal) => {
       if (dataFromModal.data) {
         this.vehicle = dataFromModal.data; // This is the updated vehicle list
@@ -148,6 +150,10 @@ export class ProfilePage implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  toggleUploadOption() {
+    this.showUploadOption = !this.showUploadOption;
   }
 
 
