@@ -205,7 +205,7 @@ export class RideDetailViewPage implements OnInit {
           status: 'Requested',
           message: 'Requested a Ride',
           rideid: this.currentRideId,
-          url: 'ride-detail-view',
+          url: 'notification',
           Ridedata: this.ride
         }
 
@@ -303,7 +303,7 @@ export class RideDetailViewPage implements OnInit {
                   status: 'cancelled',
                   message: 'cancelled a Ride',
                   rideid: this.currentRideId,
-                  url: 'ride-detail-view',
+                  url: 'notification',
                   Ridedata: this.ride
                 }
                 if (this.passengerData.isNotification == true) {
@@ -346,7 +346,7 @@ export class RideDetailViewPage implements OnInit {
       status: 'cancelled',
       message: 'cancelled a Ride',
       rideid: this.currentRideId,
-      url: 'ride-detail-view',
+      url: 'notification',
       Ridedata: this.ride
     };
 
@@ -489,7 +489,7 @@ export class RideDetailViewPage implements OnInit {
             status: 'accepted',
             message: 'accepted a Ride',
             rideid: this.currentRideId,
-            url: 'ride-detail-view',
+            url: 'notification',
             Ridedata: this.ride
           }
 
@@ -507,7 +507,7 @@ export class RideDetailViewPage implements OnInit {
             status: 'rejected',
             message: 'rejected a Ride',
             rideid: this.currentRideId,
-            url: 'ride-detail-view',
+            url: 'notification',
             Ridedata: this.ride
           }
           if (this.passData.isNotification == true) {
@@ -741,7 +741,7 @@ export class RideDetailViewPage implements OnInit {
                       status: 'Ride has Started',
                       message: 'Ride has begun so, sit back and relax, enjoy your ride',
                       rideid: this.currentRideId,
-                      url: 'ride-detail-view',
+                      url: 'notification',
                       Ridedata: this.ride
                     }
                     if (this.passengerData.isNotification == true) {
@@ -756,7 +756,7 @@ export class RideDetailViewPage implements OnInit {
                       status: 'Ride has Stoped',
                       message: 'Ride is completed',
                       rideid: this.currentRideId,
-                      url: 'ride-detail-view',
+                      url: 'notification',
                       Ridedata: this.ride
                     }
                     if (this.passengerData.isNotification == true) {
@@ -840,7 +840,7 @@ export class RideDetailViewPage implements OnInit {
             status: 'RideStarted',
             message: 'Ride has Started',
             rideid: this.currentRideId,
-            url: 'ride-detail-view',
+            url: 'notification',
             Ridedata: this.ride
           };
         } else {
@@ -849,7 +849,7 @@ export class RideDetailViewPage implements OnInit {
             status: 'RideStopped',
             message: 'Ride is completed',
             rideid: this.currentRideId,
-            url: 'ride-detail-view',
+            url: 'notification',
             Ridedata: this.ride
           };
         }
