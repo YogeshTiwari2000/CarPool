@@ -246,11 +246,15 @@
 <ion-footer class="ion-padding-horizontal">
   <ion-row class="py-4">
     <ion-col>
-      <!-- <ion-button class="success" expand="block" (click)="updateData()" [disabled]="vehicleType && vehicleName && vehicleNumber && vehicleColor ? true : false"> -->
-      <ion-button class="success" expand="block" (click)="updateData()" [disabled]="!vehicleDetailsAuth()">
-        <span> {{addVehicleClicked ? "Add " : "Update"}} </span>
-
+      <ion-button *ngIf="addVehicleClicked" class="success" expand="block" (click)="updateData()"
+        [disabled]="!vehicleDetailsAuth()">
+        <span> Add </span>
       </ion-button>
+
+      <ion-button *ngIf="!addVehicleClicked" class="success" expand="block" (click)="updateData()">
+        <span> Update </span>
+      </ion-button>
+
     </ion-col>
     <ion-col>
       <ion-button class="danger" expand="block" (click)="close()">
