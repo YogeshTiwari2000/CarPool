@@ -205,15 +205,13 @@ export class EditCardComponent implements OnInit {
 
   updateDoc() {
 
+    const currentUserDocId = this.localStr.getItem("currentUserDocId");
     if (this.addVehicleClicked) {
-
       this.vehicle.vehicleList.unshift(this.vehicle.vehicleDetails);
-
+      this.handleData.updateDocumentField(currentUserDocId, 'vehicle', this.vehicle);
     }
-
     let _data = {
       ...this.data,
-      vehicle: this.vehicle,
       about: this.about,
       govtDocs: this.govtDocs,
     };
@@ -222,7 +220,7 @@ export class EditCardComponent implements OnInit {
       console.log("_data : ", _data);
     } else {
       console.log("edit else modal", _data);
-      const currentUserDocId = this.localStr.getItem("currentUserDocId");
+
       // console.log("data1", this.data);
 
       if (currentUserDocId) {
