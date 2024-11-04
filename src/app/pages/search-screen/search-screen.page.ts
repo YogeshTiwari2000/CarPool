@@ -94,7 +94,7 @@ export class SearchScreenPage implements OnInit {
       to: this.to
     };
 
-    console.log('searchData===', searchData);
+    // console.log('searchData===', searchData);
     console.log("this.time === ", this.time);
 
     this.filteredRides = this.rideList.filter((ride: any) => {
@@ -112,7 +112,7 @@ export class SearchScreenPage implements OnInit {
     });
 
 
-    this.router.navigate(['/home'], { state: { filteredRides: this.filteredRides } });
+    this.router.navigate(['/home'], { state: { searchData: searchData, filteredRides: this.filteredRides } });
 
   }
 

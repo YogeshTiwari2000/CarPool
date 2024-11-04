@@ -1,6 +1,4 @@
-<!-- <ion-card (click)="userDetailModal(userInfo)"> -->
-<!-- <ion-card (click)="userDetailModal(userInfo)"> -->
-<ion-card>
+<!-- <ion-card>
   <ion-card-header>
     <ion-row>
       <ion-col>
@@ -41,8 +39,7 @@
       <ion-col class="ion-text-end">
         <div class="travelDetails">
           <p>Destination</p>
-          <p class="location ion-justify-content-end">
-            <!-- <ion-icon name="location"></ion-icon> -->
+          <p class="location ion-justify-content-end"> 
             <b>
               {{ userInfo["to"] }}
             </b>
@@ -84,4 +81,45 @@
       </ion-col>
     </ion-row>
   </ion-card-content>
+</ion-card> -->
+
+
+<ion-card class="newcard">
+  <ion-row class="primary top">
+    <div class="showSeat">
+      {{userInfo["seatAvl"]}} seat left
+    </div>
+  </ion-row>
+  <ion-row class="middlePart">
+    <div class="userdetail">
+      <img [src]="userInfo['riderpicture'] ? userInfo['riderpicture'] : '../../../assets/icon/user.png'"
+        alt="User Picture" />
+
+      <p class="username">
+        <strong> {{userInfo["ridername"]}}</strong>
+      </p>
+      <ion-row class="ion-align-items-end ion-justify-content-center ">
+        <ion-col class="gold-rush">
+          <p class="d-flex"> <ion-icon name="star"></ion-icon> 4.5</p>
+        </ion-col>
+
+        <ion-col>
+          <p class="d-flex ion-justify-content-end"> <ion-icon name="car-sport"></ion-icon> {{userInfo["vehicle"]}}</p>
+        </ion-col>
+
+      </ion-row>
+
+    </div>
+  </ion-row>
+  <ion-row class="ion-justify-content-between ion-padding-horizontal ion-padding-bottom bottomPnl">
+    <ion-col>
+      <p class="d-flex"> <ion-icon name="timer"></ion-icon> {{userInfo["time"]}}</p>
+    </ion-col>
+    <ion-col class="ion-text-end wallet">
+      <p class="d-flex ion-justify-content-end"> <ion-icon name="wallet"></ion-icon> {{userInfo["price"]}} Rs</p>
+    </ion-col>
+  </ion-row>
+  <ion-row class="primary bottom">
+    <p> <strong>view details</strong></p>
+  </ion-row>
 </ion-card>

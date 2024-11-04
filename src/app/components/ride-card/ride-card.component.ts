@@ -27,7 +27,7 @@ export class RideCardComponent implements OnInit {
 
   ngOnInit() {
     // console.log("it's user card ts working");
-    // console.log(this.userInfo);
+    console.log('userInfo', this.userInfo);
     this.dateInput = this.userInfo['date'];
     const journeyStart = this.userInfo['journeyStart'];
     // console.log(this.userInfo['time'])

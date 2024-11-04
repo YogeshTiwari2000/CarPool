@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon, IonBackButton } from '@ionic/angular/standalone';
 
 import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
 import { NavigationExtras, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -14,7 +14,7 @@ import { CommonService } from 'src/app/shared/common.service';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonNav, IonCol, IonRow, IonCard, IonButton, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RideCardComponent, RouterLink, RouterLinkActive]
+  imports: [IonBackButton, IonIcon, IonNav, IonCol, IonRow, IonCard, IonButton, IonButtons, IonMenuButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RideCardComponent, RouterLink, RouterLinkActive]
 })
 export class HomePage implements OnInit {
 
@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
   filteredRides: any[] = [];
   rideList: any;
   currentUserDocId: any;
+  searchData: any;
 
 
   constructor() { }
@@ -35,6 +36,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.currentUserDocId = this.LocalStr.getItem("currentUserDocId");
     this.loadAllRides();
+    console.log("filteredRides === ", this.filteredRides);
   }
   async loadAllRides() {
     // await this.handleData.getData();
@@ -42,11 +44,18 @@ export class HomePage implements OnInit {
     // console.log("this.rideLists ", this.rideList);
 
     const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras.state && navigation.extras.state['filteredRides']) {
-      this.filteredRides = navigation.extras.state['filteredRides'];
-      console.log('Filtered Rides:', this.filteredRides);
+    if (navigation && navigation.extras.state) {
+      if (navigation.extras.state['filteredRides']) {
+        this.filteredRides = navigation.extras.state['filteredRides'];
+        console.log('Filtered Rides:', this.filteredRides);
+      }
+
+      if (navigation.extras.state['searchData']) {
+        this.searchData = navigation.extras.state['searchData'];
+        // console.log('Search Data:', this.searchData);
+      }
     } else {
-      console.log('No filtered rides data found.');
+      console.log('No filtered rides or search data found.');
     }
   }
 

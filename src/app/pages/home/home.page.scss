@@ -25,3 +25,32 @@
         font-size: 4.5rem;
     }
 }
+
+.backBtnIcon {
+    font-size: 1.5rem;
+}
+
+.loc-icon {
+    background-color: blue;
+    border-radius: 1rem;
+    height: 2rem;
+    width: 2rem;
+    text-align: center;
+    align-content: center;
+}
+
+.loc-icon ion-icon {
+    color: white;
+    font-size: 1.25rem;
+}
+
+.top-pnl .d-flex {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.top-pnl {
+    border-bottom: 1px solid gray;
+    padding: 0 1rem;
+}
