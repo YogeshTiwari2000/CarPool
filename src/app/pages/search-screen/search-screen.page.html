@@ -12,10 +12,10 @@
   <ion-row>
     <div class="main">
       <div class="para-box">
-        <h2>Find a Ride</h2>
-        <p>Enter your ride details...</p>
+        <h4 class="ion-text-center">
+          Enter your ride details and find your match!
+        </h4>
       </div>
-
       <div class="main-1">
         <form #rideForm="ngForm">
           <app-travel-from-to (locationsChanged)="onLocationsChanged($event)"></app-travel-from-to>
@@ -43,7 +43,7 @@
                 Passengers
               </p>
               <!-- <input type="number" [(ngModel)]="passengers" formControlName="passengers" /> -->
-              <input type="number" [value]="passengers" readonly />
+              <input type="number" [value]="passengers" />
               <div>
                 <ion-button (click)="decPassengers()" class="decBtn" [disabled]="passengers <= 1">-</ion-button>
                 <ion-button (click)="incPassengers()" [disabled]="passengers >= 7">+</ion-button>
