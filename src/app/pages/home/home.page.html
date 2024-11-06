@@ -15,16 +15,25 @@
     <ion-col size="12">
       <div class="d-flex">
         <div class="loc-icon"><ion-icon name="location"></ion-icon></div>
-        <p>{{searchData.from}}</p>
+        <p class="truncated-text">{{searchData.from}}</p>
       </div>
     </ion-col>
+    <div class="line"></div>
     <ion-col size="12">
       <div class="d-flex">
         <div class="loc-icon"><ion-icon name="pin"></ion-icon></div>
-        <p>{{searchData.to}}</p>
+        <p class="truncated-text">{{searchData.to}}</p>
       </div>
     </ion-col>
   </ion-row>
-  <app-ride-card [userInfo]="ride" *ngFor="let ride of filteredRides;let i = index "
-    (click)="rideDetailView(i)"></app-ride-card>
+  <div *ngIf="filteredRides.length > 0; else noRidesAvailable">
+    <app-ride-card [userInfo]="ride" *ngFor="let ride of filteredRides;let i = index "
+      (click)="rideDetailView(i)"></app-ride-card>
+  </div>
+  <ng-template #noRidesAvailable>
+    <div class="no-rides-message">
+      <ion-icon name="sad-outline"></ion-icon>
+      <p>No rides available at the moment.</p>
+    </div>
+  </ng-template>
 </ion-content>

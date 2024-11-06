@@ -74,6 +74,7 @@ export class EditCardComponent implements OnInit {
     vehicleList: []
   }
 
+
   about: any = {
     miniBio: "",
     travelPreference: [],
@@ -82,6 +83,25 @@ export class EditCardComponent implements OnInit {
     fileDetails: "",
     url: "",
   };
+
+
+  isEmailTouched = false;
+  isPassTouched = false;
+  isNameTouched = false;
+  isPhoneTouched = false;
+  isDocTouched = false;
+  isGenderTouched = false;
+  isDocumentUploaded = false;
+  isAboutTouched = false;
+  isPrefTouched = false;
+
+  onFieldChange(): boolean {
+    return this.isEmailTouched || this.isPassTouched || this.isNameTouched || this.isDocTouched || this.isPhoneTouched || this.isDocumentUploaded || this.isGenderTouched || this.isAboutTouched || this.isPrefTouched
+  }
+
+  onDocumentUpload(event: any) {
+    this.isDocumentUploaded = true;
+  }
 
   vehicleDetailsAuth(): boolean {
     const { vehicleType, vehicleName, vehicleNumber, vehicleColor } = this.vehicle.vehicleDetails;

@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp } from 'ionicons/icons';
+import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp, sadOutline } from 'ionicons/icons';
 import { LocalStorageService, } from './shared/local-storage.service';
 import { CommonService } from './shared/common.service';
 import { HandleDataService } from './services/data/handle-data.service';
@@ -37,7 +37,7 @@ export class AppComponent {
   datalist: any;
 
   constructor() {
-    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp });
+    addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp, sadOutline });
     // console.log("localStorage.getItem(currentUser) === ", localStorage.getItem("currentUser"));
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);

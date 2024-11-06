@@ -74,7 +74,9 @@ export class HomePage implements OnInit {
         "Please Login First to check the details",
         "Login error.",
         ["Ok"]
-      );
+      ).then(() => {
+        this.router.navigate(['/welcome']);
+      })
       return;
     }
   }

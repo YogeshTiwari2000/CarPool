@@ -34,7 +34,7 @@ import { CommonService } from "src/app/shared/common.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { addIcons } from "ionicons";
-import { addCircleOutline, create } from "ionicons/icons";
+import { addCircleOutline, create, carSport, star, car, carSportOutline } from "ionicons/icons";
 import { EditVehicleComponent } from "src/app/modals/edit-vehicle/edit-vehicle.component";
 import { LocalNotifications, ScheduleOptions } from "@capacitor/local-notifications";
 
@@ -79,7 +79,7 @@ export class ProfilePage implements OnInit {
 
   currentUser: any = "";
   showUploadOption = false;
-  isEmailVerified: boolean = false;
+  isEmailVerified: any;
   isPhoneVerified: boolean = false;
   isGovtIdVerified: boolean = false;
   addVehicleClicked: boolean = false;
@@ -92,10 +92,11 @@ export class ProfilePage implements OnInit {
   uploadedFileUrl: string | null = null;
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) {
-    addIcons({ addCircleOutline, create });
+    addIcons({ addCircleOutline, create, carSportOutline, carSport, car, star });
   }
 
   ngOnInit() {
+
     this.currentUserDocId = this.localStr.getItem("currentUserDocId");
 
     console.log("uploadedFileUrl", this.uploadedFileUrl);
@@ -114,7 +115,12 @@ export class ProfilePage implements OnInit {
       this.vehicle = this.currentUserData.vehicle.vehicleList || [];
       console.log(" this.vehicle === ", this.vehicle);
 
-
+      if (this.currentUserData) {
+        this.isEmailVerified = this.currentUser.email_verified ? true : false;
+        console.log("this.isEmailVerified === ", this.isEmailVerified);
+        this.isPhoneVerified = this.currentUser.phone_verified ? true : false;
+        this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
+      }
     })
 
     const data: any = localStorage.getItem("currentUser");
@@ -128,9 +134,17 @@ export class ProfilePage implements OnInit {
     this.currentUser = parsedData;
     // console.log('about page', this.currentUser);
 
-    this.isEmailVerified = this.currentUser.email_verified ? true : false;
-    this.isPhoneVerified = this.currentUser.phone_verified ? true : false;
-    this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
+
+    // this.isEmailVerified = this.currentUserData.email_verified;
+    console.log("this.currentUser.email_verified; === ", this.currentUser.email_verified);
+    console.log("this.isEmailVerified === ", this.isEmailVerified);
+  }
+
+
+  toggleEmailVerification() {
+    this.isEmailVerified = true;
+    this.handleData.updateDocumentField(this.currentUserDocId, 'email_verified', true);
+    console.log("this.isEmailVerified === ", this.isEmailVerified);
   }
 
   async openEditCard(isVehicle: boolean = false) {
@@ -172,6 +186,7 @@ export class ProfilePage implements OnInit {
       console.log("currentUser.profilePicture === ", this.currentUserData.profilePicture);
       this.handleData.updateDocumentField(this.currentUserDocId, 'profilePicture', this.currentUserData.profilePicture);
       console.log("currentUserData === ", this.currentUserData);
+      this.showUploadOption = !this.showUploadOption;
     } else {
       console.log('No file selected');
     }

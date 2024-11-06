@@ -18,7 +18,7 @@
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="email" label="Email" fill="outline" labelPlacement="stacked" placeholder="Enter your Email"
           [(ngModel)]="data.userEmail" #email="ngModel" name="email" required
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" (ngModelChange)="isEmailTouched = true">
         </ion-input>
         <div class="error-text" *ngIf="email.invalid && (email.dirty || email.touched)">
           <div *ngIf="email.errors?.['required']">This field is required.</div>
@@ -29,13 +29,13 @@
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Name" fill="outline" labelPlacement="stacked" placeholder="Enter your Name"
-          [(ngModel)]="data.userName" name="name" required>
+          [(ngModel)]="data.userName" name="name" required (ngModelChange)="isNameTouched = true">
         </ion-input>
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="phone" label="Phone" fill="outline" labelPlacement="stacked" placeholder="Enter your phone"
           [(ngModel)]="data.phone" #mobile="ngModel" name="mobile" placeholder="Enter your Mobile" required
-          minlength="10" maxlength="10">
+          minlength="10" maxlength="10" (ngModelChange)="isPhoneTouched = true">
         </ion-input>
         <div class="error-text" *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)">
           <div *ngIf="mobile.errors?.['required']">This field is required.</div>
@@ -46,7 +46,8 @@
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-select label="Gender" fill="outline" labelPlacement="stacked" interface="popover"
-          placeholder="Select Gender" justify="space-between" [(ngModel)]="data.gender" #gender="ngModel" name="gender">
+          placeholder="Select Gender" justify="space-between" [(ngModel)]="data.gender" #gender="ngModel" name="gender"
+          (ngModelChange)="isGenderTouched = true">
           <ion-select-option value="male">Male</ion-select-option>
           <ion-select-option value="female">Female</ion-select-option>
           <ion-select-option value="others">Others</ion-select-option>
@@ -91,7 +92,7 @@
       <ion-col size="12" sizeMd="6" class="ion-padding-bottom">
         <ion-input type="password" fill="outline" label="Confirm Password" labelPlacement="stacked"
           [(ngModel)]="data.cpassword" #cpassword="ngModel" name="cpassword" placeholder="Enter password again" required
-          (input)="validatePassword()">
+          (input)="validatePassword()" (ngModelChange)="isPassTouched = true">
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
         <div class="error-text" *ngIf="cpassword.invalid && (cpassword.dirty || cpassword.touched)">
@@ -128,7 +129,8 @@
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="file" label="Verify your Govt. ID" fill="outline" labelPlacement="stacked"
-          placeholder="Upload Doc" name="govtDocs" required (input)="onFileSelected($event)">
+          placeholder="Upload Doc" name="govtDocs" required (input)="onFileSelected($event)"
+          (change)="onDocumentUpload($event)">
         </ion-input>
         <div class="error-text" *ngIf="checkDocs === false && userRole === 'driver'">
           <div>This field is required for <strong>drivers</strong>.</div>
@@ -225,13 +227,14 @@
     <ion-row>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-input type="text" label="Mini Bio" fill="outline" labelPlacement="stacked"
-          placeholder="Enter your mini bio" [(ngModel)]="about.miniBio" name="miniBio" required>
+          placeholder="Enter your mini bio" [(ngModel)]="about.miniBio" name="miniBio" required
+          (ngModelChange)="isAboutTouched = true">
         </ion-input>
       </ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-select label="Preferences" fill="outline" labelPlacement="stacked" interface="popover"
           placeholder="Select Preferences" justify="space-between" [(ngModel)]="about.travelPreference"
-          #travelPreference="ngModel" name="travelPreference" multiple="true">
+          #travelPreference="ngModel" name="travelPreference" multiple="true" (ngModelChange)="isPrefTouched = true">
           <ion-select-option value="smoker">Smoker</ion-select-option>
           <ion-select-option value="nonSmoker">Non-Smoker</ion-select-option>
           <hr />
@@ -251,9 +254,18 @@
         <span> Add </span>
       </ion-button>
 
-      <ion-button *ngIf="!addVehicleClicked" class="success" expand="block" (click)="updateData()">
+      <div *ngIf="!addVehicleClicked">
+        <ion-button class="success" expand="block" (click)="updateData()" [disabled]="!onFieldChange()">
+          <span> Update </span>
+        </ion-button>
+      </div>
+
+      <!-- <ion-button *ngIf=" !addVehicleClicked" class="success" expand="block" (click)="updateData()">
+          <span> Update </span>
+        </ion-button> -->
+      <!-- <ion-button #template class="success" expand="block" (click)="updateData()">
         <span> Update </span>
-      </ion-button>
+      </ion-button> -->
 
     </ion-col>
     <ion-col>

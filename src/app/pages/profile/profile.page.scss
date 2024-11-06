@@ -28,3 +28,43 @@ ion-card-content {
     display: flex;
     justify-content: space-evenly;
 }
+
+.d-flex {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+.vehicleIcon {
+    font-size: 2rem;
+}
+
+.vehicleDetail {
+    background: #e2f5ed;
+    padding: 0.5rem;
+    border: 1px solid #008955;
+    border-radius: 15px;
+}
+
+.vehicleIconContainer {
+    text-align: end;
+}
+
+.vehicle-btn {
+    padding: 1rem;
+    border: 1px solid #008955;
+    border-radius: 12px;
+    background: #e2f5ed;
+    color: #008955;
+    font-weight: bold;
+}
+
+.deletBtn {
+    background: #008955;
+    color: white;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+}
