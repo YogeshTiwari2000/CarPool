@@ -115,11 +115,11 @@ export class ProfilePage implements OnInit {
       this.vehicle = this.currentUserData.vehicle.vehicleList || [];
       console.log(" this.vehicle === ", this.vehicle);
 
-      if (this.currentUserData) {
+      if (this.currentUserData != undefined) {
         this.isEmailVerified = this.currentUser.email_verified ? true : false;
-        console.log("this.isEmailVerified === ", this.isEmailVerified);
-        this.isPhoneVerified = this.currentUser.phone_verified ? true : false;
-        this.isGovtIdVerified = this.currentUser.govtId_verified ? true : false;
+        console.log("this.isEmailVerified 222=== ", this.isEmailVerified);
+        this.isPhoneVerified = this.currentUser.phone ? true : false;
+        this.isGovtIdVerified = this.currentUser.govtDocs.url ? true : false;
       }
     })
 
@@ -141,18 +141,19 @@ export class ProfilePage implements OnInit {
   }
 
 
-  toggleEmailVerification() {
+  EmailVerification() {
     this.isEmailVerified = true;
     this.handleData.updateDocumentField(this.currentUserDocId, 'email_verified', true);
     console.log("this.isEmailVerified === ", this.isEmailVerified);
   }
 
-  async openEditCard(isVehicle: boolean = false) {
+  async openEditCard(isVehicle: boolean = false, addGovtId: boolean = false) {
     const modal = await this.modalCtrl.create({
       component: EditCardComponent,
       componentProps: {
         data: this.currentUser,
         addVehicleClicked: isVehicle,
+        addGovtIdClicked: addGovtId
       },
     });
 

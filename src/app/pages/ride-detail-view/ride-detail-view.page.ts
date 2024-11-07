@@ -124,7 +124,7 @@ export class RideDetailViewPage implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     this.checkshowpassengerList()
-    this.disableEditBtn()
+    // this.disableEditBtn()
     this.findMatchedRideToDisplay()
   }
   checkshowpassengerList() {
@@ -132,21 +132,32 @@ export class RideDetailViewPage implements OnInit {
       this.showpassengerList = true
     }
   }
-  disableEditBtn() {
-    if (this.currentUserDocId === this.ride.riderUserId) {
-      // Check if any passenger has passStatus set to "accepted"
-      const passengerList = this.ride.passengerList
-      const hasAcceptedPassenger = passengerList.some((passenger: { passStatus: string; }) => passenger.passStatus === 'accepted');
+  // disableEditBtn() {
+  //   if (this.currentUserDocId === this.ride.riderUserId) {
+  //     // Check if any passenger has passStatus set to "accepted"
+  //     const passengerList = this.ride.passengerList
+  //     const hasAcceptedPassenger = passengerList.some((passenger: { passStatus: string; }) => passenger.passStatus === 'accepted');
 
-      if (hasAcceptedPassenger) {
-        this.showEditBtn = true;
-      } else {
-        this.showEditBtn = false;
-      }
-    } else {
-      this.showEditBtn = false;
-    }
+  //     if (hasAcceptedPassenger) {
+  //       this.showEditBtn = true;
+  //     } else {
+  //       this.showEditBtn = false;
+  //     }
+  //   } else {
+  //     this.showEditBtn = false;
+  //   }
+  // }
+
+  disableBookButton(): boolean {
+    // Check if the user is a driver or if a passenger has already booked
+    const isDriver = this.currentUserDocId === this.ride.riderUserId
+    const hasAcceptedStatus = this.currentUser.ride.rideList.some(
+      (ride: { status: string; }) => ride.status === 'accepted'
+    );
+
+    return isDriver || hasAcceptedStatus;
   }
+
 
   findMatchedRideToDisplay() {
     const displayMatchedRide = this.currentUser.ride.rideList.find((ride: { id: string; }) => ride.id === this.currentRideId);

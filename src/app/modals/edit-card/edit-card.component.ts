@@ -53,6 +53,7 @@ import { CommonService } from "src/app/shared/common.service";
 export class EditCardComponent implements OnInit {
   @Input() data: any;
   @Input() addVehicleClicked: any;
+  @Input() addGovtIdClicked: any;
 
   public modalCtrl = inject(ModalController);
   private handleData = inject(HandleDataService);
@@ -117,6 +118,7 @@ export class EditCardComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log("addGovtIdClicked === ", this.addGovtIdClicked);
 
     console.log("addVehicleClicked === ", this.addVehicleClicked);
 

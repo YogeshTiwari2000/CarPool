@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon, IonBackButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, IonButton, IonCard, IonRow, IonCol, IonNav, IonIcon, IonBackButton, AlertController } from '@ionic/angular/standalone';
 
 import { RideCardComponent } from 'src/app/components/ride-card/ride-card.component';
 import { NavigationExtras, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
   searchData: any;
 
 
-  constructor() { }
+  constructor(private alertController: AlertController) { }
 
   ngOnInit() {
     this.currentUserDocId = this.LocalStr.getItem("currentUserDocId");
@@ -59,6 +59,38 @@ export class HomePage implements OnInit {
     }
   }
 
+
+
+
+  async alertBox(
+    message: string,
+    header: string,
+    buttons?: { text: string, value?: any, handler?: () => void }[],
+    subHeader?: string
+  ) {
+    const alertButtons = buttons?.map(button => {
+      return {
+        text: button.text,
+        handler: () => {
+          if (button.handler) {
+            button.handler(); // Call the function if provided
+          }
+        }
+      };
+    }) || ['OK'];
+
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: alertButtons
+    });
+
+    await alert.present();
+  }
+
+
+
   rideDetailView(index: number) {
     if (this.currentUserDocId != undefined) {
       const selectedRide = this.filteredRides[index];
@@ -68,16 +100,43 @@ export class HomePage implements OnInit {
         }
       };
       this.router.navigate(['/ride-detail-view'], navigationExtras);
-    }
-    else {
-      this.commonService.alertBox(
+    } else {
+      this.alertBox(
         "Please Login First to check the details",
         "Login error.",
-        ["Ok"]
-      ).then(() => {
-        this.router.navigate(['/welcome']);
-      })
-      return;
+        [
+          {
+            text: "Ok",
+            handler: () => {
+              this.router.navigate(['/welcome']);
+            }
+          }
+        ]
+      );
     }
   }
+
+
+
+  // rideDetailView(index: number) {
+  //   if (this.currentUserDocId != undefined) {
+  //     const selectedRide = this.filteredRides[index];
+  //     const navigationExtras: NavigationExtras = {
+  //       queryParams: {
+  //         ride: JSON.stringify(selectedRide)
+  //       }
+  //     };
+  //     this.router.navigate(['/ride-detail-view'], navigationExtras);
+  //   }
+  //   else {
+  //     this.commonService.alertBox(
+  //       "Please Login First to check the details",
+  //       "Login error.",
+  //       ["Ok"]
+  //     ).then(() => {
+  //       this.router.navigate(['/welcome']);
+  //     })
+  //     return;
+  //   }
+  // }
 }
