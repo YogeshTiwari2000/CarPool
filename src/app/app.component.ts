@@ -26,7 +26,7 @@ export class AppComponent {
     { title: 'Home', url: '/welcome', icon: 'home' },
     { title: 'Search Screen', url: '/search', icon: 'search' },
     { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'Feedback', url: '/feedback', icon: 'chatbubbles' },
+    // { title: 'Feedback', url: '/feedback', icon: 'chatbubbles' },
     { title: 'Wallet', url: '/myWallet', icon: 'wallet' },
     { title: 'Create Ride', url: '/create-ride', icon: 'car' },
     { title: 'My Update', url: '/my-update', icon: 'receipt-outline' },
