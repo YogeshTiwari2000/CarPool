@@ -112,7 +112,7 @@ export class FeedbackPage implements OnInit {
   //   },
 
   // ];
-
+  driverData: any
 
   feedbackFields = {
     lastFeedback: {} as Feedback, // Initialize lastFeedback with the correct type
@@ -135,6 +135,8 @@ export class FeedbackPage implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.matchedRideToDisplay = navigation.extras.state['matchedRideToDisplay'];
+      this.riderId = this.matchedRideToDisplay.riderUserId;
+      this.driverData = navigation.extras.state['driverData'];
       console.log('matchedRideToDisplay:', this.matchedRideToDisplay);
     }
 
@@ -143,7 +145,7 @@ export class FeedbackPage implements OnInit {
       .then((result) => {
         if (result.isExist) {
           this.handleData.user = result.data;
-
+          console.log("this.handleData.user === ", this.handleData.user);
         } else {
           console.log("User not found");
         }
@@ -152,6 +154,12 @@ export class FeedbackPage implements OnInit {
         console.error("Error:", error);
       });
 
+
+    if (this.driverData.feedback != undefined) {
+      this.feedbackFields = this.driverData?.feedback
+    } else {
+      this.handleData.updateDocumentField(this.riderId, 'feedback', this.feedbackFields)
+    }
 
   }
 
@@ -191,15 +199,17 @@ export class FeedbackPage implements OnInit {
         comment: feedbackValues.comment,
       };
 
+      console.log("this.feedbackFields.feedbackList === ", this.feedbackFields.feedbackList);
       // Update lastFeedback with the new feedback
       if (this.feedbackFields) {
         this.feedbackFields.lastFeedback = newFeedback;
       }
+      console.log("his.feedbackFields.lastFeedback === ", this.feedbackFields.lastFeedback);
+      console.log("newFeedback === ", newFeedback);
+      this.feedbackFields.feedbackList.unshift(newFeedback);
+      console.log("this.feedbackFields.feedbackList === ", this.feedbackFields.feedbackList);
+      console.log(" this.feedbackFields === ", this.feedbackFields);
 
-      this.feedbackFields.feedbackList.unshift(newFeedback); // Use push to add to the end
-
-      // Retrieve the document ID of the driver (rider) to update feedback
-      this.riderId = this.matchedRideToDisplay.riderUserId;
       const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
 
       console.log("Updated Current User:", currentUser);

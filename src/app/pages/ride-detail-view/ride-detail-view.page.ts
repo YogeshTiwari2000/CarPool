@@ -829,7 +829,7 @@ export class RideDetailViewPage implements OnInit {
 
             matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
             this.router.navigate(['/feedback'], {
-              state: { matchedRideToDisplay: this.matchedRideToDisplay },
+              state: { matchedRideToDisplay: this.matchedRideToDisplay, driverData: this.rideCreator },
             });
           }
 
