@@ -140,7 +140,7 @@ export class RideDetailViewPage implements OnInit {
     // Check if the user is a driver or if a passenger has already booked
     const isDriver = this.currentUserDocId === this.ride.riderUserId
     const hasAcceptedStatus = this.currentUser.ride.rideList.some(
-      (ride: { status: string; }) => ride.status === 'accepted' || ride.status === 'RideStarted'
+      (ride: { status: string; }) => ride.status === 'accepted' || ride.status === 'RideStarted' || ride.status === 'Requested'
     );
 
     return isDriver || hasAcceptedStatus;
