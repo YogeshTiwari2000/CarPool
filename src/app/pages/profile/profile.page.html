@@ -23,7 +23,7 @@
         </ion-avatar>
         <div class="detail">
           <ion-card-title>{{currentUser.userName}}</ion-card-title>
-          <ion-card-subtitle [routerLink]="['/profile/rating']" routerLinkActive="router-link-active">
+          <ion-card-subtitle (click)="toRating()">
             @if (currentUser.rating) {
             <div>4/5 rating</div>
             }@else {

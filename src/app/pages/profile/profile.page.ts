@@ -158,6 +158,7 @@ export class ProfilePage implements OnInit {
     });
 
 
+
     modal.onDidDismiss().then((dataFromModal) => {
       if (dataFromModal.data) {
         this.vehicle = dataFromModal.data; // This is the updated vehicle list
@@ -218,6 +219,9 @@ export class ProfilePage implements OnInit {
     modal.present();
   }
 
+  toRating() {
+    this.router.navigate(['/profile/rating'])
+  }
 
 
 

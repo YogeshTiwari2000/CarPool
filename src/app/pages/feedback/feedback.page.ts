@@ -35,7 +35,6 @@ interface Feedback {
   rideId: string;
   userName: string;
   email: string;
-  photo: string;
   star: number | string;
   feedbackDate: string;
   feedbackDetails: FeedbackDetails;
@@ -100,7 +99,6 @@ export class FeedbackPage implements OnInit {
   //     rideId: '',
   //     star: "",
   //     comment: '',
-  //     photo: "",
   //     feedbackDate: '',
   //     feedbackDetails: {
   //       behavior: '',
@@ -192,7 +190,6 @@ export class FeedbackPage implements OnInit {
         rideId: this.matchedRideToDisplay.rideId || '',
         userName: currentUser.userName || "",
         email: this.email,
-        photo: currentUser.profilePicture || "",
         star: feedbackValues.star,
         feedbackDate: new Date().toISOString(),
         feedbackDetails: feedbackValues.feedbackOptions,
