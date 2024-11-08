@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton, ModalController, IonModal, IonList } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { CommonService } from 'src/app/shared/common.service';
@@ -50,6 +50,8 @@ export class RideDetailViewPage implements OnInit {
   showpassengerList: boolean = false;
   showEditBtn: boolean = false;
   matchedRideToDisplay: any
+  public router = inject(Router)
+
   constructor(private route: ActivatedRoute, private datePipe: DatePipe) { }
 
   subscription: Subscription | undefined;
@@ -87,7 +89,7 @@ export class RideDetailViewPage implements OnInit {
           this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
           console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
           console.log("currentUser   === ", this.currentUser);
-          this.isEmailVerified = this.currentUser.email_verified
+          this.isEmailVerified = this.matchedRideToDisplay.email_verified
           this.userRideList = this.handleData.getAllRideLists()
           // this.userRideList = this.currentUser.ride.rideList
           // console.log("this.userRideList === ", this.userRideList);
@@ -107,6 +109,7 @@ export class RideDetailViewPage implements OnInit {
 
           this.handleData.user = result.data;
           this.rideCreator = this.handleData.user;
+          this.isPhoneVerified = this.rideCreator.phone
           console.log(" this.rideCreator   === ", this.rideCreator);
 
         } else {
@@ -132,27 +135,12 @@ export class RideDetailViewPage implements OnInit {
       this.showpassengerList = true
     }
   }
-  // disableEditBtn() {
-  //   if (this.currentUserDocId === this.ride.riderUserId) {
-  //     // Check if any passenger has passStatus set to "accepted"
-  //     const passengerList = this.ride.passengerList
-  //     const hasAcceptedPassenger = passengerList.some((passenger: { passStatus: string; }) => passenger.passStatus === 'accepted');
-
-  //     if (hasAcceptedPassenger) {
-  //       this.showEditBtn = true;
-  //     } else {
-  //       this.showEditBtn = false;
-  //     }
-  //   } else {
-  //     this.showEditBtn = false;
-  //   }
-  // }
 
   disableBookButton(): boolean {
     // Check if the user is a driver or if a passenger has already booked
     const isDriver = this.currentUserDocId === this.ride.riderUserId
     const hasAcceptedStatus = this.currentUser.ride.rideList.some(
-      (ride: { status: string; }) => ride.status === 'accepted'
+      (ride: { status: string; }) => ride.status === 'accepted' || ride.status === 'RideStarted'
     );
 
     return isDriver || hasAcceptedStatus;
@@ -690,6 +678,7 @@ export class RideDetailViewPage implements OnInit {
           const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
           console.log(`Time traveled: ${hoursTraveled} hours and ${minutesTraveled} minutes`);
           matchedRide.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+
         }
 
         await this.handleData.updateDocumentField(this.ride.riderUserId, 'ride', this.rideCreator.ride);
@@ -839,6 +828,9 @@ export class RideDetailViewPage implements OnInit {
             const minutesTraveled = Math.floor((timeTraveled % (1000 * 60 * 60)) / (1000 * 60));
 
             matchedRideInCurrentUserList.travelDetails.traveledTime = `${hoursTraveled} hours and ${minutesTraveled} minutes`;
+            this.router.navigate(['/feedback'], {
+              state: { matchedRideToDisplay: this.matchedRideToDisplay },
+            });
           }
 
           this.handleData.updateDocumentField(this.currentUserDocId, 'ride', this.currentUser.ride);

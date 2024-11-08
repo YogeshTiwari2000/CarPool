@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+
 import {
   IonContent,
   IonHeader,
@@ -29,6 +30,25 @@ import { HandleDataService } from "src/app/services/data/handle-data.service";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { CommonService } from "src/app/shared/common.service";
 import { Router } from "@angular/router";
+
+interface Feedback {
+  rideId: string;
+  userName: string;
+  email: string;
+  photo: string;
+  star: number | string;
+  feedbackDate: string;
+  feedbackDetails: FeedbackDetails;
+  comment: string;
+}
+interface FeedbackDetails {
+  behavior: string;
+  cleanliness: string;
+  punctuality: string;
+  drivingSkill: string;
+}
+
+
 
 @Component({
   selector: "app-feedback",
@@ -56,6 +76,9 @@ import { Router } from "@angular/router";
     ReactiveFormsModule,
   ],
 })
+
+
+
 export class FeedbackPage implements OnInit {
   handleData = inject(HandleDataService);
   router = inject(Router);
@@ -69,18 +92,35 @@ export class FeedbackPage implements OnInit {
   feedbackForm: FormGroup;
   stars: number[] = [1, 2, 3, 4, 5];
   filledStars: boolean[] = [false, false, false, false, false];
-  rating = [
-    {
-      feedbackFields: {
-        name: "",
-        email: "",
-        photo: "",
-        star: "",
-        fbDetails: [],
-        comment: "",
-      },
-    },
-  ];
+
+  // feedbackFields = [
+  //   {
+  //     email: '',
+  //     userName: '',
+  //     rideId: '',
+  //     star: "",
+  //     comment: '',
+  //     photo: "",
+  //     feedbackDate: '',
+  //     feedbackDetails: {
+  //       behavior: '',
+  //       cleanliness: '',
+  //       punctuality: '',
+  //       drivingSkill: '',
+  //     },
+
+  //   },
+
+  // ];
+
+
+  feedbackFields = {
+    lastFeedback: {} as Feedback, // Initialize lastFeedback with the correct type
+    feedbackList: [] as Feedback[], // Initialize feedbackList as an empty array of Feedback
+  };
+
+  matchedRideToDisplay: any;
+  riderId: any;
 
   constructor(private FormBuilder: FormBuilder) {
     this.feedbackForm = this.FormBuilder.group({
@@ -91,12 +131,19 @@ export class FeedbackPage implements OnInit {
   }
 
   ngOnInit() {
+
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.matchedRideToDisplay = navigation.extras.state['matchedRideToDisplay'];
+      console.log('matchedRideToDisplay:', this.matchedRideToDisplay);
+    }
+
     this.handleData
       .userExists(this.email)
       .then((result) => {
         if (result.isExist) {
           this.handleData.user = result.data;
-          console.log("User data:", result.data);
+
         } else {
           console.log("User not found");
         }
@@ -104,7 +151,11 @@ export class FeedbackPage implements OnInit {
       .catch((error) => {
         console.error("Error:", error);
       });
+
+
   }
+
+
 
   onStarClick(index: number) {
     console.log("Star index:", index + 1);
@@ -118,22 +169,6 @@ export class FeedbackPage implements OnInit {
     });
   }
 
-  onSkip() {
-    this.router.navigate(['/welcome'])
-  }
-
-  // handleChange(event: any) {
-  //   console.log('ionChange fired with value: ' + event.detail.value);
-  // }
-
-  // handleCancel() {
-  //   console.log('ionCancel fired');
-  // }
-
-  // handleDismiss() {
-  //   console.log('ionDismiss fired');
-  // }
-
   submitFeedback() {
     console.log("Feedback submitted successfully");
     console.log(this.feedbackForm.value);
@@ -142,25 +177,49 @@ export class FeedbackPage implements OnInit {
     // Ensure user data is available
     const currentUser = this.handleData.user;
     console.log("currentUser === ", currentUser);
+
     if (currentUser) {
-      this.rating[0].feedbackFields = {
-        name: currentUser.userName || "",
+      // Create a new feedback object with the form data
+      const newFeedback: Feedback = {
+        rideId: this.matchedRideToDisplay.rideId || '',
+        userName: currentUser.userName || "",
         email: this.email,
         photo: currentUser.profilePicture || "",
         star: feedbackValues.star,
-        fbDetails: feedbackValues.feedbackOptions,
+        feedbackDate: new Date().toISOString(),
+        feedbackDetails: feedbackValues.feedbackOptions,
         comment: feedbackValues.comment,
       };
 
-      console.log(this.rating);
+      // Update lastFeedback with the new feedback
+      if (this.feedbackFields) {
+        this.feedbackFields.lastFeedback = newFeedback;
+      }
 
-      currentUser.feedback = this.rating[0].feedbackFields;
-      const currentUserDocId =
-        this.localStorageService.getItem("currentUserDocId");
+      this.feedbackFields.feedbackList.unshift(newFeedback); // Use push to add to the end
+
+      // Retrieve the document ID of the driver (rider) to update feedback
+      this.riderId = this.matchedRideToDisplay.riderUserId;
+      const currentUserDocId = this.localStorageService.getItem("currentUserDocId");
 
       console.log("Updated Current User:", currentUser);
       console.log("currentUserDocId === ", currentUserDocId);
-      this.handleData.updateDocument(currentUserDocId, currentUser);
+
+      // Update the feedback field in the database
+      this.handleData.updateDocumentField(this.riderId, 'feedback', this.feedbackFields)
+        .then(() => {
+          console.log("Feedback updated successfully in Firebase.");
+          this.router.navigate(['/welcome']);
+        })
+        .catch((error) => {
+          console.error("Error updating feedback:", error);
+        });
     }
   }
+
+
+  onSkip() {
+    this.router.navigate(['/welcome'])
+  }
+
 }

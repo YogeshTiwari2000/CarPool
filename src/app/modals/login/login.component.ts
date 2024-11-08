@@ -105,7 +105,25 @@ export class LoginComponent implements OnInit {
     wallet: {},
     isNotification: false,
     notificationList: [],
-    allNotification: []
+    allNotification: [],
+    // driverFeedback =[
+    //   {
+    //     feedbackId: '',
+    //     userId: '',
+    //     userName: '',
+    //     rideId: '',
+    //     rating: undefined,
+    //     comment: '',
+    //     feedbackDetails: {
+    //       behavior: '',
+    //       cleanliness: '',
+    //       punctuality: '',
+    //       drivingSkill: '',
+    //     },
+    //     feedbackDate: ''
+    //   },
+
+    // ];
   };
 
   constructor() { }
