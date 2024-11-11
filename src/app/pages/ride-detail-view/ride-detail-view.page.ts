@@ -50,6 +50,9 @@ export class RideDetailViewPage implements OnInit {
   showpassengerList: boolean = false;
   showEditBtn: boolean = false;
   matchedRideToDisplay: any
+  averageStars: any;
+  RoundOfStar: any;
+
   public router = inject(Router)
 
   constructor(private route: ActivatedRoute, private datePipe: DatePipe) { }
@@ -58,70 +61,90 @@ export class RideDetailViewPage implements OnInit {
   users: any[] = [];
 
 
-  ngOnInit() {
-    // Optional: Listen for incoming messages
-    this.route.queryParams.subscribe(params => {
-      if (params['ride']) {
-        this.ride = JSON.parse(params['ride']);
-        console.log('Ride Data:', this.ride);
-        this.rideremail = this.ride.riderEmail
-        this.rideCreatorDocId = this.ride.riderUserId
-        // console.log("this.email === ", this.email);
-        this.currentRideId = this.ride.id
-        this.status = this.ride.status
-
-        // this.selectedRidePassengerList = this.ride.passengerList;
-        console.log(" this.status === ", this.status);
-        console.log("this.ride.riderUserId === ", this.ride.riderUserId);
-      }
-    });
-
-
-    this.email = this.commonService.currentUserEmail;
-
-    this.handleData
-      .userExists(this.email)
-      .then((result) => {
-        if (result.isExist) {
-
-          this.handleData.user = result.data;
-          this.currentUser = this.handleData.user;
-          this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
-          console.log("this.currentUserDocId 2222222=== ", this.currentUserDocId);
-          console.log("currentUser   === ", this.currentUser);
-          this.isEmailVerified = this.matchedRideToDisplay.email_verified
-          this.userRideList = this.handleData.getAllRideLists()
-          // this.userRideList = this.currentUser.ride.rideList
-          // console.log("this.userRideList === ", this.userRideList);
-        } else {
-          console.log("User not found");
+  async ngOnInit() {
+    try {
+      // Listen for incoming ride data
+      this.route.queryParams.subscribe(params => {
+        if (params['ride']) {
+          this.ride = JSON.parse(params['ride']);
+          console.log('Ride Data:', this.ride);
+          this.initializeRideData();
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
       });
 
-    // for ride creater
-    this.handleData
-      .userExists(this.rideremail, false)
-      .then((result) => {
-        if (result.isExist) {
+      this.email = this.commonService.currentUserEmail;
+      await this.loadUserData(this.email);
+      await this.loadRideCreatorData(this.rideremail);
 
-          this.handleData.user = result.data;
-          this.rideCreator = this.handleData.user;
-          this.isPhoneVerified = this.rideCreator.phone
-          console.log(" this.rideCreator   === ", this.rideCreator);
+      this.waitForCurrentUserDocId();
 
-        } else {
-          console.log("User not found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-
-    this.waitForCurrentUserDocId()
+    } catch (error) {
+      console.error("Initialization error:", error);
+    }
   }
+
+  private initializeRideData() {
+    this.rideremail = this.ride.riderEmail;
+    this.rideCreatorDocId = this.ride.riderUserId;
+    this.currentRideId = this.ride.id;
+    this.status = this.ride.status;
+
+    console.log("Ride Status:", this.status);
+    console.log("Rider User ID:", this.ride.riderUserId);
+  }
+
+  private async loadUserData(email: string) {
+    try {
+      const result = await this.handleData.userExists(email);
+      if (result.isExist) {
+        this.handleData.user = result.data;
+        this.currentUser = this.handleData.user;
+        this.currentUserDocId = this.localStorageService.getItem("currentUserDocId");
+
+        console.log("Current User Data:", this.currentUser);
+        this.isEmailVerified = this.matchedRideToDisplay.email_verified;
+        this.userRideList = this.handleData.getAllRideLists();
+
+        const feedbackList = this.currentUser.feedback.feedbackList;
+        this.averageStars = this.calculateAverageStars(feedbackList);
+        this.RoundOfStar = Math.round(this.averageStars)
+        console.log("Current User Average Stars:", this.RoundOfStar);
+      } else {
+        console.log("User not found");
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+  }
+
+  private async loadRideCreatorData(email: string) {
+    try {
+      const result = await this.handleData.userExists(email, false);
+      if (result.isExist) {
+        this.handleData.user = result.data;
+        this.rideCreator = this.handleData.user;
+        this.isPhoneVerified = this.rideCreator.phone;
+
+        console.log("Ride Creator Data:", this.rideCreator);
+
+        const feedbackList = this.rideCreator.feedback.feedbackList;
+        // this.averageStars = this.calculateAverageStars(feedbackList);
+        this.averageStars = this.calculateAverageStars(feedbackList);
+        this.RoundOfStar = Math.round(this.averageStars)
+        console.log("Ride creator Average Stars:", this.RoundOfStar);
+      } else {
+        console.log("Ride creator not found");
+      }
+    } catch (error) {
+      console.error("Error loading ride creator data:", error);
+    }
+  }
+
+  private calculateAverageStars(feedbackList: { star: number }[]): number {
+    const totalStars = feedbackList.reduce((sum, feedback) => sum + feedback.star, 0);
+    return feedbackList.length ? totalStars / feedbackList.length : 0;
+  }
+
   async waitForCurrentUserDocId() {
     while (this.currentUserDocId === undefined) {
       await new Promise(resolve => setTimeout(resolve, 100));

@@ -144,20 +144,22 @@
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
 
-          <ion-label *ngIf="!rideCreator?.feedback?.star" color="primary">
-            No Rating
+          <ion-label *ngIf="averageStars===0 || averageStars===undefined" color="primary">
+            No Rating Yet
           </ion-label>
-          <ion-label *ngIf="rideCreator?.feedback?.star" color="primary">
-            <ion-icon class="ion-padding-end" *ngFor="let star of [].constructor(5); let i = index"
-              [name]="i < currentUser.feedback.star ? 'star' : 'star-outline'" color="warning">
-            </ion-icon>
+
+          <ion-label *ngIf="averageStars" color="primary">
+            <div class="stars">
+              <ion-icon name="thumbs-up-outline" class="ion-padding-end ion-color-success"></ion-icon>
+              <ion-icon *ngFor="let star of [].constructor(5); let i = index"
+                [name]="i < (RoundOfStar) ? 'star' : 'star-outline'" color="warning">
+              </ion-icon>
+            </div>
           </ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-card>
-
-
 
   <ion-card *ngIf="showpassengerList">
     <ion-col class="route" size="12">

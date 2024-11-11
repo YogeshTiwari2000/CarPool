@@ -90,6 +90,8 @@ export class ProfilePage implements OnInit {
   addVehicle: boolean = false;
   selectedFile: File | null = null;
   uploadedFileUrl: string | null = null;
+  averageStars: any;
+  RoundOfStar: any;
 
   constructor(private commonService: CommonService, public localStr: LocalStorageService, private handleData: HandleDataService) {
     addIcons({ addCircleOutline, create, carSportOutline, carSport, car, star });
@@ -109,7 +111,11 @@ export class ProfilePage implements OnInit {
       this.currentUserData = res.data;
       console.log("current user data", this.currentUserData);
       this.currentUser = res.data;
-      console.log("this.currentUser === ", this.currentUser);
+
+      const feedbackList = this.currentUser.feedback.feedbackList;
+      this.averageStars = this.calculateAverageStars(feedbackList);
+      this.RoundOfStar = Math.round(this.averageStars)
+      console.log("current user rating:", this.RoundOfStar);
 
       // this.vehicle = this.currentUser.vehicleDetails
       this.vehicle = this.currentUserData.vehicle.vehicleList || [];
@@ -128,11 +134,7 @@ export class ProfilePage implements OnInit {
     // console.log("data === ", parsedData);
 
     const keys = Object.keys(parsedData);
-    // console.log("keys === ", keys);
-    // const firstKey = keys[0];
-    // const firstKey = keys[1];
     this.currentUser = parsedData;
-    // console.log('about page', this.currentUser);
 
 
     // this.isEmailVerified = this.currentUserData.email_verified;
@@ -140,6 +142,10 @@ export class ProfilePage implements OnInit {
     console.log("this.isEmailVerified === ", this.isEmailVerified);
   }
 
+  private calculateAverageStars(feedbackList: { star: number }[]): number {
+    const totalStars = feedbackList.reduce((sum, feedback) => sum + feedback.star, 0);
+    return feedbackList.length ? totalStars / feedbackList.length : 0;
+  }
 
   EmailVerification() {
     this.isEmailVerified = true;

@@ -24,10 +24,18 @@
         <div class="detail">
           <ion-card-title>{{currentUser.userName}}</ion-card-title>
           <ion-card-subtitle (click)="toRating()">
-            @if (currentUser.rating) {
-            <div>4/5 rating</div>
+            @if (RoundOfStar) {
+            <div>
+              <ion-label *ngIf="averageStars" color="primary">
+                <div class="stars">
+                  <ion-icon *ngFor="let star of [].constructor(5); let i = index"
+                    [name]="i < (RoundOfStar) ? 'star' : 'star-outline'" color="warning">
+                  </ion-icon>
+                </div>
+              </ion-label>
+            </div>
             }@else {
-            <div class="rating">No rating given</div>
+            <div class="rating">No rating yet</div>
             }
           </ion-card-subtitle>
         </div>
