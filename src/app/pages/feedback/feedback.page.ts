@@ -187,7 +187,7 @@ export class FeedbackPage implements OnInit {
     if (currentUser) {
       // Create a new feedback object with the form data
       const newFeedback: Feedback = {
-        rideId: this.matchedRideToDisplay.rideId || '',
+        rideId: this.matchedRideToDisplay.id || '',
         userName: currentUser.userName || "",
         email: this.email,
         star: feedbackValues.star,
