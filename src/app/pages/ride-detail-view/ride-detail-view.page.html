@@ -166,7 +166,8 @@
       <p>Passanger request list</p>
     </ion-col>
     <div *ngFor="let Passanger of matchedRideToDisplay?.passengerList let i = index ">
-      <ion-row class="ion-padding" *ngIf="Passanger.passStatus !== 'accepted' && Passanger.passStatus !== 'rejected'">
+      <!-- <ion-row class="ion-padding" *ngIf="Passanger.passStatus !== 'accepted' && Passanger.passStatus !== 'rejected'"> -->
+      <ion-row class="ion-padding" *ngIf="Passanger.passStatus === 'Requested'">
         <ion-col size="4" class="">
           <p>{{Passanger.passName}}</p>
         </ion-col>
