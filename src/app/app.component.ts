@@ -2,7 +2,7 @@ import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
+import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonBadge } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp, sadOutline, starHalfOutline, thumbsUpOutline } from 'ionicons/icons';
 import { LocalStorageService, } from './shared/local-storage.service';
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule,],
+  imports: [IonBadge, RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule,],
 })
 export class AppComponent {
   public commonService = inject(CommonService)
@@ -33,6 +33,7 @@ export class AppComponent {
     { title: 'Notifications', url: '/notification', icon: 'notifications-outline' },
 
   ];
+  notificationCount: any;
 
   datalist: any;
 
@@ -41,7 +42,8 @@ export class AppComponent {
     // console.log("localStorage.getItem(currentUser) === ", localStorage.getItem("currentUser"));
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);
-    // console.log("data === ", parsedData);
+    // console.log("parsedData.allNotification.length === ", parsedData.allNotification.length);
+    this.notificationCount = parsedData.allNotification.length;
 
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")
