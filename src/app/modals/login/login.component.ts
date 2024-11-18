@@ -159,6 +159,8 @@ export class LoginComponent implements OnInit {
                 this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
                 this.close();
                 // this.router.navigate(["/home"]);
+                location.reload();
+
                 this.router.navigate(["/welcome"]);
                 this.handleData.functionToSubscribeUser()
               } else {
@@ -238,6 +240,7 @@ export class LoginComponent implements OnInit {
       this.handleData
         .userExists(userEmail)
         .then((res) => {
+
           console.log(res);
           if (res.data) {
             if (res.data.password === this.userData.password) {
@@ -252,6 +255,8 @@ export class LoginComponent implements OnInit {
               const isUserLoggedIn = this.commonService.isUserLoggedin;
               this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
               this.close();
+              location.reload();
+
               this.router.navigate(["/welcome"]);
               this.handleData.functionToSubscribeUser()
             } else {
@@ -281,6 +286,7 @@ export class LoginComponent implements OnInit {
       this.commonService.alertBox("Form is invalid", "Log in Alert", ["Ok"]);
     }
   }
+
   // formLogin
 
   // facebookLogin
@@ -313,7 +319,11 @@ export class LoginComponent implements OnInit {
                   const isUserLoggedIn = this.commonService.isUserLoggedin;
                   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
                   this.close();
+
                   this.router.navigate(["/welcome"]);
+                  location.reload();
+
+                  // window.location.href = "/welcome";
                   this.handleData.functionToSubscribeUser()
                 } else {
                   this.userData.email_verified = true;
@@ -327,6 +337,8 @@ export class LoginComponent implements OnInit {
                   this.commonService.currentUserEmail = this.userData.userEmail;
                   const isUserLoggedIn = this.commonService.isUserLoggedin;
                   this.localStr.setItem("isUserLoggedIn", isUserLoggedIn);
+                  location.reload();
+
                   this.router.navigate(["/welcome"]);
                   this.close();
                   this.commonService.alertBox(

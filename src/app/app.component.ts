@@ -1,6 +1,6 @@
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonBadge } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [IonBadge, RouterLink, RouterLinkActive, CommonModule, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, SocialLoginModule,],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public commonService = inject(CommonService)
   public localStr = inject(LocalStorageService)
   public router = inject(Router)
@@ -33,17 +33,31 @@ export class AppComponent {
     { title: 'Notifications', url: '/notification', icon: 'notifications-outline' },
 
   ];
-  notificationCount: any;
 
   datalist: any;
+  notificationCount: any;
+
+
+  ngOnInit(): void {
+    // this.commonService.currentUser
+    // this.notificationCount = this.localStr.getItem("currentUser").allNotification.length;
+    this.updateNotificationCount()
+  }
+  updateNotificationCount(): void {
+    const currentUser = this.localStr.getItem("currentUser");
+    if (currentUser && currentUser.allNotification) {
+      this.notificationCount = currentUser.allNotification.length;
+    } else {
+      this.notificationCount = 0;
+    }
+  }
 
   constructor() {
     addIcons({ close, arrowDown, star, search, home, person, pin, navigate, location, arrowForwardOutline, chevronForwardOutline, carSportOutline, addCircleOutline, checkmarkCircleOutline, call, create, chevronBackOutline, locate, starOutline, informationCircleOutline, exit, chatbubbles, wallet, cash, car, receiptOutline, calendarOutline, notificationsOutline, timer, carSport, personSharp, sadOutline, starHalfOutline, thumbsUpOutline });
     // console.log("localStorage.getItem(currentUser) === ", localStorage.getItem("currentUser"));
     const data: any = localStorage.getItem("currentUser");
     const parsedData: any = JSON.parse(data);
-    // console.log("parsedData.allNotification.length === ", parsedData.allNotification.length);
-    this.notificationCount = parsedData.allNotification.length;
+    // console.log("data === ", parsedData);
 
     if (this.localStr.getItem("googleUserLog")) {
       const user = this.localStr.getItem("googleUserLog")

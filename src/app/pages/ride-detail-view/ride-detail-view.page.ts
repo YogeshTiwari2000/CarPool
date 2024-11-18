@@ -780,7 +780,7 @@ export class RideDetailViewPage implements OnInit {
                       message: 'Ride is completed',
                       rideid: this.currentRideId,
                       url: 'notification',
-                      Ridedata: this.ride
+                      Ridedata: this.ride,
                     }
                     if (this.passengerData.isNotification == true) {
                       this.passengerData.notificationList.unshift(this.handleData.clone(notificationMessage));
