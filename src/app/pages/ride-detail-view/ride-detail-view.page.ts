@@ -2,7 +2,7 @@ declare var google: any;
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton, ModalController, IonModal, IonList } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCol, IonRow, IonButton, IonLabel, IonItem, IonIcon, IonButtons, IonMenuButton, IonTabButton, ModalController, IonModal, IonList, IonNav, IonBackButton, IonTabs, IonTabBar, IonFabButton, IonFab, IonInput, IonTextarea, IonToggle, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HandleDataService } from 'src/app/services/data/handle-data.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
@@ -16,7 +16,7 @@ import { Geolocation } from '@capacitor/geolocation';
   templateUrl: './ride-detail-view.page.html',
   styleUrls: ['./ride-detail-view.page.scss'],
   standalone: true,
-  imports: [IonList, IonModal, IonTabButton, IonButtons, IonIcon, IonItem, IonLabel, IonButton, IonRow, IonCol, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton],
+  imports: [IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonToggle, IonTextarea, IonInput, IonFab, IonFabButton, IonTabBar, IonTabs, IonBackButton, IonNav, IonList, IonModal, IonTabButton, IonButtons, IonIcon, IonItem, IonLabel, IonButton, IonRow, IonCol, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonMenuButton],
   providers: [DatePipe]
 })
 export class RideDetailViewPage implements OnInit {
